@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
@@ -173,9 +174,15 @@
     <ClInclude Include="FrameTime.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="logger.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="nchfx.h" />
+    <ClInclude Include="OpenGLRenderer.h" />
+    <ClInclude Include="PhysicsDescription.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="RenderBatch.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
@@ -185,6 +192,7 @@
     <ClInclude Include="VertexElements.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
@@ -194,9 +202,13 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameTime.cpp" />
     <ClCompile Include="Frustum.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelMesh.cpp" />
+    <ClCompile Include="OpenGLRenderer.cpp" />
+    <ClCompile Include="PhysicsDescription.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="RenderBatch.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />

@@ -7,6 +7,10 @@ typedef int DELint32;
 typedef unsigned long long DELuint64;
 typedef long long DELint64;
 
+typedef unsigned int DELHandle;
+
+
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -28,9 +32,12 @@ typedef long long DELint64;
 #include <mutex>
 #include <thread>
 
+#include "framework.h"
+#include "logger.h"
+
+
 #ifdef DELUSIONENGINE_EXPORTS
 #define DELUSION_DLL __declspec(dllexport)
 #else
 #define DELUSION_DLL __declspec(dllimport)
 #endif
-

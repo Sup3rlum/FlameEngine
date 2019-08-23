@@ -10,7 +10,6 @@ Scene*				Context::_scene				= NULL;
 
 int Context::Initialize(ContextParameters* _params)
 {
-
 	_contextParameters = _params;
 
 	InitGLFW();
@@ -28,6 +27,10 @@ int Context::Initialize(ContextParameters* _params)
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
+
+		glClearColor(0.0f, 0.6f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 		Update(_frameTime);
 		Frame(_frameTime);
@@ -83,7 +86,7 @@ int Context::InitGLFW()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,		_contextParameters->contextCompatibility);
 	glfwWindowHint(GLFW_OPENGL_PROFILE,				(int)_contextParameters->contextProfile);
 
-	_window = glfwCreateWindow(_contextParameters->width, _contextParameters->height, "NativeCraft", glfwGetPrimaryMonitor(), NULL);
+	_window = glfwCreateWindow(_contextParameters->width, _contextParameters->height, "NativeCraft", NULL, NULL);
 
 	if (_window == NULL)
 	{

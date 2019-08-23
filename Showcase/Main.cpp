@@ -6,6 +6,7 @@
 
 int main()
 {
+
 	ContextParameters* _contextParams = new ContextParameters();
 
 	_contextParams->contextSampleCount = 4;

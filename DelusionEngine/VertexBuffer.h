@@ -10,14 +10,14 @@ using namespace std;
 
 class DELUSION_DLL VertexBuffer
 {
-	GLuint _vao;
-	GLuint _vbo;
-	GLuint _ibo;
+	DELHandle _vao;
+	DELHandle _vbo;
+	DELHandle _ibo;
 public:
 	VertexBuffer(vector<VertexElements> elements);
 
-	GLuint _primitiveCount;
-	GLuint _indexCount;
+	DELuint32 _primitiveCount;
+	DELuint32 _indexCount;
 
 	vector<VertexElements> _elements;
 
