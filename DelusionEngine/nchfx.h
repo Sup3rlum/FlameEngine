@@ -1,12 +1,18 @@
 #pragma once
 
+typedef unsigned int DELuint32;
+typedef int DELint32;
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+
+typedef unsigned long long DELuint64;
+typedef long long DELint64;
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <stdio.h>
@@ -27,3 +33,4 @@
 #else
 #define DELUSION_DLL __declspec(dllimport)
 #endif
+

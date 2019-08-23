@@ -81,7 +81,7 @@ int Context::InitGLFW()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,		_contextParameters->contextMajorVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,		_contextParameters->contextMinorVersion);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,		_contextParameters->contextCompatibility);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,				_contextParameters->contextProfile);
+	glfwWindowHint(GLFW_OPENGL_PROFILE,				(int)_contextParameters->contextProfile);
 
 	_window = glfwCreateWindow(_contextParameters->width, _contextParameters->height, "NativeCraft", glfwGetPrimaryMonitor(), NULL);
 
