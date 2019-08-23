@@ -1,11 +1,191 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ContextParameters.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugView.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTime.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBatch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexElements.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Source\dll</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Source\util</Filter>
+    </ClInclude>
+    <ClInclude Include="nchfx.h">
+      <Filter>Source\dll</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Context.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ContextParameters.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameTime.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBatch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexElements.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source\dll</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{e1c55fbc-0d06-4fa4-ad0e-070d2e53a264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\dll">
+      <UniqueIdentifier>{2bfd220f-962b-46b6-a0a9-7217ba0529ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\util">
+      <UniqueIdentifier>{2e798f21-3706-4267-96df-91b495fcaddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{a08b29fe-e506-4bd1-8ffc-1709797b32f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\debug_frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_view.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_view.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\def_geom.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\geom.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\renderbatch.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\renderbatch.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_geom.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_geom.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_light.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_light.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
