@@ -6,7 +6,7 @@ class DELUSION_DLL Model
 {
 public:
 	vector<ModelMesh>* children;
-	mat4x4 World;
+	Matrix World;
 
 	void Render();
 };

@@ -14,15 +14,15 @@ enum class DELUSION_DLL IntersectionType
 class DELUSION_DLL Plane
 {
 public:
-	vec4 _internal;
+	Vector4 _internal;
 	Plane();
-	Plane(vec3 _v1, vec3 _v2, vec3 _v3);
-	Plane(vec3 _normal, float _det);
-	Plane(vec4 _v);
+	Plane(Vector3 _v1, Vector3 _v2, Vector3 _v3);
+	Plane(Vector3 _normal, float _det);
+	Plane(Vector4 _v);
 
-	float Distance(vec3 point);
-	float DistanceSigned(vec3 point);
+	float Distance(Vector3 point);
+	float DistanceSigned(Vector3 point);
 
-	bool Contains(vec3 point);
+	bool Contains(Vector3 point);
 };
 

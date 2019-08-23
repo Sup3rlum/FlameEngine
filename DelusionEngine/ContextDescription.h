@@ -9,9 +9,10 @@ enum class DELUSION_DLL ContextProfile
 	OPENGL_COMPAT = 0x00032002	//GLFW_OPENGL_COMPAT_PROFILE
 };
 
-struct DELUSION_DLL ContextParameters
+struct DELUSION_DLL ContextDescription
 {
 public:
+	GLFWwindow* window;
 	DELuint32 contextMajorVersion;
 	DELuint32 contextMinorVersion;
 	DELuint32 contextSampleCount;

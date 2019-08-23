@@ -168,7 +168,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
-    <ClInclude Include="ContextParameters.h" />
+    <ClInclude Include="ContextDescription.h" />
     <ClInclude Include="DebugView.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="FrameTime.h" />
@@ -196,7 +196,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
-    <ClCompile Include="ContextParameters.cpp" />
+    <ClCompile Include="ContextDescription.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />

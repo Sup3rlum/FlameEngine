@@ -1,17 +1,9 @@
 #pragma once
 
-typedef unsigned int DELuint32;
-typedef int DELint32;
-
-
-typedef unsigned long long DELuint64;
-typedef long long DELint64;
-
-typedef unsigned int DELHandle;
-
 
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -41,3 +33,20 @@ typedef unsigned int DELHandle;
 #else
 #define DELUSION_DLL __declspec(dllimport)
 #endif
+
+typedef unsigned long long DELuint64;
+typedef unsigned int DELuint32;
+
+typedef long long DELint64;
+typedef int DELint32;
+
+typedef unsigned int DELHandle;
+
+
+
+typedef glm::mat3x3 Matrix3;
+typedef glm::mat4x4 Matrix4;
+typedef glm::vec2 Vector2;
+typedef glm::vec3 Vector3;
+typedef glm::vec4 Vector4;
+typedef glm::quat Quaternion;

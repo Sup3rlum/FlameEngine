@@ -4,9 +4,6 @@
     <ClInclude Include="Context.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ContextParameters.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="FrameTime.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -77,12 +74,12 @@
       <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsDescription.h" />
+    <ClInclude Include="ContextDescription.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ContextParameters.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="FrameTime.cpp">
@@ -149,6 +146,9 @@
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsDescription.cpp" />
+    <ClCompile Include="ContextDescription.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

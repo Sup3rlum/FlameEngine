@@ -9,9 +9,11 @@ using namespace glm;
 
 
 
-class Actor
+class DELUSION_DLL Actor
 {
 public:
 	Model* _model;
+
+	Actor();
 };
 
