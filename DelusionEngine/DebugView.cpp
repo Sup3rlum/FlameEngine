@@ -1,9 +1,9 @@
 #include "DebugView.h"
 
-Shader* DebugView::_shader = NULL;
-VertexBuffer* DebugView::_vb = NULL;
-RenderBatch* DebugView::_renderBatch = NULL;
-Font* DebugView::_debugFont = NULL;
+Shader*			DebugView::_shader = NULL;
+VertexBuffer*	DebugView::_vb = NULL;
+RenderBatch*	DebugView::_renderBatch = NULL;
+Font*			DebugView::_debugFont = NULL;
 
 int DebugView::_fps = 0;
 char DebugView::_gpuName[256] = "";
@@ -58,7 +58,7 @@ void DebugView::Draw(Camera* _cam)
 
 	_renderBatch->DrawString(a, _debugFont, 0, 20, Color::white);
 	_renderBatch->DrawString(b, _debugFont, 0, 40, Color::white);
-	//_renderBatch->DrawString(c, _debugFont, 0, 60, Color::white);
+	_renderBatch->DrawString(c, _debugFont, 0, 60, Color::white);
 
 }
 void DebugView::Update(FrameTime* _frTime)

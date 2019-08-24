@@ -82,29 +82,27 @@ void RenderBatch::DrawString(string text, Font* font, float x, float y, Color co
 	_shaderString->SetVector("Color", color);
 	_shaderString->SetMatrix("View", View);
 
-	std::string::const_iterator c;
-	for (c = text.begin(); c != text.end(); c++)
+	for (int c=0;c<text.length();c++)
 	{
-		Character ch = font->Characters[*c];
+		Character ch = font->Characters[text[c]];
 
-		GLfloat w = ch.Size.x;
-		GLfloat h = ch.Size.y;
-
-
-		GLfloat xpos = x + ch.Bearing.x;
-		GLfloat ypos = y - ch.Bearing.y;
-
-
-		//DrawTexture(ch.texture, xpos, ypos, w, h);
-
-
-		_shaderString->SetMatrix("MatrixTransforms", translate(identity<Matrix4>(), Vector3(xpos, ypos, 0)) * scale(identity<Matrix4>(), Vector3(w, h, 1)));
+		_shaderString->SetMatrix(
+			"MatrixTransforms",
+			translate
+			(
+				identity<Matrix4>(),
+				Vector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
+			) * scale
+			(
+				identity<Matrix4>(),
+				Vector3(ch.Size.x, ch.Size.y, 1)
+			)
+		);
 		_shaderString->SetTexture(0, ch.texture);
 
 		_vb->RenderIndexed(GL_TRIANGLES);
 
-		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		x += (ch.Advance >> 6); // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+		x += (ch.Advance >> 6);
 	}
 
 }
