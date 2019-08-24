@@ -39,14 +39,14 @@ void Camera::Update(ContextDescription* _params, FrameTime* _frTime)
 	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_params->width / 2.0 - (float)xpos);
 	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_params->height / 2.0 - (float)ypos);
 
-	Target = vec3
+	Target = Vector3
 	(
 		cos(verticalAngle) * sin(horizontalAngle),
 		sin(verticalAngle),
 		cos(verticalAngle) * cos(horizontalAngle)
 	);
 
-	Right = vec3
+	Right = Vector3
 	(
 		sin(horizontalAngle - half_pi<float>()),
 		0,

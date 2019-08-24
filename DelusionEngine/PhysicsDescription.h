@@ -15,8 +15,8 @@ struct DELUSION_DLL PhysicsDescription
 public:
 	PhysicsType _physicsType;
 
-	Vector _position;
-	Vector _velocity;
+	Vector3 _position;
+	Vector3 _velocity;
 	Quaternion _rotation;
 };
 

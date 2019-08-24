@@ -10,5 +10,6 @@ public:
 
 	double DeltaTime;
 	double TotalTime;
+	DELuint64 EllapsedFrames;
 };
 

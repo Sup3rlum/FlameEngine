@@ -2,15 +2,14 @@
 
 
 
-GLFWwindow*			Context::_window			= NULL;
-ContextParameters*	Context::_contextParameters	= NULL;
+ContextDescription*	Context::_contextDescr		= NULL;
 FrameTime*			Context::_frameTime			= NULL;
 Scene*				Context::_scene				= NULL;
 
 
-int Context::Initialize(ContextParameters* _params)
+int Context::Initialize(ContextDescription* _params)
 {
-	_contextParameters = _params;
+	_contextDescr = _params;
 
 	InitGLFW();
 	InitGLEW();
@@ -23,24 +22,28 @@ int Context::Initialize(ContextParameters* _params)
 	{
 		_frameTime->DeltaTime = glfwGetTime() - _frameTime->TotalTime;
 		_frameTime->TotalTime = glfwGetTime();
+		_frameTime->EllapsedFrames++;
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
 
-		glClearColor(0.0f, 0.6f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 
 		Update(_frameTime);
 		Frame(_frameTime);
 
-		glfwSwapBuffers(_window);
+		glfwSwapBuffers(_contextDescr->window);
 		glfwPollEvents();
 
 	} 
-	while (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		glfwWindowShouldClose(_window) == 0);
+	while (glfwGetKey(_contextDescr->window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+		glfwWindowShouldClose(_contextDescr->window) == 0);
 
 	return 0;
 }
@@ -50,7 +53,7 @@ void Context::Frame(FrameTime* _frTime)
 }
 void Context::Update(FrameTime* _frTime)
 {
-	_scene->Update(_window, _frameTime);
+	_scene->Update(_frameTime);
 }
 
 int Context::InitGLEW()
@@ -80,25 +83,25 @@ int Context::InitGLFW()
 
 	// GLFW Context
 
-	glfwWindowHint(GLFW_SAMPLES,					_contextParameters->contextSampleCount);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,		_contextParameters->contextMajorVersion);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,		_contextParameters->contextMinorVersion);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,		_contextParameters->contextCompatibility);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,				(int)_contextParameters->contextProfile);
+	glfwWindowHint(GLFW_SAMPLES,					_contextDescr->contextSampleCount);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,		_contextDescr->contextMajorVersion);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,		_contextDescr->contextMinorVersion);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,		_contextDescr->contextCompatibility);
+	glfwWindowHint(GLFW_OPENGL_PROFILE,				(int)_contextDescr->contextProfile);
 
-	_window = glfwCreateWindow(_contextParameters->width, _contextParameters->height, "NativeCraft", NULL, NULL);
+	_contextDescr->window = glfwCreateWindow(_contextDescr->width, _contextDescr->height, "NativeCraft", _contextDescr->fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 
-	if (_window == NULL)
+	if (_contextDescr->window == NULL)
 	{
 		fprintf(stderr, "OpenGL 4.5 is not supported by this PC");
 		glfwTerminate();
 		return -1;
 	}
 
-	glfwMakeContextCurrent(_window);
+	glfwMakeContextCurrent(_contextDescr->window);
 
 	glfwSwapInterval(0);
 
-	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	glfwSetInputMode(_contextDescr->window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(_contextDescr->window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }

@@ -10,7 +10,7 @@ class DELUSION_DLL ModelMesh
 public:
 	vector<ModelMesh>* children;
 
-	Matrix World;
+	Matrix4 World;
 	VertexBuffer* _vbo;
 
 	void Render();

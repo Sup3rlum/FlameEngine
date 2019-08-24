@@ -20,4 +20,5 @@ public:
 	ContextProfile contextProfile;
 	DELuint32 width;
 	DELuint32 height;
+	bool fullscreen;
 };

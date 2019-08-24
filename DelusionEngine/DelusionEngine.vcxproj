@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glew-2.1.0\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -119,8 +119,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -170,6 +170,8 @@
     <ClInclude Include="Context.h" />
     <ClInclude Include="ContextDescription.h" />
     <ClInclude Include="DebugView.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="FrameTime.h" />
     <ClInclude Include="framework.h" />
@@ -199,6 +201,8 @@
     <ClCompile Include="ContextDescription.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameTime.cpp" />
     <ClCompile Include="Frustum.cpp" />

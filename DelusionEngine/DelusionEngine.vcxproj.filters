@@ -73,9 +73,17 @@
     <ClInclude Include="FrameBuffer.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsDescription.h" />
     <ClInclude Include="ContextDescription.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsDescription.h">
+      <Filter>Source\Scene\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Source\Graphics\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Source\Graphics\Media</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,9 +153,17 @@
     <ClCompile Include="DebugView.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsDescription.cpp" />
     <ClCompile Include="ContextDescription.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsDescription.cpp">
+      <Filter>Source\Scene\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source\Graphics\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Source\Graphics\Media</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +190,9 @@
     </Filter>
     <Filter Include="Source\Scene\Physics">
       <UniqueIdentifier>{e056867c-11e2-4114-b5ff-4aa9d161f023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Media">
+      <UniqueIdentifier>{8c708da8-3b85-451f-ad43-4115739b3c52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

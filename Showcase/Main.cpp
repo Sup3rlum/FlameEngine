@@ -1,21 +1,22 @@
 
 
 #include "DelusionEngine/Context.h"
-#include "DelusionEngine/ContextParameters.h"
+#include "DelusionEngine/ContextDescription.h"
 
 
 int main()
 {
 
-	ContextParameters* _contextParams = new ContextParameters();
+	ContextDescription* _contextDesc = new ContextDescription();
 
-	_contextParams->contextSampleCount = 4;
-	_contextParams->contextMajorVersion = 4;
-	_contextParams->contextMinorVersion = 5;
-	_contextParams->contextProfile = ContextProfile::OPENGL_CORE;
-	_contextParams->contextCompatibility = 1;
-	_contextParams->width = 2560;
-	_contextParams->height = 1440;
+	_contextDesc->contextSampleCount = 4;
+	_contextDesc->contextMajorVersion = 4;
+	_contextDesc->contextMinorVersion = 5;
+	_contextDesc->contextProfile = ContextProfile::OPENGL_CORE;
+	_contextDesc->contextCompatibility = 1;
+	_contextDesc->width = 2560;
+	_contextDesc->height = 1440;
+	_contextDesc->fullscreen = true;
 
-	Context::Initialize(_contextParams);
+	Context::Initialize(_contextDesc);
 }
