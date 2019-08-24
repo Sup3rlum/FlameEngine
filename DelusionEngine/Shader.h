@@ -3,6 +3,7 @@
 
 #include "nchfx.h"
 #include "Texture.h"
+#include "Color.h"
 
 using namespace std;
 using namespace glm;
@@ -22,16 +23,18 @@ public:
 	~Shader();
 
 	void UseProgram();
-	void SetMatrix(const string& name, mat4x4 val);
+	void SetMatrix(const string& name, Matrix3 val);
+	void SetMatrix(const string& name, Matrix4 val);
 
-	void SetVector(const string& name, vec2 val);
-	void SetVector(const string& name, vec3 val);
-	void SetVector(const string& name, vec4 val);
+	void SetVector(const string& name, Vector2 val);
+	void SetVector(const string& name, Vector3 val);
+	void SetVector(const string& name, Vector4 val);
+
+	void SetColor(const string& name, Color color);
 
 	void SetFloat(const string& name, float val);
 	void SetInt(const string& name, int val);
 
-	void SetTexture(GLuint _id, Texture* _texture);
-	void SetTexture(GLuint _id, GLuint tex);
+	void SetTexture(DELuint32 _id, Texture* _texture);
 };
 

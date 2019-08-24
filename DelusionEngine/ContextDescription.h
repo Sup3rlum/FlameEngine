@@ -2,6 +2,9 @@
 
 #include "nchfx.h"
 
+
+using namespace std;
+
 enum class DELUSION_DLL ContextProfile
 {
 	OPENGL_ANY = 0,				//GLFW_OPENGL_CORE_ANY
@@ -21,4 +24,10 @@ public:
 	DELuint32 width;
 	DELuint32 height;
 	bool fullscreen;
+
+	template<size_t _Size>
+	void GetGraphicsID(char (&_str)[_Size])
+	{
+		//strcpy_s(*_str, glGetString(GL_VENDOR));
+	}
 };

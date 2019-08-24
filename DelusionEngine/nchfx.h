@@ -41,6 +41,8 @@ typedef long long DELint64;
 typedef int DELint32;
 
 typedef unsigned int DELHandle;
+typedef unsigned char DELubyte;
+typedef unsigned char DELuchar;
 
 
 
@@ -50,4 +52,6 @@ typedef glm::vec2 Vector2;
 typedef glm::vec3 Vector3;
 typedef glm::vec4 Vector4;
 typedef glm::quat Quaternion;
-typedef glm::vec4 Color;
+
+
+#define FILE_LOADTEXT(path) string(istreambuf_iterator<char>(ifstream(path))), istreambuf_iterator<char>())

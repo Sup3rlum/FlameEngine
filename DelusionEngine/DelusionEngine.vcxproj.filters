@@ -85,6 +85,7 @@
     <ClInclude Include="FontManager.h">
       <Filter>Source\Graphics\Media</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp">
@@ -165,6 +166,7 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Source\Graphics\Media</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

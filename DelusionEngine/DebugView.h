@@ -28,5 +28,6 @@ public:
 	static Font* _debugFont;
 
 	static int _fps;
+	static char _gpuName[256];
 };
 

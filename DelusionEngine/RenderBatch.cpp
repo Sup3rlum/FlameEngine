@@ -74,19 +74,14 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 }
 
 
-void RenderBatch::DrawTexture(GLuint _tex, float x, float y, float width, float height)
-{
-
-	_shader->UseProgram();
-
-	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", translate(identity<Matrix4>(), Vector3(x, y, 0)) * scale(identity<Matrix4>(), Vector3(width, height, 1)));
-	_shader->SetTexture(0, _tex);
-
-	_vb->RenderIndexed(GL_TRIANGLES);
-}
 void RenderBatch::DrawString(string text, Font* font, float x, float y, Color color)
 {
+
+	_shaderString->UseProgram();
+
+	_shaderString->SetVector("Color", color);
+	_shaderString->SetMatrix("View", View);
+
 	std::string::const_iterator c;
 	for (c = text.begin(); c != text.end(); c++)
 	{
@@ -102,10 +97,7 @@ void RenderBatch::DrawString(string text, Font* font, float x, float y, Color co
 
 		//DrawTexture(ch.texture, xpos, ypos, w, h);
 
-		_shaderString->UseProgram();
 
-		_shaderString->SetVector("Color", color);
-		_shaderString->SetMatrix("View", View);
 		_shaderString->SetMatrix("MatrixTransforms", translate(identity<Matrix4>(), Vector3(xpos, ypos, 0)) * scale(identity<Matrix4>(), Vector3(w, h, 1)));
 		_shaderString->SetTexture(0, ch.texture);
 

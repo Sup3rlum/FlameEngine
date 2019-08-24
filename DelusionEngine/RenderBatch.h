@@ -21,8 +21,6 @@ public:
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height);
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Matrix4 _m, Shader* _shader);
 
-	void DrawTexture(GLuint _tex, float x, float y, float width, float height);
-
 	void DrawString(string text, Font* font, float x, float y, Color color);
 
 

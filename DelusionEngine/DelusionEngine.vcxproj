@@ -167,6 +167,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="ContextDescription.h" />
     <ClInclude Include="DebugView.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="ContextDescription.cpp" />
     <ClCompile Include="DebugView.cpp" />
