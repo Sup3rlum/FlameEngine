@@ -7,6 +7,8 @@ namespace DelusionMaterialCompiler
 
     public class Material
     {
-        byte[] _textureData;
+        public  byte[] _textureData;
+        public  byte[] _normalData;
+        public  float _specularIndex;
     }
 }
