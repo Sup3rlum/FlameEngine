@@ -177,7 +177,9 @@
     <ClInclude Include="FrameTime.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="logger.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="nchfx.h" />
@@ -208,6 +210,8 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameTime.cpp" />
     <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />

@@ -85,7 +85,15 @@
     <ClInclude Include="FontManager.h">
       <Filter>Source\Graphics\Media</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h" />
+    <ClInclude Include="Light.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Source\Scene\MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp">
@@ -166,7 +174,15 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Source\Graphics\Media</Filter>
     </ClCompile>
-    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Light.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source\Scene\MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -195,6 +211,9 @@
     </Filter>
     <Filter Include="Source\Graphics\Media">
       <UniqueIdentifier>{8c708da8-3b85-451f-ad43-4115739b3c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\MaterialSystem">
+      <UniqueIdentifier>{60d0eaa1-d91d-47d9-91d8-17465179f4da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
