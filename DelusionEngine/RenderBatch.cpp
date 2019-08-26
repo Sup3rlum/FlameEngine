@@ -19,9 +19,9 @@ GLuint _ind[6]
 };
 
 
-RenderBatch::RenderBatch(ContextDescription* _c)
+RenderBatch::RenderBatch(BaseContext* _c)
 {
-	View = ortho(0.0f,(float)_c->width,(float)_c->height, 0.0f, 0.0f, 1.0f);
+	View = ortho(0.0f,(float)_c->_contextDescription.width,(float)_c->_contextDescription.height, 0.0f, 0.0f, 1.0f);
 
 	_shader = new Shader("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
 	_shaderString = new Shader("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");

@@ -1,8 +1,10 @@
 #include "Camera.h"
 
 
-Camera::Camera()
+Camera::Camera(BaseContext* _cont)
 {
+	_currentContext = _cont;
+
 	horizontalAngle = -half_pi<float>();
 	verticalAngle = -quarter_pi<float>();
 
@@ -29,17 +31,17 @@ void Camera::Update(FrameTime* _frTime)
 
 	double xpos, ypos;
 
-	ContextManager::_currentContext->GetCursorPosition(&xpos, &ypos);
+	_currentContext->GetCursorPosition(&xpos, &ypos);
 
 
-	ContextManager::_currentContext->SetCursorPosition
+	_currentContext->SetCursorPosition
 	(
-		ContextManager::_currentContext->_contextDescription.width / 2.0,
-		ContextManager::_currentContext->_contextDescription.height / 2.0
+		_currentContext->_contextDescription.width / 2.0,
+		_currentContext->_contextDescription.height / 2.0
 	);
 
-	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (ContextManager::_currentContext->_contextDescription.width / 2.0 - (float)xpos);
-	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (ContextManager::_currentContext->_contextDescription.height / 2.0 - (float)ypos);
+	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_currentContext->_contextDescription.width / 2.0 - (float)xpos);
+	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_currentContext->_contextDescription.height / 2.0 - (float)ypos);
 
 	Target = Vector3
 	(
@@ -57,19 +59,19 @@ void Camera::Update(FrameTime* _frTime)
 
 	Up = cross(Right, Target);
 
-	if (glfwGetKey(_params->window, GLFW_KEY_W) == GLFW_PRESS)
+	if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
 	{
 		Position += Target * (float)_frTime->DeltaTime * flySpeed;
 	}
-	if (glfwGetKey(_params->window, GLFW_KEY_S) == GLFW_PRESS)
+	if (_currentContext->GetKeyState(Keys::S) == KeyState::PRESSED)
 	{
 		Position -= Target * (float)_frTime->DeltaTime * flySpeed;
 	}
-	if (glfwGetKey(_params->window, GLFW_KEY_D) == GLFW_PRESS)
+	if (_currentContext->GetKeyState(Keys::D) == KeyState::PRESSED)
 	{
 		Position += Right * (float)_frTime->DeltaTime * flySpeed;
 	}
-	if (glfwGetKey(_params->window, GLFW_KEY_A) == GLFW_PRESS)
+	if (_currentContext->GetKeyState(Keys::A) == KeyState::PRESSED)
 	{
 		Position -= Right * (float)_frTime->DeltaTime * flySpeed;
 	}

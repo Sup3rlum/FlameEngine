@@ -10,7 +10,7 @@
 EXPORT_CLASS Scene
 {
 public:
-	Scene();
+	Scene(BaseContext* _context);
 	~Scene();
 
 	void Update(FrameTime* _frTime);

@@ -7,6 +7,7 @@
 #include "VertexBuffer.h"
 #include "Vertex.h"
 #include "Font.h"
+#include "BaseContext.h"
 
 using namespace glm;
 using namespace std;
@@ -15,7 +16,7 @@ EXPORT_CLASS RenderBatch
 {
 
 public:
-	RenderBatch(ContextDescription* _context);
+	RenderBatch(BaseContext*_context);
 
 	void DrawTexture(Texture* _tex, float x, float y, float width, float height);
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height);

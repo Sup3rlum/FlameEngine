@@ -15,7 +15,7 @@ void ContextManager::Initialize()
 	_currentContext->Initialize();
 
 	_frameTime = new FrameTime();
-	_scene = new Scene(&_currentContext->_contextDescription);
+	_scene = new Scene(_currentContext);
 
 	while (!_currentContext->shouldTerminate)
 	{

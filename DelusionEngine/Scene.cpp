@@ -2,12 +2,12 @@
 
 
 
-Scene::Scene()
+Scene::Scene(BaseContext* _cont)
 {
 
-	_camera = new Camera();
+	_camera = new Camera(_cont);
 
-	DebugView::Init();
+	DebugView::Init(_cont);
 }
 
 void Scene::Update( FrameTime* _frTime)

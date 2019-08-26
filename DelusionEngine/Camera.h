@@ -4,8 +4,7 @@
 
 #include "FrameTime.h"
 #include "ContextDescription.h"
-#include "ContextManager.h"
-
+#include "BaseContext.h"
 
 
 using namespace glm;
@@ -15,7 +14,7 @@ EXPORT_CLASS Camera
 {
 
 public:
-	Camera();
+	Camera(BaseContext* _cont);
 	~Camera();
 
 	Matrix4 View;
@@ -37,5 +36,7 @@ public:
 
 	float mouseSpeed = 0.3f;
 	float flySpeed = 100.0f;
+
+	BaseContext* _currentContext;
 };
 

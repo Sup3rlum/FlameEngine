@@ -3,17 +3,6 @@
 
 void GLFWContext::Initialize()
 {
-	glewExperimental = true;
-
-	if (glewInit() != GLEW_OK)
-	{
-		DEL_MSGBOX_ERROR(L"Failed to initialize GLEW");
-	}
-
-	if (!glfwInit())
-	{
-		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
-	}
 
 	// GLFW Context
 
@@ -37,6 +26,20 @@ void GLFWContext::Initialize()
 
 	glfwSetInputMode(_windowHandle, GLFW_STICKY_KEYS, GL_TRUE);
 	glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+
+	glewExperimental = true;
+
+	if (glewInit() != GLEW_OK)
+	{
+		DEL_MSGBOX_ERROR(L"Failed to initialize GLEW");
+	}
+
+	if (!glfwInit())
+	{
+		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
+	}
+
 }
 void GLFWContext::SwapChain()
 {
@@ -53,4 +56,13 @@ void GLFWContext::GetCursorPosition(double* x, double* y)
 void GLFWContext::SetCursorPosition(double x, double y)
 {
 	glfwSetCursorPos(_windowHandle, x, y);
+}
+
+KeyState GLFWContext::GetKeyState(Keys key)
+{
+	return (KeyState)glfwGetKey(_windowHandle, (int)key);
+}
+void GLFWContext::Destroy()
+{
+	glfwTerminate();
 }

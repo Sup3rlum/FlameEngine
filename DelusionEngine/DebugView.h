@@ -20,7 +20,7 @@ public:
 	static void Draw(Camera* _cam);
 	static void Update(FrameTime* _fr);
 
-	static void Init();
+	static void Init(BaseContext* _context);
 
 	static VertexBuffer* _vb;
 	static Shader* _shader;
