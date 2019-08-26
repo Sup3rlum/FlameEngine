@@ -6,6 +6,11 @@ void GLFWContext::Initialize()
 
 	// GLFW Context
 
+	if (!glfwInit())
+	{
+		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
+	}
+
 	glfwWindowHint(GLFW_SAMPLES, _contextDescription.contextSampleCount);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _contextDescription.contextMajorVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, _contextDescription.contextMinorVersion);
@@ -35,10 +40,7 @@ void GLFWContext::Initialize()
 		DEL_MSGBOX_ERROR(L"Failed to initialize GLEW");
 	}
 
-	if (!glfwInit())
-	{
-		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
-	}
+
 
 }
 void GLFWContext::SwapChain()
@@ -46,8 +48,8 @@ void GLFWContext::SwapChain()
 	glfwSwapBuffers(_windowHandle);
 	glfwPollEvents();
 
-	shouldTerminate = glfwGetKey(_windowHandle, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		glfwWindowShouldClose(_windowHandle) == 0;
+	shouldTerminate = glfwGetKey(_windowHandle, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
+		glfwWindowShouldClose(_windowHandle) != 0;
 }
 void GLFWContext::GetCursorPosition(double* x, double* y)
 {

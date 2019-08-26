@@ -9,13 +9,23 @@
 
 using namespace glm;
 
+EXPORT_ENUM CameraType
+{
+	STATIC = 1,
+	FIRSTPERSON = 2,
+	THIRDPERSON = 3,
+	TRACKBALL = 4
+};
+
 
 EXPORT_CLASS Camera
 {
 
 public:
-	Camera(BaseContext* _cont);
+	Camera(BaseContext* _cont, CameraType _camType);
 	~Camera();
+
+	CameraType Type;
 
 	Matrix4 View;
 	Matrix4 DebugView;

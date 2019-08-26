@@ -10,6 +10,12 @@ void ContextManager::CreateNew(ContextDescription _description)
 	_currentContext = new GLFWContext();
 	_currentContext->_contextDescription = _description;
 }
+void ContextManager::AttachToHandle(HWND _hWnd)
+{
+	_currentContext = new CustomContext();
+
+
+}
 void ContextManager::Initialize()
 {
 	_currentContext->Initialize();

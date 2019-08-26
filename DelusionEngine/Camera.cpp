@@ -1,9 +1,10 @@
 #include "Camera.h"
 
 
-Camera::Camera(BaseContext* _cont)
+Camera::Camera(BaseContext* _cont, CameraType _type)
 {
 	_currentContext = _cont;
+	Type = _type;
 
 	horizontalAngle = -half_pi<float>();
 	verticalAngle = -quarter_pi<float>();
@@ -20,60 +21,66 @@ Camera::~Camera()
 
 void Camera::Update(FrameTime* _frTime)
 {
-	if (verticalAngle > half_pi<float>() - 0.1f)
+	if (Type == CameraType::FIRSTPERSON)
 	{
-		verticalAngle = half_pi<float>() - 0.1f;
-	}
-	else if (verticalAngle < -half_pi<float>() + 0.1f)
-	{
-		verticalAngle = -half_pi<float>() + 0.1f;
-	}
 
-	double xpos, ypos;
+		if (verticalAngle > half_pi<float>() - 0.1f)
+		{
+			verticalAngle = half_pi<float>() - 0.1f;
+		}
+		else if (verticalAngle < -half_pi<float>() + 0.1f)
+		{
+			verticalAngle = -half_pi<float>() + 0.1f;
+		}
 
-	_currentContext->GetCursorPosition(&xpos, &ypos);
+
+		double xpos, ypos;
+
+		_currentContext->GetCursorPosition(&xpos, &ypos);
 
 
-	_currentContext->SetCursorPosition
-	(
-		_currentContext->_contextDescription.width / 2.0,
-		_currentContext->_contextDescription.height / 2.0
-	);
+		_currentContext->SetCursorPosition
+		(
+			_currentContext->_contextDescription.width / 2.0,
+			_currentContext->_contextDescription.height / 2.0
+		);
 
-	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_currentContext->_contextDescription.width / 2.0 - (float)xpos);
-	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_currentContext->_contextDescription.height / 2.0 - (float)ypos);
+		horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription.width / 2.0 - (float)xpos);
+		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription.height / 2.0 - (float)ypos);
 
-	Target = Vector3
-	(
-		cos(verticalAngle) * sin(horizontalAngle),
-		sin(verticalAngle),
-		cos(verticalAngle) * cos(horizontalAngle)
-	);
+		Target = Vector3
+		(
+			cos(verticalAngle) * sin(horizontalAngle),
+			sin(verticalAngle),
+			cos(verticalAngle) * cos(horizontalAngle)
+		);
 
-	Right = Vector3
-	(
-		sin(horizontalAngle - half_pi<float>()),
-		0,
-		cos(horizontalAngle - half_pi<float>())
-	);
+		Right = Vector3
+		(
+			sin(horizontalAngle - half_pi<float>()),
+			0,
+			cos(horizontalAngle - half_pi<float>())
+		);
 
-	Up = cross(Right, Target);
+		Up = cross(Right, Target);
 
-	if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
-	{
-		Position += Target * (float)_frTime->DeltaTime * flySpeed;
-	}
-	if (_currentContext->GetKeyState(Keys::S) == KeyState::PRESSED)
-	{
-		Position -= Target * (float)_frTime->DeltaTime * flySpeed;
-	}
-	if (_currentContext->GetKeyState(Keys::D) == KeyState::PRESSED)
-	{
-		Position += Right * (float)_frTime->DeltaTime * flySpeed;
-	}
-	if (_currentContext->GetKeyState(Keys::A) == KeyState::PRESSED)
-	{
-		Position -= Right * (float)_frTime->DeltaTime * flySpeed;
+		if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
+		{
+			Position += Target * (float)_frTime->DeltaTime * flySpeed;
+		}
+		if (_currentContext->GetKeyState(Keys::S) == KeyState::PRESSED)
+		{
+			Position -= Target * (float)_frTime->DeltaTime * flySpeed;
+		}
+		if (_currentContext->GetKeyState(Keys::D) == KeyState::PRESSED)
+		{
+			Position += Right * (float)_frTime->DeltaTime * flySpeed;
+		}
+		if (_currentContext->GetKeyState(Keys::A) == KeyState::PRESSED)
+		{
+			Position -= Right * (float)_frTime->DeltaTime * flySpeed;
+		}
+
 	}
 
 	View = lookAt(Position, Position + Target, Up);

@@ -5,7 +5,7 @@
 Scene::Scene(BaseContext* _cont)
 {
 
-	_camera = new Camera(_cont);
+	_camera = new Camera(_cont, CameraType::FIRSTPERSON);
 
 	DebugView::Init(_cont);
 }
