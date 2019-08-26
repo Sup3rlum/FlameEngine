@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Context.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameTime.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Source\dll</Filter>
     </ClInclude>
@@ -73,9 +67,6 @@
     <ClInclude Include="FrameBuffer.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ContextDescription.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsDescription.h">
       <Filter>Source\Scene\Physics</Filter>
     </ClInclude>
@@ -94,14 +85,32 @@
     <ClInclude Include="Color.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ContextDescription.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="ContextManager.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="GLFWContext.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomContext.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseContext.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="macros.h">
+      <Filter>Source\util</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTime.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Context.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameTime.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source\dll</Filter>
     </ClCompile>
@@ -162,9 +171,6 @@
     <ClCompile Include="DebugView.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ContextDescription.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsDescription.cpp">
       <Filter>Source\Scene\Physics</Filter>
     </ClCompile>
@@ -181,6 +187,27 @@
       <Filter>Source\Scene\MaterialSystem</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ContextDescription.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="ContextManager.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFWContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameTime.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -214,6 +241,9 @@
     </Filter>
     <Filter Include="Source\Scene\MaterialSystem">
       <UniqueIdentifier>{60d0eaa1-d91d-47d9-91d8-17465179f4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Context">
+      <UniqueIdentifier>{58aebd9f-ddc4-469f-847b-2462c07da08d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

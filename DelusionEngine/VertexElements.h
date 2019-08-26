@@ -3,7 +3,7 @@
 #include "nchfx.h"
 
 
-typedef struct DELUSION_DLL VertexElements
+EXPORT_STRUCT VertexElements
 {
 	int _atribNumber;
 	GLenum _type;

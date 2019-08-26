@@ -6,7 +6,7 @@
 using namespace glm;
 using namespace std;
 
-typedef struct DELUSION_DLL VertexNormalTexture
+EXPORT_STRUCT VertexNormalTexture
 {
 	Vector3 _position;
 	Vector3 _normal;
@@ -22,7 +22,7 @@ typedef struct DELUSION_DLL VertexNormalTexture
 	static vector<VertexElements> Elements;
 };
 
-typedef struct DELUSION_DLL VertexTexture
+EXPORT_STRUCT VertexTexture
 {
 	Vector3 _position;
 	Vector2 _texCoord;
@@ -36,7 +36,7 @@ typedef struct DELUSION_DLL VertexTexture
 	static vector<VertexElements> Elements;
 };
 
-typedef struct DELUSION_DLL VertexColor
+EXPORT_STRUCT VertexColor
 {
 	Vector3 _position;
 	Vector3 _color;
@@ -50,7 +50,7 @@ typedef struct DELUSION_DLL VertexColor
 	static vector<VertexElements> Elements;
 };
 
-typedef struct DELUSION_DLL VertexNormalTextureAmbience
+EXPORT_STRUCT VertexNormalTextureAmbience
 {
 	Vector3 _position;
 	Vector3 _normal;

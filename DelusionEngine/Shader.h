@@ -8,7 +8,7 @@
 using namespace std;
 using namespace glm;
 
-class DELUSION_DLL Shader
+EXPORT_CLASS Shader
 {
 public:
 

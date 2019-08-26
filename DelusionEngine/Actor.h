@@ -9,7 +9,7 @@ using namespace glm;
 
 
 
-class DELUSION_DLL Actor
+EXPORT_CLASS Actor
 {
 public:
 	Model* _model;

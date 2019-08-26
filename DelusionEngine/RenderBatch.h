@@ -11,7 +11,7 @@
 using namespace glm;
 using namespace std;
 
-class DELUSION_DLL RenderBatch
+EXPORT_CLASS RenderBatch
 {
 
 public:

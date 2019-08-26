@@ -4,7 +4,7 @@
 #include "BoundingBox.h"
 #include "Plane.h"
 
-class DELUSION_DLL Frustum
+EXPORT_CLASS Frustum
 {
 public:
 	Frustum(mat4 PV);

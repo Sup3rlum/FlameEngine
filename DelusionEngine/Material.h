@@ -2,7 +2,7 @@
 
 #include "nchfx.h"
 
-class Material
+EXPORT_CLASS Material
 {
 };
 

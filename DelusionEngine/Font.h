@@ -6,7 +6,8 @@
 
 #include "Texture.h"
 
-struct Character {
+EXPORT_STRUCT Character 
+{
 	Texture* texture;   // ID handle of the glyph texture
 	glm::ivec2 Size;    // Size of glyph
 	glm::ivec2 Bearing;  // Offset from baseline to left/top of glyph
@@ -14,7 +15,7 @@ struct Character {
 };
 
 
-class Font
+EXPORT_CLASS Font
 {
 public:
 	Font(const char* _fontFamily, int size);

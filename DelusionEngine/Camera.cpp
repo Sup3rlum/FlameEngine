@@ -16,7 +16,7 @@ Camera::~Camera()
 
 }
 
-void Camera::Update(ContextDescription* _params, FrameTime* _frTime)
+void Camera::Update(FrameTime* _frTime)
 {
 	if (verticalAngle > half_pi<float>() - 0.1f)
 	{
@@ -29,15 +29,17 @@ void Camera::Update(ContextDescription* _params, FrameTime* _frTime)
 
 	double xpos, ypos;
 
-	glfwGetCursorPos(_params->window, &xpos, &ypos);
+	ContextManager::_currentContext->GetCursorPosition(&xpos, &ypos);
 
-	glfwSetCursorPos(
-		_params->window, 
-		_params->width / 2.0, 
-		_params->height / 2.0);
 
-	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_params->width / 2.0 - (float)xpos);
-	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (_params->height / 2.0 - (float)ypos);
+	ContextManager::_currentContext->SetCursorPosition
+	(
+		ContextManager::_currentContext->_contextDescription.width / 2.0,
+		ContextManager::_currentContext->_contextDescription.height / 2.0
+	);
+
+	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (ContextManager::_currentContext->_contextDescription.width / 2.0 - (float)xpos);
+	verticalAngle	+= mouseSpeed /** _frTime->DeltaTime*/* 0.003f * (ContextManager::_currentContext->_contextDescription.height / 2.0 - (float)ypos);
 
 	Target = Vector3
 	(

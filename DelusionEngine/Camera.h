@@ -4,14 +4,15 @@
 
 #include "FrameTime.h"
 #include "ContextDescription.h"
+#include "ContextManager.h"
 
 
 
 using namespace glm;
 
-class DELUSION_DLL Camera
-{
 
+EXPORT_CLASS Camera
+{
 
 public:
 	Camera();
@@ -32,7 +33,7 @@ public:
 	float horizontalAngle;
 	float verticalAngle;
 
-	void Update(ContextDescription* _descr, FrameTime* _frTime);
+	void Update(FrameTime* _frTime);
 
 	float mouseSpeed = 0.3f;
 	float flySpeed = 100.0f;

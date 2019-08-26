@@ -4,14 +4,14 @@
 
 using namespace glm;
 
-enum class DELUSION_DLL IntersectionType
+EXPORT_ENUM IntersectionType
 {
 	Contains = 0,
 	Intersects = 1,
 	Disjoint = 2
 };
 
-class DELUSION_DLL Plane
+EXPORT_CLASS Plane
 {
 public:
 	Vector4 _internal;

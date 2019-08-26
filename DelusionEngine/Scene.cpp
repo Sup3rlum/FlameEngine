@@ -2,18 +2,17 @@
 
 
 
-Scene::Scene(ContextDescription* params)
+Scene::Scene()
 {
-	_contentDescr = params;
 
 	_camera = new Camera();
 
-	DebugView::Init(params);
+	DebugView::Init();
 }
 
 void Scene::Update( FrameTime* _frTime)
 {
-	_camera->Update(_contentDescr, _frTime);
+	_camera->Update( _frTime);
 
 	DebugView::Update(_frTime);
 }

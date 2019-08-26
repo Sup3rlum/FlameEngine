@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class DELUSION_DLL FrameBuffer
+EXPORT_CLASS FrameBuffer
 {
 public:
 

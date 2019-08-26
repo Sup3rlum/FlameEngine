@@ -7,10 +7,10 @@
 #include "FrameBuffer.h"
 #include "DebugView.h"
 
-class DELUSION_DLL Scene
+EXPORT_CLASS Scene
 {
 public:
-	Scene(ContextDescription* params);
+	Scene();
 	~Scene();
 
 	void Update(FrameTime* _frTime);
@@ -18,7 +18,6 @@ public:
 
 	Camera* _camera;
 	
-	ContextDescription* _contentDescr;
 
 };
 

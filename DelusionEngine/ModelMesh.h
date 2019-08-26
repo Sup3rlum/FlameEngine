@@ -5,7 +5,7 @@
 
 using namespace glm;
 
-class DELUSION_DLL ModelMesh
+EXPORT_CLASS ModelMesh
 {
 public:
 	vector<ModelMesh>* children;

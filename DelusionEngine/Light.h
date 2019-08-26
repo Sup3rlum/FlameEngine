@@ -3,7 +3,7 @@
 #include "nchfx.h"
 #include "Color.h"
 
-enum class DELUSION_DLL LightType
+EXPORT_ENUM LightType
 {
 	AMBIENT = 0,
 	DIRECTIONAL = 1,
@@ -11,7 +11,7 @@ enum class DELUSION_DLL LightType
 	SPOT = 3
 };
 
-class DELUSION_DLL Light
+EXPORT_STRUCT Light
 {
 public:
 	Vector3 Position;

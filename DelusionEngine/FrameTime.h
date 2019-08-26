@@ -2,7 +2,7 @@
 
 #include "nchfx.h"
 
-class DELUSION_DLL FrameTime
+EXPORT_CLASS FrameTime
 {
 public:
 

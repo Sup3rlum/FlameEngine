@@ -8,7 +8,7 @@ using namespace glm;
 using namespace std;
 
 
-class DELUSION_DLL VertexBuffer
+EXPORT_CLASS VertexBuffer
 {
 	DELHandle _vao;
 	DELHandle _vbo;

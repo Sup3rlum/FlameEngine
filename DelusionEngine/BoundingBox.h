@@ -4,7 +4,7 @@
 
 using namespace glm;
 
-class BoundingBox
+EXPORT_CLASS BoundingBox
 {
 public:
 	vec3 Min;

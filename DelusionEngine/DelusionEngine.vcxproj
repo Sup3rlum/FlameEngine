@@ -165,11 +165,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="BaseContext.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
-    <ClInclude Include="Context.h" />
+    <ClInclude Include="ContextManager.h" />
     <ClInclude Include="ContextDescription.h" />
+    <ClInclude Include="CustomContext.h" />
     <ClInclude Include="DebugView.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontManager.h" />
@@ -177,8 +179,11 @@
     <ClInclude Include="FrameTime.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="GLFWContext.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="logger.h" />
+    <ClInclude Include="macros.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelMesh.h" />
@@ -198,11 +203,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="BaseContext.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Context.cpp" />
+    <ClCompile Include="ContextManager.cpp" />
     <ClCompile Include="ContextDescription.cpp" />
+    <ClCompile Include="CustomContext.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -210,6 +217,8 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameTime.cpp" />
     <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="GLFWContext.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />

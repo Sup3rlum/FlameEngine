@@ -3,14 +3,14 @@
 #include "nchfx.h"
 
 
-enum class DELUSION_DLL PhysicsType
+EXPORT_ENUM PhysicsType
 {
 	STATIC = 0,
 	BAKED = 1,
 	DYNAMIC = 2
 };
 
-struct DELUSION_DLL PhysicsDescription
+EXPORT_STRUCT PhysicsDescription
 {
 public:
 	PhysicsType _physicsType;

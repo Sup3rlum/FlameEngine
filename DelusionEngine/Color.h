@@ -5,7 +5,7 @@
 
 
 
-struct Color : Vector4
+EXPORT_STRUCT Color : Vector4
 {
 public:
 	Color(DELubyte r, DELubyte g, DELubyte b);

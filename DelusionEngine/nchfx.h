@@ -26,13 +26,8 @@
 
 #include "framework.h"
 #include "logger.h"
+#include "macros.h"
 
-
-#ifdef DELUSIONENGINE_EXPORTS
-#define DELUSION_DLL __declspec(dllexport)
-#else
-#define DELUSION_DLL __declspec(dllimport)
-#endif
 
 typedef unsigned long long DELuint64;
 typedef unsigned int DELuint32;
@@ -52,6 +47,3 @@ typedef glm::vec2 Vector2;
 typedef glm::vec3 Vector3;
 typedef glm::vec4 Vector4;
 typedef glm::quat Quaternion;
-
-
-#define FILE_LOADTEXT(path) string(istreambuf_iterator<char>(ifstream(path))), istreambuf_iterator<char>())

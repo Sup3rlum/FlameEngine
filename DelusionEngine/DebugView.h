@@ -12,7 +12,7 @@
 using namespace std;
 using namespace glm;
 
-class DELUSION_DLL DebugView
+EXPORT_CLASS DebugView
 {
 public:
 	static vector<Plane*> _planes;
@@ -20,7 +20,7 @@ public:
 	static void Draw(Camera* _cam);
 	static void Update(FrameTime* _fr);
 
-	static void Init(ContextDescription* _cont);
+	static void Init();
 
 	static VertexBuffer* _vb;
 	static Shader* _shader;

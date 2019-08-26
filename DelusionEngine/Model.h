@@ -2,7 +2,7 @@
 
 #include "ModelMesh.h"
 
-class DELUSION_DLL Model
+EXPORT_CLASS Model
 {
 public:
 	vector<ModelMesh>* children;

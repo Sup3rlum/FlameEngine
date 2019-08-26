@@ -5,7 +5,7 @@
 
 using namespace glm;
 
-class DELUSION_DLL Texture
+EXPORT_CLASS Texture
 {
 public:
 

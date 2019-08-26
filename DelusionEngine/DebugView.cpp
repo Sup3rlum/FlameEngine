@@ -8,7 +8,7 @@ Font*			DebugView::_debugFont = NULL;
 int DebugView::_fps = 0;
 char DebugView::_gpuName[256] = "";
 
-void DebugView::Init(ContextDescription* _cont)
+void DebugView::Init()
 {
 
 	_shader = new Shader("./shaders/debug_view.vert", "./shaders/debug_view.frag");
@@ -31,10 +31,9 @@ void DebugView::Init(ContextDescription* _cont)
 	_vb->SetData(_vData, 6);
 
 
-	_renderBatch = new RenderBatch(_cont);
+	_renderBatch = new RenderBatch(&ContextManager::_currentContext->_contextDescription);
 	_debugFont = new Font("..", 22);
 
-	_cont->GetGraphicsID(_gpuName);
 }
 
 void DebugView::Draw(Camera* _cam)
