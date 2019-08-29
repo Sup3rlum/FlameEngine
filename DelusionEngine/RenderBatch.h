@@ -8,6 +8,7 @@
 #include "Vertex.h"
 #include "Font.h"
 #include "Context.h"
+#include "RenderState.h"
 
 using namespace glm;
 using namespace std;
@@ -30,5 +31,8 @@ public:
 	VertexBuffer* _vb;
 
 	Matrix4 View;
+
+	RenderState* State;
+
 };
 

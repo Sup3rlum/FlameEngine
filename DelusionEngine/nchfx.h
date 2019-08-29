@@ -25,6 +25,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <thread>
+#include <stack>
 
 #include "framework.h"
 #include "logger.h"

@@ -7,6 +7,7 @@ GameInstance::GameInstance(STRING name, DVERSION ver)
 
 	IsAttached = false;
 
+
 }
 
 
@@ -18,6 +19,18 @@ DRESULT GameInstance::Attach(Context* _context)
 	}
 
 	_currentContext = _context;
+
+
+	RenderState* _default = new RenderState();
+
+	_default->CullState = CullState::FrontAndBack;
+	_default->DepthFunction = DepthFunc::Always;
+	_default->SourceBlend = BlendFunc::SourceAlpha;
+	_default->DestinationBlend = BlendFunc::OneMinusSourceAlpha;
+
+
+	RenderState::InitilizeSurface();
+	RenderState::Push(_default);
 
 	_currentScene = new Scene(_context);
 

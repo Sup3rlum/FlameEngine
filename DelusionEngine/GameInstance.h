@@ -7,6 +7,7 @@
 #include "Context.h"
 #include "Scene.h"
 #include "Version.h"
+#include "RenderState.h"
 
 
 EXPORT_CLASS GameInstance

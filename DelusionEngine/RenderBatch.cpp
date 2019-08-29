@@ -29,6 +29,16 @@ RenderBatch::RenderBatch(Context* _c)
 	_vb = new VertexBuffer(VertexTexture::Elements);
 
 	_vb->SetIndexedData<VertexTexture>(_vert,_ind, 4, 6);
+
+	State = new RenderState();
+	
+	State->CullState = CullState::Front;
+	State->DepthFunction = DepthFunc::Always;
+
+	State->SourceBlend = BlendFunc::SourceAlpha;
+	State->DestinationBlend = BlendFunc::OneMinusSourceAlpha;
+
+
 }
 
 
@@ -77,8 +87,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 void RenderBatch::DrawString(string text, Font* font, float x, float y, Color color)
 {
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	RenderState::Push(State);
 
 	_shaderString->UseProgram();
 
@@ -108,4 +117,5 @@ void RenderBatch::DrawString(string text, Font* font, float x, float y, Color co
 		x += (ch.Advance >> 6);
 	}
 
+	RenderState::Pop();
 }
