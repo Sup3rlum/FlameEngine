@@ -19,9 +19,9 @@ GLuint _ind[6]
 };
 
 
-RenderBatch::RenderBatch(BaseContext* _c)
+RenderBatch::RenderBatch(Context* _c)
 {
-	View = ortho(0.0f,(float)_c->_contextDescription.width,(float)_c->_contextDescription.height, 0.0f, 0.0f, 1.0f);
+	View = ortho(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
 	_shader = new Shader("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
 	_shaderString = new Shader("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
@@ -76,6 +76,9 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 
 void RenderBatch::DrawString(string text, Font* font, float x, float y, Color color)
 {
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_shaderString->UseProgram();
 

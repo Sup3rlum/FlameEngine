@@ -6,15 +6,16 @@
 #include "RenderBatch.h"
 #include "FrameBuffer.h"
 #include "DebugView.h"
+#include "Context.h"
 
 EXPORT_CLASS Scene
 {
 public:
-	Scene(BaseContext* _context);
+	Scene(Context* _context);
 	~Scene();
 
-	void Update(FrameTime* _frTime);
-	void Render(FrameTime* _frTime);
+	void Update();
+	void Render();
 
 	Camera* _camera;
 	

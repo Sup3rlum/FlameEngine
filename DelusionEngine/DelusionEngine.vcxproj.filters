@@ -88,16 +88,10 @@
     <ClInclude Include="ContextDescription.h">
       <Filter>Source\Context</Filter>
     </ClInclude>
-    <ClInclude Include="ContextManager.h">
-      <Filter>Source\Context</Filter>
-    </ClInclude>
     <ClInclude Include="GLFWContext.h">
       <Filter>Source\Context</Filter>
     </ClInclude>
     <ClInclude Include="CustomContext.h">
-      <Filter>Source\Context</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseContext.h">
       <Filter>Source\Context</Filter>
     </ClInclude>
     <ClInclude Include="macros.h">
@@ -107,6 +101,24 @@
       <Filter>Source\Context</Filter>
     </ClInclude>
     <ClInclude Include="FrameTime.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="export_customcontext.h">
+      <Filter>Source\util</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstance.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>Source\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Source\util</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Source\dll</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderState.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,22 +204,31 @@
     <ClCompile Include="ContextDescription.cpp">
       <Filter>Source\Context</Filter>
     </ClCompile>
-    <ClCompile Include="ContextManager.cpp">
-      <Filter>Source\Context</Filter>
-    </ClCompile>
     <ClCompile Include="GLFWContext.cpp">
       <Filter>Source\Context</Filter>
     </ClCompile>
     <ClCompile Include="CustomContext.cpp">
       <Filter>Source\Context</Filter>
     </ClCompile>
-    <ClCompile Include="BaseContext.cpp">
-      <Filter>Source\Context</Filter>
-    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source\Context</Filter>
     </ClCompile>
     <ClCompile Include="FrameTime.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="export_customcontext.cpp">
+      <Filter>Source\util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Context.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Version.cpp">
+      <Filter>Source\dll</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

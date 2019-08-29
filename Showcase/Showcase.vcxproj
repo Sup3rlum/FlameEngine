@@ -118,15 +118,44 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glm;D:\Projects\DelusionEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>D:\Projects\DelusionEngine\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DelusionEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\debug_frag.glsl" />
+    <None Include="shaders\debug_vert.glsl" />
+    <None Include="shaders\debug_view.frag" />
+    <None Include="shaders\debug_view.vert" />
+    <None Include="shaders\def_geom.glsl" />
+    <None Include="shaders\frag.glsl" />
+    <None Include="shaders\geom.glsl" />
+    <None Include="shaders\renderbatch.frag" />
+    <None Include="shaders\renderbatch.vert" />
+    <None Include="shaders\renderbatch_string.frag" />
+    <None Include="shaders\renderbatch_string.vert" />
+    <None Include="shaders\ssao.frag" />
+    <None Include="shaders\ssao.vert" />
+    <None Include="shaders\ssao_blur.frag" />
+    <None Include="shaders\ssao_blur.vert" />
+    <None Include="shaders\ssao_geom.frag" />
+    <None Include="shaders\ssao_geom.vert" />
+    <None Include="shaders\ssao_light.frag" />
+    <None Include="shaders\ssao_light.vert" />
+    <None Include="shaders\vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

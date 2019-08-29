@@ -1,7 +1,21 @@
 #include "FrameTime.h"
 
-FrameTime::FrameTime()
+TimeDuration FrameTime::FrameDeltaTime = TimeDuration(chrono::nanoseconds(0));
+TimeSpan FrameTime::StartTime = TimeSpan(chrono::nanoseconds(0));
+TimeSpan FrameTime::TotalTime = TimeSpan(chrono::nanoseconds(0));
+DELuint64 FrameTime::EllapsedFrames = 0;
+
+void FrameTime::Start()
 {
-	DeltaTime = glfwGetTime();
-	TotalTime = glfwGetTime();
+	StartTime = Now();
+}
+
+TimeSpan FrameTime::Now()
+{
+	return chrono::steady_clock::now();
+
+}
+TimeSpan FrameTime::ApplicationRunTime()
+{
+	return TimeSpan(Now() - StartTime);
 }

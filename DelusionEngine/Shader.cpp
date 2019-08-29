@@ -9,7 +9,6 @@ Shader::Shader(const char* vertPath, const char* fragPath)
 	string vCode((istreambuf_iterator<char>(vFile)), istreambuf_iterator<char>());
 	string fCode((istreambuf_iterator<char>(fFile)), istreambuf_iterator<char>());
 
-
 	const char* vCstr = vCode.c_str();
 	const char* fCstr = fCode.c_str();
 

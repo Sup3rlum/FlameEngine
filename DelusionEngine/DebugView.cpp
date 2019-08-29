@@ -8,7 +8,7 @@ Font*			DebugView::_debugFont = NULL;
 int DebugView::_fps = 0;
 char DebugView::_gpuName[256] = "";
 
-void DebugView::Init(BaseContext* _context)
+void DebugView::Init(Context* _context)
 {
 
 	_shader = new Shader("./shaders/debug_view.vert", "./shaders/debug_view.frag");
@@ -60,8 +60,8 @@ void DebugView::Draw(Camera* _cam)
 	_renderBatch->DrawString(c, _debugFont, 0, 60, Color::white);
 
 }
-void DebugView::Update(FrameTime* _frTime)
+void DebugView::Update()
 {
-	if (_frTime->EllapsedFrames % 1000 == 0)
-		_fps = (int)(1.0 / _frTime->DeltaTime);
+	if (FrameTime::EllapsedFrames % 1000 == 0)
+		_fps = (int)(1.0 / FrameTime::FrameDeltaTime.count());
 }

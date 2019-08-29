@@ -1,7 +1,7 @@
 #include "GLFWContext.h"
 
 
-void GLFWContext::Initialize()
+void GLFWContext::Initialize(ContextDescription* _contextDescription)
 {
 
 	// GLFW Context
@@ -11,18 +11,18 @@ void GLFWContext::Initialize()
 		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
 	}
 
-	glfwWindowHint(GLFW_SAMPLES, _contextDescription.contextSampleCount);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _contextDescription.contextMajorVersion);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, _contextDescription.contextMinorVersion);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, _contextDescription.contextCompatibility);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, (int)_contextDescription.contextProfile);
+	glfwWindowHint(GLFW_SAMPLES,				_contextDescription->contextSampleCount);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,	_contextDescription->contextMajorVersion);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,	_contextDescription->contextMinorVersion);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,	_contextDescription->contextCompatibility);
+	glfwWindowHint(GLFW_OPENGL_PROFILE,			(int)_contextDescription->contextProfile);
 
-	_windowHandle = glfwCreateWindow(_contextDescription.width, _contextDescription.height, "Delusion", _contextDescription.fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+	_windowHandle = glfwCreateWindow(_contextDescription->width, _contextDescription->height, "Delusion", _contextDescription->fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 
 	if (_windowHandle == NULL)
 	{
 		fprintf(stderr, "OpenGL 4.5 is not supported by this PC");
-		glfwTerminate();
+		this->Destroy();
 	}
 
 	glfwMakeContextCurrent(_windowHandle);
@@ -41,10 +41,12 @@ void GLFWContext::Initialize()
 	}
 
 
-
+	__super::Initialize(_contextDescription);
 }
 void GLFWContext::SwapChain()
 {
+	__super::SwapChain();
+
 	glfwSwapBuffers(_windowHandle);
 	glfwPollEvents();
 
@@ -67,4 +69,8 @@ KeyState GLFWContext::GetKeyState(Keys key)
 void GLFWContext::Destroy()
 {
 	glfwTerminate();
+}
+void GLFWContext::PollClose()
+{
+	__super::PollClose();
 }

@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 
-Camera::Camera(BaseContext* _cont, CameraType _type)
+Camera::Camera(Context* _cont, CameraType _type)
 {
 	_currentContext = _cont;
 	Type = _type;
@@ -19,7 +19,7 @@ Camera::~Camera()
 
 }
 
-void Camera::Update(FrameTime* _frTime)
+void Camera::Update()
 {
 	if (Type == CameraType::FIRSTPERSON)
 	{
@@ -41,12 +41,12 @@ void Camera::Update(FrameTime* _frTime)
 
 		_currentContext->SetCursorPosition
 		(
-			_currentContext->_contextDescription.width / 2.0,
-			_currentContext->_contextDescription.height / 2.0
+			_currentContext->_contextDescription->width / 2.0,
+			_currentContext->_contextDescription->height / 2.0
 		);
 
-		horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription.width / 2.0 - (float)xpos);
-		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription.height / 2.0 - (float)ypos);
+		horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->width / 2.0 - (float)xpos);
+		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0 - (float)ypos);
 
 		Target = Vector3
 		(
@@ -66,19 +66,19 @@ void Camera::Update(FrameTime* _frTime)
 
 		if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
 		{
-			Position += Target * (float)_frTime->DeltaTime * flySpeed;
+			Position += Target * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 		}
 		if (_currentContext->GetKeyState(Keys::S) == KeyState::PRESSED)
 		{
-			Position -= Target * (float)_frTime->DeltaTime * flySpeed;
+			Position -= Target * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 		}
 		if (_currentContext->GetKeyState(Keys::D) == KeyState::PRESSED)
 		{
-			Position += Right * (float)_frTime->DeltaTime * flySpeed;
+			Position += Right * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 		}
 		if (_currentContext->GetKeyState(Keys::A) == KeyState::PRESSED)
 		{
-			Position -= Right * (float)_frTime->DeltaTime * flySpeed;
+			Position -= Right * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 		}
 
 	}

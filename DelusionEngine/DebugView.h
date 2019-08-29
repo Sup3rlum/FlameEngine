@@ -18,9 +18,9 @@ public:
 	static vector<Plane*> _planes;
 	static vector<BoundingBox*> _boxes;
 	static void Draw(Camera* _cam);
-	static void Update(FrameTime* _fr);
+	static void Update();
 
-	static void Init(BaseContext* _context);
+	static void Init(Context* _context);
 
 	static VertexBuffer* _vb;
 	static Shader* _shader;

@@ -1,8 +1,7 @@
 
 
-#include "DelusionEngine/ContextManager.h"
+#include "DelusionEngine/GameInstance.h"
 #include "DelusionEngine/ContextDescription.h"
-
 
 int main()
 {
@@ -18,6 +17,14 @@ int main()
 	_contextDesc.height = 1440;
 	_contextDesc.fullscreen = true;
 
-	ContextManager::CreateNew(_contextDesc);
-	ContextManager::Initialize();
+	GLFWContext* context = new GLFWContext();
+
+	context->Initialize(&_contextDesc);
+
+	GameInstance* _gameInstance = new GameInstance("Showcase", DVERSION(1, 0, 0, 0));
+
+	_gameInstance->Attach(context);
+	_gameInstance->Start();
+
+
 }

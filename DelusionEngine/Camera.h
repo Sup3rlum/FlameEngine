@@ -4,7 +4,7 @@
 
 #include "FrameTime.h"
 #include "ContextDescription.h"
-#include "BaseContext.h"
+#include "Context.h"
 
 
 using namespace glm;
@@ -22,7 +22,7 @@ EXPORT_CLASS Camera
 {
 
 public:
-	Camera(BaseContext* _cont, CameraType _camType);
+	Camera(Context* _cont, CameraType _camType);
 	~Camera();
 
 	CameraType Type;
@@ -42,11 +42,11 @@ public:
 	float horizontalAngle;
 	float verticalAngle;
 
-	void Update(FrameTime* _frTime);
+	void Update();
 
 	float mouseSpeed = 0.3f;
 	float flySpeed = 100.0f;
 
-	BaseContext* _currentContext;
+	Context* _currentContext;
 };
 

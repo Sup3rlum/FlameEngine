@@ -145,15 +145,19 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;DELUSIONENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;DELUSIONENGINE_EXPORTS;_WINDOWS;_USRDLL;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,24 +165,30 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;D:\Projects\_Libraries\freetype2\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="BaseContext.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
-    <ClInclude Include="ContextManager.h" />
+    <ClInclude Include="Context.h" />
     <ClInclude Include="ContextDescription.h" />
     <ClInclude Include="CustomContext.h" />
     <ClInclude Include="DebugView.h" />
+    <ClInclude Include="export_customcontext.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="FrameTime.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GLFWContext.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Light.h" />
@@ -193,30 +203,34 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="RenderBatch.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderState.h" />
+    <ClInclude Include="result.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Version.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexElements.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="BaseContext.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="ContextManager.cpp" />
+    <ClCompile Include="Context.cpp" />
     <ClCompile Include="ContextDescription.cpp" />
     <ClCompile Include="CustomContext.cpp" />
     <ClCompile Include="DebugView.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="export_customcontext.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameTime.cpp" />
     <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="GameInstance.cpp" />
     <ClCompile Include="GLFWContext.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -228,10 +242,12 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="RenderBatch.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Version.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexElements.cpp" />
