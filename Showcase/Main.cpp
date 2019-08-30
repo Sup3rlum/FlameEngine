@@ -1,7 +1,7 @@
 
 
-#include "DelusionEngine/GameInstance.h"
-#include "DelusionEngine/ContextDescription.h"
+#include "DelusionEngine/Engine/GameInstance.h"
+#include "DelusionEngine/Context/ContextDescription.h"
 
 int main()
 {
