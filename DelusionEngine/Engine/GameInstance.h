@@ -28,5 +28,8 @@ public:
 	bool IsAttached;
 
 	Scene* _currentScene;
+
+
+
 };
 

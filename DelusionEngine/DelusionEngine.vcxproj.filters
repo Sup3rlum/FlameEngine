@@ -82,6 +82,7 @@
     <ClInclude Include="Scene\MaterialSystem\Material.h" />
     <ClInclude Include="Scene\SceneGeometry.h" />
     <ClInclude Include="Engine\EventManager.h" />
+    <ClInclude Include="Scene\Ray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -155,6 +156,7 @@
     <ClCompile Include="Scene\MaterialSystem\Material.cpp" />
     <ClCompile Include="Scene\SceneGeometry.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
+    <ClCompile Include="Scene\Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

@@ -211,6 +211,7 @@
     <ClInclude Include="Scene\Model.h" />
     <ClInclude Include="Scene\ModelMesh.h" />
     <ClInclude Include="Scene\Plane.h" />
+    <ClInclude Include="Scene\Ray.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneGeometry.h" />
     <ClInclude Include="util\macros.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="Scene\Model.cpp" />
     <ClCompile Include="Scene\ModelMesh.cpp" />
     <ClCompile Include="Scene\Plane.cpp" />
+    <ClCompile Include="Scene\Ray.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneGeometry.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
