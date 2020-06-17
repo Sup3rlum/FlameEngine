@@ -6,3 +6,8 @@ Actor::Actor()
 
 
 }
+
+void Actor::Render()
+{
+
+}

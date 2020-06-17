@@ -79,6 +79,9 @@
     <ClInclude Include="Engine\Keyboard.h" />
     <ClInclude Include="Graphics\Media\Font.h" />
     <ClInclude Include="Graphics\Media\FontManager.h" />
+    <ClInclude Include="Scene\MaterialSystem\Material.h" />
+    <ClInclude Include="Scene\SceneGeometry.h" />
+    <ClInclude Include="Engine\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -149,6 +152,9 @@
     <ClCompile Include="Engine\Keyboard.cpp" />
     <ClCompile Include="Graphics\Media\Font.cpp" />
     <ClCompile Include="Graphics\Media\FontManager.cpp" />
+    <ClCompile Include="Scene\MaterialSystem\Material.cpp" />
+    <ClCompile Include="Scene\SceneGeometry.cpp" />
+    <ClCompile Include="Engine\EventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

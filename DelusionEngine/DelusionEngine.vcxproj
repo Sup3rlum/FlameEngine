@@ -183,6 +183,7 @@
     <ClInclude Include="Engine\FrameTime.h" />
     <ClInclude Include="Engine\GameInstance.h" />
     <ClInclude Include="Engine\Keyboard.h" />
+    <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\FrameBuffer.h" />
     <ClInclude Include="Graphics\Media\Font.h" />
@@ -206,10 +207,12 @@
     <ClInclude Include="Scene\DebugView.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Light.h" />
+    <ClInclude Include="Scene\MaterialSystem\Material.h" />
     <ClInclude Include="Scene\Model.h" />
     <ClInclude Include="Scene\ModelMesh.h" />
     <ClInclude Include="Scene\Plane.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\SceneGeometry.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
     <ClInclude Include="util\stb_image.h" />
@@ -223,6 +226,7 @@
     <ClCompile Include="Engine\FrameTime.cpp" />
     <ClCompile Include="Engine\GameInstance.cpp" />
     <ClCompile Include="Engine\Keyboard.cpp" />
+    <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Media\Font.cpp" />
@@ -244,10 +248,12 @@
     <ClCompile Include="Scene\DebugView.cpp" />
     <ClCompile Include="Scene\Frustum.cpp" />
     <ClCompile Include="Scene\Light.cpp" />
+    <ClCompile Include="Scene\MaterialSystem\Material.cpp" />
     <ClCompile Include="Scene\Model.cpp" />
     <ClCompile Include="Scene\ModelMesh.cpp" />
     <ClCompile Include="Scene\Plane.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Scene\SceneGeometry.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -26,5 +26,7 @@ int main()
 	_gameInstance->Attach(context);
 	_gameInstance->Start();
 
+	
+
 
 }

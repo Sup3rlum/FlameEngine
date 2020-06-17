@@ -3,10 +3,12 @@
 
 #include "Camera.h"
 #include "DebugView.h"
+#include "Actor.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/RenderBatch.h"
 #include "../Graphics/FrameBuffer.h"
 #include "../Context/Context.h"
+
 
 EXPORT_CLASS Scene
 {
@@ -18,7 +20,11 @@ public:
 	void Render();
 
 	Camera* _camera;
-	
+	void AddActor(std::string id, Actor* ac);
+	void RemoveActor(std::string id);
 
+private:
+	
+	std::unordered_map<string, Actor*> actorCollection;
 };
 

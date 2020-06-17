@@ -2,7 +2,8 @@
 
 #include "../dll/nchfx.h"
 
-#include "Model.h"
+#include "SceneGeometry.h"
+#include "../Graphics/Shader.h"
 
 using namespace glm;
 
@@ -12,8 +13,12 @@ using namespace glm;
 EXPORT_CLASS Actor
 {
 public:
-	Model* _model;
+	
+	std::string id;
 
 	Actor();
+	void Render();
+
+	SceneGeometry* geometry;
 };
 
