@@ -24,5 +24,6 @@ public:
 	float DistanceSigned(Vector3 point);
 
 	bool Contains(Vector3 point);
+	Vector3 Normal();
 };
 

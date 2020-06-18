@@ -14,5 +14,5 @@ public:
 	Ray(Vector3 p, Vector3 d);
 
 
-	Vector3 Intersects(Plane pl);
+	bool Intersects(Plane pl, Vector3 &out);
 };

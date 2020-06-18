@@ -9,7 +9,7 @@ Plane::Plane(Vector3 n, float d)
 {
 	float l = length(n);
 
-	_internal = Vector4(n, d) / l;
+	_internal = Vector4(n / l, -d);
 }
 Plane::Plane(Vector4 v)
 {
@@ -36,4 +36,9 @@ float Plane::DistanceSigned(Vector3 p)
 bool Plane::Contains(Vector3 p)
 {
 	return DistanceSigned(p) == 0;
+}
+
+Vector3 Plane::Normal()
+{
+	return Vector3(_internal.x, _internal.y, _internal.z);
 }

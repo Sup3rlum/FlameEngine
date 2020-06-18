@@ -7,7 +7,17 @@ Ray::Ray(Vector3 p, Vector3 d)
 	Direction = d;
 }
 
-Vector3 Ray::Intersects(Plane p)
+bool Ray::Intersects(Plane p, Vector3 &out)
 {
-	if (dot(p._internal,Vector4(Direction, 0)) ==  
+	float mu = (-p._internal.w - dot(Position, p.Normal())) / dot(Direction, p.Normal());
+
+	if (mu < 0)
+	{
+		return false;
+	}
+	else
+	{
+		out = Position + mu * Direction;
+		return true;
+	}
 }
