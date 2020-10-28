@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AssetEncoderCommandline": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \".\\hello.obj\" -o \".\\hello.demf\""
+    }
+  }
+}

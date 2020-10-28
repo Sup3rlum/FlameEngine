@@ -26,5 +26,6 @@ public:
 private:
 	
 	std::unordered_map<string, Actor*> actorCollection;
+	std::unordered_map<string, Actor*> sceneGeometryCollection;
 };
 

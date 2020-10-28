@@ -16,16 +16,22 @@ EXPORT_ENUM CameraType
 	THIRDPERSON = 3,
 	TRACKBALL = 4
 };
+EXPORT_ENUM ProjectionType
+{
+	PERSPECTIVE = 1,
+	ORTHOGRAPHIC = 2
+};
 
 
 EXPORT_CLASS Camera
 {
 
 public:
-	Camera(Context* _cont, CameraType _camType);
+	Camera(Context* _cont, CameraType _camType, ProjectionType _projType);
 	~Camera();
 
 	CameraType Type;
+	ProjectionType ProjType;
 
 	Matrix4 View;
 	Matrix4 DebugView;

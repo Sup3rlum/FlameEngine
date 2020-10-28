@@ -2,6 +2,9 @@
 
 void Model::Render()
 {
+
+
+	
 	if (children != NULL)
 	{
 

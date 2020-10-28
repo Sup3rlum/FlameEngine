@@ -173,6 +173,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\AssetSystem\AssetManager.h" />
     <ClInclude Include="Context\Context.h" />
     <ClInclude Include="Context\ContextDescription.h" />
     <ClInclude Include="Context\GLFWContext.h" />
@@ -207,18 +208,18 @@
     <ClInclude Include="Scene\DebugView.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Light.h" />
-    <ClInclude Include="Scene\MaterialSystem\Material.h" />
-    <ClInclude Include="Scene\Model.h" />
-    <ClInclude Include="Scene\ModelMesh.h" />
+    <ClInclude Include="Scene\AssetSystem\Material.h" />
+    <ClInclude Include="Scene\AssetSystem\Model.h" />
+    <ClInclude Include="Scene\AssetSystem\ModelMesh.h" />
     <ClInclude Include="Scene\Plane.h" />
     <ClInclude Include="Scene\Ray.h" />
     <ClInclude Include="Scene\Scene.h" />
-    <ClInclude Include="Scene\SceneGeometry.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
     <ClInclude Include="util\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scene\AssetSystem\AssetManager.cpp" />
     <ClCompile Include="Context\Context.cpp" />
     <ClCompile Include="Context\ContextDescription.cpp" />
     <ClCompile Include="Context\GLFWContext.cpp" />
@@ -249,13 +250,12 @@
     <ClCompile Include="Scene\DebugView.cpp" />
     <ClCompile Include="Scene\Frustum.cpp" />
     <ClCompile Include="Scene\Light.cpp" />
-    <ClCompile Include="Scene\MaterialSystem\Material.cpp" />
-    <ClCompile Include="Scene\Model.cpp" />
-    <ClCompile Include="Scene\ModelMesh.cpp" />
+    <ClCompile Include="Scene\AssetSystem\Material.cpp" />
+    <ClCompile Include="Scene\AssetSystem\Model.cpp" />
+    <ClCompile Include="Scene\AssetSystem\ModelMesh.cpp" />
     <ClCompile Include="Scene\Plane.cpp" />
     <ClCompile Include="Scene\Ray.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
-    <ClCompile Include="Scene\SceneGeometry.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

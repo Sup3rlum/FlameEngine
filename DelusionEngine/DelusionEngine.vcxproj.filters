@@ -46,12 +46,6 @@
     <ClInclude Include="Scene\Light.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Model.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\ModelMesh.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Plane.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -79,10 +73,16 @@
     <ClInclude Include="Engine\Keyboard.h" />
     <ClInclude Include="Graphics\Media\Font.h" />
     <ClInclude Include="Graphics\Media\FontManager.h" />
-    <ClInclude Include="Scene\MaterialSystem\Material.h" />
-    <ClInclude Include="Scene\SceneGeometry.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Scene\Ray.h" />
+    <ClInclude Include="Scene\AssetSystem\AssetManager.h" />
+    <ClInclude Include="Scene\AssetSystem\Material.h" />
+    <ClInclude Include="Scene\AssetSystem\Model.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\AssetSystem\ModelMesh.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -124,12 +124,6 @@
     <ClCompile Include="Scene\Light.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Model.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\ModelMesh.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Plane.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -153,10 +147,16 @@
     <ClCompile Include="Engine\Keyboard.cpp" />
     <ClCompile Include="Graphics\Media\Font.cpp" />
     <ClCompile Include="Graphics\Media\FontManager.cpp" />
-    <ClCompile Include="Scene\MaterialSystem\Material.cpp" />
-    <ClCompile Include="Scene\SceneGeometry.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Scene\Ray.cpp" />
+    <ClCompile Include="Scene\AssetSystem\AssetManager.cpp" />
+    <ClCompile Include="Scene\AssetSystem\Material.cpp" />
+    <ClCompile Include="Scene\AssetSystem\Model.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\AssetSystem\ModelMesh.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

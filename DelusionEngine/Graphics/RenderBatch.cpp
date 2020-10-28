@@ -94,7 +94,7 @@ void RenderBatch::DrawString(string text, Font* font, float x, float y, Color co
 	_shaderString->SetVector("Color", color);
 	_shaderString->SetMatrix("View", View);
 
-	for (int c=0;c<text.length();c++)
+	for (int c = 0; c < text.length(); c++)
 	{
 		Character ch = font->Characters[text[c]];
 

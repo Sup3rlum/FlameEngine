@@ -1,13 +1,12 @@
 #include "Actor.h"
 
 
-Actor::Actor()
+Actor::Actor(Scene* _sc)
 {
-
-
+	
 }
 
 void Actor::Render()
 {
-
+	
 }

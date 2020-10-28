@@ -1,15 +1,24 @@
 #include "Camera.h"
 
 
-Camera::Camera(Context* _cont, CameraType _type)
+Camera::Camera(Context* _cont, CameraType _type, ProjectionType _projtype)
 {
 	_currentContext = _cont;
 	Type = _type;
+	ProjType = _projtype;
 
 	horizontalAngle = -half_pi<float>();
 	verticalAngle = -quarter_pi<float>();
 
-	Projection = perspective(radians(Fov), 16.0f / 9.0f, 0.1f, 1000.0f);
+	if (ProjType == ProjectionType::PERSPECTIVE)
+	{
+		Projection = perspective(radians(Fov), 16.0f / 9.0f, 0.1f, 1000.0f);
+	}
+	else if (ProjType == ProjectionType::ORTHOGRAPHIC)
+	{
+		Projection = ortho(-200.0f, 200.0f, -200.0f, 200.0f, -1.0f, 200.0f);
+	}
+
 	ProjectionInverse = inverse(Projection);
 
 	Position = Vector3(40.0f, 40.0f, 40.0f);
