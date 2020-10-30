@@ -50,11 +50,10 @@ namespace AssetEncoderCommandline
             foreach (var fi in _internal)
             {
 
-                Console.Write($"Encoding \"{ fi.Input }\" to \"{ fi.Output }\" ..");
+                Console.WriteLine($"Encoding \"{ fi.Input }\" to \"{ fi.Output }\" ..");
 
                 Transcoder.Convert(fi.Input, fi.Output);
 
-                Console.Write("OK\n");
             }
         }
         public static void EndQueue()

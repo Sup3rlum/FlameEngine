@@ -39,6 +39,11 @@ namespace AssetEncoderCommandline
                     FileQueue.BeginQueue();
                 }
             }
+
+
+            var v = BitConverter.GetBytes(1);
+
+            Console.WriteLine(v[0]);
         }
     }
 }

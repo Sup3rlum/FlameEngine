@@ -3,28 +3,23 @@
 
 #include "../dll/nchfx.h"
 
-#include "SceneGeometry.h"
 #include "../Graphics/Shader.h"
+#include "RenderableObject.h"
 
 
 using namespace glm;
 
 
-EXPORT_CLASS Scene;
-
-EXPORT_CLASS Actor
+EXPORT_CLASS Actor : public RenderableObject
 {
 public:
 	
 	std::string id;
 
-	Actor(Scene* sc);
-	void Render();
+	Actor();
 
 	Vector3 Position;
 	Quaternion Rotation;
 
-	SceneGeometry* geometry;
-	Scene* _scene;
 };
 

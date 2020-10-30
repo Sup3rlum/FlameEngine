@@ -31,7 +31,7 @@ namespace AssetEncoderCommandline
     public class DataBuffer
     {
         public VertexPositionNormalTexture[] Data;
-        public int[] IndexData;
+        public uint[] IndexData;
 
         public DataBuffer()
         {
@@ -53,7 +53,7 @@ namespace AssetEncoderCommandline
         }
         public static void Encode(string outputFilepath, DataBuffer buffer)
         {
-            int size = 16 + buffer.Data.Length * VertexPositionNormalTexture.Size * 4 + buffer.IndexData.Length * 4;
+            int size = 24 + buffer.Data.Length * VertexPositionNormalTexture.Size * 4 + buffer.IndexData.Length * 4;
 
             MemoryStream mem = new MemoryStream(size);
 
@@ -63,8 +63,12 @@ namespace AssetEncoderCommandline
             mem.WriteByte((byte)'F');
 
             mem.Write(Version);
-            mem.Write(BitConverter.GetBytes(buffer.Data.Length * VertexPositionNormalTexture.Size));
-            mem.Write(BitConverter.GetBytes(buffer.IndexData.Length));
+
+            mem.Write(BitConverter.GetBytes((ulong)(buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));
+            mem.Write(BitConverter.GetBytes((ulong)buffer.IndexData.Length * 4));
+
+            Console.WriteLine((ulong)(buffer.Data.Length * VertexPositionNormalTexture.Size * 4));
+            Console.WriteLine((ulong)buffer.IndexData.Length * 4);
 
             foreach (var v in buffer.Data)
             {
@@ -73,14 +77,30 @@ namespace AssetEncoderCommandline
                 mem.Write(v.TexCoord.GetBytes());
             }
 
+            Console.WriteLine("Mem length is: " + mem.Length);
+
+
             foreach (var v in buffer.IndexData)
             {
                 mem.Write(BitConverter.GetBytes(v));
             }
 
+
+            Console.WriteLine("Mem length is: " + mem.Length);
+
+
+
+
+            var c = Compress(mem.ToArray());
+
+
+            MemoryStream mem2 = new MemoryStream(c.Length);
+            mem2.Write(c);
+
+
             FileStream fStream = new FileStream(outputFilepath, FileMode.Create);
 
-            mem.WriteTo(fStream);
+            mem2.WriteTo(fStream);
 
         }
 
@@ -177,7 +197,7 @@ namespace AssetEncoderCommandline
             }
 
             List<VertexPositionNormalTexture> indexedVData = new List<VertexPositionNormalTexture>();
-            List<int> indexData = new List<int>();
+            List<uint> indexData = new List<uint>();
 
             for (int i = 0; i < vdata.Count; i++)
             {
@@ -185,13 +205,13 @@ namespace AssetEncoderCommandline
 
                 if (index >= 0)
                 {
-                    indexData.Add(index);
+                    indexData.Add((uint)index);
                 }
                 else
                 {
                     indexedVData.Add(vdata[i]);
 
-                    indexData.Add(indexedVData.Count - 1);
+                    indexData.Add((uint)indexedVData.Count - 1);
                 }
             }
 
@@ -203,6 +223,15 @@ namespace AssetEncoderCommandline
 
             return dataBuffer;
 
+        }
+        private static byte[] Compress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                return compressedStream.ToArray();
+            }
         }
     }
 }

@@ -114,6 +114,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,6 +123,9 @@
       <AdditionalLibraryDirectories>D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -173,7 +177,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Scene\AssetSystem\AssetManager.h" />
+    <ClInclude Include="Engine\Game.h" />
+    <ClInclude Include="Scene\GameEntity.h" />
+    <ClInclude Include="IO\File.h" />
+    <ClInclude Include="IO\AssetManager.h" />
     <ClInclude Include="Context\Context.h" />
     <ClInclude Include="Context\ContextDescription.h" />
     <ClInclude Include="Context\GLFWContext.h" />
@@ -182,7 +189,7 @@
     <ClInclude Include="dll\nchfx.h" />
     <ClInclude Include="dll\Version.h" />
     <ClInclude Include="Engine\FrameTime.h" />
-    <ClInclude Include="Engine\GameInstance.h" />
+    <ClInclude Include="Engine\EngineInstance.h" />
     <ClInclude Include="Engine\Keyboard.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Graphics\Color.h" />
@@ -202,31 +209,37 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="IO\Memory.h" />
+    <ClInclude Include="Scene\RenderableObject.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\BoundingBox.h" />
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\DebugView.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Light.h" />
-    <ClInclude Include="Scene\AssetSystem\Material.h" />
-    <ClInclude Include="Scene\AssetSystem\Model.h" />
-    <ClInclude Include="Scene\AssetSystem\ModelMesh.h" />
+    <ClInclude Include="Scene\Material.h" />
+    <ClInclude Include="Scene\Model.h" />
+    <ClInclude Include="Scene\ModelMesh.h" />
     <ClInclude Include="Scene\Plane.h" />
     <ClInclude Include="Scene\Ray.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="util\gfunc.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
     <ClInclude Include="util\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scene\AssetSystem\AssetManager.cpp" />
+    <ClCompile Include="Engine\Game.cpp" />
+    <ClCompile Include="Scene\GameEntity.cpp" />
+    <ClCompile Include="IO\File.cpp" />
+    <ClCompile Include="IO\AssetManager.cpp" />
     <ClCompile Include="Context\Context.cpp" />
     <ClCompile Include="Context\ContextDescription.cpp" />
     <ClCompile Include="Context\GLFWContext.cpp" />
     <ClCompile Include="dll\dllmain.cpp" />
     <ClCompile Include="dll\Version.cpp" />
     <ClCompile Include="Engine\FrameTime.cpp" />
-    <ClCompile Include="Engine\GameInstance.cpp" />
+    <ClCompile Include="Engine\EngineInstance.cpp" />
     <ClCompile Include="Engine\Keyboard.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
@@ -244,15 +257,17 @@
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="IO\Memory.cpp" />
+    <ClCompile Include="Scene\RenderableObject.cpp" />
     <ClCompile Include="Scene\Actor.cpp" />
     <ClCompile Include="Scene\BoundingBox.cpp" />
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\DebugView.cpp" />
     <ClCompile Include="Scene\Frustum.cpp" />
     <ClCompile Include="Scene\Light.cpp" />
-    <ClCompile Include="Scene\AssetSystem\Material.cpp" />
-    <ClCompile Include="Scene\AssetSystem\Model.cpp" />
-    <ClCompile Include="Scene\AssetSystem\ModelMesh.cpp" />
+    <ClCompile Include="Scene\Material.cpp" />
+    <ClCompile Include="Scene\Model.cpp" />
+    <ClCompile Include="Scene\ModelMesh.cpp" />
     <ClCompile Include="Scene\Plane.cpp" />
     <ClCompile Include="Scene\Ray.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />

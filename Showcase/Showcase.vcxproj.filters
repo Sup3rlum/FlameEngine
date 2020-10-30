@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -69,5 +70,8 @@
     <None Include="shaders\vert.glsl">
       <Filter>shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestGame.h" />
   </ItemGroup>
 </Project>

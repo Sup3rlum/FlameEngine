@@ -6,7 +6,7 @@
 EXPORT_CLASS Model
 {
 public:
-	vector<ModelMesh>* children;
+	vector<ModelMesh> children;
 	Matrix4 World;
 
 

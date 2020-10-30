@@ -1,17 +1,26 @@
-#include "GameInstance.h"
+#include "EngineInstance.h"
 
-GameInstance::GameInstance(STRING name, DVERSION ver)
+EngineInstance::EngineInstance()
 {
-	Name = name;
-	Version = ver;
 
 	IsAttached = false;
 
 
 }
+DRESULT EngineInstance::AttachGame(Game* _g)
+{
+	if (_game == NULL || !IsAttached)
+		return DRESULT::FAIL;
 
+	_game = _g;
 
-DRESULT GameInstance::Attach(Context* _context)
+	_game->_currentScene = new Scene(_currentContext);
+	_game->Load();
+
+	return DRESULT::SUCCESS;
+}
+
+DRESULT EngineInstance::AttachContext(Context* _context)
 {
 	if (_context == NULL)
 	{
@@ -23,8 +32,8 @@ DRESULT GameInstance::Attach(Context* _context)
 
 	RenderState* _default = new RenderState();
 
-	_default->CullState = CullState::FrontAndBack;
-	_default->DepthFunction = DepthFunc::Always;
+	_default->CullState = CullState::Back;
+	_default->DepthFunction = DepthFunc::LessOrEqual;
 	_default->SourceBlend = BlendFunc::SourceAlpha;
 	_default->DestinationBlend = BlendFunc::OneMinusSourceAlpha;
 
@@ -32,13 +41,12 @@ DRESULT GameInstance::Attach(Context* _context)
 	RenderState::InitilizeSurface();
 	RenderState::Push(_default);
 
-	_currentScene = new Scene(_context);
 
 	IsAttached = true;
 
 	return DRESULT::SUCCESS;
 }
-DRESULT GameInstance::Dettach()
+DRESULT EngineInstance::Dettach()
 {
 	if (_currentContext == NULL)
 	{
@@ -51,17 +59,19 @@ DRESULT GameInstance::Dettach()
 
 	return DRESULT::SUCCESS;
 }
-DRESULT GameInstance::Start()
+DRESULT EngineInstance::Start()
 {
+
 	if (!IsAttached)
 	{
 		return DRESULT::FAIL;
 	}
 
+
 	while (!(_currentContext->shouldTerminate) && IsAttached)
 	{
-		_currentScene->Update();
-		_currentScene->Render();
+		_game->_currentScene->Update();
+		_game->_currentScene->Render();
 
 		_currentContext->SwapChain();
 	}

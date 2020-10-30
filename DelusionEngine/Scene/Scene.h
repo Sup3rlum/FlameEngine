@@ -20,12 +20,14 @@ public:
 	void Render();
 
 	Camera* _camera;
+	Shader* _shader;
+	Texture* _texture;
+
 	void AddActor(std::string id, Actor* ac);
 	void RemoveActor(std::string id);
 
 private:
 	
 	std::unordered_map<string, Actor*> actorCollection;
-	std::unordered_map<string, Actor*> sceneGeometryCollection;
 };
 

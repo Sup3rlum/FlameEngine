@@ -1,32 +1,36 @@
 
 
-#include "DelusionEngine/Engine/GameInstance.h"
-#include "DelusionEngine/Context/ContextDescription.h"
+#include "DelusionEngine/util/gfunc.h"
+#include "TestGame.h"
+
+
 
 int main()
 {
 
 	ContextDescription _contextDesc;
 
-	_contextDesc.contextSampleCount = 4;
+	_contextDesc.contextSampleCount = 1;
 	_contextDesc.contextMajorVersion = 4;
-	_contextDesc.contextMinorVersion = 5;
+	_contextDesc.contextMinorVersion = 1;
 	_contextDesc.contextProfile = ContextProfile::OPENGL_CORE;
 	_contextDesc.contextCompatibility = 1;
 	_contextDesc.width = 2560;
 	_contextDesc.height = 1440;
-	_contextDesc.fullscreen = true;
+	_contextDesc.fullscreen = false;
 
 	GLFWContext* context = new GLFWContext();
 
 	context->Initialize(&_contextDesc);
 
-	GameInstance* _gameInstance = new GameInstance("Showcase", DVERSION(1, 0, 0, 0));
+	EngineInstance* _engineInstance = new EngineInstance();
 
-	_gameInstance->Attach(context);
-	_gameInstance->Start();
-
-	
+	TestGame* tg = new TestGame("TestGame", DVERSION(1, 0, 0, 0));
 
 
+	_engineInstance->AttachContext(context);
+	_engineInstance->AttachGame(tg);
+	_engineInstance->Start();
+
+	return 0;
 }

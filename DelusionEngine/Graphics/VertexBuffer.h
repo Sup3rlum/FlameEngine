@@ -10,10 +10,13 @@ using namespace std;
 
 EXPORT_CLASS VertexBuffer
 {
+
+public:
 	DELHandle _vao;
 	DELHandle _vbo;
 	DELHandle _ibo;
-public:
+
+	VertexBuffer();
 	VertexBuffer(vector<VertexElements> elements);
 
 	DELuint32 _primitiveCount;

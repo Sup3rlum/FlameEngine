@@ -7,27 +7,27 @@
 #include "../Context/GLFWContext.h"
 #include "../Context/Context.h"
 #include "../Scene/Scene.h"
+#include "Game.h"
 
 #include "../Graphics/RenderState.h"
 
 
-EXPORT_CLASS GameInstance
+EXPORT_CLASS EngineInstance
 {
 public:
-	GameInstance(STRING NAME, DVERSION VER);
-	~GameInstance();
+	EngineInstance();
+	~EngineInstance();
 
-	DRESULT Attach(Context* _context);
 	DRESULT Dettach();
 	DRESULT Start();
+	DRESULT AttachGame(Game* _game);
+	DRESULT AttachContext(Context* _context);
 
 	Context* _currentContext;
 
-	STRING Name;
-	DVERSION Version;
-	bool IsAttached;
+	Game* _game;
 
-	Scene* _currentScene;
+	bool IsAttached;
 
 
 

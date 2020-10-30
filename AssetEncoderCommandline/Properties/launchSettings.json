@@ -2,7 +2,7 @@
   "profiles": {
     "AssetEncoderCommandline": {
       "commandName": "Project",
-      "commandLineArgs": "-i \".\\hello.obj\" -o \".\\hello.demf\""
+      "commandLineArgs": "-i \".\\teapot.obj\" -o \".\\teapot.demf\""
     }
   }
 }

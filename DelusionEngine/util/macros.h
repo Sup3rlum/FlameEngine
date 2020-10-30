@@ -19,7 +19,7 @@
 #define EXPORT_STRUCT	struct DELUSION_DLL
 #define EXPORT_ENUM		enum EXPORT_CLASS
 
-#define STRING string
+#define STRING std::string
 
 
 #define FUNC_POINTER(_returnType, _args) std::function<_returnType(_args)>

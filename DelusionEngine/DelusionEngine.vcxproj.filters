@@ -69,20 +69,26 @@
     <ClInclude Include="dll\nchfx.h" />
     <ClInclude Include="dll\Version.h" />
     <ClInclude Include="Engine\FrameTime.h" />
-    <ClInclude Include="Engine\GameInstance.h" />
     <ClInclude Include="Engine\Keyboard.h" />
     <ClInclude Include="Graphics\Media\Font.h" />
     <ClInclude Include="Graphics\Media\FontManager.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Scene\Ray.h" />
-    <ClInclude Include="Scene\AssetSystem\AssetManager.h" />
-    <ClInclude Include="Scene\AssetSystem\Material.h" />
-    <ClInclude Include="Scene\AssetSystem\Model.h">
+    <ClInclude Include="IO\File.h" />
+    <ClInclude Include="IO\AssetManager.h" />
+    <ClInclude Include="Scene\ModelMesh.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\AssetSystem\ModelMesh.h">
+    <ClInclude Include="Scene\Material.h" />
+    <ClInclude Include="Scene\Model.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="IO\Memory.h" />
+    <ClInclude Include="Engine\Game.h" />
+    <ClInclude Include="Engine\EngineInstance.h" />
+    <ClInclude Include="Scene\GameEntity.h" />
+    <ClInclude Include="Scene\RenderableObject.h" />
+    <ClInclude Include="util\gfunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_widgets.cpp">
@@ -143,20 +149,25 @@
     <ClCompile Include="dll\dllmain.cpp" />
     <ClCompile Include="dll\Version.cpp" />
     <ClCompile Include="Engine\FrameTime.cpp" />
-    <ClCompile Include="Engine\GameInstance.cpp" />
     <ClCompile Include="Engine\Keyboard.cpp" />
     <ClCompile Include="Graphics\Media\Font.cpp" />
     <ClCompile Include="Graphics\Media\FontManager.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Scene\Ray.cpp" />
-    <ClCompile Include="Scene\AssetSystem\AssetManager.cpp" />
-    <ClCompile Include="Scene\AssetSystem\Material.cpp" />
-    <ClCompile Include="Scene\AssetSystem\Model.cpp">
+    <ClCompile Include="IO\File.cpp" />
+    <ClCompile Include="IO\AssetManager.cpp" />
+    <ClCompile Include="Scene\Material.cpp" />
+    <ClCompile Include="Scene\Model.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\AssetSystem\ModelMesh.cpp">
+    <ClCompile Include="Scene\ModelMesh.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="IO\Memory.cpp" />
+    <ClCompile Include="Engine\Game.cpp" />
+    <ClCompile Include="Engine\EngineInstance.cpp" />
+    <ClCompile Include="Scene\GameEntity.cpp" />
+    <ClCompile Include="Scene\RenderableObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

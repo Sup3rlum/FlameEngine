@@ -21,7 +21,7 @@ Camera::Camera(Context* _cont, CameraType _type, ProjectionType _projtype)
 
 	ProjectionInverse = inverse(Projection);
 
-	Position = Vector3(40.0f, 40.0f, 40.0f);
+	Position = Vector3(5.0f, 5.0f, 5.0f);
 }
 Camera::~Camera()
 {
