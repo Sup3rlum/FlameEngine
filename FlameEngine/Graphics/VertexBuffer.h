@@ -12,15 +12,15 @@ EXPORT_CLASS VertexBuffer
 {
 
 public:
-	DELHandle _vao;
-	DELHandle _vbo;
-	DELHandle _ibo;
+	FL_HANDLE _vao;
+	FL_HANDLE _vbo;
+	FL_HANDLE _ibo;
 
 	VertexBuffer();
 	VertexBuffer(vector<VertexElements> elements);
 
-	DELuint32 _primitiveCount;
-	DELuint32 _indexCount;
+	FL_HANDLE _primitiveCount;
+	FL_HANDLE _indexCount;
 
 	vector<VertexElements> _elements;
 

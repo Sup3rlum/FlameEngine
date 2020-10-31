@@ -32,8 +32,8 @@ void AssetManager::LoadModel(STRING path, Model* m)
 	size_t vLength = Memory::ToLLong(&bytedata[8]);
 	size_t iLength = Memory::ToLLong(&bytedata[16]);
 
-	VertexNormalTexture* vData = (VertexNormalTexture*)malloc(vLength);
-	DELuint32* iData = (DELuint32*)malloc(iLength);
+	VertexNormalTexture* vData =	(VertexNormalTexture*)malloc(vLength);
+	_UNS_ FL_INT32 * iData =				(_UNS_ FL_INT32*)malloc(iLength);
 
 	if (vData == NULL || iData == NULL)
 		return;
@@ -48,16 +48,26 @@ void AssetManager::LoadModel(STRING path, Model* m)
 
 	m->children[0]._vbo = VertexBuffer(VertexNormalTexture::Elements);
 	m->children[0]._vbo.SetIndexedData<VertexNormalTexture>(vData, iData, vLength / 32, iLength / 4);
-	//m->children[0]._vbo.SetData<VertexNormalTexture>(vData, vLength / 32);
+
+	m->children[0]._shader = new Shader(".\\shaders\\vert.glsl", ".\\shaders\\frag.glsl");
+
+	m->children[0]._material = new Material();
+	m->children[0]._material->colorMap = new Texture(".\\textures\\dirt.jpg");
+
+}
 
 
-	cout << vData[0]._position.x << " " << vData[0]._position.y << " " << vData[0]._position.z << endl;
-	cout << vData[1]._position.x << " " << vData[1]._position.y << " " << vData[1]._position.z << endl;
-	cout << vData[2]._position.x << " " << vData[2]._position.y << " " << vData[2]._position.z << endl;
+void AssetManager::LoadMaterial(STRING path, _Out_ Material* m)
+{
 
-	cout << (uint)(bytedata[24 + vLength]) << endl;
-	cout << (uint)(bytedata[24 + vLength + 1]) << endl;
-	cout << (uint)(bytedata[24 + vLength + 2]) << endl;
+}
 
+bool AssetManager::ValidateSignature(SignatureType s)
+{
+	if (s == SignatureType::Model)
+	{
 
+	}
+
+	return true;
 }

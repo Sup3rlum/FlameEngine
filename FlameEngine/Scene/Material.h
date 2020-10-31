@@ -2,14 +2,15 @@
 
 #include "../dll/nchfx.h"
 
+#include "../Graphics/Texture.h"
+
 EXPORT_CLASS Material
 {
 public:
-	DELubyte* colorData;
-	DELuint32 colorData_size;
 
-	DELubyte* normalData;
-	DELuint32 normalData_size;
+	Material();
+
+	Texture* colorMap;
 
 	float roughness;
 	float specular;

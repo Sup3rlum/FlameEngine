@@ -8,9 +8,20 @@
 
 using namespace std;
 
+
+EXPORT_ENUM SignatureType
+{
+	Model,
+	Material
+};
+
+
 EXPORT_CLASS AssetManager
 {
+private:
+	static bool ValidateSignature(SignatureType s);
 public:
-	static void LoadModel(STRING path, Model* m);
+	static void LoadModel(STRING path, _Out_ Model* m);
+	static void LoadMaterial(STRING path, _Out_ Material* m);
 };
 

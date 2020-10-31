@@ -1,6 +1,6 @@
 #include "Color.h"
 
-Color::Color(DELubyte r, DELubyte g, DELubyte b)
+Color::Color(BYTE r, BYTE g, BYTE b)
 {
 	this->r = (float)r / 255.0f;
 	this->g = (float)g / 255.0f;
@@ -8,14 +8,14 @@ Color::Color(DELubyte r, DELubyte g, DELubyte b)
 	this->a = 1.0f;
 }
 
-Color::Color(DELubyte r, DELubyte g, DELubyte b, DELubyte a)
+Color::Color(BYTE r, BYTE g, BYTE b, BYTE a)
 {
 	this->r = (float)r / 255.0f;
 	this->g = (float)g / 255.0f;
 	this->b = (float)b / 255.0f;
 	this->a = (float)a / 255.0f;
 }
-Color::Color(DELuint32 hex)
+Color::Color(_UNS_ FL_INT32 hex)
 {
 	Color(
 		((hex >> 24) & 0xFF),

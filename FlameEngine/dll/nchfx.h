@@ -33,15 +33,14 @@
 #include "../util/result.h"
 
 
-typedef unsigned long long DELuint64;
-typedef unsigned int DELuint32;
 
-typedef long long DELint64;
-typedef int DELint32;
+#define FL_INT32 int
+#define FL_INT64 long long
 
-typedef unsigned int DELHandle;
-typedef unsigned char DELubyte;
-typedef unsigned char DELuchar;
+#define _UNS_ unsigned
+
+#define FL_HANDLE _UNS_ FL_INT32
+
 
 
 

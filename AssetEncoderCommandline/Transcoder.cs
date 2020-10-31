@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using AssetEncoderCommandline.Math;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 
 
@@ -47,28 +48,17 @@ namespace AssetEncoderCommandline
 
         public static void Convert(string inputFilePath, string outputFilePath)
         {
-            var db = Decode(inputFilePath);
+            var db = DecodeData(inputFilePath);
 
-            Encode(outputFilePath, db);
+            EncodeMeshData(outputFilePath, db);
         }
-        public static void Encode(string outputFilepath, DataBuffer buffer)
+        public static MemoryStream EncodeMeshData(string outputFilepath, DataBuffer buffer)
         {
-            int size = 24 + buffer.Data.Length * VertexPositionNormalTexture.Size * 4 + buffer.IndexData.Length * 4;
+            MemoryStream mem = new MemoryStream();
 
-            MemoryStream mem = new MemoryStream(size);
-
-            mem.WriteByte((byte)'D');
-            mem.WriteByte((byte)'E');
-            mem.WriteByte((byte)'M');
-            mem.WriteByte((byte)'F');
-
-            mem.Write(Version);
 
             mem.Write(BitConverter.GetBytes((ulong)(buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));
             mem.Write(BitConverter.GetBytes((ulong)buffer.IndexData.Length * 4));
-
-            Console.WriteLine((ulong)(buffer.Data.Length * VertexPositionNormalTexture.Size * 4));
-            Console.WriteLine((ulong)buffer.IndexData.Length * 4);
 
             foreach (var v in buffer.Data)
             {
@@ -77,34 +67,17 @@ namespace AssetEncoderCommandline
                 mem.Write(v.TexCoord.GetBytes());
             }
 
-            Console.WriteLine("Mem length is: " + mem.Length);
-
-
             foreach (var v in buffer.IndexData)
             {
                 mem.Write(BitConverter.GetBytes(v));
             }
 
 
-            Console.WriteLine("Mem length is: " + mem.Length);
-
-
-
-
-            var c = Compress(mem.ToArray());
-
-
-            MemoryStream mem2 = new MemoryStream(c.Length);
-            mem2.Write(c);
-
-
-            FileStream fStream = new FileStream(outputFilepath, FileMode.Create);
-
-            mem2.WriteTo(fStream);
+            return mem;
 
         }
 
-        public static DataBuffer Decode(string inputFilePath)
+        public static DataBuffer DecodeData(string inputFilePath)
         {
             StreamReader sr = new StreamReader(inputFilePath);
 

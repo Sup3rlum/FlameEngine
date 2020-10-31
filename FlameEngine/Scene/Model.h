@@ -9,7 +9,6 @@ public:
 	vector<ModelMesh> children;
 	Matrix4 World;
 
-
-	void Render();
+	void Render(Matrix4 Transform, Camera* _cam);
 };
 

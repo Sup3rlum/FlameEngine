@@ -9,6 +9,7 @@
 
 using namespace glm;
 
+EXPORT_CLASS Scene;
 
 EXPORT_CLASS Actor : public RenderableObject
 {
@@ -20,6 +21,8 @@ public:
 
 	Vector3 Position;
 	Quaternion Rotation;
+
+	Scene* _scene;
 
 };
 

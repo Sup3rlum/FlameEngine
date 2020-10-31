@@ -180,7 +180,7 @@ void Shader::SetColor(const string& name, Color val)
 {
 	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr((Vector4)val));
 }
-void Shader::SetTexture(DELuint32 _id, Texture* _tex)
+void Shader::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0 + _id);
 	glBindTexture(GL_TEXTURE_2D, _tex->_handle);

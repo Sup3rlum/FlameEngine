@@ -15,13 +15,13 @@ EXPORT_ENUM ContextProfile
 EXPORT_CLASS ContextDescription
 {
 public:
-	DELuint32 contextMajorVersion;
-	DELuint32 contextMinorVersion;
-	DELuint32 contextSampleCount;
-	DELuint32 contextCompatibility;
+	_UNS_ FL_INT32 contextMajorVersion;
+	_UNS_ FL_INT32 contextMinorVersion;
+	_UNS_ FL_INT32 contextSampleCount;
+	_UNS_ FL_INT32 contextCompatibility;
 	ContextProfile contextProfile;
-	DELuint32 width;
-	DELuint32 height;
+	_UNS_ FL_INT32 width;
+	_UNS_ FL_INT32 height;
 	bool fullscreen;
 
 };

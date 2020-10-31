@@ -1,16 +1,14 @@
 #include "GameEntity.h"
-
+#include "Scene.h"
 
 GameEntity::GameEntity(STRING _modelName)
 {
 
 	AssetManager::LoadModel(_modelName, &model);
 
-	cout << model.children.size() << endl;
-	cout << &model<< endl;
 }
 
 void GameEntity::Render()
 {
-	model.Render();
+	model.Render(identity<Matrix4>(), _scene->_camera);
 }

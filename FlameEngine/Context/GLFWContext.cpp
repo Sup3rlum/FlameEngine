@@ -8,7 +8,7 @@ void GLFWContext::Initialize(ContextDescription* _contextDescription)
 
 	if (!glfwInit())
 	{
-		DEL_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
+		FLAME_MSGBOX_ERROR(L"Failed to initialize GLFW\n");
 	}
 
 	glfwWindowHint(GLFW_SAMPLES,				_contextDescription->contextSampleCount);
@@ -17,7 +17,7 @@ void GLFWContext::Initialize(ContextDescription* _contextDescription)
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,	_contextDescription->contextCompatibility);
 	glfwWindowHint(GLFW_OPENGL_PROFILE,			(int)_contextDescription->contextProfile);
 
-	_windowHandle = glfwCreateWindow(_contextDescription->width, _contextDescription->height, "Delusion", _contextDescription->fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+	_windowHandle = glfwCreateWindow(_contextDescription->width, _contextDescription->height, "Flame", _contextDescription->fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 
 	if (_windowHandle == NULL)
 	{
@@ -37,7 +37,7 @@ void GLFWContext::Initialize(ContextDescription* _contextDescription)
 
 	if (glewInit() != GLEW_OK)
 	{
-		DEL_MSGBOX_ERROR(L"Failed to initialize GLEW");
+		FLAME_MSGBOX_ERROR(L"Failed to initialize GLEW");
 	}
 
 

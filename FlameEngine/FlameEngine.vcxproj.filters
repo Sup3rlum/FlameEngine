@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Context\Context.cpp">
+      <Filter>Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Context\ContextDescription.cpp">
+      <Filter>Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Context\GLFWContext.cpp">
+      <Filter>Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EngineInstance.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EventManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FrameTime.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\RenderBatch.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\RenderState.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\VertexBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\VertexElements.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\AssetManager.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\File.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="IO\Memory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Actor.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BoundingBox.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\DebugView.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Frustum.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameEntity.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Light.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Material.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Model.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ModelMesh.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Plane.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Ray.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\RenderableObject.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="dll\Version.cpp">
+      <Filter>dll</Filter>
+    </ClCompile>
+    <ClCompile Include="dll\dllmain.cpp">
+      <Filter>dll</Filter>
+    </ClCompile>
+    <ClCompile Include="util\stb_image.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Media\Font.cpp">
+      <Filter>Graphics\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Media\FontManager.cpp">
+      <Filter>Graphics\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Keyboard.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Context\Context.h">
+      <Filter>Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Context\ContextDescription.h">
+      <Filter>Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Context\GLFWContext.h">
+      <Filter>Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EngineInstance.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FrameTime.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\RenderBatch.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\RenderState.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Vertex.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexElements.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\AssetManager.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\File.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="IO\Memory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Actor.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BoundingBox.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Camera.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\DebugView.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Frustum.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameEntity.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Light.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Material.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Model.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ModelMesh.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Plane.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Ray.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\RenderableObject.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="dll\Version.h">
+      <Filter>dll</Filter>
+    </ClInclude>
+    <ClInclude Include="dll\nchfx.h">
+      <Filter>dll</Filter>
+    </ClInclude>
+    <ClInclude Include="dll\logger.h">
+      <Filter>dll</Filter>
+    </ClInclude>
+    <ClInclude Include="dll\framework.h">
+      <Filter>dll</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="util\result.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\macros.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\gfunc.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\stb_image.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Media\Font.h">
+      <Filter>Graphics\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Media\FontManager.h">
+      <Filter>Graphics\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Keyboard.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\debug_frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_view.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\debug_view.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\def_geom.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_light.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_light.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_geom.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_geom.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\renderbatch.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\renderbatch.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\geom.glsl">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Context">
+      <UniqueIdentifier>{4dbf9e34-cc7a-4b04-850f-ddd541b7a7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{4dbc01fa-d3eb-4013-81f2-525fe937a5fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{a4efeeed-0576-406c-9789-8d4cb1b765ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{74c78f49-27f6-42fc-8bb6-d55cab2f4b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGUI">
+      <UniqueIdentifier>{4de0dd90-c4da-43a2-8597-588da20d7a7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dll">
+      <UniqueIdentifier>{37f3f280-f0ef-4511-a856-864b9c46866f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{74ef9c73-2aa6-4d3a-b5d4-f3c457401542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{3a99e0f8-78cf-4dd7-8bf4-f1babda0b131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{d0c85f8d-a52b-4192-944f-c60356e1678e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Media">
+      <UniqueIdentifier>{a987246d-100e-42c5-9764-50cca2962463}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

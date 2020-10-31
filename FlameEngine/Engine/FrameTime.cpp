@@ -3,7 +3,7 @@
 TimeDuration FrameTime::FrameDeltaTime = TimeDuration(chrono::nanoseconds(0));
 TimeSpan FrameTime::StartTime = TimeSpan(chrono::nanoseconds(0));
 TimeSpan FrameTime::TotalTime = TimeSpan(chrono::nanoseconds(0));
-DELuint64 FrameTime::EllapsedFrames = 0;
+_UNS_ FL_INT64 FrameTime::EllapsedFrames = 0;
 
 void FrameTime::Start()
 {

@@ -24,6 +24,6 @@ public:
 
 	static TimeSpan ApplicationRunTime();
 
-	static DELuint64 EllapsedFrames;
+	static _UNS_ FL_INT64 EllapsedFrames;
 };
 

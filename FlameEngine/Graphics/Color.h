@@ -8,9 +8,9 @@
 EXPORT_STRUCT Color : Vector4
 {
 public:
-	Color(DELubyte r, DELubyte g, DELubyte b);
-	Color(DELubyte r, DELubyte g, DELubyte b, DELubyte a);
-	Color(DELuint32 hex);
+	Color(BYTE r, BYTE g, BYTE b);
+	Color(BYTE r, BYTE g, BYTE b, BYTE a);
+	Color(_UNS_ FL_INT32 hex);
 
 	static Color aliceblue;
 	static Color antiquewhite;

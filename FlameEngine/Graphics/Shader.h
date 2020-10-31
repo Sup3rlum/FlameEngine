@@ -35,6 +35,6 @@ public:
 	void SetFloat(const string& name, float val);
 	void SetInt(const string& name, int val);
 
-	void SetTexture(DELuint32 _id, Texture* _texture);
+	void SetTexture(_UNS_ FL_INT32 _id, Texture* _texture);
 };
 

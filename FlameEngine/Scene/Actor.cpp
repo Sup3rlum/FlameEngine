@@ -3,5 +3,4 @@
 
 Actor::Actor()
 {
-	
 }
