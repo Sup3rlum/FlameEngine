@@ -7,7 +7,7 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 These are the current features FlameEngine has as of now:
 
 - A scene/actor system
-- Rendering pipeline using custom models, materials and shaders.
+- Rendering and asset pipeline using custom models, materials and shaders.
 
 Some of the the upcoming features I am currently working on:
 
