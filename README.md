@@ -8,7 +8,6 @@ These are the current features FlameEngine has as of now:
 
 - A scene/actor system
 - Rendering pipeline using custom models, materials and shaders.
-- A GUI system
 
 Some of the the upcoming features I am currently working on:
 
