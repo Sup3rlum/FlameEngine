@@ -46,7 +46,11 @@
 
 typedef glm::mat3x3 Matrix3;
 typedef glm::mat4x4 Matrix4;
-typedef glm::vec2 Vector2;
-typedef glm::vec3 Vector3;
-typedef glm::vec4 Vector4;
+typedef glm::vec2 fVector2;
+typedef glm::vec3 fVector3;
+typedef glm::vec4 fVector4;
 typedef glm::quat Quaternion;
+
+typedef glm::ivec2 iVector2;
+typedef glm::ivec3 iVector3;
+typedef glm::ivec4 iVector4;

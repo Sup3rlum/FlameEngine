@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetEncoderCommandline", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lzma", "lzma\lzma.vcxproj", "{C7C8BCEA-DF75-4699-B90E-8C1063DD00D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentCompiler", "ModelCompiler\ContentCompiler.csproj", "{D69961D3-36E9-478D-86F5-C9F657EFCC61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,18 @@ Global
 		{C7C8BCEA-DF75-4699-B90E-8C1063DD00D8}.Release|x64.Build.0 = Release|x64
 		{C7C8BCEA-DF75-4699-B90E-8C1063DD00D8}.Release|x86.ActiveCfg = Release|Win32
 		{C7C8BCEA-DF75-4699-B90E-8C1063DD00D8}.Release|x86.Build.0 = Release|Win32
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|x64.Build.0 = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Debug|x86.Build.0 = Debug|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|x64.ActiveCfg = Release|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|x64.Build.0 = Release|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|x86.ActiveCfg = Release|Any CPU
+		{D69961D3-36E9-478D-86F5-C9F657EFCC61}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

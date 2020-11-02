@@ -70,13 +70,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Actor.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\BoundingBox.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Camera.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\DebugView.cpp">
@@ -85,28 +79,13 @@
     <ClCompile Include="Scene\Frustum.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameEntity.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Light.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Material.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Model.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\ModelMesh.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Plane.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Ray.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\RenderableObject.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
@@ -129,6 +108,24 @@
     </ClCompile>
     <ClCompile Include="Engine\Keyboard.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Actor.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Camera.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\GameEntity.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Light.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Model.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\RenderableObject.cpp">
+      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,13 +201,7 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Actor.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\BoundingBox.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Camera.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\DebugView.h">
@@ -219,28 +210,13 @@
     <ClInclude Include="Scene\Frustum.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameEntity.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Light.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Material.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Model.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\ModelMesh.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Plane.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Ray.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\RenderableObject.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
@@ -281,6 +257,24 @@
     </ClInclude>
     <ClInclude Include="Engine\Keyboard.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Actor.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Camera.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\GameEntity.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Light.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Model.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\RenderableObject.h">
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -369,6 +363,12 @@
     </Filter>
     <Filter Include="Graphics\Media">
       <UniqueIdentifier>{a987246d-100e-42c5-9764-50cca2962463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObjects">
+      <UniqueIdentifier>{8e64b2e0-5dc1-4bcb-a1c8-bbba5b543b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObjects\Animations">
+      <UniqueIdentifier>{d4976514-daf7-415d-9500-9f88935f26d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

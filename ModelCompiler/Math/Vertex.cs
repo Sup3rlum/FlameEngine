@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssetEncoderCommandline.Math
+namespace ContentCompiler.Math
 {
     public class Vertex2
     {
@@ -56,9 +56,9 @@ namespace AssetEncoderCommandline.Math
             Z = z;
         }
 
-        public float this[int i]    
+        public float this[int i]
         {
-            get 
+            get
             {
                 if (i == 0) return X;
                 else if (i == 1) return Y;
@@ -75,7 +75,7 @@ namespace AssetEncoderCommandline.Math
         }
         public static Vertex3 operator +(Vertex3 a, Vertex3 b)
         {
-            return new Vertex3(a.X + b.X, a.Y + b.Y,a.Z + b.Z);
+            return new Vertex3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         }
 
         public byte[] GetBytes()

@@ -3,80 +3,18 @@ using System.IO;
 using System.IO.Compression;
 using System.Collections.Generic;
 using System.Text;
-using AssetEncoderCommandline.Math;
+using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
+using ContentCompiler.Data;
+using ContentCompiler.Math;
 
 
-namespace AssetEncoderCommandline
+namespace ContentCompiler.ImportScripts
 {
-
-    public class VertexPositionNormalTexture
+    public class OBJ
     {
-        public Vertex3 Position;
-        public Vertex3 Normal;
-        public Vertex2 TexCoord;
-
-
-        public VertexPositionNormalTexture(Vertex3 p , Vertex3 n, Vertex2 t)
-        {
-            Position = p;
-            Normal = n;
-            TexCoord = t;
-        }
-
-        public static int Size = 8;
-    }
-
-    public class DataBuffer
-    {
-        public VertexPositionNormalTexture[] Data;
-        public uint[] IndexData;
-
-        public DataBuffer()
-        {
-
-        }
-    }
-
-
-    public class Transcoder
-    {
-
-        public static byte[] Version = { 1, 0, 0, 0 };
-
-        public static void Convert(string inputFilePath, string outputFilePath)
-        {
-            var db = DecodeData(inputFilePath);
-
-            EncodeMeshData(outputFilePath, db);
-        }
-        public static MemoryStream EncodeMeshData(string outputFilepath, DataBuffer buffer)
-        {
-            MemoryStream mem = new MemoryStream();
-
-
-            mem.Write(BitConverter.GetBytes((ulong)(buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));
-            mem.Write(BitConverter.GetBytes((ulong)buffer.IndexData.Length * 4));
-
-            foreach (var v in buffer.Data)
-            {
-                mem.Write(v.Position.GetBytes());
-                mem.Write(v.Normal.GetBytes());
-                mem.Write(v.TexCoord.GetBytes());
-            }
-
-            foreach (var v in buffer.IndexData)
-            {
-                mem.Write(BitConverter.GetBytes(v));
-            }
-
-
-            return mem;
-
-        }
-
         public static DataBuffer DecodeData(string inputFilePath)
         {
             StreamReader sr = new StreamReader(inputFilePath);
@@ -110,7 +48,7 @@ namespace AssetEncoderCommandline
                         float z = float.Parse(tmp[3]);
 
                         vertexData.Add(new Vertex3(x, y, z));
-                        
+
                     }
                     if (l[1] == 'n')
                     {
@@ -196,15 +134,6 @@ namespace AssetEncoderCommandline
 
             return dataBuffer;
 
-        }
-        private static byte[] Compress(byte[] data)
-        {
-            using (var compressedStream = new MemoryStream())
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
-            {
-                zipStream.Write(data, 0, data.Length);
-                return compressedStream.ToArray();
-            }
         }
     }
 }

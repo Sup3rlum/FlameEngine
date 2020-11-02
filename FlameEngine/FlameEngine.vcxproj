@@ -179,7 +179,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game.h" />
-    <ClInclude Include="Scene\GameEntity.h" />
     <ClInclude Include="IO\File.h" />
     <ClInclude Include="IO\AssetManager.h" />
     <ClInclude Include="Context\Context.h" />
@@ -211,16 +210,16 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="IO\Memory.h" />
-    <ClInclude Include="Scene\RenderableObject.h" />
-    <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\BoundingBox.h" />
-    <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\DebugView.h" />
     <ClInclude Include="Scene\Frustum.h" />
-    <ClInclude Include="Scene\Light.h" />
+    <ClInclude Include="Scene\GameObjects\Actor.h" />
+    <ClInclude Include="Scene\GameObjects\Camera.h" />
+    <ClInclude Include="Scene\GameObjects\GameEntity.h" />
+    <ClInclude Include="Scene\GameObjects\Light.h" />
+    <ClInclude Include="Scene\GameObjects\Model.h" />
+    <ClInclude Include="Scene\GameObjects\RenderableObject.h" />
     <ClInclude Include="Scene\Material.h" />
-    <ClInclude Include="Scene\Model.h" />
-    <ClInclude Include="Scene\ModelMesh.h" />
     <ClInclude Include="Scene\Plane.h" />
     <ClInclude Include="Scene\Ray.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -231,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Game.cpp" />
-    <ClCompile Include="Scene\GameEntity.cpp" />
     <ClCompile Include="IO\File.cpp" />
     <ClCompile Include="IO\AssetManager.cpp" />
     <ClCompile Include="Context\Context.cpp" />
@@ -259,16 +257,16 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="IO\Memory.cpp" />
-    <ClCompile Include="Scene\RenderableObject.cpp" />
-    <ClCompile Include="Scene\Actor.cpp" />
     <ClCompile Include="Scene\BoundingBox.cpp" />
-    <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\DebugView.cpp" />
     <ClCompile Include="Scene\Frustum.cpp" />
-    <ClCompile Include="Scene\Light.cpp" />
+    <ClCompile Include="Scene\GameObjects\Actor.cpp" />
+    <ClCompile Include="Scene\GameObjects\Camera.cpp" />
+    <ClCompile Include="Scene\GameObjects\GameEntity.cpp" />
+    <ClCompile Include="Scene\GameObjects\Light.cpp" />
+    <ClCompile Include="Scene\GameObjects\Model.cpp" />
+    <ClCompile Include="Scene\GameObjects\RenderableObject.cpp" />
     <ClCompile Include="Scene\Material.cpp" />
-    <ClCompile Include="Scene\Model.cpp" />
-    <ClCompile Include="Scene\ModelMesh.cpp" />
     <ClCompile Include="Scene\Plane.cpp" />
     <ClCompile Include="Scene\Ray.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
