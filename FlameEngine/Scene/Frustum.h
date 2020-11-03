@@ -7,10 +7,10 @@
 EXPORT_CLASS Frustum
 {
 public:
-	Frustum(mat4 PV);
+	Frustum(fMatrix4 PV);
 
 	bool Contains(BoundingBox _box);
-	bool Contains(vec3 _p);
+	bool Contains(fVector3 _p);
 
 	IntersectionType Intersects(BoundingBox _box);
 

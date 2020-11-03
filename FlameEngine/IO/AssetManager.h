@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Scene/Model.h"
+#include "../Scene/GameObjects/Model.h"
 #include "../Scene/Material.h"
 #include "../Graphics/Vertex.h"
 #include "File.h"

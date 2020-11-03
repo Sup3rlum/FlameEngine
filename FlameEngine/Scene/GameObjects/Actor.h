@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
-#include "../Graphics/Shader.h"
+#include "../../Graphics/Shader.h"
 #include "RenderableObject.h"
 
 
@@ -19,7 +19,7 @@ public:
 
 	Actor();
 
-	Vector3 Position;
+	fVector3 Position;
 	Quaternion Rotation;
 
 	Scene* _scene;

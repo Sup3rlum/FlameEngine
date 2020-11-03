@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "Camera.h"
+#include "GameObjects/Camera.h"
+#include "GameObjects/Actor.h"
 #include "DebugView.h"
-#include "Actor.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/RenderBatch.h"
 #include "../Graphics/FrameBuffer.h"

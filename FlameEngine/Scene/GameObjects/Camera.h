@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
-#include "../Engine/FrameTime.h"
-#include "../Context/ContextDescription.h"
-#include "../Context/Context.h"
+#include "../../Engine/FrameTime.h"
+#include "../../Context/ContextDescription.h"
+#include "../../Context/Context.h"
 
 
 using namespace glm;
@@ -33,15 +33,15 @@ public:
 	CameraType Type;
 	ProjectionType ProjType;
 
-	Matrix4 View;
-	Matrix4 DebugView;
-	Matrix4 Projection;
-	Matrix4 ProjectionInverse;
+	fMatrix4 View;
+	fMatrix4 DebugView;
+	fMatrix4 Projection;
+	fMatrix4 ProjectionInverse;
 
-	Vector3 Position;
-	Vector3 Target;
-	Vector3 Right;
-	Vector3 Up;
+	fVector3 Position;
+	fVector3 Target;
+	fVector3 Right;
+	fVector3 Up;
 
 	float Fov = 45.0f;
 
@@ -51,7 +51,7 @@ public:
 	void Update();
 
 	float mouseSpeed = 0.3f;
-	float flySpeed = 100.0f;
+	float flySpeed = 10.0f;
 
 	Context* _currentContext;
 };

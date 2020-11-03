@@ -9,11 +9,11 @@ TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
 void TestGame::Load()
 {
 
-	GameEntity* _monkeyHead = new GameEntity("teapot.demf");
+	GameEntity* _monkeyHead = new GameEntity("man.fl3d");
 
 
 	_currentScene->AddActor("monkey", _monkeyHead);
-
+	
 
 
 

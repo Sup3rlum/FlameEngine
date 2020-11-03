@@ -214,6 +214,9 @@
     <ClInclude Include="Scene\DebugView.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\GameObjects\Actor.h" />
+    <ClInclude Include="Scene\GameObjects\AnimatedModel.h" />
+    <ClInclude Include="Scene\GameObjects\Animations\Animation.h" />
+    <ClInclude Include="Scene\GameObjects\Animations\Joint.h" />
     <ClInclude Include="Scene\GameObjects\Camera.h" />
     <ClInclude Include="Scene\GameObjects\GameEntity.h" />
     <ClInclude Include="Scene\GameObjects\Light.h" />
@@ -261,6 +264,9 @@
     <ClCompile Include="Scene\DebugView.cpp" />
     <ClCompile Include="Scene\Frustum.cpp" />
     <ClCompile Include="Scene\GameObjects\Actor.cpp" />
+    <ClCompile Include="Scene\GameObjects\AnimatedModel.cpp" />
+    <ClCompile Include="Scene\GameObjects\Animations\Animation.cpp" />
+    <ClCompile Include="Scene\GameObjects\Animations\Joint.cpp" />
     <ClCompile Include="Scene\GameObjects\Camera.cpp" />
     <ClCompile Include="Scene\GameObjects\GameEntity.cpp" />
     <ClCompile Include="Scene\GameObjects\Light.cpp" />

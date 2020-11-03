@@ -18,17 +18,22 @@ public:
 
 	GLuint _programID;
 
-	Shader(const char* vertPath, const char* fragPath);
-	Shader(const char* vertPath, const char* geomPath, const char* fragPath);
+	Shader(STRING vertSource, STRING fragSource);
+	Shader(STRING vertSource, STRING geomSource, STRING fragSource);
 	~Shader();
 
-	void UseProgram();
-	void SetMatrix(const string& name, Matrix3 val);
-	void SetMatrix(const string& name, Matrix4 val);
 
-	void SetVector(const string& name, Vector2 val);
-	void SetVector(const string& name, Vector3 val);
-	void SetVector(const string& name, Vector4 val);
+	static Shader* FromSource(STRING vertPath, STRING fragPath);
+	static Shader* FromSource(STRING vertPath, STRING geomPath, STRING fragPath);
+
+
+	void UseProgram();
+	void SetMatrix(const string& name, fMatrix3 val);
+	void SetMatrix(const string& name, fMatrix4 val);
+
+	void SetVector(const string& name, fVector2 val);
+	void SetVector(const string& name, fVector3 val);
+	void SetVector(const string& name, fVector4 val);
 
 	void SetColor(const string& name, Color color);
 

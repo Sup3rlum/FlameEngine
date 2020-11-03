@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContentCompiler.ImportScripts;
+using System;
 using System.Collections.Generic;
 
 namespace AssetEncoderCommandline
@@ -11,33 +12,24 @@ namespace AssetEncoderCommandline
             {
 
                 List<string> inputs = new List<string>();
-                List<string> outputs = new List<string>();
 
                 if (args[0] == "-i")
                 {
                     string t = args[1];
 
-                    inputs.AddRange(t.Split(","));
-                }
-                if (args[2] == "-o")
-                {
-                    string t = args[3];
-
-                    outputs.AddRange(t.Split(","));
                 }
 
+                inputs.AddRange(args[1].Split(","));
+  
                 Console.WriteLine($"Listed {inputs.Count} input files");
 
-                if (outputs.Count == inputs.Count)
+
+                for (int i = 0; i < inputs.Count; i++)
                 {
-                    for (int i = 0; i < inputs.Count; i++)
-                    {
-
-                        FileQueue.Add(new FileInfo(inputs[i], outputs[i], AssetType.Obj));
-                    }
-
-                    FileQueue.BeginQueue();
+                    FileQueue.Add(new BuildScript(inputs[i]));
                 }
+
+                FileQueue.BeginQueue();
             }
         }
     }

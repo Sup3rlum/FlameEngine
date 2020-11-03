@@ -16,7 +16,7 @@ namespace ContentCompiler.Compilers
     public struct CompilationArguments
     {
         public string OutputFilepath;
-        public bool Compressed;
+        public bool Static;
     }
 
     public class ModelFileCompiler
@@ -25,7 +25,7 @@ namespace ContentCompiler.Compilers
         CompilationArguments _args;
 
         readonly byte[] Version = new byte[] { 1, 0, 0, 0 };
-        readonly byte[] Signature = { (byte)'F', (byte)'L', (byte)'M', (byte)'D' };
+        readonly byte[] Signature = { (byte)'F', (byte)'L', (byte)'3', (byte)'D' };
 
 
         public ModelFileCompiler(CompilationArguments _args)
@@ -34,28 +34,28 @@ namespace ContentCompiler.Compilers
         }
 
 
-        public void StartTask(Mesh[] meshes)
+        public void StartTask(Mesh mesh)
         {
-            (new Task(() => StartTaskInternal(meshes))).Start();
+            // (new Task(() => StartTaskInternal(mesh))).Start();
+
+            StartTaskInternal(mesh);
+
         }
 
-        private void StartTaskInternal(Mesh[] meshes)
+        private void StartTaskInternal(Mesh mesh)
         {
+
+
+
             MemoryStream memory = new MemoryStream();
 
-            EncodeMeshTable(meshes, ref memory);
-
-            for (int i = 0; i < meshes.Length; i++)
-            {
-                EncodeMesh(meshes[i], ref memory);
-            }
+            EncodeMesh(mesh, ref memory);
 
             OmitBinary(ref memory);
         }
 
         private void EncodeMesh(Mesh mesh, ref MemoryStream memory)
         {
-            memory.Write(BitConverter.GetBytes(mesh.ID));               // ID
 
             for (int i = 0; i < 16; i++)
             {
@@ -65,8 +65,12 @@ namespace ContentCompiler.Compilers
             memory.Write(BitConverter.GetBytes(mesh.MaterialName.Length));  // materialPathLength
             memory.Write(Encoding.ASCII.GetBytes(mesh.MaterialName));       // materialPath
 
-            memory.Write(BitConverter.GetBytes(mesh.ShaderSource.Length));  //  shaderSourceLength
-            memory.Write(Encoding.ASCII.GetBytes(mesh.ShaderSource));       //  shaderSource
+            memory.Write(BitConverter.GetBytes(mesh.VertShaderSource.Length));  //  VertShaderSourceLength
+            memory.Write(Encoding.ASCII.GetBytes(mesh.VertShaderSource));       //  VertShaderSource
+
+
+            memory.Write(BitConverter.GetBytes(mesh.FragShaderSource.Length));  //  FragShaderSourceLength
+            memory.Write(Encoding.ASCII.GetBytes(mesh.FragShaderSource));       //  FragShaderSource
 
 
             memory.Write(BitConverter.GetBytes((ulong)(mesh.Buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));   // vDataLength
@@ -87,20 +91,6 @@ namespace ContentCompiler.Compilers
 
 
         }
-        private void EncodeMeshTable(Mesh[] meshes, ref MemoryStream memory)
-        {
-            memory.Write(BitConverter.GetBytes(meshes.Length));
-            memory.Write(BitConverter.GetBytes(0));                 //TODO: Use a better way of storing table
-
-            for (int i = 0; i < meshes.Length; i++)
-            {
-                memory.Write(BitConverter.GetBytes(meshes[i].ID));
-            }
-            for (int i = 0; i < meshes.Length; i++)
-            {
-                memory.Write(BitConverter.GetBytes(meshes[i].ParentID));
-            }
-        }
 
         private MemoryStream SignBinary(ref MemoryStream memory)
         {
@@ -116,17 +106,18 @@ namespace ContentCompiler.Compilers
 
             // ---------- Header
 
-            _mem.Write(Signature);                                  // Signature    
-            _mem.Write(Version);                                    // Version
-            _mem.Write(BitConverter.GetBytes(_args.Compressed));    // Compressed
-            _mem.Write(checksum);                                   // Checksum
+            _mem.Write(Signature);                                      // Signature    
+            _mem.Write(Version);                                        // Version
+            _mem.Write(BitConverter.GetBytes(_args.Static ? 1 : 0));    // Compressed
+            _mem.Write(checksum);                                       // Checksum
 
-            _mem.Write(data);                                       // Data
+            _mem.Write(data);                                           // Data
 
             return _mem;
         }
         private void OmitBinary(ref MemoryStream memory)
         {
+
             FileStream _fStream = new FileStream(_args.OutputFilepath, FileMode.Create);
 
             var bin = SignBinary(ref memory);

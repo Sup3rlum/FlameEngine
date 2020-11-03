@@ -2,43 +2,43 @@
 
 Plane::Plane()
 {
-	_internal = Vector4(0);
+	_internal = fVector4(0);
 }
 
-Plane::Plane(Vector3 n, float d)
+Plane::Plane(fVector3 n, float d)
 {
 	float l = length(n);
 
-	_internal = Vector4(n / l, -d);
+	_internal = fVector4(n / l, -d);
 }
-Plane::Plane(Vector4 v)
+Plane::Plane(fVector4 v)
 {
 	_internal = v;
 }
-Plane::Plane(Vector3 _v1, Vector3 _v2, Vector3 _v3)
+Plane::Plane(fVector3 _v1, fVector3 _v2, fVector3 _v3)
 {
-	Vector3 _n = normalize(cross(_v1 - _v2,_v3 - _v2));
+	fVector3 _n = normalize(cross(_v1 - _v2,_v3 - _v2));
 	float d = -dot(_n, _v1);
 
-	_internal = Vector4(_n, d);
+	_internal = fVector4(_n, d);
 }
 
-float Plane::Distance(Vector3 p)
+float Plane::Distance(fVector3 p)
 {
 	return abs(DistanceSigned(p));
 }
-float Plane::DistanceSigned(Vector3 p)
+float Plane::DistanceSigned(fVector3 p)
 {
-	return dot(Vector4(p, 1.0f), _internal);
+	return dot(fVector4(p, 1.0f), _internal);
 }
 
 
-bool Plane::Contains(Vector3 p)
+bool Plane::Contains(fVector3 p)
 {
 	return DistanceSigned(p) == 0;
 }
 
-Vector3 Plane::Normal()
+fVector3 Plane::Normal()
 {
-	return Vector3(_internal.x, _internal.y, _internal.z);
+	return fVector3(_internal.x, _internal.y, _internal.z);
 }

@@ -25,13 +25,33 @@ double Memory::ToDouble(BYTE* data)
 
 	return t;
 }
-long long Memory::ToLLong(BYTE* data)
+FL_INT64 Memory::ToLLong(BYTE* data)
 {
 	long long t = 0;
 
 	memcpy(&t, data, sizeof(BYTE) * 8);
 
 	return t;
+}
+_UNS_ FL_INT64 Memory::ToULLong(BYTE* data)
+{
+	long long t = 0;
+
+	memcpy(&t, data, sizeof(BYTE) * 8);
+
+	return t;
+}
+
+
+STRING Memory::ToString(BYTE* data, int length)
+{
+	char* str = Create<char>(length + 1);
+
+	memcpy(str, data, length);
+
+	str[length] = '\0';
+
+	return STRING(str);
 }
 
 void Memory::GetData(float f, BYTE* data)

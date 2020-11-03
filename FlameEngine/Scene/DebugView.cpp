@@ -11,20 +11,20 @@ char DebugView::_gpuName[256] = "";
 void DebugView::Init(Context* _context)
 {
 
-	_shader = new Shader("./shaders/debug_view.vert", "./shaders/debug_view.frag");
+	_shader = Shader::FromSource("./shaders/debug_view.vert", "./shaders/debug_view.frag");
 
 	_vb = new VertexBuffer(VertexColor::Elements);
 
 	VertexColor _vData[] =
 	{
-		VertexColor(Vector3(0,0,0),Vector3(1,0,0)),
-		VertexColor(Vector3(1,0,0),Vector3(1,0,0)),
-
-		VertexColor(Vector3(0,0,0),Vector3(0,1,0)),
-		VertexColor(Vector3(0,1,0),Vector3(0,1,0)),
-
-		VertexColor(Vector3(0,0,0),Vector3(0,0,1)),
-		VertexColor(Vector3(0,0,1),Vector3(0,0,1)),
+		VertexColor(fVector3(0,0,0),fVector3(1,0,0)),
+		VertexColor(fVector3(1,0,0),fVector3(1,0,0)),
+									
+		VertexColor(fVector3(0,0,0),fVector3(0,1,0)),
+		VertexColor(fVector3(0,1,0),fVector3(0,1,0)),
+									
+		VertexColor(fVector3(0,0,0),fVector3(0,0,1)),
+		VertexColor(fVector3(0,0,1),fVector3(0,0,1)),
 
 	};
 
@@ -43,7 +43,7 @@ void DebugView::Draw(Camera* _cam)
 
 	_shader->SetMatrix("View", _cam->DebugView);
 	_shader->SetMatrix("Projection", _cam->Projection);
-	_shader->SetMatrix("World", identity<Matrix4>());
+	_shader->SetMatrix("World", identity<fMatrix4>());
 
 	_vb->Render(GL_LINES);
 

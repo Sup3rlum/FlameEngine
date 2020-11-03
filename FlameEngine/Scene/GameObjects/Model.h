@@ -12,12 +12,12 @@ EXPORT_CLASS Model
 {
 public:
 
-	Matrix4 World;
+	fMatrix4 World;
 
 	VertexBuffer _vbo;
 	Material* _material;
 	Shader* _shader;
 
-	void Render(Matrix4 Transform, Camera* _cam);
+	void Render(fMatrix4 Transform, Camera* _cam);
 };
 

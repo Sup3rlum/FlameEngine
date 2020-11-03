@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\dll\nchfx.h"
+#include "..\..\dll\nchfx.h"
 
 EXPORT_CLASS RenderableObject
 {

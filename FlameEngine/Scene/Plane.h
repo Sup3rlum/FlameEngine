@@ -14,16 +14,16 @@ EXPORT_ENUM IntersectionType
 EXPORT_CLASS Plane
 {
 public:
-	Vector4 _internal;
+	fVector4 _internal;
 	Plane();
-	Plane(Vector3 _v1, Vector3 _v2, Vector3 _v3);
-	Plane(Vector3 _normal, float _det);
-	Plane(Vector4 _v);
+	Plane(fVector3 _v1, fVector3 _v2, fVector3 _v3);
+	Plane(fVector3 _normal, float _det);
+	Plane(fVector4 _v);
 
-	float Distance(Vector3 point);
-	float DistanceSigned(Vector3 point);
+	float Distance(fVector3 point);
+	float DistanceSigned(fVector3 point);
 
-	bool Contains(Vector3 point);
-	Vector3 Normal();
+	bool Contains(fVector3 point);
+	fVector3 Normal();
 };
 

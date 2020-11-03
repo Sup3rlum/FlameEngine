@@ -8,11 +8,11 @@
 EXPORT_CLASS Ray
 {
 public:
-	Vector3 Position;
-	Vector3 Direction;
+	fVector3 Position;
+	fVector3 Direction;
 
-	Ray(Vector3 p, Vector3 d);
+	Ray(fVector3 p, fVector3 d);
 
 
-	bool Intersects(Plane pl, Vector3 &out);
+	bool Intersects(Plane pl, fVector3 &out);
 };

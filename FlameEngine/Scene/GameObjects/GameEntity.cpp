@@ -1,5 +1,5 @@
 #include "GameEntity.h"
-#include "Scene.h"
+#include "../Scene.h"
 
 GameEntity::GameEntity(STRING _modelName)
 {
@@ -10,5 +10,5 @@ GameEntity::GameEntity(STRING _modelName)
 
 void GameEntity::Render()
 {
-	model.Render(identity<Matrix4>(), _scene->_camera);
+	model.Render(identity<fMatrix4>(), _scene->_camera);
 }

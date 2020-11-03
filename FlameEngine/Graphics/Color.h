@@ -5,7 +5,7 @@
 
 
 
-EXPORT_STRUCT Color : Vector4
+EXPORT_STRUCT Color : fVector4
 {
 public:
 	Color(BYTE r, BYTE g, BYTE b);

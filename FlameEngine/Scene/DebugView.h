@@ -3,7 +3,7 @@
 #include "../dll/nchfx.h"
 #include "BoundingBox.h"
 #include "Plane.h"
-#include "Camera.h"
+#include "GameObjects/Camera.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Graphics/Vertex.h"
 #include "../Graphics/Shader.h"

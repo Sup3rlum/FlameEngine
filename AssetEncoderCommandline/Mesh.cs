@@ -1,7 +1,10 @@
-﻿using AssetEncoderCommandline.Math;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
+
+using ContentCompiler.Data;
+
 
 namespace AssetEncoderCommandline
 {

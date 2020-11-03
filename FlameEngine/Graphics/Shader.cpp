@@ -1,13 +1,35 @@
 #include "Shader.h"
 
 
-Shader::Shader(const char* vertPath, const char* fragPath)
+Shader* Shader::FromSource(STRING vertPath, STRING fragPath)
 {
 	ifstream vFile(vertPath);
 	ifstream fFile(fragPath);
 
 	string vCode((istreambuf_iterator<char>(vFile)), istreambuf_iterator<char>());
 	string fCode((istreambuf_iterator<char>(fFile)), istreambuf_iterator<char>());
+
+	return new Shader(vCode, fCode);
+}
+
+Shader* Shader::FromSource(STRING vertPath, STRING geomPath, STRING fragPath)
+{
+	ifstream vFile(vertPath);
+	ifstream gFile(geomPath);
+	ifstream fFile(fragPath);
+
+	string vCode((istreambuf_iterator<char>(vFile)), istreambuf_iterator<char>());
+	string gCode((istreambuf_iterator<char>(gFile)), istreambuf_iterator<char>());
+	string fCode((istreambuf_iterator<char>(fFile)), istreambuf_iterator<char>());
+
+	return new Shader(vCode, gCode, fCode);
+}
+
+
+
+Shader::Shader(STRING vCode, STRING fCode)
+{
+
 
 	const char* vCstr = vCode.c_str();
 	const char* fCstr = fCode.c_str();
@@ -41,7 +63,6 @@ Shader::Shader(const char* vertPath, const char* fragPath)
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << fInfo << endl;
 	};
 
-
 	_programID = glCreateProgram();
 	glAttachShader(_programID, _vertex);
 	glAttachShader(_programID, _fragment);
@@ -52,17 +73,8 @@ Shader::Shader(const char* vertPath, const char* fragPath)
 	glDeleteShader(_fragment);
 }
 
-Shader::Shader(const char* vertPath, const char* geomPath, const char* fragPath)
+Shader::Shader(STRING vCode, STRING gCode, STRING fCode)
 {
-	ifstream vFile(vertPath);
-	ifstream gFile(geomPath);
-	ifstream fFile(fragPath);
-
-	string vCode((istreambuf_iterator<char>(vFile)), istreambuf_iterator<char>());
-	string gCode((istreambuf_iterator<char>(gFile)), istreambuf_iterator<char>());
-	string fCode((istreambuf_iterator<char>(fFile)), istreambuf_iterator<char>());
-
-
 	const char* vCstr = vCode.c_str();
 	const char* gCstr = gCode.c_str();
 	const char* fCstr = fCode.c_str();
@@ -146,11 +158,11 @@ void Shader::UseProgram()
 {
 	glUseProgram(_programID);
 }
-void Shader::SetMatrix(const string &name, Matrix4 val)
+void Shader::SetMatrix(const string &name, fMatrix4 val)
 {
 	glUniformMatrix4fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, value_ptr(val));
 }
-void Shader::SetMatrix(const string& name, Matrix3 val)
+void Shader::SetMatrix(const string& name, fMatrix3 val)
 {
 	glUniformMatrix3fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, value_ptr(val));
 }
@@ -164,21 +176,21 @@ void Shader::SetInt(const string &name, int val)
 	glUniform1i(glGetUniformLocation(_programID, name.c_str()), val);
 }
 
-void Shader::SetVector(const string& name, Vector2 val)
+void Shader::SetVector(const string& name, fVector2 val)
 {
 	glUniform2fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
 }
-void Shader::SetVector(const string& name, Vector3 val)
+void Shader::SetVector(const string& name, fVector3 val)
 {
 	glUniform3fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
 }
-void Shader::SetVector(const string& name, Vector4 val)
+void Shader::SetVector(const string& name, fVector4 val)
 {
 	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
 }
 void Shader::SetColor(const string& name, Color val)
 {
-	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr((Vector4)val));
+	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr((fVector4)val));
 }
 void Shader::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 {

@@ -33,7 +33,7 @@ EXPORT_STRUCT VertexTexture
 		_texCoord = tex;
 	}
 
-	static fVector<VertexElements> Elements;
+	static vector<VertexElements> Elements;
 };
 
 EXPORT_STRUCT VertexColor

@@ -21,7 +21,7 @@ Camera::Camera(Context* _cont, CameraType _type, ProjectionType _projtype)
 
 	ProjectionInverse = inverse(Projection);
 
-	Position = Vector3(5.0f, 5.0f, 5.0f);
+	Position = fVector3(5.0f, 5.0f, 5.0f);
 }
 Camera::~Camera()
 {
@@ -57,14 +57,14 @@ void Camera::Update()
 		horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->width / 2.0f - (float)xpos);
 		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0f - (float)ypos);
 
-		Target = Vector3
+		Target = fVector3
 		(
 			cos(verticalAngle) * sin(horizontalAngle),
 			sin(verticalAngle),
 			cos(verticalAngle) * cos(horizontalAngle)
 		);
 
-		Right = Vector3
+		Right = fVector3
 		(
 			sin(horizontalAngle - half_pi<float>()),
 			0,
@@ -93,5 +93,5 @@ void Camera::Update()
 	}
 
 	View = lookAt(Position, Position + Target, Up);
-	DebugView = lookAt(-Target * 20.0f, Vector3(0), Up);
+	DebugView = lookAt(-Target * 20.0f, fVector3(0), Up);
 }

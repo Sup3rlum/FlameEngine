@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FlameEngine\Context\GLFWContext.h"
-#include "FlameEngine\Engine\EngineInstance.h"
-#include "FlameEngine\Scene\GameEntity.h"
+#include "FlameEngine/Context/GLFWContext.h"
+#include "FlameEngine/Engine/EngineInstance.h"
+#include "FlameEngine/Scene/GameObjects/GameEntity.h"
 
 
 

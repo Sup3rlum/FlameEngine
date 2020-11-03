@@ -127,6 +127,15 @@
     <ClCompile Include="Scene\GameObjects\RenderableObject.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Animations\Animation.cpp">
+      <Filter>Scene\GameObjects\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Animations\Joint.cpp">
+      <Filter>Scene\GameObjects\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\AnimatedModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -274,6 +283,15 @@
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\RenderableObject.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Animations\Animation.h">
+      <Filter>Scene\GameObjects\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Animations\Joint.h">
+      <Filter>Scene\GameObjects\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\AnimatedModel.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,7 +28,7 @@ bool Frustum::Contains(BoundingBox _b)
 {
 	return Intersects(_b) != IntersectionType::Disjoint;
 }
-bool Frustum::Contains(vec3 _p)
+bool Frustum::Contains(fVector3 _p)
 {
 	return	true;/*Left.DistanceSigned(_p) > 0 &&
 			Right.DistanceSigned(_p) > 0 && 

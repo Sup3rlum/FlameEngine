@@ -9,7 +9,7 @@ EXPORT_CLASS Texture
 {
 public:
 
-	Texture(const char* filepath);
+	Texture(STRING filepath);
 	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap);
 
 	void SetParameter(GLenum name, GLenum param);

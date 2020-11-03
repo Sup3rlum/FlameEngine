@@ -146,6 +146,8 @@
     <ClCompile Include="TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\animated_model_frag.glsl" />
+    <None Include="shaders\animated_model_vert.glsl" />
     <None Include="shaders\debug_frag.glsl" />
     <None Include="shaders\debug_vert.glsl" />
     <None Include="shaders\debug_view.frag" />

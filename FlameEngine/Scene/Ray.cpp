@@ -1,13 +1,13 @@
 #include "Ray.h"
 
 
-Ray::Ray(Vector3 p, Vector3 d)
+Ray::Ray(fVector3 p, fVector3 d)
 {
 	Position = p;
 	Direction = d;
 }
 
-bool Ray::Intersects(Plane p, Vector3 &out)
+bool Ray::Intersects(Plane p, fVector3 &out)
 {
 	float mu = (-p._internal.w - dot(Position, p.Normal())) / dot(Direction, p.Normal());
 

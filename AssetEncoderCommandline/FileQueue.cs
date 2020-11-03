@@ -4,6 +4,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
+using ContentCompiler.Compilers;
+using ContentCompiler.ImportScripts;
+
 namespace AssetEncoderCommandline
 {
 
@@ -15,33 +19,28 @@ namespace AssetEncoderCommandline
     public class FileInfo
     {
         public string Input;
-        public string Output;
-
         public AssetType Type;
 
 
-        public FileInfo(string i, string o, AssetType t)
+        public FileInfo(string i,  AssetType t)
         {
             Input = i;
-            Output = o;
             Type = t;
         }
     }
     public class FileQueue
     {
-        static List<FileInfo> _internal = new List<FileInfo>();
+        static List<BuildScript> _internal = new List<BuildScript>();
 
         static Task _task;
 
-        public static void Add(FileInfo f)
+        public static void Add(BuildScript f)
         {
             _internal.Add(f);
         }
 
         public static void BeginQueue()
         {
-            /*_task = new Task(() => BeginQueueInternal());
-            _task.Start();*/
 
             BeginQueueInternal();
         }
@@ -50,9 +49,10 @@ namespace AssetEncoderCommandline
             foreach (var fi in _internal)
             {
 
-                Console.WriteLine($"Encoding \"{ fi.Input }\" to \"{ fi.Output }\" ..");
+                Console.WriteLine($"Executing task \"{ fi._filePath }\" ...");
 
-                Transcoder.Convert(fi.Input, fi.Output);
+                fi.Load();
+                fi.Execute();
 
             }
         }

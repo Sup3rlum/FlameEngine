@@ -70,6 +70,12 @@
     <None Include="shaders\vert.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\animated_model_frag.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\animated_model_vert.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

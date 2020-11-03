@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../dll/nchfx.h"
-#include "../Graphics/Color.h"
+#include "../../dll/nchfx.h"
+#include "../../Graphics/Color.h"
 
 EXPORT_ENUM LightType
 {
@@ -14,8 +14,8 @@ EXPORT_ENUM LightType
 EXPORT_STRUCT Light
 {
 public:
-	Vector3 Position;
-	Vector3 Direction;
+	fVector3 Position;
+	fVector3 Direction;
 	Color Color;
 	float Angle;
 	float Intensity;

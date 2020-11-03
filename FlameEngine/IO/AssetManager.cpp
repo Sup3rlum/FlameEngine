@@ -6,6 +6,7 @@ void AssetManager::LoadModel(STRING path, Model* m)
 
 	vector<BYTE> bytedata = File::ReadAllBytes(path);
 
+	int currentPosition = 0;
 
 	if (bytedata.size() < 20)
 	{
@@ -13,10 +14,10 @@ void AssetManager::LoadModel(STRING path, Model* m)
 	}
 
 
-	if (!(bytedata[0] == 'D' &&
-		bytedata[1] == 'E' &&
-		bytedata[2] == 'M' &&
-		bytedata[3] == 'F'))
+	if (!(bytedata[0] == 'F' &&
+		bytedata[1] == 'L' &&
+		bytedata[2] == '3' &&
+		bytedata[3] == 'D'))
 	{
 		return;
 	}
@@ -29,31 +30,64 @@ void AssetManager::LoadModel(STRING path, Model* m)
 		return;
 	}
 
-	size_t vLength = Memory::ToLLong(&bytedata[8]);
-	size_t iLength = Memory::ToLLong(&bytedata[16]);
+	currentPosition += 8;
 
-	VertexNormalTexture* vData =	(VertexNormalTexture*)malloc(vLength);
-	_UNS_ FL_INT32 * iData =				(_UNS_ FL_INT32*)malloc(iLength);
+	int _static = Memory::ToInt(&bytedata[currentPosition]);
+	//size_t iLength = Memory::ToInt(&bytedata[12]); TODO Checksum
+
+	float* modelTransform = (float*)malloc(16 * sizeof(float));
+
+	currentPosition += 20;
+
+	memcpy(modelTransform, &bytedata[currentPosition], 64);
+
+
+	// Material
+	currentPosition += 64;
+	int _materialPathLength = Memory::ToInt(&bytedata[currentPosition]);
+	currentPosition += 4;
+	STRING _materialPath = Memory::ToString(&bytedata[currentPosition], _materialPathLength);
+
+	m->_material = new Material();
+	m->_material->colorMap = new Texture(_materialPath);
+
+
+	// Vert Shader
+	currentPosition += _materialPathLength;
+	int _vertShaderLength = Memory::ToInt(&bytedata[currentPosition]);
+	currentPosition += 4;
+	STRING _vertShader = Memory::ToString(&bytedata[currentPosition], _vertShaderLength);
+
+	// Frag Shader
+	currentPosition += _vertShaderLength;
+	int _fragShaderLength = Memory::ToInt(&bytedata[currentPosition]);
+	currentPosition += 4;
+	STRING _fragShader = Memory::ToString(&bytedata[currentPosition], _fragShaderLength);
+
+
+	// Data
+	currentPosition += _fragShaderLength;
+	_UNS_ FL_INT64 vLength = Memory::ToULLong(&bytedata[currentPosition]);
+	currentPosition += 8;
+	_UNS_ FL_INT64 iLength = Memory::ToULLong(&bytedata[currentPosition]);
+
+
+	VertexNormalTexture*	vData =	(VertexNormalTexture*)malloc(vLength);
+	_UNS_ FL_INT32 *		iData =	(_UNS_ FL_INT32*)malloc(iLength);
 
 	if (vData == NULL || iData == NULL)
 		return;
 
-	memcpy(vData, &bytedata[24], vLength);
-	memcpy(iData, &bytedata[24 + vLength], iLength);
+	currentPosition += 8;
+	memcpy(vData, &bytedata[currentPosition], vLength);
+	currentPosition += vLength;
+	memcpy(iData, &bytedata[currentPosition], iLength);
 
 
-	ModelMesh mesh(0);
+	m->_vbo = VertexBuffer(VertexNormalTexture::Elements);
+	m->_vbo.SetIndexedData<VertexNormalTexture>(vData, iData, vLength / 32, iLength / 4);
 
-	m->children.push_back(ModelMesh(0));
-
-	m->children[0]._vbo = VertexBuffer(VertexNormalTexture::Elements);
-	m->children[0]._vbo.SetIndexedData<VertexNormalTexture>(vData, iData, vLength / 32, iLength / 4);
-
-	m->children[0]._shader = new Shader(".\\shaders\\vert.glsl", ".\\shaders\\frag.glsl");
-
-	m->children[0]._material = new Material();
-	m->children[0]._material->colorMap = new Texture(".\\textures\\dirt.jpg");
-
+	m->_shader = new Shader(_vertShader, _fragShader);
 }
 
 
