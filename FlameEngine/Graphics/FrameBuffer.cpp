@@ -11,7 +11,7 @@ FrameBuffer::FrameBuffer(GLuint _w, GLuint _h)
 
 void FrameBuffer::BindTexture(Texture* _tex, GLuint attachment)
 {
-	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, _tex->_handle, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->TextureType, _tex->_handle, 0);
 }
 void FrameBuffer::SetAttachments(GLenum* _att, int count)
 {
@@ -25,4 +25,13 @@ void FrameBuffer::Bind()
 void FrameBuffer::Unbind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::EnableDepth()
+{
+
+	glGenRenderbuffers(1, &depthrenderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthrenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 2560, 1440);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer);
 }

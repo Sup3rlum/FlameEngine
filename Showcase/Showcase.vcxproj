@@ -153,7 +153,10 @@
     <None Include="shaders\debug_view.frag" />
     <None Include="shaders\debug_view.vert" />
     <None Include="shaders\def_geom.glsl" />
+    <None Include="shaders\depth_frag.glsl" />
+    <None Include="shaders\depth_vert.glsl" />
     <None Include="shaders\frag.glsl" />
+    <None Include="shaders\gauss_blur.frag" />
     <None Include="shaders\geom.glsl" />
     <None Include="shaders\renderbatch.frag" />
     <None Include="shaders\renderbatch.vert" />

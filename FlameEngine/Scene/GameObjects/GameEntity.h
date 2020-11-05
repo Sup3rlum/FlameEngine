@@ -13,6 +13,7 @@ public:
 	GameEntity(STRING _modelName);
 
 	void Render();
+	void RenderDepth();
 
 	Model model;
 };

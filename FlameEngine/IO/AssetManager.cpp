@@ -87,7 +87,8 @@ void AssetManager::LoadModel(STRING path, Model* m)
 	m->_vbo = VertexBuffer(VertexNormalTexture::Elements);
 	m->_vbo.SetIndexedData<VertexNormalTexture>(vData, iData, vLength / 32, iLength / 4);
 
-	m->_shader = new Shader(_vertShader, _fragShader);
+	m->_shader = Shader::FromSource(".\\shaders\\animated_model_vert.glsl", ".\\shaders\\animated_model_frag.glsl");
+	m->_depthShader = Shader::FromSource(".\\shaders\\depth_vert.glsl", ".\\shaders\\depth_frag.glsl");
 }
 
 

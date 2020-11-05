@@ -6,5 +6,6 @@ EXPORT_CLASS RenderableObject
 {
 public:
 	virtual void Render();
+	virtual void RenderDepth();
 };
 

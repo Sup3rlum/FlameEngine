@@ -4,3 +4,7 @@ void RenderableObject::Render()
 {
 
 }
+void RenderableObject::RenderDepth()
+{
+
+}

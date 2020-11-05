@@ -41,5 +41,6 @@ public:
 	void SetInt(const string& name, int val);
 
 	void SetTexture(_UNS_ FL_INT32 _id, Texture* _texture);
+	void SetTexture(const string& name, Texture* _texture);
 };
 

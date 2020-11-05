@@ -18,10 +18,14 @@ public:
 	void Bind();
 	void Unbind();
 
+	void EnableDepth();
+
 	GLuint _handle;
 
 	GLuint _width;
 	GLuint _height;
+
+	GLuint depthrenderbuffer;
 
 	vector<GLuint> attachments;
 };

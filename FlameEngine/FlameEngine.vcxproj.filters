@@ -118,9 +118,6 @@
     <ClCompile Include="Scene\GameObjects\GameEntity.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Light.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameObjects\Model.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
@@ -135,6 +132,15 @@
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\AnimatedModel.cpp">
       <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Lighting\AmbientLight.cpp">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Lighting\DirectionalLight.cpp">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Lighting\Light.cpp">
+      <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,9 +282,6 @@
     <ClInclude Include="Scene\GameObjects\GameEntity.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Light.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\GameObjects\Model.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
@@ -293,6 +296,15 @@
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\AnimatedModel.h">
       <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Lighting\AmbientLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Lighting\DirectionalLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\Lighting\Light.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -387,6 +399,9 @@
     </Filter>
     <Filter Include="Scene\GameObjects\Animations">
       <UniqueIdentifier>{d4976514-daf7-415d-9500-9f88935f26d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameObjects\Lighting">
+      <UniqueIdentifier>{3a8954d8-2639-49b1-9204-1f3b8dd66f5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

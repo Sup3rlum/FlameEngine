@@ -25,6 +25,11 @@ Color::Color(_UNS_ FL_INT32 hex)
 	);
 }
 
+Color::Color()
+{
+
+}
+
 Color Color::aliceblue				= Color(240, 248, 255);
 Color Color::antiquewhite			= Color(250, 235, 215);
 Color Color::aqua					= Color(0, 255, 255);

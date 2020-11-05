@@ -44,7 +44,7 @@ RenderBatch::RenderBatch(Context* _c)
 
 void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, float height)
 {
-	
+	RenderState::Push(State);
 
 	_shader->UseProgram();
 
@@ -53,7 +53,23 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
+
+	RenderState::Pop();
 }
+
+void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, float height, Shader* _sh)
+{
+	RenderState::Push(State);
+
+	_sh->SetMatrix("View", View);
+	_sh->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+	_sh->SetTexture(0, _tex);
+
+	_vb->RenderIndexed(GL_TRIANGLES);
+
+	RenderState::Pop();
+}
+
 
 void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height)
 {

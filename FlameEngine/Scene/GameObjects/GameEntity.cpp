@@ -10,5 +10,10 @@ GameEntity::GameEntity(STRING _modelName)
 
 void GameEntity::Render()
 {
-	model.Render(identity<fMatrix4>(), _scene->_camera);
+	model.Render(translate(identity<fMatrix4>(), Position), _scene);
+}
+
+void GameEntity::RenderDepth()
+{
+	model.RenderDepth(translate(identity<fMatrix4>(), Position), _scene);
 }

@@ -10,14 +10,14 @@ int main()
 
 	ContextDescription _contextDesc;
 
-	_contextDesc.contextSampleCount = 1;
+	_contextDesc.contextSampleCount = 8;
 	_contextDesc.contextMajorVersion = 4;
 	_contextDesc.contextMinorVersion = 1;
 	_contextDesc.contextProfile = ContextProfile::OPENGL_CORE;
 	_contextDesc.contextCompatibility = 1;
 	_contextDesc.width = 2560;
 	_contextDesc.height = 1440;
-	_contextDesc.fullscreen = false;
+	_contextDesc.fullscreen = true;
 
 	GLFWContext* context = new GLFWContext();
 

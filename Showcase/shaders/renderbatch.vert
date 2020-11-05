@@ -14,5 +14,5 @@ uniform mat4x4 MatrixTransforms;
 void main()
 {
 	gl_Position = View * MatrixTransforms * vec4(position, 1.0f);
-	fTexcoord = texcoord;
+	fTexcoord = vec2(texcoord.x, 1.0 - texcoord.y);
 }

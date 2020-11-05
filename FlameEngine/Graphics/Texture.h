@@ -11,8 +11,10 @@ public:
 
 	Texture(STRING filepath);
 	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap);
+	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap, int sampleCount);
 
 	void SetParameter(GLenum name, GLenum param);
+	void SetParameterf(GLenum name, float param);
 
 	void Bind();
 	void Unbind();
@@ -37,6 +39,10 @@ public:
 	int _width;
 	int _height;
 	int _channels;
+
+	bool IsMultiSampled;
+
+	GLenum TextureType;
 
 	vec4 GetData(int w, int h);
 };

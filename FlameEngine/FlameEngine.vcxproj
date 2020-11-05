@@ -219,7 +219,9 @@
     <ClInclude Include="Scene\GameObjects\Animations\Joint.h" />
     <ClInclude Include="Scene\GameObjects\Camera.h" />
     <ClInclude Include="Scene\GameObjects\GameEntity.h" />
-    <ClInclude Include="Scene\GameObjects\Light.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\AmbientLight.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\DirectionalLight.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\Light.h" />
     <ClInclude Include="Scene\GameObjects\Model.h" />
     <ClInclude Include="Scene\GameObjects\RenderableObject.h" />
     <ClInclude Include="Scene\Material.h" />
@@ -269,7 +271,9 @@
     <ClCompile Include="Scene\GameObjects\Animations\Joint.cpp" />
     <ClCompile Include="Scene\GameObjects\Camera.cpp" />
     <ClCompile Include="Scene\GameObjects\GameEntity.cpp" />
-    <ClCompile Include="Scene\GameObjects\Light.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\AmbientLight.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\DirectionalLight.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\Light.cpp" />
     <ClCompile Include="Scene\GameObjects\Model.cpp" />
     <ClCompile Include="Scene\GameObjects\RenderableObject.cpp" />
     <ClCompile Include="Scene\Material.cpp" />

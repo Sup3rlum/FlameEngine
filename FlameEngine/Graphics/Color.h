@@ -11,6 +11,7 @@ public:
 	Color(BYTE r, BYTE g, BYTE b);
 	Color(BYTE r, BYTE g, BYTE b, BYTE a);
 	Color(_UNS_ FL_INT32 hex);
+	Color();
 
 	static Color aliceblue;
 	static Color antiquewhite;

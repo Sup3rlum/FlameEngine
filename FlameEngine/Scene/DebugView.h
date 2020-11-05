@@ -26,6 +26,8 @@ public:
 	static Shader* _shader;
 	static RenderBatch* _renderBatch;
 	static Font* _debugFont;
+	static RenderState* _renderState;
+
 
 	static int _fps;
 	static char _gpuName[256];

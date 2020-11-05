@@ -197,3 +197,9 @@ void Shader::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 	glActiveTexture(GL_TEXTURE0 + _id);
 	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
 }
+
+void Shader::SetTexture(const string& name, Texture* _tex)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
+}
