@@ -19,7 +19,7 @@ Some of the the upcoming features I am currently working on:
 
 ## Images
 
-<img src="https://media.discordapp.net/attachments/717866375212826705/773742234323124244/unknown.png" width="512" height="512">
+<img src="https://media.discordapp.net/attachments/717866375212826705/773742234323124244/unknown.png" width="562" height="512">
 
 ## Licensing
 
