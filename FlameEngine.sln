@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetEncoderCommandline", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lzma", "lzma\lzma.vcxproj", "{C7C8BCEA-DF75-4699-B90E-8C1063DD00D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentCompiler", "ModelCompiler\ContentCompiler.csproj", "{D69961D3-36E9-478D-86F5-C9F657EFCC61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContentCompiler", "ModelCompiler\ContentCompiler.csproj", "{D69961D3-36E9-478D-86F5-C9F657EFCC61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "res", "res", "{0D26615A-CFAA-4AB8-B5B8-0C605DCDA5B0}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Tom\Desktop\shadow.png = C:\Users\Tom\Desktop\shadow.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

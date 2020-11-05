@@ -122,7 +122,7 @@ void main()
     vec3 ambient = 0.15 * color;
 	
     // diffuse
-    float diff = max(dot(-normalize(DirectionalLights[0].Direction), normal), 0.0);
+    float diff = max(dot(-DirectionalLights[0].Direction, normal), 0.0);
     vec3 diffuse = diff * lightColor;
 
 	
