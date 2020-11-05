@@ -19,7 +19,7 @@ Some of the the upcoming features I am currently working on:
 
 ## Images
 
-![alt text](https://cdn.discordapp.com/attachments/717866375212826705/773742234323124244/unknown.png)
+![alt text](https://cdn.discordapp.com/attachments/717866375212826705/773742234323124244/unknown.png = 500x500)
 
 ## Licensing
 
