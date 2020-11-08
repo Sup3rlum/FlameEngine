@@ -142,6 +142,12 @@
     <ClCompile Include="Scene\GameObjects\Lighting\Light.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Environment\Sky.cpp">
+      <Filter>Scene\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\FpsCamera.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -306,6 +312,12 @@
     <ClInclude Include="Scene\GameObjects\Lighting\Light.h">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Environment\Sky.h">
+      <Filter>Scene\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameObjects\FpsCamera.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -402,6 +414,12 @@
     </Filter>
     <Filter Include="Scene\GameObjects\Lighting">
       <UniqueIdentifier>{3a8954d8-2639-49b1-9204-1f3b8dd66f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{87f2432b-880f-4be5-aac4-525abed97667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Environment">
+      <UniqueIdentifier>{6ce24966-fafa-424a-82e9-76a2e3c948f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

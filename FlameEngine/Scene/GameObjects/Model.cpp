@@ -1,7 +1,7 @@
 #include "Model.h"
 
 #include "../Scene.h"
-
+/*
 void Model::Render(fMatrix4 _transform, Scene* _scene)
 {
 
@@ -43,7 +43,7 @@ void Model::RenderDepth(fMatrix4 _transform, Scene* _scene)
 
 
 	/*_depthShader->SetMatrix("View",			_scene->_camera->View);
-	_depthShader->SetMatrix("Projection",	_scene->_camera->Projection);*/
+	_depthShader->SetMatrix("Projection",	_scene->_camera->Projection);
 
 
 	_depthShader->SetMatrix("View",			_scene->LightCollection[0].View);
@@ -51,6 +51,20 @@ void Model::RenderDepth(fMatrix4 _transform, Scene* _scene)
 
 
 	_depthShader->SetMatrix("World", _transform);
+
+
+	_vbo.RenderIndexed(GL_TRIANGLES);
+}*/
+void Model::Render(fMatrix4 _transform, Scene* _scene)
+{
+
+	_shader->UseProgram();
+
+	_shader->SetMatrix("View",			_scene->CurrentCamera()->View);
+	_shader->SetMatrix("Projection",	_scene->CurrentCamera()->Projection);
+	_shader->SetMatrix("World",			_transform);
+
+	_shader->SetTexture(0, _material->colorMap);
 
 
 	_vbo.RenderIndexed(GL_TRIANGLES);

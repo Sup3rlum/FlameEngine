@@ -13,16 +13,24 @@ void TestGame::Load()
 
 	GameEntity* _man = new GameEntity("man.fl3d");
 	GameEntity* _ground = new GameEntity("plane.fl3d");
-	GameEntity* _box = new GameEntity("box.fl3d");
+	GameEntity* _box = new GameEntity("skybox.fl3d");
+	GameEntity* _house = new GameEntity("house.fl3d");
 
 
 	_man->Position = fVector3(4, -1, -4);
-	_box->Position = fVector3(0, 2, 0);
+	_box->Position = fVector3(0, 1, 0);
 	_ground->Position = fVector3(0, 0, 0);
+	_house->Position = fVector3(0, 1, 0);
+
+	_ground->Scale = fVector3(5.0f);
+	_box->Scale = fVector3(1.0f);
+	_house->Scale = fVector3(0.05f);
+	_man->Scale = fVector3(1.0f);
 
 	_currentScene->AddActor("man", _man);
-	_currentScene->AddActor("box", _box);
+	//_currentScene->AddActor("box", _box);
 	_currentScene->AddActor("ground", _ground);
+	//_currentScene->AddActor("house", _house);
 	
 
 	Game::Load();

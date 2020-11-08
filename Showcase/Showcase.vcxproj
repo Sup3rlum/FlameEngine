@@ -166,6 +166,8 @@
     <None Include="shaders\ssao.vert" />
     <None Include="shaders\ssao_blur.frag" />
     <None Include="shaders\ssao_blur.vert" />
+    <None Include="shaders\ssao_final.frag" />
+    <None Include="shaders\ssao_final.vert" />
     <None Include="shaders\ssao_geom.frag" />
     <None Include="shaders\ssao_geom.vert" />
     <None Include="shaders\ssao_light.frag" />

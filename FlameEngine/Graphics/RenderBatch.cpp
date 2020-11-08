@@ -88,6 +88,23 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	_vb->RenderIndexed(GL_TRIANGLES);
 }
 
+void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Shader* _sh)
+{
+	RenderState::Push(State);
+
+	_sh->SetMatrix("View", View);
+	_sh->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+
+	for (int i = 0; i < count; i++)
+	{
+		_sh->SetTexture(i, _tex[i]);
+	}
+
+	_vb->RenderIndexed(GL_TRIANGLES);
+
+	RenderState::Pop();
+}
+
 void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, fMatrix4 MatrixTransforms, Shader* _sh)
 {
 	for (int i = 0; i < count; i++)
@@ -98,6 +115,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 
 	_vb->RenderIndexed(GL_TRIANGLES);
 }
+
 
 
 void RenderBatch::DrawString(string text, Font* font, float x, float y, Color color)

@@ -14,6 +14,7 @@ public:
 
 	void Render();
 	void RenderDepth();
+	void RenderSsao();
 
 	Model model;
 };

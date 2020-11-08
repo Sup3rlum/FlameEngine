@@ -9,29 +9,13 @@
 
 using namespace glm;
 
-EXPORT_ENUM CameraType
-{
-	STATIC = 1,
-	FIRSTPERSON = 2,
-	THIRDPERSON = 3,
-	TRACKBALL = 4
-};
-EXPORT_ENUM ProjectionType
-{
-	PERSPECTIVE = 1,
-	ORTHOGRAPHIC = 2
-};
-
 
 EXPORT_CLASS Camera
 {
 
 public:
-	Camera(Context* _cont, CameraType _camType, ProjectionType _projType);
+	Camera();
 	~Camera();
-
-	CameraType Type;
-	ProjectionType ProjType;
 
 	fMatrix4 View;
 	fMatrix4 DebugView;
@@ -43,16 +27,9 @@ public:
 	fVector3 Right;
 	fVector3 Up;
 
-	float Fov = 45.0f;
 
-	float horizontalAngle;
-	float verticalAngle;
+	virtual void Update();
 
-	void Update();
 
-	float mouseSpeed = 0.3f;
-	float flySpeed = 10.0f;
-
-	Context* _currentContext;
 };
 

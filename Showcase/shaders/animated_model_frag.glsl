@@ -27,13 +27,19 @@ uniform float zFar = 100.0f;*/
 
 float VarianceShadow(sampler2D shadowMap, vec2 coords, float compare)
 {
+	if (coords.x < 0.05 || coords.x > 0.95 || coords.y < 0.05 || coords.y > 0.95)
+	{
+		return 0.0;
+	}
+
+
 	vec2 moments = texture2D(shadowMap, coords.xy).xy;
 
 	float p = step(compare, moments.x);
 	float variance = max(moments.y - moments.x * moments.x, 0.00002);
 
 	float d = compare - moments.x;
-	float pMax = variance / (variance + d * d);
+	float pMax = smoothstep(0.2, 1.0, variance / (variance + d * d));
 
 
 	return 1.0 - min(max(p, pMax), 1.0);
@@ -109,7 +115,9 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     float currentDepth = projCoords.z;
 	
 
+    //return PcfShadow(_shadowMap, projCoords.xy, currentDepth);
     return VarianceShadow(_shadowMap, projCoords.xy, currentDepth);
+    //return SimpleShadow(_shadowMap, projCoords.xy, currentDepth);
 }  
 
 void main() 
@@ -122,8 +130,8 @@ void main()
     vec3 ambient = 0.15 * color;
 	
     // diffuse
-    float diff = max(dot(-DirectionalLights[0].Direction, normal), 0.0);
-    vec3 diffuse = diff * lightColor;
+    float diff = max(dot(-normalize(DirectionalLights[0].Direction), normal), 0.0);
+    vec3 diffuse = diff * lightColor * DirectionalLights[0].Color.rgb * DirectionalLights[0].Intensity;
 
 	
     // calculate shadow

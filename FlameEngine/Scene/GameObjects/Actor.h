@@ -21,6 +21,7 @@ public:
 
 	fVector3 Position;
 	Quaternion Rotation;
+	fVector3 Scale;
 
 	Scene* _scene;
 

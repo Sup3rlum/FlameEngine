@@ -37,8 +37,8 @@ Font::Font(const char* _fontName, int _fontSize)
 
 		_texture->SetParameter(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		_texture->SetParameter(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		_texture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		_texture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		_texture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		_texture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
 		// Now store character for later use

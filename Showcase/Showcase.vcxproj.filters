@@ -85,6 +85,12 @@
     <None Include="shaders\gauss_blur.frag">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\ssao_final.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_final.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
