@@ -7,8 +7,9 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 These are the current features FlameEngine has as of now:
 
 - A scene/actor system
-- Rendering and asset pipeline using custom models, materials and shaders.
+- Hybrid rendering and asset pipeline using custom models, materials and shaders.
 - Variance Soft Shadow Mapping
+- SSAO
 
 Some of the the upcoming features I am currently working on:
 
@@ -16,6 +17,21 @@ Some of the the upcoming features I am currently working on:
 - GUI
 - Animation
 - Scripting
+
+## Images
+
+<img src="https://media.discordapp.net/attachments/717866375212826705/773742234323124244/unknown.png" width="562" height="512">
+
+## Dependencies
+
+- OpenGL 4.5 support
+- glew
+- GLFW
+- Freetype2
+- OpenSSL
+- C# 8 (Corresponding Roslyn version for x-Platform compilation)
+- .NET Core 3.1
+
 
 ## Licensing
 
