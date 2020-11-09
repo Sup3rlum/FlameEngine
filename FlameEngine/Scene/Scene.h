@@ -32,7 +32,6 @@ public:
 
 	std::vector<DirectionalLight> LightCollection;
 
-	Texture* _depthMap;
 	FrameBuffer* _frameBuffer;
 	FrameBuffer* _blurFrameBuffer;
 	Context* _context;
@@ -47,7 +46,6 @@ public:
 	Shader* _ssaoFinal;
 
 	Texture* _tex;
-	Texture* _depth;
 
 	Texture* _blurTexture;
 
@@ -57,9 +55,10 @@ public:
 	Texture* _gBuffer;
 	Texture* _nBuffer;
 	Texture* _aBuffer;
-	Texture* _wpBuffer;
-	Texture* _dBuffer;
+	Texture* _depthMap;
 
+
+	Texture* _ssaoKernelTexture;
 	Texture* _ssaoTexture;
 
 	Texture* _ssaoNoise;

@@ -78,6 +78,6 @@ void DebugView::Draw(Camera* _cam)
 }
 void DebugView::Update()
 {
-	if (FrameTime::EllapsedFrames % 1000 == 0)
+	if (FrameTime::EllapsedFrames % 10 == 0)
 		_fps = (int)(1.0 / FrameTime::FrameDeltaTime.count());
 }

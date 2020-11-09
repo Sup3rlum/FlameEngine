@@ -8,7 +8,7 @@ FpsCamera::FpsCamera(Context* _cont)
 	verticalAngle = -quarter_pi<float>();
 
 
-	Projection = perspective(radians(Fov), 16.0f / 9.0f, 0.1f, 1000.0f);
+	Projection = perspective(radians(Fov), 16.0f / 9.0f, 1.0f, 100.0f);
 
 
 	ProjectionInverse = inverse(Projection);
@@ -81,4 +81,15 @@ void FpsCamera::Update()
 
 	View = lookAt(Position, Position + Target, Up);
 	DebugView = lookAt(-Target * 20.0f, fVector3(0), Up);
+
+	mat3 m(View);
+
+	m = transpose(m);
+
+	mat4 m2(m);
+
+	m2[3][3] = 1.0f;
+
+	ViewInverse = translate(identity<fMatrix4>(), Position) * m2;
+
 }

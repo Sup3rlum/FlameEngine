@@ -421,5 +421,8 @@
     <Filter Include="Scene\Environment">
       <UniqueIdentifier>{6ce24966-fafa-424a-82e9-76a2e3c948f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\PostProcess">
+      <UniqueIdentifier>{55f6c696-3c15-4ff9-bdfa-4d8c5d4f3611}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

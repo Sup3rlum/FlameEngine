@@ -134,7 +134,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>D:\Projects\DelusionEngine\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Projects\FlameEngine\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>FlameEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -158,12 +158,14 @@
     <None Include="shaders\frag.glsl" />
     <None Include="shaders\gauss_blur.frag" />
     <None Include="shaders\geom.glsl" />
+    <None Include="shaders\geom_preserve_blur.frag" />
     <None Include="shaders\renderbatch.frag" />
     <None Include="shaders\renderbatch.vert" />
     <None Include="shaders\renderbatch_string.frag" />
     <None Include="shaders\renderbatch_string.vert" />
     <None Include="shaders\ssao.frag" />
     <None Include="shaders\ssao.vert" />
+    <None Include="shaders\ssao2.frag" />
     <None Include="shaders\ssao_blur.frag" />
     <None Include="shaders\ssao_blur.vert" />
     <None Include="shaders\ssao_final.frag" />

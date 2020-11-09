@@ -10,9 +10,9 @@ int main()
 
 	ContextDescription _contextDesc;
 
-	_contextDesc.contextSampleCount = 8;
+	_contextDesc.contextSampleCount = 1;
 	_contextDesc.contextMajorVersion = 4;
-	_contextDesc.contextMinorVersion = 1;
+	_contextDesc.contextMinorVersion = 5;
 	_contextDesc.contextProfile = ContextProfile::OPENGL_CORE;
 	_contextDesc.contextCompatibility = 1;
 	_contextDesc.width = 2560;

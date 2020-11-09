@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 
-GLenum attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+GLenum attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
 
 float Scene::lerp(float a, float b, float f)
 {
@@ -23,26 +23,17 @@ Scene::Scene(Context* _cont)
 
 	_tex = new Texture(".\\textures\\dirt.jpg");
 
-	_depthMap = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT, true);
+	_depthMap = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, true);
 	_depthMap->Bind();
 	_depthMap->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	_depthMap->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	_depthMap->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
 	_depthMap->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_depthMap->SetParameterf(GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
 	_depthMap->Unbind();
 
 
-	_depth = new Texture(2560, 1440, GL_DEPTH_COMPONENT, GL_DEPTH_COMPONENT, GL_FLOAT, true);
-	_depth->Bind();
-	_depth->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_depth->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_depth->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_depth->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_depth->Unbind();
 
-
-	_blurTexture = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT, true);
+	_blurTexture = new Texture(2560, 1440, GL_RGB32F, GL_RGBA, GL_FLOAT, true);
 	_blurTexture->Bind();
 	_blurTexture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	_blurTexture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -75,7 +66,7 @@ Scene::Scene(Context* _cont)
 	_SkyRenderState->DepthFunction = DepthFunc::Never;
 
 
-	_gBuffer = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
+	_gBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGB, GL_FLOAT, false);
 	_gBuffer->Bind();
 	_gBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	_gBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -99,21 +90,6 @@ Scene::Scene(Context* _cont)
 	_aBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
 	_aBuffer->Unbind();
 
-	_dBuffer = new Texture(2560, 1440, GL_DEPTH_COMPONENT, GL_DEPTH_COMPONENT, GL_FLOAT, false);
-	_dBuffer->Bind();
-	_dBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_dBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_dBuffer->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_dBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_dBuffer->Unbind();
-
-	_wpBuffer = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_wpBuffer->Bind();
-	_wpBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_wpBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_wpBuffer->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_wpBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_wpBuffer->Unbind();
 
 
 	_ssaoTexture = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
@@ -132,12 +108,11 @@ Scene::Scene(Context* _cont)
 	_sceneFrameBuffer->BindTexture(_gBuffer, GL_COLOR_ATTACHMENT0);
 	_sceneFrameBuffer->BindTexture(_nBuffer, GL_COLOR_ATTACHMENT1);
 	_sceneFrameBuffer->BindTexture(_aBuffer, GL_COLOR_ATTACHMENT2);
-	_sceneFrameBuffer->BindTexture(_wpBuffer, GL_COLOR_ATTACHMENT3);
-	//_sceneFrameBuffer->BindTexture(_dBuffer, GL_DEPTH_COMPONENT);
+	//_sceneFrameBuffer->BindTexture(_wpBuffer, GL_COLOR_ATTACHMENT3);
 
 	_sceneFrameBuffer->EnableDepth();
 
-	_sceneFrameBuffer->SetAttachments(attachments, 4);
+	_sceneFrameBuffer->SetAttachments(attachments, 3);
 
 	_sceneFrameBuffer->Unbind();
 
@@ -153,7 +128,7 @@ Scene::Scene(Context* _cont)
 	std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
 	std::default_random_engine generator;
 
-	for (unsigned int i = 0; i < 16; ++i)
+	for (unsigned int i = 0; i < 64; ++i)
 	{
 		fVector3 sample(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator));
 		sample = glm::normalize(sample);
@@ -188,9 +163,25 @@ Scene::Scene(Context* _cont)
 	_ssaoNoise->Unbind();
 
 
+	_ssaoKernelTexture = new Texture(8, 8, GL_RGB32F, GL_RGB, GL_FLOAT, false);
+	_ssaoKernelTexture->Bind();
+	{
+		_ssaoKernelTexture->SetData(&ssaoKernel[0]);
+
+		_ssaoKernelTexture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		_ssaoKernelTexture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		_ssaoKernelTexture->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
+		_ssaoKernelTexture->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+	_ssaoKernelTexture->Unbind();
+
 
 	_skybox = new Sky(this);
 	AssetManager::LoadModel("skybox.fl3d", &_skybox->_skyboxModel);
+
+
+
+
 
 
 	_renderBatch = new RenderBatch(_cont);
@@ -210,7 +201,7 @@ void Scene::Render()
 	_frameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		PushCamera(LightCollection[0].LightCamera());
@@ -230,7 +221,7 @@ void Scene::Render()
 	_blurFrameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -244,7 +235,7 @@ void Scene::Render()
 	_frameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -261,7 +252,7 @@ void Scene::Render()
 
 
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -280,20 +271,17 @@ void Scene::Render()
 
 	_ssaoFrameBuffer->Bind();
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		_ssaoShader->UseProgram();
-		_ssaoShader->SetMatrix("projection",	CurrentCamera()->Projection);
-		_ssaoShader->SetMatrix("view",			CurrentCamera()->View);
+		_ssaoShader->SetMatrix("Projection",		CurrentCamera()->Projection);
+		_ssaoShader->SetMatrix("InverseProjection",	CurrentCamera()->ProjectionInverse);
+		_ssaoShader->SetMatrix("SceneView",			CurrentCamera()->View);
+		_ssaoShader->SetInt("KernelSize",			24);
 
-		for (int i = 0; i < 16; i++)
-		{
-			_ssaoShader->SetVector("SSAOKernel[" + std::to_string(i) + "]", ssaoKernel[i]);
-		}
-
-		int pLocation = glGetUniformLocation(_ssaoShader->_programID, "gPosition");
+		int pLocation = glGetUniformLocation(_ssaoShader->_programID, "gDepth");
 		int nLocation = glGetUniformLocation(_ssaoShader->_programID, "gNormal");
 		int tnLocation = glGetUniformLocation(_ssaoShader->_programID, "texNoise");
 
@@ -305,11 +293,11 @@ void Scene::Render()
 
 	}
 	_ssaoFrameBuffer->Unbind();
-
+	
 	_blurFrameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -323,7 +311,7 @@ void Scene::Render()
 	_ssaoFrameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -339,47 +327,36 @@ void Scene::Render()
 	// SSAO SHADER -----------------------------------------------
 
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 
 	_ssaoFinal->UseProgram();
-	_ssaoFinal->SetMatrix("View",				CurrentCamera()->View);
-	_ssaoFinal->SetMatrix("LightViewProjection", LightCollection[0].Projection * LightCollection[0].View);
+	_ssaoFinal->SetMatrix("InverseProjection",		CurrentCamera()->ProjectionInverse);
+	_ssaoFinal->SetMatrix("InverseView",			CurrentCamera()->ViewInverse);
+	_ssaoFinal->SetMatrix("LightViewProjection",	LightCollection[0].Projection * LightCollection[0].View);
 
 	_ssaoFinal->SetVector("DirectionalLights[0].Direction",		LightCollection[0].Direction);
 	_ssaoFinal->SetVector("DirectionalLights[0].Color",			LightCollection[0].LightColor);
 	_ssaoFinal->SetFloat("DirectionalLights[0].Intensity",		LightCollection[0].Intensity);
 
 
-	int pLoc = glGetUniformLocation(_ssaoFinal->_programID, "gPosition");
+	int pLoc = glGetUniformLocation(_ssaoFinal->_programID, "gDepth");
 	int nLoc = glGetUniformLocation(_ssaoFinal->_programID, "gNormal");
 	int aLoc = glGetUniformLocation(_ssaoFinal->_programID, "gAlbedo");
 	int ssLoc = glGetUniformLocation(_ssaoFinal->_programID, "ssao");
 	int smLoc = glGetUniformLocation(_ssaoFinal->_programID, "_shadowMap");
-	int wpLoc = glGetUniformLocation(_ssaoFinal->_programID, "gWorldPosition");
 
 	glUniform1i(pLoc, 0);
 	glUniform1i(nLoc, 1);
 	glUniform1i(aLoc, 2);
 	glUniform1i(ssLoc, 3);
 	glUniform1i(smLoc, 4);
-	glUniform1i(wpLoc, 5);
 
 
+	_renderBatch->DrawTextures(5, new Texture * [5]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap }, 0, 0, 2560, 1440, _ssaoFinal);
 
-
-	_renderBatch->DrawTextures(6, new Texture * [6]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap, _wpBuffer }, 0, 0, 2560, 1440, _ssaoFinal);
-
-
-	
-	//enderBatch->DrawTexture(_gBuffer, 1000.0f, 0.0f, 200.0f, 200.0f);
-	//_renderBatch->DrawTexture(_nBuffer, 1200.0f, 0.0f, 200.0f, 200.0f);
-	//_renderBatch->DrawTexture(_aBuffer, 1400.0f, 0.0f, 200.0f, 200.0f);
-	//_renderBatch->DrawTexture(_wpBuffer, 2000.0f, 0.0f, 200.0f, 200.0f);
-	//_renderBatch->DrawTexture(_ssaoTexture, 1600.0f, 0.0f, 200.0f, 200.0f);
-	_renderBatch->DrawTexture(_depthMap, 1800.0f, 0.0f, 200.0f, 200.0f);
 
 	DebugView::Draw(CurrentCamera());
 

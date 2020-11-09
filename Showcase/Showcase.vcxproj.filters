@@ -91,6 +91,12 @@
     <None Include="shaders\ssao_final.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\ssao2.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\geom_preserve_blur.frag">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

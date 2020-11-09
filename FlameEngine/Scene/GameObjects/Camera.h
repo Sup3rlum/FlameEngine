@@ -21,6 +21,7 @@ public:
 	fMatrix4 DebugView;
 	fMatrix4 Projection;
 	fMatrix4 ProjectionInverse;
+	fMatrix4 ViewInverse;
 
 	fVector3 Position;
 	fVector3 Target;

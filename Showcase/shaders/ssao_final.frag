@@ -4,14 +4,14 @@ out vec4 FragColor;
 
 in vec2 fTexcoord;
 
-uniform sampler2D gPosition;
+uniform sampler2D gDepth;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D ssao;
 uniform sampler2D _shadowMap;
-uniform sampler2D gWorldPosition;
 
-uniform mat4x4 View;
+uniform mat4x4 InverseProjection;
+uniform mat4x4 InverseView;
 uniform mat4x4 LightViewProjection;
 
 struct DirectionalLight
@@ -25,6 +25,26 @@ struct DirectionalLight
 uniform DirectionalLight DirectionalLights[3];
 
 
+
+vec3 UnpackNormal(vec2 tCoord)
+{
+	return normalize(texture(gNormal,tCoord).rgb * 2.0 - 1.0);
+}
+float GetDepth(vec2 tCoord)
+{
+	return texture(gDepth, tCoord).r * 2.0 - 1.0;
+}
+
+vec3 UnpackPosition(vec2 tCoord)
+{
+
+	float d = GetDepth(tCoord);
+
+
+	vec4 tray = InverseProjection * vec4(tCoord * 2.0 - 1.0, d, 1.0);
+
+	return tray.xyz / tray.w;
+}
 
 
 float VarianceShadow(sampler2D shadowMap, vec2 coords, float compare)
@@ -81,12 +101,13 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 void main()
 {             
     // retrieve data from gbuffer
-    vec4 FragPos = texture(gPosition, fTexcoord);
-    vec3 Normal =  texture(gNormal, fTexcoord).rgb * 2.0 - 1.0;
+    //vec4 FragPos = texture(gPosition, fTexcoord);
+    vec4 FragPos = vec4(UnpackPosition(fTexcoord), 1.0);
+    vec3 Normal =  UnpackNormal(fTexcoord);
     vec3 Albedo = texture(gAlbedo, fTexcoord).rgb;
 
 
-	vec4 fragPosLightSpace = LightViewProjection * vec4(texture(gWorldPosition, fTexcoord).rgb, 1.0);
+	vec4 fragPosLightSpace = LightViewProjection * InverseView * FragPos;
 
 
 	float AmbientOcclusion = texture(ssao, fTexcoord).r;
