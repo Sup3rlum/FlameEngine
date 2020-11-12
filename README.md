@@ -13,6 +13,7 @@ These are the current features FlameEngine has as of now:
 
 Some of the the upcoming features I am currently working on:
 
+- SIMD Accelerated mathematics
 - Physics
 - GUI
 - Animation
