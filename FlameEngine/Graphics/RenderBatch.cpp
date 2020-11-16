@@ -21,7 +21,7 @@ GLuint _ind[6]
 
 RenderBatch::RenderBatch(Context* _c)
 {
-	View = ortho(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
+	View = fMatrix4::CreateOrthographic(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
 	_shader			= Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
 	_shaderString	= Shader::FromSource("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
@@ -49,7 +49,7 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	_shader->UseProgram();
 
 	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -62,7 +62,7 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	RenderState::Push(State);
 
 	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+	_sh->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
 	_sh->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -78,7 +78,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	_shader->UseProgram();
 
 	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -93,7 +93,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	RenderState::Push(State);
 
 	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", translate(identity<fMatrix4>(), fVector3(x, y, 0)) * scale(identity<fMatrix4>(), fVector3(width, height, 1)));
+	_sh->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -134,13 +134,14 @@ void RenderBatch::DrawString(string text, Font* font, float x, float y, Color co
 
 		_shaderString->SetMatrix(
 			"MatrixTransforms",
-			translate
+			fMatrix4::Translation
 			(
-				identity<fMatrix4>(),
+
 				fVector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
-			) * scale
+			) 
+			* 
+			fMatrix4::Scaling
 			(
-				identity<fMatrix4>(),
 				fVector3(ch.Size.x, ch.Size.y, 1)
 			)
 		);

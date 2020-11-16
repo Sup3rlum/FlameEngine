@@ -11,6 +11,7 @@
 #include "../Graphics/FrameBuffer.h"
 #include "../Context/Context.h"
 #include "../IO/AssetManager.h"
+#include "../Mathematics/Module.h"
 
 EXPORT_CLASS Scene
 {

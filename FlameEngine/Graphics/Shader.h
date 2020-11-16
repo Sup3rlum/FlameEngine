@@ -6,7 +6,6 @@
 #include "../Graphics/Color.h"
 
 using namespace std;
-using namespace glm;
 
 EXPORT_CLASS Shader
 {

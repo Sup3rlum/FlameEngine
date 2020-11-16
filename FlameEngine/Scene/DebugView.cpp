@@ -55,13 +55,15 @@ void DebugView::Draw(Camera* _cam)
 
 	_shader->SetMatrix("View", _cam->DebugView);
 	_shader->SetMatrix("Projection", _cam->Projection);
-	_shader->SetMatrix("World", identity<fMatrix4>());
+	_shader->SetMatrix("World", fMatrix4::Identity());
 
 	_vb->Render(GL_LINES);
 
 	char a[256];
 	char b[256];
 	char c[256];
+
+
 
 	sprintf_s(a, "FPS: %i", _fps);
 	sprintf_s(b, "Position: X:%i Y:%i Z:%i", (int)_cam->Position.x, (int)_cam->Position.y, (int)_cam->Position.z);
@@ -70,6 +72,8 @@ void DebugView::Draw(Camera* _cam)
 	_renderBatch->DrawString(a, _debugFont, 0, 20, Color::white);
 	_renderBatch->DrawString(b, _debugFont, 0, 40, Color::white);
 	_renderBatch->DrawString(c, _debugFont, 0, 60, Color::white);
+
+
 
 	glEnable(GL_DEPTH_TEST);
 

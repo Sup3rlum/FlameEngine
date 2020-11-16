@@ -1,12 +1,15 @@
 #include "Frustum.h"
 
-Frustum::Frustum(mat4 PV)
+Frustum::Frustum(fMatrix4 PV)
 {
-	vec4 row[4];
+	fVector4 row[4];
+
+
+	fMatrix4 pvTrans = fMatrix4::Transpose(PV);
 
 	for (int i = 0; i < 4; i++)
 	{
-		row[i] = transpose(PV)[i];
+		row[i] = pvTrans[i];
 	}
 
 	/*zNear =		Plane(row[3] + row[2]);
@@ -38,7 +41,7 @@ bool Frustum::Contains(fVector3 _p)
 
 IntersectionType Frustum::Intersects(BoundingBox _b)
 {
-	vec3* corns = _b.GetCorners();
+	fVector3* corns = _b.GetCorners();
 
 	IntersectionType type = IntersectionType::Contains;
 

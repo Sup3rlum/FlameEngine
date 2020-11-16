@@ -13,8 +13,7 @@ public:
 	GameEntity(STRING _modelName);
 
 	void Render();
-	void RenderDepth();
-	void RenderSsao();
+	void Update(FrameTime* _frameTime);
 
 	Model model;
 };

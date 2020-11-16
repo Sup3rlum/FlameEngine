@@ -2,8 +2,8 @@
 
 #include "../dll/nchfx.h"
 #include "../util/stb_image.h"
+#include "../Mathematics/Module.h"
 
-using namespace glm;
 
 EXPORT_CLASS Texture
 {
@@ -44,6 +44,6 @@ public:
 
 	GLenum TextureType;
 
-	vec4 GetData(int w, int h);
+	fVector4 GetData(int w, int h);
 };
 

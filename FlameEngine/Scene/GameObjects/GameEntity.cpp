@@ -10,14 +10,11 @@ GameEntity::GameEntity(STRING _modelName)
 
 void GameEntity::Render()
 {
-	model.Render(translate(identity<fMatrix4>(), Position) * scale(identity<fMatrix4>(), Scale), _scene);
+	model.Render(fMatrix4::Translation(Position) * fMatrix4::Scaling( Scale) , _scene);
 }
-/*
-void GameEntity::RenderDepth()
+
+
+void GameEntity::Update(FrameTime* _frameTime)
 {
-	model.RenderDepth(translate(identity<fMatrix4>(), Position) * scale(identity<fMatrix4>(), Scale), _scene);
+
 }
-void GameEntity::RenderSsao()
-{
-	model.RenderSsao(translate(identity<fMatrix4>(), Position) * scale(identity<fMatrix4>(), Scale) , _scene);
-}*/

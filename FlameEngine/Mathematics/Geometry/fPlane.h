@@ -1,10 +1,8 @@
 #pragma once
 
-
 #include "../../dll/nchfx.h"
 
-
-class AnimatedModel
+EXPORT_CLASS fPlane
 {
 };
 

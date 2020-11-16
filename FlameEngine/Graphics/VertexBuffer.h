@@ -4,7 +4,6 @@
 
 #include "../Graphics/VertexElements.h"
 
-using namespace glm;
 using namespace std;
 
 

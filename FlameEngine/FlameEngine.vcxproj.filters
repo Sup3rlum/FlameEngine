@@ -58,18 +58,6 @@
     <ClCompile Include="IO\Memory.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="imgui\imgui.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\BoundingBox.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -148,6 +136,31 @@
     <ClCompile Include="Scene\GameObjects\FpsCamera.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Mathematics\Types\fMatrix2.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fMatrix3.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fMatrix4.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fQuaternion.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fVector2.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fVector3.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Types\fVector4.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp" />
+    <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
+    <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
+    <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -207,21 +220,6 @@
     <ClInclude Include="IO\Memory.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\imgui.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_rectpack.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_textedit.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_truetype.h">
-      <Filter>ImGUI</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\BoundingBox.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -254,9 +252,6 @@
     </ClInclude>
     <ClInclude Include="dll\framework.h">
       <Filter>dll</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imconfig.h">
-      <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="util\result.h">
       <Filter>util</Filter>
@@ -318,6 +313,35 @@
     <ClInclude Include="Scene\GameObjects\FpsCamera.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Mathematics\Types\fMatrix2.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fMatrix3.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fMatrix4.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fQuaternion.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fVector2.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fVector3.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Types\fVector4.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsWorld.h" />
+    <ClInclude Include="Scene\GameObjects\UpdatableObject.h" />
+    <ClInclude Include="dll\conversions.h" />
+    <ClInclude Include="Mathematics\Utilities\BezierCurve.h" />
+    <ClInclude Include="Mathematics\Geometry\fPlane.h" />
+    <ClInclude Include="Mathematics\Module.h" />
+    <ClInclude Include="Mathematics\Constants.h" />
+    <ClInclude Include="Mathematics\Conversions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -388,9 +412,6 @@
     <Filter Include="IO">
       <UniqueIdentifier>{74c78f49-27f6-42fc-8bb6-d55cab2f4b96}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGUI">
-      <UniqueIdentifier>{4de0dd90-c4da-43a2-8597-588da20d7a7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="dll">
       <UniqueIdentifier>{37f3f280-f0ef-4511-a856-864b9c46866f}</UniqueIdentifier>
     </Filter>
@@ -423,6 +444,30 @@
     </Filter>
     <Filter Include="Scene\PostProcess">
       <UniqueIdentifier>{55f6c696-3c15-4ff9-bdfa-4d8c5d4f3611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics">
+      <UniqueIdentifier>{312fd924-4352-4f29-b195-d2718fc0337d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics\Collisions">
+      <UniqueIdentifier>{68b0b335-cdf7-4b79-b7e8-3c9f60877b97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics\Constraints">
+      <UniqueIdentifier>{b55840a4-41d6-41c6-b68b-2a61d1a2e636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics\Bodies">
+      <UniqueIdentifier>{83a83d25-3bcd-4d13-96a0-77501c94f0f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics\World">
+      <UniqueIdentifier>{34142307-9263-47f8-9841-f8ebcc5f3eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Phsyics\Debug">
+      <UniqueIdentifier>{cc9291bc-9db6-4d33-9fbe-71e4c9cb9b6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mathematics">
+      <UniqueIdentifier>{b81e87c7-c4d0-4611-91ae-df827af4a111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mathematics\Types">
+      <UniqueIdentifier>{ab603570-9a2f-496e-9a94-f6c4797d337b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

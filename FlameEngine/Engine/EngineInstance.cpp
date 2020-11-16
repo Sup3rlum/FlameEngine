@@ -68,7 +68,7 @@ DRESULT EngineInstance::Start()
 	}
 
 
-	while (!(_currentContext->shouldTerminate) && IsAttached)
+	while (!(_currentContext->shouldTerminate) && IsAttached && _game != nullptr)
 	{
 		_game->_currentScene->Update();
 		_game->_currentScene->Render();

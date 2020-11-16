@@ -28,7 +28,7 @@ vector<VertexElements> VertexColor::Elements =
 	VertexElements(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0),
 	VertexElements(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)))
 };
-
+/*
 
 vector<VertexElements> AnimatedModelVertex::Elements =
 {
@@ -38,4 +38,4 @@ vector<VertexElements> AnimatedModelVertex::Elements =
 
 	VertexElements(3, 4, GL_INT,   GL_FALSE, 16 * sizeof(float), (void*)(8 * sizeof(float))),	// Joint IDs
 	VertexElements(4, 4, GL_FLOAT, GL_FALSE, 16 * sizeof(float), (void*)(12 * sizeof(float))),  // Joint Weights
-};
+};*/

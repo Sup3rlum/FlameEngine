@@ -9,7 +9,7 @@ Ray::Ray(fVector3 p, fVector3 d)
 
 bool Ray::Intersects(Plane p, fVector3 &out)
 {
-	float mu = (-p._internal.w - dot(Position, p.Normal())) / dot(Direction, p.Normal());
+	float mu = (-p._internal.w - fVector3::Dot(Position, p.Normal())) / fVector3::Dot(Direction, p.Normal());
 
 	if (mu < 0)
 	{

@@ -1,23 +1,23 @@
 #pragma once
 
 #include "../dll/nchfx.h"
+#include "../Mathematics/Module.h"
 
-using namespace glm;
 
 EXPORT_CLASS BoundingBox
 {
 public:
-	vec3 Min;
-	vec3 Max;
-	mat4 Rotation;
+	fVector3 Min;
+	fVector3 Max;
+	fMatrix4 Rotation;
 
 	BoundingBox();
-	BoundingBox(vec3 min, vec3 max);
-	BoundingBox(vec3 min, vec3 max, mat4 rot);
+	BoundingBox(fVector3 min, fVector3 max);
+	BoundingBox(fVector3 min, fVector3 max, fMatrix4 rot);
 
-	vec3* GetCorners();
+	fVector3* GetCorners();
 
-	bool Contains(vec3 p);
+	bool Contains(fVector3 p);
 
 };
 

@@ -4,14 +4,14 @@ FpsCamera::FpsCamera(Context* _cont)
 {
 	_currentContext = _cont;
 
-	horizontalAngle = -half_pi<float>();
-	verticalAngle = -quarter_pi<float>();
+	horizontalAngle = -HALF_PI;
+	verticalAngle = -QUARTER_PI;
 
 
-	Projection = perspective(radians(Fov), 16.0f / 9.0f, 1.0f, 100.0f);
+	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 100.0f);
 
 
-	ProjectionInverse = inverse(Projection);
+	ProjectionInverse = fMatrix4::Inverse(Projection);
 
 	Position = fVector3(5.0f, 5.0f, 5.0f);
 
@@ -21,13 +21,13 @@ FpsCamera::FpsCamera(Context* _cont)
 void FpsCamera::Update()
 {
 
-	if (verticalAngle > half_pi<float>() - 0.1f)
+	if (verticalAngle > HALF_PI - 0.1f)
 	{
-		verticalAngle = half_pi<float>() - 0.1f;
+		verticalAngle = HALF_PI - 0.1f;
 	}
-	else if (verticalAngle < -half_pi<float>() + 0.1f)
+	else if (verticalAngle < -HALF_PI + 0.1f)
 	{
-		verticalAngle = -half_pi<float>() + 0.1f;
+		verticalAngle = -HALF_PI + 0.1f;
 	}
 
 
@@ -45,6 +45,7 @@ void FpsCamera::Update()
 	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->width / 2.0f - (float)xpos);
 	verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0f - (float)ypos);
 
+
 	Target = fVector3
 	(
 		cos(verticalAngle) * sin(horizontalAngle),
@@ -54,12 +55,12 @@ void FpsCamera::Update()
 
 	Right = fVector3
 	(
-		sin(horizontalAngle - half_pi<float>()),
+		sin(horizontalAngle - HALF_PI),
 		0,
-		cos(horizontalAngle - half_pi<float>())
+		cos(horizontalAngle - HALF_PI)
 	);
 
-	Up = cross(Right, Target);
+	Up = fVector3::Cross(Right, Target);
 
 	if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
 	{
@@ -79,17 +80,19 @@ void FpsCamera::Update()
 	}
 
 
-	View = lookAt(Position, Position + Target, Up);
-	DebugView = lookAt(-Target * 20.0f, fVector3(0), Up);
+	View = fMatrix4::CreateView(Position, Position + Target, fVector3(0, 1, 0));
+	//View = fMatrix4::CreateView(fVector3(20, 20, 20), fVector3(0), fVector3(0, 1, 0));
 
-	mat3 m(View);
+	DebugView = fMatrix4::CreateView(-Target * 20.0f, fVector3(0), Up);
 
-	m = transpose(m);
+	fMatrix3 m = fMatrix4::ToMatrix3(View);
 
-	mat4 m2(m);
+	m = fMatrix3::Transpose(m);
+
+	fMatrix4 m2(m);
 
 	m2[3][3] = 1.0f;
 
-	ViewInverse = translate(identity<fMatrix4>(), Position) * m2;
+	ViewInverse = fMatrix4::Translation(Position) * m2;
 
 }

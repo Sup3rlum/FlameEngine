@@ -2,9 +2,10 @@
 
 #include "../dll/nchfx.h"
 #include "../Graphics/VertexElements.h"
+#include "../Mathematics/Module.h"
 
-using namespace glm;
 using namespace std;
+
 
 EXPORT_STRUCT VertexNormalTexture
 {
@@ -67,7 +68,7 @@ EXPORT_STRUCT VertexNormalTextureAmbience
 
 	static vector<VertexElements> Elements;
 };
-
+/*
 EXPORT_STRUCT AnimatedModelVertex
 {
 
@@ -90,4 +91,4 @@ EXPORT_STRUCT AnimatedModelVertex
 	}
 
 	static vector<VertexElements> Elements;
-};
+};*/

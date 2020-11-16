@@ -5,13 +5,13 @@
 
 #include "../../Graphics/Shader.h"
 #include "RenderableObject.h"
+#include "UpdatableObject.h"
 
 
-using namespace glm;
 
 EXPORT_CLASS Scene;
 
-EXPORT_CLASS Actor : public RenderableObject
+EXPORT_CLASS Actor : public RenderableObject, public UpdatableObject
 {
 public:
 	
@@ -20,8 +20,9 @@ public:
 	Actor();
 
 	fVector3 Position;
-	Quaternion Rotation;
+	fQuaternion Rotation;
 	fVector3 Scale;
+
 
 	Scene* _scene;
 

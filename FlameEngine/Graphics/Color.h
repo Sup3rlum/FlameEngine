@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../dll/nchfx.h"
-
+#include "../Mathematics/Module.h"
 
 
 

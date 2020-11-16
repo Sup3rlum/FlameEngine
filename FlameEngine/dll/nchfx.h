@@ -1,12 +1,6 @@
 #pragma once
 
 
-
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -27,6 +21,9 @@
 #include <mutex>
 #include <thread>
 #include <stack>
+#include <cassert>
+
+#include <immintrin.h>
 
 #include "framework.h"
 #include "logger.h"
@@ -42,18 +39,3 @@
 
 #define FL_HANDLE _UNS_ FL_INT32
 
-
-
-
-typedef glm::mat3x3 fMatrix3;
-typedef glm::mat4x4 fMatrix4;
-
-
-typedef glm::vec2 fVector2;
-typedef glm::vec3 fVector3;
-typedef glm::vec4 fVector4;
-typedef glm::quat Quaternion;
-
-typedef glm::ivec2 iVector2;
-typedef glm::ivec3 iVector3;
-typedef glm::ivec4 iVector4;

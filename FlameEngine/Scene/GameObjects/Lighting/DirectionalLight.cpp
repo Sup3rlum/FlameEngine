@@ -9,8 +9,8 @@ DirectionalLight::DirectionalLight(fVector3 _direction, Color _lightColor, float
 	_positionInternal = fVector3(20.0f, 20.0f, 20.0f);
 
 
-	View = glm::lookAt(_positionInternal, _positionInternal + Direction, fVector3(0, 1, 0));
-	Projection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
+	View = fMatrix4::CreateView(_positionInternal, _positionInternal + Direction, fVector3(0, 1, 0));
+	Projection = fMatrix4::CreateOrthographic(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
 
 	_cam.Position = _positionInternal;
 	_cam.View = View;

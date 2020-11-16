@@ -20,6 +20,7 @@ public:
 	float mouseSpeed = 0.3f;
 	float flySpeed = 10.0f;
 
+
 	Context* _currentContext;
 };
 

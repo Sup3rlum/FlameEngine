@@ -2,7 +2,7 @@
 
 #include "../../../dll/nchfx.h"
 #include "../../../Graphics/Color.h"
-
+#include "../../../Mathematics/Module.h"
 
 EXPORT_STRUCT Light
 {

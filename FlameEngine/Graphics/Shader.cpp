@@ -160,11 +160,12 @@ void Shader::UseProgram()
 }
 void Shader::SetMatrix(const string &name, fMatrix4 val)
 {
-	glUniformMatrix4fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, value_ptr(val));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, &val[0][0]);
 }
+
 void Shader::SetMatrix(const string& name, fMatrix3 val)
 {
-	glUniformMatrix3fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, value_ptr(val));
+	glUniformMatrix3fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, &val[0][0]);
 }
 
 void Shader::SetFloat(const string &name, float val)
@@ -178,19 +179,19 @@ void Shader::SetInt(const string &name, int val)
 
 void Shader::SetVector(const string& name, fVector2 val)
 {
-	glUniform2fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
+	glUniform2fv(glGetUniformLocation(_programID, name.c_str()), 1, &(val.x));
 }
 void Shader::SetVector(const string& name, fVector3 val)
 {
-	glUniform3fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
+	glUniform3fv(glGetUniformLocation(_programID, name.c_str()), 1, &(val.x));
 }
 void Shader::SetVector(const string& name, fVector4 val)
 {
-	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr(val));
+	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, &(val.x));
 }
 void Shader::SetColor(const string& name, Color val)
 {
-	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, value_ptr((fVector4)val));
+	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, &(val.r));
 }
 void Shader::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 {

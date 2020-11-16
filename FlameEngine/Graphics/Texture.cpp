@@ -94,11 +94,11 @@ void Texture::Unbind()
 }
 
 
-vec4 Texture::GetData(int x, int y)
+fVector4 Texture::GetData(int x, int y)
 {
 	unsigned char* _offs = (unsigned char*)_dataInternal + (x + _height * y) * 4;
 
-	return vec4
+	return fVector4
 	(
 		_offs[0],
 		_offs[1],

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../dll/nchfx.h"
+#include "../Mathematics/Module.h"
 
-using namespace glm;
 
 EXPORT_ENUM IntersectionType
 {

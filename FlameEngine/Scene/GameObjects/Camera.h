@@ -5,9 +5,7 @@
 #include "../../Engine/FrameTime.h"
 #include "../../Context/ContextDescription.h"
 #include "../../Context/Context.h"
-
-
-using namespace glm;
+#include "../../Mathematics/Module.h"
 
 
 EXPORT_CLASS Camera

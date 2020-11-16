@@ -10,7 +10,6 @@
 #include "../Graphics/RenderBatch.h"
 
 using namespace std;
-using namespace glm;
 
 EXPORT_CLASS DebugView
 {

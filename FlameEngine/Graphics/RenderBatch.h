@@ -11,7 +11,6 @@
 #include "../Context/Context.h"
 
 
-using namespace glm;
 using namespace std;
 
 EXPORT_CLASS RenderBatch

@@ -1,9 +1,16 @@
 #include "TestGame.h"
 
 
+#include <immintrin.h>
+#include <ctime>
+
+#include "FlameEngine/Mathematics/Types/fVector3.h"
+#include "FlameEngine/Mathematics/Types/fMatrix4.h"
+
 TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
 {
-	
+
+
 }
 
 void TestGame::Load()
@@ -32,6 +39,8 @@ void TestGame::Load()
 	_currentScene->AddActor("ground", _ground);
 	_currentScene->AddActor("house", _house);
 	
+
+
 
 	Game::Load();
 }

@@ -14,7 +14,6 @@ Scene::Scene(Context* _cont)
 	_context = _cont;
 
 
-
 	PushCamera(new FpsCamera(_cont));
 
 	gaussBlur = Shader::FromSource(".\\shaders\\renderbatch.vert", ".\\shaders\\gauss_blur.frag");
@@ -131,7 +130,7 @@ Scene::Scene(Context* _cont)
 	for (unsigned int i = 0; i < 64; ++i)
 	{
 		fVector3 sample(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator));
-		sample = glm::normalize(sample);
+		sample = fVector3::Normalize(sample);
 		sample *= randomFloats(generator);
 		float scale = float(i) / 16.0;
 
@@ -192,6 +191,12 @@ void Scene::Update()
 {
 
 	_cameraStack.top()->Update();
+
+	for (auto i = actorCollection.begin(); i != actorCollection.end(); i++)
+	{
+		i->second->Update(NULL);
+	}
+
 
 	DebugView::Update();
 }
@@ -357,7 +362,6 @@ void Scene::Render()
 
 	_renderBatch->DrawTextures(5, new Texture * [5]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap }, 0, 0, 2560, 1440, _ssaoFinal);
 
-
 	DebugView::Draw(CurrentCamera());
 
 }
@@ -369,6 +373,7 @@ void Scene::AddActor(std::string _id, Actor* _ac)
 		_ac->_scene = this;
 
 		actorCollection[_id] = _ac;
+
 	}
 
 }
