@@ -163,6 +163,7 @@ void Shader::SetMatrix(const string &name, fMatrix4 val)
 	glUniformMatrix4fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, &val[0][0]);
 }
 
+
 void Shader::SetMatrix(const string& name, fMatrix3 val)
 {
 	glUniformMatrix3fv(glGetUniformLocation(_programID, name.c_str()), 1, GL_FALSE, &val[0][0]);

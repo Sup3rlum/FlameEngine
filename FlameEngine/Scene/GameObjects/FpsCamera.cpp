@@ -60,7 +60,7 @@ void FpsCamera::Update()
 		cos(horizontalAngle - HALF_PI)
 	);
 
-	Up = fVector3::Cross(Right, Target);
+	Up = Right ^ Target;
 
 	if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
 	{
@@ -80,10 +80,10 @@ void FpsCamera::Update()
 	}
 
 
-	View = fMatrix4::CreateView(Position, Position + Target, fVector3(0, 1, 0));
-	//View = fMatrix4::CreateView(fVector3(20, 20, 20), fVector3(0), fVector3(0, 1, 0));
-
+	View = fMatrix4::CreateView(Position, Position + Target, Up);
 	DebugView = fMatrix4::CreateView(-Target * 20.0f, fVector3(0), Up);
+
+
 
 	fMatrix3 m = fMatrix4::ToMatrix3(View);
 

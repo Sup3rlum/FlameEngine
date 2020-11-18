@@ -19,12 +19,12 @@ fVector3 fVector3::Normalize(fVector3  v)
 	return v / v.Length();
 }
 
-fVector3 const& fVector3::Lerp(fVector3 const& l, fVector3 const& r, float const& t)
+fVector3 fVector3::Lerp(fVector3 const& l, fVector3 const& r, float const& t)
 {
 	return l + (r - l) * t;
 }
 
-fVector3 const& fVector3::Cross(fVector3 const& l, fVector3 const& r)
+fVector3 fVector3::Cross(fVector3 const& l, fVector3 const& r)
 {
 	return fVector3(
 		l.y * r.z - l.z * r.y,
@@ -40,7 +40,7 @@ float const& fVector3::Dot(fVector3 const& l, fVector3 const& r)
 
 fVector3			operator-(fVector3 const& l)
 {
-	return (
+	return fVector3(
 		-l.x,
 		-l.y,
 		-l.z

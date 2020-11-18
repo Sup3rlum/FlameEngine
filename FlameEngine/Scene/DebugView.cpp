@@ -34,7 +34,7 @@ void DebugView::Init(Context* _context)
 
 
 	_renderBatch = new RenderBatch(_context);
-	_debugFont = new Font("..", 22);
+	_debugFont = new Font("..", 14);
 
 	_renderState = new RenderState();
 
@@ -67,7 +67,8 @@ void DebugView::Draw(Camera* _cam)
 
 	sprintf_s(a, "FPS: %i", _fps);
 	sprintf_s(b, "Position: X:%i Y:%i Z:%i", (int)_cam->Position.x, (int)_cam->Position.y, (int)_cam->Position.z);
-	sprintf_s(c, "GPU: %s", glGetString(GL_RENDERER));
+	sprintf_s(c, "Up: X:%f Y:%f Z:%f", _cam->Up.x, _cam->Up.y, _cam->Up.z);
+	//sprintf_s(c, "GPU: %s", glGetString(GL_RENDERER));
 
 	_renderBatch->DrawString(a, _debugFont, 0, 20, Color::white);
 	_renderBatch->DrawString(b, _debugFont, 0, 40, Color::white);

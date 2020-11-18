@@ -33,9 +33,9 @@ public:
 	float Length();
 	constexpr float LengthSquared();
 
-	static fVector3 const& Lerp(fVector3 const& l, fVector3 const& r, float const& t);
+	static fVector3 Lerp(fVector3 const& l, fVector3 const& r, float const& t);
 
-	static fVector3 const& Cross(fVector3 const& l, fVector3 const& r);
+	static fVector3 Cross(fVector3 const& l, fVector3 const& r);
 	static float const& Dot(fVector3 const& l, fVector3 const& r);
 
 	static fVector3 Normalize(fVector3 v);

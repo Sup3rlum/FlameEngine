@@ -250,8 +250,8 @@ fMatrix4 fMatrix4::Reflection(fPlane _plane)
 fMatrix4 fMatrix4::CreateView(fVector3 eyePos, fVector3 eyeTarget, fVector3 camUp)
 {
 	fVector3 const f(fVector3::Normalize(eyeTarget - eyePos));
-	fVector3 const s(fVector3::Normalize(fVector3::Cross(f, camUp)));
-	fVector3 const u(fVector3::Cross(s, f));
+	fVector3 const s(fVector3::Normalize(f ^ camUp));
+	fVector3 const u(s ^ f);
 
 	fMatrix4 Result(1);
 	Result[0][0] = s.x;
@@ -345,7 +345,7 @@ fVector4 const& operator*(fMatrix4 const& l, fVector4 const& r)
 	);
 }
 
-fMatrix4& operator*(fMatrix4 const& r, fMatrix4 const& l)
+fMatrix4& operator*(fMatrix4 const& l, fMatrix4 const& r)
 {
 
 	/*
@@ -364,15 +364,15 @@ fMatrix4& operator*(fMatrix4 const& r, fMatrix4 const& l)
 	}*/
 
 	
-	fVector4 const SrcA0 = r[0];
-	fVector4 const SrcA1 = r[1];
-	fVector4 const SrcA2 = r[2];
-	fVector4 const SrcA3 = r[3];
+	fVector4 const SrcA0 = l[0];
+	fVector4 const SrcA1 = l[1];
+	fVector4 const SrcA2 = l[2];
+	fVector4 const SrcA3 = l[3];
 
-	fVector4 const SrcB0 = l[0];
-	fVector4 const SrcB1 = l[1];
-	fVector4 const SrcB2 = l[2];
-	fVector4 const SrcB3 = l[3];
+	fVector4 const SrcB0 = r[0];
+	fVector4 const SrcB1 = r[1];
+	fVector4 const SrcB2 = r[2];
+	fVector4 const SrcB3 = r[3];
 
 	fMatrix4 m;
 	m[0] = SrcA0 * SrcB0[0] + SrcA1 * SrcB0[1] + SrcA2 * SrcB0[2] + SrcA3 * SrcB0[3];
