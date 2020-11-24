@@ -28,7 +28,7 @@ Some of the the upcoming features I am currently working on:
 - OpenGL 4.0
 - glew32
 - GLFW
-- Freetype2
+- FTGL
 - OpenSSL
 - C# 8 (Corresponding Roslyn version for x-Platform compilation)
 - .NET Core 3.1
