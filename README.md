@@ -11,10 +11,10 @@ These are the current features FlameEngine has as of now:
 - Variance Soft Shadow Mapping
 - HBAO+
 - PhysX
+- GUI
 
 Some of the the upcoming features I am currently working on:
 
-- GUI
 - Animation
 - Scripting
 
