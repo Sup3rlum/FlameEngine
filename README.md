@@ -9,12 +9,11 @@ These are the current features FlameEngine has as of now:
 - A scene/actor system
 - Hybrid rendering and asset pipeline using custom models, materials and shaders.
 - Variance Soft Shadow Mapping
-- SSAO
+- HBAO+
+- PhysX
 
 Some of the the upcoming features I am currently working on:
 
-- SIMD Accelerated mathematics
-- Physics
 - GUI
 - Animation
 - Scripting
@@ -25,10 +24,11 @@ Some of the the upcoming features I am currently working on:
 
 ## Dependencies
 
-- OpenGL 4.5 support
-- glew
+- PhysX 4.1
+- OpenGL 4.0
+- glew32
 - GLFW
-- Freetype2
+- FTGL
 - OpenSSL
 - C# 8 (Corresponding Roslyn version for x-Platform compilation)
 - .NET Core 3.1
