@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include "Conversions.h"
+#include "Functions/Lerp.h"
 
 #include "Types/fMatrix4.h"
 #include "Types/fMatrix3.h"

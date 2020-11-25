@@ -30,6 +30,8 @@ public:
 
 
 
+	STRING ToString();
+
 	float Length();
 	constexpr float LengthSquared();
 

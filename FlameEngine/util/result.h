@@ -3,7 +3,7 @@
 
 #include "macros.h"
 
-EXPORT_ENUM DRESULT
+EXPORT_ENUM FLRESULT
 {
 	FAIL = 0,
 	SUCCESS = 1

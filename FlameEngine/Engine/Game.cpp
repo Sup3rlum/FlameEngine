@@ -21,3 +21,8 @@ void Game::Suspend()
 {
 
 }
+
+void Game::KeyEventCallback(KeyEventArgs args)
+{
+
+}

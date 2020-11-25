@@ -11,7 +11,10 @@ constexpr float fVector3::LengthSquared()
 	return x * x + y * y + z * z;
 }
 
-
+STRING fVector3::ToString()
+{
+	return "X: " + std::to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z);
+}
 
 
 fVector3 fVector3::Normalize(fVector3  v)

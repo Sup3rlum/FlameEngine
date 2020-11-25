@@ -163,14 +163,14 @@ fMatrix4 fMatrix4::FromEulerAngles(float x, float y, float z)
 			fVector4(0, 0, 1, 0),
 			fVector4(0, 0, 0, 1)
 		) 
-		*
+		/**
 		fMatrix4
 		(
 			fVector4(cy,	0,	-sy,	0),
 			fVector4(0,	1,	0,		0),
 			fVector4(sy,	0,	cy,		0),
 			fVector4(0,	0,	0,		1)
-		)
+		)*/
 		*
 		fMatrix4
 		(

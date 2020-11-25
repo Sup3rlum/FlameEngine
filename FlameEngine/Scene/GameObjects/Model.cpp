@@ -64,7 +64,7 @@ void Model::Render(fMatrix4 _transform, Scene* _scene)
 	_shader->SetMatrix("Projection",	_scene->CurrentCamera()->Projection);
 	_shader->SetMatrix("World",			_transform);// _transform);
 
-	_shader->SetTexture(0, _material->colorMap);
+	_shader->SetTexture(0, _material->mColorMap);
 
 
 	_vbo.RenderIndexed(GL_TRIANGLES);

@@ -3,4 +3,7 @@
 
 Actor::Actor()
 {
+
+	pPxActor = NULL;
+
 }

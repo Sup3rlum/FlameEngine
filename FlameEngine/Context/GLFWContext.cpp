@@ -30,7 +30,11 @@ void GLFWContext::Initialize(ContextDescription* _contextDescription)
 	glfwSwapInterval(0);
 
 	glfwSetInputMode(_windowHandle, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	
+
+	SetCursorVisible(false);
+
+
 
 
 	glewExperimental = true;
@@ -73,4 +77,20 @@ void GLFWContext::Destroy()
 void GLFWContext::PollClose()
 {
 	__super::PollClose();
+}
+void GLFWContext::SetCursorVisible(bool visible)
+{
+	if (visible)
+	{
+		glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	else
+	{
+		glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
+}
+
+MouseButtonState GLFWContext::GetMouseButtonState(MouseButton mbutton)
+{
+	return (MouseButtonState)glfwGetMouseButton(_windowHandle, (int)mbutton);
 }

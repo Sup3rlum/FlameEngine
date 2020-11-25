@@ -12,16 +12,19 @@
 #include "../Graphics/RenderState.h"
 
 
+
+
 EXPORT_CLASS EngineInstance
 {
 public:
 	EngineInstance();
 	~EngineInstance();
 
-	DRESULT Dettach();
-	DRESULT Start();
-	DRESULT AttachGame(Game* _game);
-	DRESULT AttachContext(Context* _context);
+	FLRESULT Dettach();
+	FLRESULT Start();
+	FLRESULT AttachGame(Game* _game);
+	FLRESULT AttachContext(Context* _context);
+	static void key_callback_dispatch(GLFWwindow* win, int key, int scancode, int action, int mods);
 
 	Context* _currentContext;
 
@@ -30,6 +33,7 @@ public:
 	bool IsAttached;
 
 
+	static EngineInstance* _handlingInstance;
 
 };
 

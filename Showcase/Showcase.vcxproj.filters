@@ -8,6 +8,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{b6ad0651-44d9-43ab-9b20-095de1485fa1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\ux">
+      <UniqueIdentifier>{3a20b379-915b-447c-9c6c-7d6a18d9de68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -96,6 +99,12 @@
     </None>
     <None Include="shaders\geom_preserve_blur.frag">
       <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\ux\uxFrame.frag">
+      <Filter>shaders\ux</Filter>
+    </None>
+    <None Include="shaders\ux\uxFrame.vert">
+      <Filter>shaders\ux</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

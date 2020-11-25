@@ -28,13 +28,7 @@
     <ClCompile Include="Graphics\FrameBuffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\RenderBatch.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\RenderState.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Shader.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Texture.cpp">
@@ -58,18 +52,6 @@
     <ClCompile Include="IO\Memory.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\DebugView.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Material.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Plane.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Ray.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -87,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="Graphics\Media\FontManager.cpp">
       <Filter>Graphics\Media</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Keyboard.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\Actor.cpp">
       <Filter>Scene\GameObjects</Filter>
@@ -154,63 +133,44 @@
     <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
     <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
     <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
-    <ClCompile Include="Scene\Physics\Bodies\CollisionBody.cpp" />
-    <ClCompile Include="Scene\Physics\Bodies\RigidBody.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Collider.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\CollisionCallback.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\ContactManifold.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\HalfEdgeStructure.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\OverlapCallback.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\PolygonVertexArray.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\PolyhedronMesh.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\RaycastInfo.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\TriangleMesh.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\TriangleVertexArray.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\AABB.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\BoxShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\CapsuleShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\CollisionShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConcaveMeshShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConcaveShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexMeshShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexPolygedronShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\HeightFIeldShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\SphereShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\TriangleShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Broadphase\DynamicAABBTree.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsCapsuleAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CollisionDispatch.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsCapsuleAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\GJK\VoronoiSimplex.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\GJK\GJKAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\NarrowPhaseInput.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsSphereAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\InfoBatch\NarrowPhaseInfoBatch.cpp" />
     <ClCompile Include="flameRT\HeapAllocator.cpp" />
     <ClCompile Include="flameRT\MemoryManager.cpp" />
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\BallAndSocketJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\ContactPoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\FixedJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\HingedJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\Joint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\SliderJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Components\BallAndSocketJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\ColliderComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\Components.cpp" />
-    <ClCompile Include="Scene\Physics\Components\CollisionBodyComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\FixedJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\HingedJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\JointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\RigidBodyComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\PhysicsDescriptionComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\SliderJointComponents.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
+    <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
+    <ClCompile Include="Scene\Common\Material.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceDescription.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
+    <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
+    <ClCompile Include="Scene\Physics\PhysXService.cpp" />
+    <ClCompile Include="IO\Input\KeyEventArgs.cpp" />
+    <ClCompile Include="IO\Input\Keyboard.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxService.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxContainer.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxFrame.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxLabel.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxFont.cpp" />
+    <ClCompile Include="Graphics\Common\RenderBatch.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\RenderingService\UxRenderingService.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxWindow.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
+    <ClCompile Include="IO\Output\LoggerService.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
+    <ClCompile Include="IO\Input\Mouse.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -240,13 +200,7 @@
     <ClInclude Include="Graphics\FrameBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\RenderBatch.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\RenderState.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Shader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Texture.h">
@@ -269,18 +223,6 @@
     </ClInclude>
     <ClInclude Include="IO\Memory.h">
       <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\DebugView.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Material.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Plane.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Ray.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
@@ -314,9 +256,6 @@
     </ClInclude>
     <ClInclude Include="Graphics\Media\FontManager.h">
       <Filter>Graphics\Media</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Keyboard.h">
-      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\Actor.h">
       <Filter>Scene\GameObjects</Filter>
@@ -384,63 +323,46 @@
     <ClInclude Include="Mathematics\Module.h" />
     <ClInclude Include="Mathematics\Constants.h" />
     <ClInclude Include="Mathematics\Conversions.h" />
-    <ClInclude Include="Scene\Physics\Bodies\CollisionBody.h" />
-    <ClInclude Include="Scene\Physics\Bodies\RigidBody.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Collider.h" />
-    <ClInclude Include="Scene\Physics\Collisions\CollisionCallback.h" />
-    <ClInclude Include="Scene\Physics\Collisions\ContactManifold.h" />
-    <ClInclude Include="Scene\Physics\Collisions\HalfEdgeStructure.h" />
-    <ClInclude Include="Scene\Physics\Collisions\OverlapCallback.h" />
-    <ClInclude Include="Scene\Physics\Collisions\PolygonVertexArray.h" />
-    <ClInclude Include="Scene\Physics\Collisions\PolyhedronMesh.h" />
-    <ClInclude Include="Scene\Physics\Collisions\RaycastInfo.h" />
-    <ClInclude Include="Scene\Physics\Collisions\TriangleMesh.h" />
-    <ClInclude Include="Scene\Physics\Collisions\TriangleVertexArray.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\AABB.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\BoxShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\CapsuleShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\CollisionShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConcaveMeshShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConcaveShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexMeshShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexPolygedronShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\HeightFIeldShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\SphereShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\TriangleShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Broadphase\DynamicAABBTree.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsCapsuleAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CollisionDispatch.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsCapsuleAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\GJK\VoronoiSimplex.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\GJK\GJKAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\NarrowPhaseInput.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsSphereAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\InfoBatch\NarrowPhaseInfoBatch.h" />
     <ClInclude Include="flameRT\HeapAllocator.h" />
     <ClInclude Include="flameRT\MemoryManager.h" />
     <ClInclude Include="flameRT\PoolAllocator.h" />
     <ClInclude Include="flameRT\Runtime.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Scene\Physics\Constraints\HingedJoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\BallAndSocketJoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\ContactPoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\FixedJoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\Joint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\SliderJoint.h" />
-    <ClInclude Include="Scene\Physics\Components\BallAndSocketJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\ColliderComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\Components.h" />
-    <ClInclude Include="Scene\Physics\Components\CollisionBodyComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\FixedJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\HingedJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\JointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\RigidBodyComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\PhysicsDescriptionComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\SliderJointComponents.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
+    <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
+    <ClInclude Include="Mathematics\Geometry\Ray.h" />
+    <ClInclude Include="Scene\Common\Material.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
+    <ClInclude Include="Mathematics\Functions\Lerp.h" />
+    <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
+    <ClInclude Include="Scene\Physics\PhysXService.h" />
+    <ClInclude Include="IO\Input\KeyEventArgs.h" />
+    <ClInclude Include="IO\Input\Keyboard.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\UserInterface\UxComponent.h" />
+    <ClInclude Include="Graphics\UserInterface\UxService.h" />
+    <ClInclude Include="Graphics\UserInterface\UxContainer.h" />
+    <ClInclude Include="Graphics\UserInterface\UxFrame.h" />
+    <ClInclude Include="Graphics\UserInterface\UxLabel.h" />
+    <ClInclude Include="Graphics\UserInterface\UxFont.h" />
+    <ClInclude Include="Graphics\Common\RenderBatch.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\RenderingService\UxRenderingService.h" />
+    <ClInclude Include="Graphics\UserInterface\UxWindow.h" />
+    <ClInclude Include="Graphics\UserInterface\UxRectangle.h" />
+    <ClInclude Include="IO\Output\LoggerService.h" />
+    <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
+    <ClInclude Include="IO\Input\Mouse.h" />
+    <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
+    <ClInclude Include="System\systeminfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

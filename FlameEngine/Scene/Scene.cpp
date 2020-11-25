@@ -3,16 +3,46 @@
 
 GLenum attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
 
-float Scene::lerp(float a, float b, float f)
-{
-	return a + f * (b - a);
-}
+
 
 
 Scene::Scene(Context* _cont)
 {
 	_context = _cont;
 
+
+	pPhysXService = new PhysXService();
+
+
+	pUxService = new UxService();
+
+	pUxContainer = new UxContainer(_cont);
+	pUxService->PushContainer(pUxContainer);
+
+	UxConsoleWindow* cons = new UxConsoleWindow();
+	cons->Position = fVector2(1600, 300);
+	cons->Size = fVector2(500, 500);
+
+	pUxContainer->AddComponent(new UxDebugViewComponent(this));
+	pUxContainer->AddComponent(cons);
+
+
+	if (pPhysXService->InitializePhysX() == FLRESULT::FAIL)
+	{
+		printf("Something is wrong!\n");
+	}
+
+	pPxScene = pPhysXService->CreateScene();
+
+
+	if (pPxScene == NULL)
+	{
+		printf("Scene is wrong!\n");
+	}
+	else
+	{
+		FLAME_INFO("PhysX Scene initialized");
+	}
 
 	PushCamera(new FpsCamera(_cont));
 
@@ -107,7 +137,6 @@ Scene::Scene(Context* _cont)
 	_sceneFrameBuffer->BindTexture(_gBuffer, GL_COLOR_ATTACHMENT0);
 	_sceneFrameBuffer->BindTexture(_nBuffer, GL_COLOR_ATTACHMENT1);
 	_sceneFrameBuffer->BindTexture(_aBuffer, GL_COLOR_ATTACHMENT2);
-	//_sceneFrameBuffer->BindTexture(_wpBuffer, GL_COLOR_ATTACHMENT3);
 
 	_sceneFrameBuffer->EnableDepth();
 
@@ -135,7 +164,7 @@ Scene::Scene(Context* _cont)
 		float scale = float(i) / 16.0;
 
 		// scale samples s.t. they're more aligned to center of kernel
-		scale = lerp(0.1f, 1.0f, scale * scale);
+		scale = Lerp(0.1f, 1.0f, scale * scale);
 		sample *= scale;
 		ssaoKernel.push_back(sample);
 	}
@@ -175,16 +204,11 @@ Scene::Scene(Context* _cont)
 	_ssaoKernelTexture->Unbind();
 
 
-	_skybox = new Sky(this);
-	AssetManager::LoadModel("skybox.fl3d", &_skybox->_skyboxModel);
-
-
-
-
 
 
 	_renderBatch = new RenderBatch(_cont);
-	DebugView::Init(_cont);
+
+	FLAME_INFO("Scene finished loading");
 }
 
 void Scene::Update()
@@ -198,7 +222,12 @@ void Scene::Update()
 	}
 
 
-	DebugView::Update();
+	pPxScene->simulate(1.0f / 60.0f);
+	pPxScene->fetchResults(true);
+
+
+	pUxService->Update();
+
 }
 void Scene::Render()
 {
@@ -206,7 +235,7 @@ void Scene::Render()
 	_frameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		PushCamera(LightCollection[0].LightCamera());
@@ -216,6 +245,7 @@ void Scene::Render()
 		{
 			i->second->Render();
 		}
+
 
 		PopCamera();
 
@@ -362,7 +392,11 @@ void Scene::Render()
 
 	_renderBatch->DrawTextures(5, new Texture * [5]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap }, 0, 0, 2560, 1440, _ssaoFinal);
 
-	DebugView::Draw(CurrentCamera());
+
+
+
+
+	pUxService->Render();
 
 }
 void Scene::AddActor(std::string _id, Actor* _ac)
@@ -374,6 +408,13 @@ void Scene::AddActor(std::string _id, Actor* _ac)
 
 		actorCollection[_id] = _ac;
 
+		if (_ac->pPxActor != NULL)
+		{
+			pPxScene->addActor(*_ac->pPxActor);
+
+			//printf("%s has pxActor with adress: %p\n", _id.c_str(), _ac->pPxActor);
+
+		}
 	}
 
 }
@@ -385,7 +426,10 @@ void Scene::RemoveActor(std::string _id)
 
 void Scene::PushCamera(Camera* _cam)
 {
-	_cameraStack.push(_cam);
+	if (_cam != NULL)
+	{
+		_cameraStack.push(_cam);
+	}
 }
 
 
@@ -398,6 +442,11 @@ Camera* Scene::PopCamera()
 
 	_cameraStack.pop();
 
+	if (CurrentCamera() == NULL)
+	{
+		PopCamera();
+	}
+
 	return _cameraPtr;
 }
 
@@ -405,3 +454,4 @@ inline Camera* Scene::CurrentCamera()
 {
 	return _cameraStack.top();
 }
+

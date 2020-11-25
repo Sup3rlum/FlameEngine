@@ -1,30 +1,40 @@
 #include "EngineInstance.h"
 
+
+
+
+EngineInstance* EngineInstance::_handlingInstance = NULL;
+
 EngineInstance::EngineInstance()
 {
 
 	IsAttached = false;
 
+	LoggerService::pHandlingInstance = new LoggerService();
+
+	_handlingInstance = this;
 
 }
-DRESULT EngineInstance::AttachGame(Game* _g)
+FLRESULT EngineInstance::AttachGame(Game* _g)
 {
 	if (_game == NULL || !IsAttached)
-		return DRESULT::FAIL;
+		return FLRESULT::FAIL;
 
 	_game = _g;
+
+	glfwSetKeyCallback(((GLFWContext*)_currentContext)->_windowHandle, key_callback_dispatch);
 
 	_game->_currentScene = new Scene(_currentContext);
 	_game->Load();
 
-	return DRESULT::SUCCESS;
+	return FLRESULT::SUCCESS;
 }
 
-DRESULT EngineInstance::AttachContext(Context* _context)
+FLRESULT EngineInstance::AttachContext(Context* _context)
 {
 	if (_context == NULL)
 	{
-		return DRESULT::FAIL;
+		return FLRESULT::FAIL;
 	}
 
 	_currentContext = _context;
@@ -44,27 +54,27 @@ DRESULT EngineInstance::AttachContext(Context* _context)
 
 	IsAttached = true;
 
-	return DRESULT::SUCCESS;
+	return FLRESULT::SUCCESS;
 }
-DRESULT EngineInstance::Dettach()
+FLRESULT EngineInstance::Dettach()
 {
 	if (_currentContext == NULL)
 	{
-		return DRESULT::FAIL;
+		return FLRESULT::FAIL;
 	}
 
 	IsAttached = false;
 
 	_currentContext = NULL;
 
-	return DRESULT::SUCCESS;
+	return FLRESULT::SUCCESS;
 }
-DRESULT EngineInstance::Start()
+FLRESULT EngineInstance::Start()
 {
 
 	if (!IsAttached)
 	{
-		return DRESULT::FAIL;
+		return FLRESULT::FAIL;
 	}
 
 
@@ -76,5 +86,13 @@ DRESULT EngineInstance::Start()
 		_currentContext->SwapChain();
 	}
 
-	return DRESULT::SUCCESS;
+	return FLRESULT::SUCCESS;
+}
+
+void EngineInstance::key_callback_dispatch(GLFWwindow* win, int key, int scancode, int action, int mods)
+{
+	if (_handlingInstance)
+	{
+		_handlingInstance->_game->KeyEventCallback(KeyEventArgs((Keys)key, (KeyState)action));
+	}
 }

@@ -18,8 +18,12 @@ public:
 	void Update();
 
 	float mouseSpeed = 0.3f;
-	float flySpeed = 10.0f;
+	float flySpeed = 20.0f;
 
+
+	void SetCursorLocked(bool b);
+
+	bool cursordLocked;
 
 	Context* _currentContext;
 };

@@ -39,3 +39,13 @@ KeyState Context::GetKeyState(Keys key)
 {
 	return KeyState::RELEASED;
 }
+
+void Context::SetCursorVisible(bool v)
+{
+
+}
+
+MouseButtonState Context::GetMouseButtonState(MouseButton mbutton)
+{
+	return MouseButtonState::RELEASED;
+}

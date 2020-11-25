@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Scene/GameObjects/Model.h"
-#include "../Scene/Material.h"
+#include "../Scene/Common/Material.h"
 #include "../Graphics/Vertex.h"
 #include "File.h"
 #include "Memory.h"

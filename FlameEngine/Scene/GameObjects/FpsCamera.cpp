@@ -8,14 +8,14 @@ FpsCamera::FpsCamera(Context* _cont)
 	verticalAngle = -QUARTER_PI;
 
 
-	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 100.0f);
+	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 200.0f);
 
 
 	ProjectionInverse = fMatrix4::Inverse(Projection);
 
 	Position = fVector3(5.0f, 5.0f, 5.0f);
 
-	
+	cursordLocked = true;
 }
 
 void FpsCamera::Update()
@@ -36,15 +36,19 @@ void FpsCamera::Update()
 	_currentContext->GetCursorPosition(&xpos, &ypos);
 
 
-	_currentContext->SetCursorPosition
-	(
-		_currentContext->_contextDescription->width / 2.0,
-		_currentContext->_contextDescription->height / 2.0
-	);
 
-	horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->width / 2.0f - (float)xpos);
-	verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0f - (float)ypos);
+	if (cursordLocked)
+	{
 
+		_currentContext->SetCursorPosition
+		(
+			_currentContext->_contextDescription->width / 2.0,
+			_currentContext->_contextDescription->height / 2.0
+		);
+
+		horizontalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->width / 2.0f - (float)xpos);
+		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0f - (float)ypos);
+	}
 
 	Target = fVector3
 	(
@@ -95,4 +99,10 @@ void FpsCamera::Update()
 
 	ViewInverse = fMatrix4::Translation(Position) * m2;
 
+}
+
+void FpsCamera::SetCursorLocked(bool b)
+{
+	cursordLocked = b;
+	_currentContext->SetCursorVisible(!b);
 }

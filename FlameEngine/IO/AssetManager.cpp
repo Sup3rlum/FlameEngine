@@ -49,7 +49,7 @@ void AssetManager::LoadModel(STRING path, Model* m)
 	STRING _materialPath = Memory::ToString(&bytedata[currentPosition], _materialPathLength);
 
 	m->_material = new Material();
-	m->_material->colorMap = new Texture(_materialPath);
+	m->_material->mColorMap = new Texture(_materialPath);
 
 
 	// Vert Shader

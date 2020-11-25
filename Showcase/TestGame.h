@@ -14,5 +14,11 @@ public:
 	void Load();
 	void Dispose();
 	void Suspend();
+
+	void KeyEventCallback(KeyEventArgs kea);
+
+
+	void Shoot();
+
 };
 

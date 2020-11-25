@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Memory.h"
+#include "../dll/nchfx.h"
 
 EXPORT_CLASS Runtime
 {

@@ -65,7 +65,7 @@ public:
 
 
 	static fQuaternion Normalize(fQuaternion q);
-	static fQuaternion const& Identity();
+	static fQuaternion Identity();
 	static fQuaternion const& Inverse(fQuaternion q);
 
 

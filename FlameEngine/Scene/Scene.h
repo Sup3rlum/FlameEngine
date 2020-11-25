@@ -5,13 +5,21 @@
 #include "GameObjects/Actor.h"
 #include "GameObjects/Lighting/DirectionalLight.h"
 #include "Environment/Sky.h"
-#include "DebugView.h"
-#include "../Graphics/Shader.h"
-#include "../Graphics/RenderBatch.h"
+#include "../Graphics/ShaderDefinitions/Shader.h"
+#include "../Graphics/Common/RenderBatch.h"
 #include "../Graphics/FrameBuffer.h"
 #include "../Context/Context.h"
 #include "../IO/AssetManager.h"
 #include "../Mathematics/Module.h"
+#include "Physics/PhysXService.h"
+
+
+#include "../Graphics/UserInterface/UxService.h"
+#include "../Graphics/UserInterface/UxFrame.h"
+#include "../Graphics/UserInterface/UxLabel.h"
+#include "../Graphics/UserInterface/UxConsoleWindow.h"
+#include "../Graphics/UserInterface/UxDebugViewComponent.h"
+
 
 EXPORT_CLASS Scene
 {
@@ -30,6 +38,7 @@ public:
 	void PushCamera(Camera* _cam);
 	Camera* PopCamera();
 	Camera* CurrentCamera();
+
 
 	std::vector<DirectionalLight> LightCollection;
 
@@ -64,12 +73,19 @@ public:
 
 	Texture* _ssaoNoise;
 
-	Sky* _skybox;
-
 	std::vector<fVector3> ssaoKernel;
 
-private:
-	float lerp(float a, float b, float c);
+
+	PhysXService* pPhysXService;
+	PxScene* pPxScene;
+
+
+	PxActor* _actors;
+
+
+	UxService* pUxService;
+	UxContainer* pUxContainer;
+
 	std::unordered_map<STRING, Actor*> actorCollection;
 };
 

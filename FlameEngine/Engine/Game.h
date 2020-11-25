@@ -3,6 +3,7 @@
 #include "..\dll\nchfx.h"
 #include "..\dll\Version.h"
 #include "..\Scene\Scene.h"
+#include "..\IO\Input\KeyEventArgs.h"
 
 using namespace std;
 
@@ -14,6 +15,10 @@ public:
 	virtual void Load();
 	virtual void Dispose();
 	virtual void Suspend();
+
+
+
+	virtual void KeyEventCallback(KeyEventArgs args);
 
 	STRING Name;
 	DVERSION Version;

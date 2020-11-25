@@ -77,14 +77,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\openssl-1.1.1h\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Projects\_Libraries\ftgl-2.1.3~rc5\src;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;D:\Projects\_Libraries\hbao\include;D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\openssl-1.1.1h\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Projects\_Libraries\openssl-1.1.1h\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\freetype2\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Projects\_Libraries\ftgl-2.1.3~rc5\src;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;D:\Projects\_Libraries\hbao\include;D:\Projects\_Libraries\openssl-1.1.1h\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\freetype2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,13 +117,14 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
+      <AdditionalIncludeDirectories>D:\Projects\_Libraries\hbao\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\_Libraries\ftgl-2.1.3~rc5\msvc\build;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug;D:\Projects\_Libraries\hbao+3.0\lib\win64;D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;ftgl_static_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -171,59 +172,24 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;D:\Projects\_Libraries\freetype2\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\_Libraries\ftgl-2.1.3~rc5\msvc\build;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;D:\Projects\_Libraries\freetype2\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Scene\Physics\Components\PhysicsDescriptionComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\FixedJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\HingedJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\JointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\RigidBodyComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\BallAndSocketJointComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\CollisionBodyComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\ColliderComponents.h" />
-    <ClInclude Include="Scene\Physics\Components\Components.h" />
-    <ClInclude Include="Scene\Physics\Constraints\Joint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\BallAndSocketJoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\ContactPoint.h" />
-    <ClInclude Include="Scene\Physics\Constraints\FixedJoint.h" />
+    <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
+    <ClInclude Include="IO\Input\KeyEventArgs.h" />
+    <ClInclude Include="IO\Output\LoggerService.h" />
+    <ClInclude Include="Mathematics\Functions\Lerp.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
+    <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
+    <ClInclude Include="Mathematics\Geometry\Ray.h" />
     <ClInclude Include="flameRT\HeapAllocator.h" />
     <ClInclude Include="flameRT\MemoryManager.h" />
     <ClInclude Include="flameRT\PoolAllocator.h" />
-    <ClInclude Include="Scene\Physics\Constraints\HingedJoint.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\GJK\GJKAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\InfoBatch\NarrowPhaseInfoBatch.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\NarrowPhaseInput.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsCapsuleAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\CollisionDispatch.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Broadphase\DynamicAABBTree.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\BoxShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\CapsuleShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\CollisionShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConcaveMeshShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConcaveShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexMeshShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexPolygedronShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\ConvexShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\HeightFIeldShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\AABB.h" />
-    <ClInclude Include="Scene\Physics\Collisions\RaycastInfo.h" />
-    <ClInclude Include="Scene\Physics\Collisions\PolyhedronMesh.h" />
-    <ClInclude Include="Scene\Physics\Collisions\PolygonVertexArray.h" />
-    <ClInclude Include="Scene\Physics\Collisions\OverlapCallback.h" />
-    <ClInclude Include="Scene\Physics\Collisions\HalfEdgeStructure.h" />
-    <ClInclude Include="Scene\Physics\Collisions\ContactManifold.h" />
-    <ClInclude Include="Scene\Physics\Collisions\CollisionCallback.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Collider.h" />
-    <ClInclude Include="Scene\Physics\Bodies\RigidBody.h" />
-    <ClInclude Include="Scene\Physics\Bodies\CollisionBody.h" />
     <ClInclude Include="Mathematics\Constants.h" />
     <ClInclude Include="Mathematics\Conversions.h" />
     <ClInclude Include="Mathematics\Geometry\fPlane.h" />
@@ -241,15 +207,15 @@
     <ClInclude Include="dll\Version.h" />
     <ClInclude Include="Engine\FrameTime.h" />
     <ClInclude Include="Engine\EngineInstance.h" />
-    <ClInclude Include="Engine\Keyboard.h" />
+    <ClInclude Include="IO\Input\Keyboard.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\FrameBuffer.h" />
     <ClInclude Include="Graphics\Media\Font.h" />
     <ClInclude Include="Graphics\Media\FontManager.h" />
-    <ClInclude Include="Graphics\RenderBatch.h" />
+    <ClInclude Include="Graphics\Common\RenderBatch.h" />
     <ClInclude Include="Graphics\RenderState.h" />
-    <ClInclude Include="Graphics\Shader.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
     <ClInclude Include="Graphics\Texture.h" />
     <ClInclude Include="Graphics\Vertex.h" />
     <ClInclude Include="Graphics\VertexBuffer.h" />
@@ -263,7 +229,8 @@
     <ClInclude Include="Mathematics\Types\fVector3.h" />
     <ClInclude Include="Mathematics\Types\fVector4.h" />
     <ClInclude Include="flameRT\Runtime.h" />
-    <ClInclude Include="Scene\DebugView.h" />
+    <ClInclude Include="IO\Input\Mouse.h" />
+    <ClInclude Include="Scene\Physics\PhysXService.h" />
     <ClInclude Include="Scene\Environment\Sky.h" />
     <ClInclude Include="Scene\GameObjects\Actor.h" />
     <ClInclude Include="Scene\GameObjects\AnimatedModel.h" />
@@ -277,73 +244,39 @@
     <ClInclude Include="Scene\GameObjects\Lighting\Light.h" />
     <ClInclude Include="Scene\GameObjects\Model.h" />
     <ClInclude Include="Scene\GameObjects\RenderableObject.h" />
-    <ClInclude Include="Scene\Material.h" />
-    <ClInclude Include="Scene\Plane.h" />
-    <ClInclude Include="Scene\Ray.h" />
+    <ClInclude Include="Scene\Common\Material.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\GameObjects\UpdatableObject.h" />
-    <ClInclude Include="Scene\Physics\Collisions\TriangleMesh.h" />
-    <ClInclude Include="Scene\Physics\Collisions\TriangleVertexArray.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\SphereShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Shapes\TriangleShape.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsCapsuleAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsConvexPolyhedronAlgorithm.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\SphereVsSphereAlgorithm.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Scene\Physics\Constraints\SliderJoint.h" />
-    <ClInclude Include="Scene\Physics\Components\SliderJointComponents.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
+    <ClInclude Include="System\systeminfo.h" />
     <ClInclude Include="util\gfunc.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
     <ClInclude Include="util\stb_image.h" />
-    <ClInclude Include="Scene\Physics\Collisions\Narrowphase\GJK\VoronoiSimplex.h" />
+    <ClInclude Include="Graphics\UserInterface\UxComponent.h" />
+    <ClInclude Include="Graphics\UserInterface\UxService.h" />
+    <ClInclude Include="Graphics\UserInterface\UxContainer.h" />
+    <ClInclude Include="Graphics\UserInterface\UxFrame.h" />
+    <ClInclude Include="Graphics\UserInterface\UxLabel.h" />
+    <ClInclude Include="Graphics\UserInterface\UxFont.h" />
+    <ClInclude Include="Graphics\RenderingService\UxRenderingService.h" />
+    <ClInclude Include="Graphics\UserInterface\UxWindow.h" />
+    <ClInclude Include="Graphics\UserInterface\UxRectangle.h" />
+    <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
+    <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scene\Physics\Components\PhysicsDescriptionComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\FixedJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\HingedJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\JointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\RigidBodyComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\BallAndSocketJointComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\CollisionBodyComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\ColliderComponents.cpp" />
-    <ClCompile Include="Scene\Physics\Components\Components.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\Joint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\BallAndSocketJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\ContactPoint.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\FixedJoint.cpp" />
+    <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
+    <ClCompile Include="IO\Input\KeyEventArgs.cpp" />
+    <ClCompile Include="IO\Output\LoggerService.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
+    <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
     <ClCompile Include="flameRT\HeapAllocator.cpp" />
     <ClCompile Include="flameRT\MemoryManager.cpp" />
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\HingedJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\GJK\GJKAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\InfoBatch\NarrowPhaseInfoBatch.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\NarrowPhaseInput.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsCapsuleAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CapsuleVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\CollisionDispatch.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Broadphase\DynamicAABBTree.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\BoxShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\CapsuleShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\CollisionShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConcaveMeshShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConcaveShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexMeshShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexPolygedronShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\ConvexShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\HeightFIeldShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\AABB.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\RaycastInfo.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\PolyhedronMesh.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\PolygonVertexArray.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\OverlapCallback.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\HalfEdgeStructure.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\ContactManifold.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\CollisionCallback.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Collider.cpp" />
-    <ClCompile Include="Scene\Physics\Bodies\RigidBody.cpp" />
-    <ClCompile Include="Scene\Physics\Bodies\CollisionBody.cpp" />
     <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
     <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
@@ -356,15 +289,15 @@
     <ClCompile Include="dll\Version.cpp" />
     <ClCompile Include="Engine\FrameTime.cpp" />
     <ClCompile Include="Engine\EngineInstance.cpp" />
-    <ClCompile Include="Engine\Keyboard.cpp" />
+    <ClCompile Include="IO\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Media\Font.cpp" />
     <ClCompile Include="Graphics\Media\FontManager.cpp" />
-    <ClCompile Include="Graphics\RenderBatch.cpp" />
+    <ClCompile Include="Graphics\Common\RenderBatch.cpp" />
     <ClCompile Include="Graphics\RenderState.cpp" />
-    <ClCompile Include="Graphics\Shader.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="Graphics\VertexBuffer.cpp" />
@@ -378,7 +311,8 @@
     <ClCompile Include="Mathematics\Types\fVector3.cpp" />
     <ClCompile Include="Mathematics\Types\fVector4.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
-    <ClCompile Include="Scene\DebugView.cpp" />
+    <ClCompile Include="IO\Input\Mouse.cpp" />
+    <ClCompile Include="Scene\Physics\PhysXService.cpp" />
     <ClCompile Include="Scene\Environment\Sky.cpp" />
     <ClCompile Include="Scene\GameObjects\Actor.cpp" />
     <ClCompile Include="Scene\GameObjects\AnimatedModel.cpp" />
@@ -392,23 +326,24 @@
     <ClCompile Include="Scene\GameObjects\Lighting\Light.cpp" />
     <ClCompile Include="Scene\GameObjects\Model.cpp" />
     <ClCompile Include="Scene\GameObjects\RenderableObject.cpp" />
-    <ClCompile Include="Scene\Material.cpp" />
-    <ClCompile Include="Scene\Plane.cpp" />
-    <ClCompile Include="Scene\Ray.cpp" />
+    <ClCompile Include="Scene\Common\Material.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\TriangleMesh.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\TriangleVertexArray.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\SphereShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Shapes\TriangleShape.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsCapsuleAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsConvexPolyhedronAlgorithm.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\SphereVsSphereAlgorithm.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Scene\Physics\Constraints\SliderJoint.cpp" />
-    <ClCompile Include="Scene\Physics\Components\SliderJointComponents.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceDescription.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
-    <ClCompile Include="Scene\Physics\Collisions\Narrowphase\GJK\VoronoiSimplex.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxService.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxContainer.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxFrame.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxLabel.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxFont.cpp" />
+    <ClCompile Include="Graphics\RenderingService\UxRenderingService.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxWindow.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl" />

@@ -25,16 +25,9 @@
 #include <immintrin.h>
 
 #include "framework.h"
-#include "logger.h"
 #include "../util/macros.h"
 #include "../util/result.h"
 
 
-
-#define FL_INT32 int
-#define FL_INT64 long long
-
-#define _UNS_ unsigned
-
-#define FL_HANDLE _UNS_ FL_INT32
+#include "../IO/Output/LoggerService.h"
 

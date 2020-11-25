@@ -7,5 +7,5 @@ Light::Light(Color _color)
 }
 Light::Light()
 {
-	LightColor = Color::white;
+	LightColor = Color::White;
 }

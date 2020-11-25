@@ -4,12 +4,12 @@
 
 
 
-constexpr float ToRadians(float degrees)
+FLAME_DLL constexpr float ToRadians(float degrees)
 {
 	return PI * degrees / 180.0f;
 }
 
-constexpr float ToDegrees(float radians)
+FLAME_DLL constexpr float ToDegrees(float radians)
 {
 	return 180.0f * radians / PI;
 }
