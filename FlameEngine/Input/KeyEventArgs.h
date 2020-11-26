@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../dll/nchfx.h"
+#include "../dll/nchfx.h"
 #include "Keyboard.h"
 
 EXPORT_STRUCT KeyEventArgs

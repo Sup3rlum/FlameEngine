@@ -43,15 +43,6 @@
     <ClCompile Include="Graphics\VertexElements.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="IO\AssetManager.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="IO\File.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="IO\Memory.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -151,10 +142,6 @@
     <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
     <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
     <ClCompile Include="Scene\Physics\PhysXService.cpp" />
-    <ClCompile Include="IO\Input\KeyEventArgs.cpp" />
-    <ClCompile Include="IO\Input\Keyboard.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxContainer.cpp" />
@@ -167,10 +154,24 @@
     <ClCompile Include="Graphics\RenderingService\UxRenderingService.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxWindow.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
-    <ClCompile Include="IO\Output\LoggerService.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
-    <ClCompile Include="IO\Input\Mouse.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
+    <ClCompile Include="Graphics\TextureFiltering.cpp" />
+    <ClCompile Include="flameRT\Memory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Keyboard.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyEventArgs.cpp" />
+    <ClCompile Include="Input\Mouse.cpp" />
+    <ClCompile Include="Output\LoggerService.cpp" />
+    <ClCompile Include="FileSystem\AssetManager.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\File.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -214,15 +215,6 @@
     </ClInclude>
     <ClInclude Include="Graphics\VertexElements.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IO\AssetManager.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="IO\File.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="IO\Memory.h">
-      <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
@@ -342,10 +334,6 @@
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
     <ClInclude Include="Scene\Physics\PhysXService.h" />
-    <ClInclude Include="IO\Input\KeyEventArgs.h" />
-    <ClInclude Include="IO\Input\Keyboard.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\UserInterface\UxComponent.h" />
     <ClInclude Include="Graphics\UserInterface\UxService.h" />
     <ClInclude Include="Graphics\UserInterface\UxContainer.h" />
@@ -358,11 +346,25 @@
     <ClInclude Include="Graphics\RenderingService\UxRenderingService.h" />
     <ClInclude Include="Graphics\UserInterface\UxWindow.h" />
     <ClInclude Include="Graphics\UserInterface\UxRectangle.h" />
-    <ClInclude Include="IO\Output\LoggerService.h" />
     <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
-    <ClInclude Include="IO\Input\Mouse.h" />
     <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
     <ClInclude Include="System\systeminfo.h" />
+    <ClInclude Include="Graphics\TextureFiltering.h" />
+    <ClInclude Include="flameRT\Memory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Keyboard.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\KeyEventArgs.h" />
+    <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Output\LoggerService.h" />
+    <ClInclude Include="FileSystem\AssetManager.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\File.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

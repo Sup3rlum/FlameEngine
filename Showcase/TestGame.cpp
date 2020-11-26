@@ -139,7 +139,8 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 
 
 
-		_box->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 40);
+
+		_box->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 100);
 
 
 		char buff[128];
@@ -148,5 +149,10 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 
 		_currentScene->AddActor(buff, _box);
 
+	}
+
+	if (args.Key == Keys::GRAVE_ACCENT && args.keyState == KeyState::PRESSED)
+	{
+		_currentScene->cons->ToggleConsole();
 	}
 }

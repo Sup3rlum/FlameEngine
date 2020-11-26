@@ -20,6 +20,7 @@ public:
 
 
 	virtual void SetVisibility(bool vis);
+	virtual bool GetVisibility();
 
 private:
 	UxContainer* mParent;

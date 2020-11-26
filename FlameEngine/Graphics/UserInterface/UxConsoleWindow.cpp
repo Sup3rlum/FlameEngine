@@ -32,3 +32,7 @@ void UxConsoleWindow::SetParent(UxContainer* p)
 	TextLine->SetParent(p);
 	__super::SetParent(p);
 }
+void UxConsoleWindow::ToggleConsole()
+{
+	SetVisibility(!GetVisibility());
+}

@@ -3,8 +3,8 @@
 #include "../dll/nchfx.h"
 #include "ContextDescription.h"
 #include "../Engine/FrameTime.h"
-#include "../IO/Input/Keyboard.h"
-#include "../IO/Input/Mouse.h"
+#include "../Input/Keyboard.h"
+#include "../Input/Mouse.h"
 
 
 class Context

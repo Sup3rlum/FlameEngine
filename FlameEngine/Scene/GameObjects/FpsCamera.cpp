@@ -8,7 +8,7 @@ FpsCamera::FpsCamera(Context* _cont)
 	verticalAngle = -QUARTER_PI;
 
 
-	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 200.0f);
+	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 400.0f);
 
 
 	ProjectionInverse = fMatrix4::Inverse(Projection);

@@ -28,6 +28,11 @@ void UxComponent::SetVisibility(bool visible)
 {
 	mVisible = visible;
 }
+bool UxComponent::GetVisibility()
+{
+	return	mVisible;
+}
+
 
 
 void UxComponent::Render()

@@ -3,7 +3,7 @@
 #include "..\dll\nchfx.h"
 #include "..\dll\Version.h"
 #include "..\Scene\Scene.h"
-#include "..\IO\Input\KeyEventArgs.h"
+#include "..\Input\KeyEventArgs.h"
 
 using namespace std;
 

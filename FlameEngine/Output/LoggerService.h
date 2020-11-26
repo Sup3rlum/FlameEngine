@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../dll/framework.h"
-#include "../../util/macros.h"
+#include "../dll/framework.h"
+#include "../util/macros.h"
 
 
 EXPORT_ENUM LogMessage

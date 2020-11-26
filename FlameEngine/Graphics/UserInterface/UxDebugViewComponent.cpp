@@ -7,6 +7,7 @@ UxDebugViewComponent::UxDebugViewComponent(Scene* currentScene)
 	DebugText->TextColor = Color::White;
 	DebugText->mMultiline = true;
 	DebugText->Size = fVector2(600);
+	//DebugText->BackgroundColor = Color(0, 0, 0, 130);
 
 	this->currentScene = currentScene;
 
@@ -78,15 +79,16 @@ void UxDebugViewComponent::Render()
 void UxDebugViewComponent::Update()
 {
 
-	DebugText->Update();
 
 	int fps = (int)(1.0 / FrameTime::FrameDeltaTime.count());
 
 	DebugText->Text = "FPS: " + std::to_string(fps) + "\n" +
-		currentScene->CurrentCamera()->Position.ToString() + "\n\n" +
+		currentScene->CurrentCamera()->Position.ToString() + "\n" +
 		"CPU: " + mCpuInfo + "\n"
 		"GPU: " + mGpuInfo + "\n" +
 		"Memory: " + mMemoryInfo + "\n";
+
+	DebugText->Size.y = 5 * DebugText->pFont->FontSize + 5;
 
 
 	DebugText->Update();

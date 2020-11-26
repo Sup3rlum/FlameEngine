@@ -181,8 +181,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
-    <ClInclude Include="IO\Input\KeyEventArgs.h" />
-    <ClInclude Include="IO\Output\LoggerService.h" />
+    <ClInclude Include="Input\KeyEventArgs.h" />
+    <ClInclude Include="Output\LoggerService.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
     <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
@@ -196,8 +196,8 @@
     <ClInclude Include="Mathematics\Module.h" />
     <ClInclude Include="Mathematics\Utilities\BezierCurve.h" />
     <ClInclude Include="Engine\Game.h" />
-    <ClInclude Include="IO\File.h" />
-    <ClInclude Include="IO\AssetManager.h" />
+    <ClInclude Include="FileSystem\File.h" />
+    <ClInclude Include="FileSystem\AssetManager.h" />
     <ClInclude Include="Context\Context.h" />
     <ClInclude Include="Context\ContextDescription.h" />
     <ClInclude Include="Context\GLFWContext.h" />
@@ -207,7 +207,7 @@
     <ClInclude Include="dll\Version.h" />
     <ClInclude Include="Engine\FrameTime.h" />
     <ClInclude Include="Engine\EngineInstance.h" />
-    <ClInclude Include="IO\Input\Keyboard.h" />
+    <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Graphics\Color.h" />
     <ClInclude Include="Graphics\FrameBuffer.h" />
@@ -220,7 +220,7 @@
     <ClInclude Include="Graphics\Vertex.h" />
     <ClInclude Include="Graphics\VertexBuffer.h" />
     <ClInclude Include="Graphics\VertexElements.h" />
-    <ClInclude Include="IO\Memory.h" />
+    <ClInclude Include="flameRT\Memory.h" />
     <ClInclude Include="Mathematics\Types\fMatrix2.h" />
     <ClInclude Include="Mathematics\Types\fMatrix3.h" />
     <ClInclude Include="Mathematics\Types\fMatrix4.h" />
@@ -229,7 +229,7 @@
     <ClInclude Include="Mathematics\Types\fVector3.h" />
     <ClInclude Include="Mathematics\Types\fVector4.h" />
     <ClInclude Include="flameRT\Runtime.h" />
-    <ClInclude Include="IO\Input\Mouse.h" />
+    <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="Scene\Physics\PhysXService.h" />
     <ClInclude Include="Scene\Environment\Sky.h" />
     <ClInclude Include="Scene\GameObjects\Actor.h" />
@@ -251,6 +251,7 @@
     <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
     <ClInclude Include="System\systeminfo.h" />
+    <ClInclude Include="Graphics\TextureFiltering.h" />
     <ClInclude Include="util\gfunc.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
@@ -269,8 +270,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
-    <ClCompile Include="IO\Input\KeyEventArgs.cpp" />
-    <ClCompile Include="IO\Output\LoggerService.cpp" />
+    <ClCompile Include="Input\KeyEventArgs.cpp" />
+    <ClCompile Include="Output\LoggerService.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
     <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
@@ -280,8 +281,8 @@
     <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
     <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
-    <ClCompile Include="IO\File.cpp" />
-    <ClCompile Include="IO\AssetManager.cpp" />
+    <ClCompile Include="FileSystem\File.cpp" />
+    <ClCompile Include="FileSystem\AssetManager.cpp" />
     <ClCompile Include="Context\Context.cpp" />
     <ClCompile Include="Context\ContextDescription.cpp" />
     <ClCompile Include="Context\GLFWContext.cpp" />
@@ -289,7 +290,7 @@
     <ClCompile Include="dll\Version.cpp" />
     <ClCompile Include="Engine\FrameTime.cpp" />
     <ClCompile Include="Engine\EngineInstance.cpp" />
-    <ClCompile Include="IO\Input\Keyboard.cpp" />
+    <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Graphics\Color.cpp" />
     <ClCompile Include="Graphics\FrameBuffer.cpp" />
@@ -302,7 +303,7 @@
     <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="Graphics\VertexBuffer.cpp" />
     <ClCompile Include="Graphics\VertexElements.cpp" />
-    <ClCompile Include="IO\Memory.cpp" />
+    <ClCompile Include="flameRT\Memory.cpp" />
     <ClCompile Include="Mathematics\Types\fMatrix2.cpp" />
     <ClCompile Include="Mathematics\Types\fMatrix3.cpp" />
     <ClCompile Include="Mathematics\Types\fMatrix4.cpp" />
@@ -311,7 +312,7 @@
     <ClCompile Include="Mathematics\Types\fVector3.cpp" />
     <ClCompile Include="Mathematics\Types\fVector4.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
-    <ClCompile Include="IO\Input\Mouse.cpp" />
+    <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Scene\Physics\PhysXService.cpp" />
     <ClCompile Include="Scene\Environment\Sky.cpp" />
     <ClCompile Include="Scene\GameObjects\Actor.cpp" />
@@ -332,6 +333,7 @@
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceDescription.cpp" />
+    <ClCompile Include="Graphics\TextureFiltering.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />

@@ -19,7 +19,7 @@ Scene::Scene(Context* _cont)
 	pUxContainer = new UxContainer(_cont);
 	pUxService->PushContainer(pUxContainer);
 
-	UxConsoleWindow* cons = new UxConsoleWindow();
+	cons = new UxConsoleWindow();
 	cons->Position = fVector2(1600, 300);
 	cons->Size = fVector2(500, 500);
 
@@ -52,23 +52,15 @@ Scene::Scene(Context* _cont)
 
 	_tex = new Texture(".\\textures\\dirt.jpg");
 
-	_depthMap = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, true);
-	_depthMap->Bind();
-	_depthMap->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_depthMap->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_depthMap->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_depthMap->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_depthMap->Unbind();
+	_depthMap = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
+	_depthMap->SetFilteringMode(TextureFiltering::BILINEAR);
+	_depthMap->SetWrappingMode(TextureWrapping::REPEAT);
 
 
+	_blurTexture = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
+	_blurTexture->SetFilteringMode(TextureFiltering::BILINEAR);
+	_blurTexture->SetWrappingMode(TextureWrapping::REPEAT);
 
-	_blurTexture = new Texture(2560, 1440, GL_RGB32F, GL_RGBA, GL_FLOAT, true);
-	_blurTexture->Bind();
-	_blurTexture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_blurTexture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_blurTexture->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_blurTexture->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_blurTexture->Unbind();
 
 
 	_frameBuffer = new FrameBuffer(2560, 1440);
@@ -95,39 +87,24 @@ Scene::Scene(Context* _cont)
 	_SkyRenderState->DepthFunction = DepthFunc::Never;
 
 
-	_gBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGB, GL_FLOAT, false);
-	_gBuffer->Bind();
-	_gBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_gBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_gBuffer->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_gBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_gBuffer->Unbind();
+	_gBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	_gBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	_gBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
-	_nBuffer = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_nBuffer->Bind();
-	_nBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_nBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_nBuffer->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_nBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_nBuffer->Unbind();
+	_nBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	_nBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	_nBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
-	_aBuffer = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_aBuffer->Bind();
-	_aBuffer->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_aBuffer->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_aBuffer->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_aBuffer->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_aBuffer->Unbind();
+
+	_aBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	_aBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	_aBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 
-	_ssaoTexture = new Texture(2560, 1440, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_ssaoTexture->Bind();
-	_ssaoTexture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	_ssaoTexture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	_ssaoTexture->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-	_ssaoTexture->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	_ssaoTexture->Unbind();
+	_ssaoTexture = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	_ssaoTexture->SetFilteringMode(TextureFiltering::BILINEAR);
+	_ssaoTexture->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 
@@ -179,30 +156,17 @@ Scene::Scene(Context* _cont)
 
 
 	_ssaoNoise = new Texture(4, 4, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_ssaoNoise->Bind();
-	{
-		_ssaoNoise->SetData(&ssaoNoise[0]);
+	_ssaoNoise->SetData(&ssaoNoise[0]);
+	_ssaoNoise->SetFilteringMode(TextureFiltering::BILINEAR);
+	_ssaoNoise->SetWrappingMode(TextureWrapping::REPEAT);
 
-		_ssaoNoise->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		_ssaoNoise->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		_ssaoNoise->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-		_ssaoNoise->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	_ssaoNoise->Unbind();
+
 
 
 	_ssaoKernelTexture = new Texture(8, 8, GL_RGB32F, GL_RGB, GL_FLOAT, false);
-	_ssaoKernelTexture->Bind();
-	{
-		_ssaoKernelTexture->SetData(&ssaoKernel[0]);
-
-		_ssaoKernelTexture->SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		_ssaoKernelTexture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		_ssaoKernelTexture->SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-		_ssaoKernelTexture->SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	_ssaoKernelTexture->Unbind();
-
+	_ssaoKernelTexture->SetData(&ssaoKernel[0]);
+	_ssaoKernelTexture->SetFilteringMode(TextureFiltering::BILINEAR);
+	_ssaoKernelTexture->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 
@@ -235,7 +199,7 @@ void Scene::Render()
 	_frameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		PushCamera(LightCollection[0].LightCamera());
@@ -256,7 +220,7 @@ void Scene::Render()
 	_blurFrameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -270,7 +234,7 @@ void Scene::Render()
 	_frameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -287,7 +251,7 @@ void Scene::Render()
 
 
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -306,7 +270,7 @@ void Scene::Render()
 
 	_ssaoFrameBuffer->Bind();
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -332,7 +296,7 @@ void Scene::Render()
 	_blurFrameBuffer->Bind();
 	{
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		gaussBlur->UseProgram();
@@ -362,7 +326,7 @@ void Scene::Render()
 	// SSAO SHADER -----------------------------------------------
 
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -392,8 +356,13 @@ void Scene::Render()
 
 	_renderBatch->DrawTextures(5, new Texture * [5]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap }, 0, 0, 2560, 1440, _ssaoFinal);
 
-
-
+	/*
+	_renderBatch->DrawTexture(_gBuffer, 1200, 0, 200, 200);
+	_renderBatch->DrawTexture(_nBuffer, 1400, 0, 200, 200);
+	_renderBatch->DrawTexture(_aBuffer, 1600, 0, 200, 200);
+	_renderBatch->DrawTexture(_ssaoTexture, 1800, 0, 200, 200);
+	_renderBatch->DrawTexture(_depthMap, 2000, 0, 200, 200);
+	*/
 
 
 	pUxService->Render();

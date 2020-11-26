@@ -9,7 +9,7 @@
 #include "../Graphics/Common/RenderBatch.h"
 #include "../Graphics/FrameBuffer.h"
 #include "../Context/Context.h"
-#include "../IO/AssetManager.h"
+#include "../FileSystem/AssetManager.h"
 #include "../Mathematics/Module.h"
 #include "Physics/PhysXService.h"
 
@@ -85,6 +85,8 @@ public:
 
 	UxService* pUxService;
 	UxContainer* pUxContainer;
+
+	UxConsoleWindow* cons;
 
 	std::unordered_map<STRING, Actor*> actorCollection;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../dll/nchfx.h"
-#include "../IO/Input/KeyEventArgs.h"
+#include "../Input/KeyEventArgs.h"
 #include "ContextDescription.h"
 #include "Context.h"
 

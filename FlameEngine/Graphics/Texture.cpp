@@ -75,14 +75,82 @@ Texture::Texture(GLuint width, GLuint height, GLint colorFormat, GLint outerColo
 	IsMultiSampled = true;
 }
 
-void Texture::SetParameter(GLenum _n, GLenum _v)
+// ------ Filtering
+
+
+void Texture::SetFilteringMode(TextureFiltering type)
 {
-	glTexParameteri(TextureType, _n, _v);
+	mFilteringType = type;
+
+	Bind();
+
+
+
+	switch (type)
+	{
+	default:
+	case TextureFiltering::NONE:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		break;
+	case TextureFiltering::BILINEAR:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		break;
+	case TextureFiltering::TRILINEAR:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+	case TextureFiltering::ANISOTROPIC_8:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		SetParameter(GL_TEXTURE_MAX_ANISOTROPY_EXT, 8.0f);
+		break;
+	case TextureFiltering::ANISOTROPIC_16:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		SetParameter(GL_TEXTURE_MAX_ANISOTROPY_EXT, 16.0f);
+		break;
+	}
 }
-void Texture::SetParameterf(GLenum _n, float _v)
+
+void Texture::SetWrappingMode(TextureWrapping type)
+{
+	mWrappingMode = type;
+
+	Bind();
+
+	SetParameter(GL_TEXTURE_WRAP_S, type);
+	SetParameter(GL_TEXTURE_WRAP_T, type);
+}
+
+
+
+
+// ------- Parameter setting
+
+template<typename T>
+void Texture::SetParameter(GLenum _n, T _v)
+{
+	glTexParameteri(TextureType, _n, (UINT)_v);
+}
+
+template<>
+void Texture::SetParameter<float>(GLenum _n, float _v)
 {
 	glTexParameterf(TextureType, _n, _v);
 }
+template<>
+void Texture::SetParameter<unsigned int>(GLenum _n, unsigned int _v)
+{
+	glTexParameteri(TextureType, _n, _v);
+}
+
+
+
+
 
 void Texture::Bind()
 {

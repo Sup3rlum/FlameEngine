@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UxWindow.h"
-#include "../../IO//Output/LoggerService.h"
+#include "../../Output/LoggerService.h"
 
 
 EXPORT_CLASS UxConsoleWindow : public UxWindow
@@ -14,6 +14,9 @@ public:
 	void Render() override;
 
 	void SetParent(UxContainer* p) override;
+
+
+	void ToggleConsole();
 
 	UxLabel* TextLine;
 };

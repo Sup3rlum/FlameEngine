@@ -104,7 +104,11 @@ void main()
     //vec4 FragPos = texture(gPosition, fTexcoord);
     vec4 FragPos = vec4(UnpackPosition(fTexcoord), 1.0);
     vec3 Normal =  UnpackNormal(fTexcoord);
-    vec3 Albedo = texture(gAlbedo, fTexcoord).rgb;
+
+	vec4 fullAlbedo = texture(gAlbedo, fTexcoord);
+
+    vec3 Albedo = fullAlbedo.rgb;
+
 
 
 	vec4 fragPosLightSpace = LightViewProjection * InverseView * FragPos;
@@ -123,7 +127,7 @@ void main()
 
     float shadow = ShadowCalculation(fragPosLightSpace);     
 
-    FragColor = vec4(ambient + (1.0 - shadow) * diffuse, 1.0);
+    FragColor = vec4(ambient + (1.0 - shadow) * diffuse, fullAlbedo.a);
 
 
 }
