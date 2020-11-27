@@ -25,6 +25,7 @@ Some of the the upcoming features I am currently working on:
 ## Dependencies
 
 - PhysX 4.1
+- HBAO+ 3.1.4
 - OpenGL 4.0
 - glew32
 - GLFW
