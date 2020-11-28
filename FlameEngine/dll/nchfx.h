@@ -28,6 +28,7 @@
 #include "../util/macros.h"
 #include "../util/result.h"
 
+#include "../System/systeminfo.h"
 
 #include "../Output/LoggerService.h"
 

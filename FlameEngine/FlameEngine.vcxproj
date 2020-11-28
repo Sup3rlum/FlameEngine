@@ -123,8 +123,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Projects\_Libraries\ftgl-2.1.3~rc5\msvc\build;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug;D:\Projects\_Libraries\hbao+3.0\lib\win64;D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;ftgl_static_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\_Libraries\ftgl-2.1.3~rc5\msvc\build;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug;D:\Projects\_Libraries\hbao\lib\win64;D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;ftgl_static_D.lib;GFSDK_SSAO_GL.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -180,8 +180,11 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Renderer\DeferredRenderer.h" />
     <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
+    <ClInclude Include="Graphics\RenderingService\HBAOPlusService.h" />
     <ClInclude Include="Input\KeyEventArgs.h" />
+    <ClInclude Include="Graphics\MultisampleTexture.h" />
     <ClInclude Include="Output\LoggerService.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
@@ -230,6 +233,8 @@
     <ClInclude Include="Mathematics\Types\fVector4.h" />
     <ClInclude Include="flameRT\Runtime.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Graphics\Renderer\RendererBase.h" />
+    <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
     <ClInclude Include="Scene\Physics\PhysXService.h" />
     <ClInclude Include="Scene\Environment\Sky.h" />
     <ClInclude Include="Scene\GameObjects\Actor.h" />
@@ -250,8 +255,12 @@
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
+    <ClInclude Include="System\cpu.h" />
+    <ClInclude Include="System\gpu.h" />
+    <ClInclude Include="System\os.h" />
     <ClInclude Include="System\systeminfo.h" />
     <ClInclude Include="Graphics\TextureFiltering.h" />
+    <ClInclude Include="System\system_memory.h" />
     <ClInclude Include="util\gfunc.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
@@ -269,8 +278,11 @@
     <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Renderer\DeferredRenderer.cpp" />
     <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
+    <ClCompile Include="Graphics\RenderingService\HBAOPlusService.cpp" />
     <ClCompile Include="Input\KeyEventArgs.cpp" />
+    <ClCompile Include="Graphics\MultisampleTexture.cpp" />
     <ClCompile Include="Output\LoggerService.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
@@ -313,6 +325,8 @@
     <ClCompile Include="Mathematics\Types\fVector4.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
+    <ClCompile Include="Graphics\Renderer\RendererBase.cpp" />
+    <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
     <ClCompile Include="Scene\Physics\PhysXService.cpp" />
     <ClCompile Include="Scene\Environment\Sky.cpp" />
     <ClCompile Include="Scene\GameObjects\Actor.cpp" />

@@ -5,6 +5,10 @@
 
 EXPORT_CLASS Runtime
 {
+public:
 
+	SystemInfo sysInfo;
+
+	static Runtime* handlingInstance;
 };
 

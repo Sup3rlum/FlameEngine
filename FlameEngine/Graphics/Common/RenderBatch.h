@@ -2,6 +2,7 @@
 
 #include "../../dll/nchfx.h"
 #include "../../Graphics/Texture.h"
+#include "../../Graphics/MultisampleTexture.h"
 #include "../../Graphics/ShaderDefinitions/Shader.h"
 #include "../../Graphics/VertexBuffer.h"
 #include "../../Graphics/Vertex.h"
@@ -20,6 +21,7 @@ public:
 	RenderBatch(Context*_context);
 
 	void DrawTexture(Texture* _tex, float x, float y, float width, float height);
+	void DrawMultisampleTexture(MultisampleTexture* _tex, float x, float y, float width, float height);
 	void DrawTexture(Texture* _tex, float x, float y, float width, float height, Shader* _shader);
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height);
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Shader* _shader);
@@ -29,6 +31,7 @@ public:
 
 
 	Shader* _shader;
+	Shader* _msShader;
 	Shader* _shaderString;
 	VertexBuffer* _vb;
 

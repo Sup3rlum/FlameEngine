@@ -13,6 +13,13 @@ void FrameBuffer::BindTexture(Texture* _tex, GLuint attachment)
 {
 	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->TextureType, _tex->_handle, 0);
 }
+
+void FrameBuffer::BindTexture(MultisampleTexture* _tex, GLuint attachment)
+{
+	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->TextureType, _tex->_handle, 0);
+}
+
+
 void FrameBuffer::SetAttachments(GLenum* _att, int count)
 {
 	glDrawBuffers(count, _att);

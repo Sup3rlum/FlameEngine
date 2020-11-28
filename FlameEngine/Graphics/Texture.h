@@ -11,7 +11,7 @@ public:
 
 	Texture(STRING filepath);
 	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap);
-	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap, int sampleCount);
+
 
 	template<typename T>
 	void SetParameter(GLenum name, T param);
@@ -31,7 +31,7 @@ public:
 		Bind();
 
 		_dataInternal = _data;
-		glTexImage2D(GL_TEXTURE_2D, 0, _colorFormat, _width, _height, 0, _outerColorFormat, _dataFormat, _dataInternal);
+		glTexImage2D(TextureType, 0, _colorFormat, _width, _height, 0, _outerColorFormat, _dataFormat, _dataInternal);
 	}
 
 
@@ -54,7 +54,6 @@ public:
 	int _height;
 	int _channels;
 
-	bool IsMultiSampled;
 
 	GLenum TextureType;
 

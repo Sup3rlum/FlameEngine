@@ -172,6 +172,11 @@
     <ClCompile Include="FileSystem\File.cpp">
       <Filter>IO</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\MultisampleTexture.cpp" />
+    <ClCompile Include="Graphics\Renderer\RendererBase.cpp" />
+    <ClCompile Include="Graphics\Renderer\DeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\RenderingService\HBAOPlusService.cpp" />
+    <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -365,6 +370,15 @@
     <ClInclude Include="FileSystem\File.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="System\gpu.h" />
+    <ClInclude Include="System\cpu.h" />
+    <ClInclude Include="System\os.h" />
+    <ClInclude Include="System\system_memory.h" />
+    <ClInclude Include="Graphics\MultisampleTexture.h" />
+    <ClInclude Include="Graphics\Renderer\RendererBase.h" />
+    <ClInclude Include="Graphics\Renderer\DeferredRenderer.h" />
+    <ClInclude Include="Graphics\RenderingService\HBAOPlusService.h" />
+    <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

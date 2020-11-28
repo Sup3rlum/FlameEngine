@@ -21,9 +21,10 @@ void TestGame::Load()
 	//GameEntity* _man = new GameEntity("man.fl3d");
 	GameEntity* _ground = new GameEntity("plane.fl3d");
 	GameEntity* _box = new GameEntity("box.fl3d");
+	GameEntity* _sponza = new GameEntity("sponza.fl3d");
 	//GameEntity* _house = new GameEntity("house.fl3d");
 
-
+	_sponza->Position = fVector3(0, 0, 0);
 	//_man->Position = fVector3(4, -1, -4);
 	_box->Position = fVector3(0, 1, 0);
 	_ground->Position = fVector3(0, 0, 0);
@@ -31,6 +32,7 @@ void TestGame::Load()
 
 	_ground->Scale = fVector3(5.0f);
 	_box->Scale = fVector3(1.0f);
+	_sponza->Scale = fVector3(0.15f);
 	//_house->Scale = fVector3(0.12f);
 	//_man->Scale = fVector3(1.0f);
 
@@ -62,6 +64,7 @@ void TestGame::Load()
 	_currentScene->AddActor("box", _box);
 	_currentScene->AddActor("rbox", _box2);
 	_currentScene->AddActor("ground", _ground);
+	_currentScene->AddActor("sponza", _sponza);
 	//_currentScene->AddActor("house", _house);
 
 
@@ -154,5 +157,21 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 	if (args.Key == Keys::GRAVE_ACCENT && args.keyState == KeyState::PRESSED)
 	{
 		_currentScene->cons->ToggleConsole();
+	}
+	if (args.Key == Keys::J && args.keyState == KeyState::PRESSED)
+	{
+		EngineInstance::_handlingInstance->mRenderer->SetSSAOSamples(SSAOStrength::SAMPLES_1);
+	}
+	if (args.Key == Keys::K && args.keyState == KeyState::PRESSED)
+	{
+		EngineInstance::_handlingInstance->mRenderer->SetSSAOSamples(SSAOStrength::SAMPLES_16);
+	}
+	if (args.Key == Keys::L && args.keyState == KeyState::PRESSED)
+	{
+		EngineInstance::_handlingInstance->mRenderer->SetSSAOSamples(SSAOStrength::SAMPLES_36);
+	}
+	if (args.Key == Keys::H && args.keyState == KeyState::PRESSED)
+	{
+		EngineInstance::_handlingInstance->mRenderer->enableHBAO = !EngineInstance::_handlingInstance->mRenderer->enableHBAO;
 	}
 }

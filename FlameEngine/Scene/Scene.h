@@ -13,7 +13,6 @@
 #include "../Mathematics/Module.h"
 #include "Physics/PhysXService.h"
 
-
 #include "../Graphics/UserInterface/UxService.h"
 #include "../Graphics/UserInterface/UxFrame.h"
 #include "../Graphics/UserInterface/UxLabel.h"
@@ -29,6 +28,7 @@ public:
 
 	void Update();
 	void Render();
+
 
 	stack<Camera*> _cameraStack;
 
@@ -72,6 +72,9 @@ public:
 	Texture* _ssaoTexture;
 
 	Texture* _ssaoNoise;
+
+
+	MultisampleTexture* msGBuffer;
 
 	std::vector<fVector3> ssaoKernel;
 

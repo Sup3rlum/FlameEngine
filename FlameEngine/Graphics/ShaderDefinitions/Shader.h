@@ -3,6 +3,7 @@
 
 #include "../../dll/nchfx.h"
 #include "../../Graphics/Texture.h"
+#include "../../Graphics/MultisampleTexture.h"
 #include "../../Graphics/Color.h"
 
 using namespace std;
@@ -40,6 +41,8 @@ public:
 	void SetInt(const string& name, int val);
 
 	void SetTexture(_UNS_ FL_INT32 _id, Texture* _texture);
+	void SetTexture(_UNS_ FL_INT32 _id, MultisampleTexture* _texture);
 	void SetTexture(const string& name, Texture* _texture);
+	void SetTexture(const string& name, MultisampleTexture* _texture);
 };
 

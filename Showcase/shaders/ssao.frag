@@ -8,7 +8,7 @@ uniform sampler2D gNormal;
 uniform sampler2D texNoise;
 
 
-float radius = 0.4;
+float radius = 1.0;
 float bias = 0.025;
 
 // tile noise texture over screen based on screen dimensions divided by noise size

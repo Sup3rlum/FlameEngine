@@ -5,6 +5,7 @@
 #include "../Engine/FrameTime.h"
 #include "../Input/Keyboard.h"
 #include "../Input/Mouse.h"
+#include "../flameRT/Runtime.h"
 
 
 class Context

@@ -11,6 +11,9 @@
     <Filter Include="shaders\ux">
       <UniqueIdentifier>{3a20b379-915b-447c-9c6c-7d6a18d9de68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\renderbatch">
+      <UniqueIdentifier>{453dffe9-dd3a-4402-9080-1edd33a1c8d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -105,6 +108,9 @@
     </None>
     <None Include="shaders\ux\uxFrame.vert">
       <Filter>shaders\ux</Filter>
+    </None>
+    <None Include="renderbatch_multisample.frag">
+      <Filter>shaders\renderbatch</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

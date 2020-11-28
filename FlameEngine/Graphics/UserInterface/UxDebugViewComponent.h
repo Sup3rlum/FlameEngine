@@ -26,10 +26,5 @@ public:
 	UxLabel* DebugText;
 	VertexBuffer* mVertexBuffer;
 
-
-	STRING mCpuInfo;
-	STRING mGpuInfo;
-	STRING mMemoryInfo;
-
 };
 

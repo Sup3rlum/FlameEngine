@@ -30,33 +30,6 @@ UxDebugViewComponent::UxDebugViewComponent(Scene* currentScene)
 
 	mVertexBuffer->SetData(lVertexData, 6);
 
-
-	int CPUInfo[4] = { -1 };
-	unsigned   nExIds, i = 0;
-	char CPUBrandString[0x40];
-	// Get the information associated with each extended ID.
-	__cpuid(CPUInfo, 0x80000000);
-	nExIds = CPUInfo[0];
-	for (i = 0x80000000; i <= nExIds; ++i)
-	{
-		__cpuid(CPUInfo, i);
-		// Interpret CPU brand string
-		if (i == 0x80000002)
-			memcpy(CPUBrandString, CPUInfo, sizeof(CPUInfo));
-		else if (i == 0x80000003)
-			memcpy(CPUBrandString + 16, CPUInfo, sizeof(CPUInfo));
-		else if (i == 0x80000004)
-			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
-	}
-
-	MEMORYSTATUSEX statex;
-	statex.dwLength = sizeof(statex);
-	GlobalMemoryStatusEx(&statex);
-
-	mCpuInfo = STRING(CPUBrandString);
-	mGpuInfo = STRING((char*)glGetString(GL_RENDERER));
-	mMemoryInfo = to_string((statex.ullTotalPhys / 1024) / 1024) + " MB";
-
 }
 
 void UxDebugViewComponent::Render()
@@ -81,14 +54,12 @@ void UxDebugViewComponent::Update()
 
 
 	int fps = (int)(1.0 / FrameTime::FrameDeltaTime.count());
-
-	DebugText->Text = "FPS: " + std::to_string(fps) + "\n" +
-		currentScene->CurrentCamera()->Position.ToString() + "\n" +
-		"CPU: " + mCpuInfo + "\n"
-		"GPU: " + mGpuInfo + "\n" +
-		"Memory: " + mMemoryInfo + "\n";
-
-	DebugText->Size.y = 5 * DebugText->pFont->FontSize + 5;
+	
+	DebugText->Text =	"FPS: " + std::to_string(fps) + "\n" +
+						Runtime::handlingInstance->sysInfo.cpuInfo.oemString + "\n" + 
+						Runtime::handlingInstance->sysInfo.gpuInfo.oemString + "\n" +
+						Runtime::handlingInstance->sysInfo.gpuInfo.driverString + "\n" +
+						"Memory: "		+ to_string(Runtime::handlingInstance->sysInfo.memoryInfo.size / (1024 * 1024)) + "MB\n";
 
 
 	DebugText->Update();

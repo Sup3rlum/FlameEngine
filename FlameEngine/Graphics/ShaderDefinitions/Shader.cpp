@@ -46,7 +46,7 @@ Shader::Shader(STRING vCode, STRING fCode)
 	if (!vSuccess)
 	{
 		glGetShaderInfoLog(_vertex, 512, NULL, vInfo);
-		cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << vInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + STRING(vInfo));
 	};
 
 	_fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -60,7 +60,7 @@ Shader::Shader(STRING vCode, STRING fCode)
 	if (!fSuccess)
 	{
 		glGetShaderInfoLog(_fragment, 512, NULL, fInfo);
-		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << fInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + STRING(fInfo));
 	};
 
 	_programID = glCreateProgram();
@@ -92,7 +92,7 @@ Shader::Shader(STRING vCode, STRING gCode, STRING fCode)
 	if (!vSuccess)
 	{
 		glGetShaderInfoLog(_vertex, 512, NULL, vInfo);
-		cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << vInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + STRING(vInfo));
 	}
 
 
@@ -109,7 +109,7 @@ Shader::Shader(STRING vCode, STRING gCode, STRING fCode)
 	if (!gSuccess)
 	{
 		glGetShaderInfoLog(_geometry, 512, NULL, gInfo);
-		cout << "ERROR::SHADER::GEOMETRY::COMPILATION_FAILED\n" << gInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::GEOMETRY::COMPILATION_FAILED\n" + STRING(gInfo));
 	}
 
 
@@ -127,7 +127,7 @@ Shader::Shader(STRING vCode, STRING gCode, STRING fCode)
 	if (!fSuccess)
 	{
 		glGetShaderInfoLog(_fragment, 512, NULL, fInfo);
-		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << fInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + STRING(fInfo));
 	}
 
 	// --------------------
@@ -146,7 +146,7 @@ Shader::Shader(STRING vCode, STRING gCode, STRING fCode)
 	if (!lSuccess)
 	{
 		glGetProgramInfoLog(_programID, 512, NULL, lInfo);
-		cout << "ERROR::SHADER::LINKING_FAILED\n" << lInfo << endl;
+		FLAME_ERROR("ERROR::SHADER::LINKING_FAILED\n" + STRING(lInfo));
 	}
 	// ------------------------
 
@@ -194,14 +194,31 @@ void Shader::SetColor(const string& name, Color val)
 {
 	glUniform4fv(glGetUniformLocation(_programID, name.c_str()), 1, &(val.r));
 }
+
+
+
+
 void Shader::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0 + _id);
 	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
 }
+void Shader::SetTexture(_UNS_ FL_INT32 _id, MultisampleTexture* _tex)
+{
+	glActiveTexture(GL_TEXTURE0 + _id);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->_handle);
+}
+
+
+
 
 void Shader::SetTexture(const string& name, Texture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
+}
+void Shader::SetTexture(const string& name, MultisampleTexture* _tex)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->_handle);
 }

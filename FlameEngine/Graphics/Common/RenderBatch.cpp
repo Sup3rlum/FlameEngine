@@ -26,6 +26,8 @@ RenderBatch::RenderBatch(Context* _c)
 	_shader			= Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
 	_shaderString	= Shader::FromSource("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
 
+	_msShader = Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch/renderbatch_multisample.frag");
+
 	_vb = new VertexBuffer(VertexTexture::Elements);
 
 	_vb->SetIndexedData<VertexTexture>(_vert,_ind, 4, 6);
@@ -40,7 +42,29 @@ RenderBatch::RenderBatch(Context* _c)
 
 
 }
+// MUTLISAMPLE TEXTURE DRAWING
 
+
+
+void RenderBatch::DrawMultisampleTexture(MultisampleTexture* _tex, float x, float y, float width, float height)
+{
+	RenderState::Push(State);
+
+	_shader->UseProgram();
+
+	_shader->SetMatrix("View", View);
+	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_shader->SetTexture(0, _tex);
+
+	_vb->RenderIndexed(GL_TRIANGLES);
+
+	RenderState::Pop();
+}
+
+
+
+
+// TEXTURE DRAWING
 
 void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, float height)
 {

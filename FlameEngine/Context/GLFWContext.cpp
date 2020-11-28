@@ -1,8 +1,43 @@
 #include "GLFWContext.h"
-
+#include <intrin.h>
 
 void GLFWContext::Initialize(ContextDescription* _contextDescription)
 {
+	int CPUInfo[4] = { -1 };
+	unsigned   nExIds, i = 0;
+	char CPUBrandString[0x40];
+	// Get the information associated with each extended ID.
+	__cpuid(CPUInfo, 0x80000000);
+	nExIds = CPUInfo[0];
+	for (i = 0x80000000; i <= nExIds; ++i)
+	{
+		__cpuid(CPUInfo, i);
+		// Interpret CPU brand string
+		if (i == 0x80000002)
+			memcpy(CPUBrandString, CPUInfo, sizeof(CPUInfo));
+		else if (i == 0x80000003)
+			memcpy(CPUBrandString + 16, CPUInfo, sizeof(CPUInfo));
+		else if (i == 0x80000004)
+			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
+	}
+
+	MEMORYSTATUSEX statex;
+	statex.dwLength = sizeof(statex);
+	GlobalMemoryStatusEx(&statex);
+
+
+	SYSTEM_INFO sysinfo;
+	GetSystemInfo(&sysinfo);
+
+
+
+
+	Runtime::handlingInstance = new Runtime();
+	Runtime::handlingInstance->sysInfo.cpuInfo.oemString = STRING(CPUBrandString);
+	Runtime::handlingInstance->sysInfo.cpuInfo.numCores = sysinfo.dwNumberOfProcessors;
+
+	Runtime::handlingInstance->sysInfo.memoryInfo.size = statex.ullTotalPhys;
+
 
 	// GLFW Context
 
@@ -43,6 +78,15 @@ void GLFWContext::Initialize(ContextDescription* _contextDescription)
 	{
 		FLAME_MSGBOX_ERROR(L"Failed to initialize GLEW");
 	}
+
+	GLint vMemoryKb = 0;
+	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &vMemoryKb);
+
+	
+	Runtime::handlingInstance->sysInfo.gpuInfo.oemVendor = STRING((char*)glGetString(GL_VENDOR));
+	Runtime::handlingInstance->sysInfo.gpuInfo.oemString = STRING((char*)glGetString(GL_RENDERER));
+	Runtime::handlingInstance->sysInfo.gpuInfo.driverString = STRING((char*)glGetString(GL_VERSION));
+	Runtime::handlingInstance->sysInfo.gpuInfo.vMemory = vMemoryKb * 1024;
 
 
 	__super::Initialize(_contextDescription);

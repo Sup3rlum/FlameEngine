@@ -107,16 +107,20 @@ Scene::Scene(Context* _cont)
 	_ssaoTexture->SetWrappingMode(TextureWrapping::REPEAT);
 
 
+	msGBuffer = new MultisampleTexture(2560, 1440, GL_RGBA32F, _cont->_contextDescription->contextSampleCount);
+	msGBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	msGBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 	_sceneFrameBuffer = new FrameBuffer(2560, 1440);
 	_sceneFrameBuffer->Bind();
 	_sceneFrameBuffer->BindTexture(_gBuffer, GL_COLOR_ATTACHMENT0);
+	//_sceneFrameBuffer->BindTexture(msGBuffer, GL_COLOR_ATTACHMENT0);
+
 	_sceneFrameBuffer->BindTexture(_nBuffer, GL_COLOR_ATTACHMENT1);
 	_sceneFrameBuffer->BindTexture(_aBuffer, GL_COLOR_ATTACHMENT2);
 
 	_sceneFrameBuffer->EnableDepth();
-
 	_sceneFrameBuffer->SetAttachments(attachments, 3);
 
 	_sceneFrameBuffer->Unbind();
@@ -193,181 +197,16 @@ void Scene::Update()
 	pUxService->Update();
 
 }
+
 void Scene::Render()
 {
-
-	_frameBuffer->Bind();
+	for (auto i = actorCollection.begin(); i != actorCollection.end(); i++)
 	{
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		PushCamera(LightCollection[0].LightCamera());
-
-
-		for (auto i = actorCollection.begin(); i != actorCollection.end(); i++)
-		{
-			i->second->Render();
-		}
-
-
-		PopCamera();
-
+		i->second->Render();
 	}
-	_frameBuffer->Unbind();
-
-
-	_blurFrameBuffer->Bind();
-	{
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		gaussBlur->UseProgram();
-
-		gaussBlur->SetVector("Direction", fVector2(0.0f, 1.0f));
-
-		_renderBatch->DrawTexture(_depthMap, 0, 0, 2560.0f, 1440.0f, gaussBlur);
-	}
-	_blurFrameBuffer->Unbind();
-
-	_frameBuffer->Bind();
-	{
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		gaussBlur->UseProgram();
-
-		gaussBlur->SetVector("Direction", fVector2(1.0f, 0.0f));
-
-		_renderBatch->DrawTexture(_blurTexture, 0, 0, 2560.0f, 1440.0f, gaussBlur);
-	}
-	_frameBuffer->Unbind();
-	
-
-	_sceneFrameBuffer->Bind();
-	{
-
-
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-
-		for (auto i = actorCollection.begin(); i != actorCollection.end(); i++)
-		{
-			i->second->Render();
-		}
-
-
-	}
-	_sceneFrameBuffer->Unbind();
-
-
-	// SSAO SHADER -----------------------------------------------
-
-	_ssaoFrameBuffer->Bind();
-	{
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-		_ssaoShader->UseProgram();
-		_ssaoShader->SetMatrix("Projection",		CurrentCamera()->Projection);
-		_ssaoShader->SetMatrix("InverseProjection",	CurrentCamera()->ProjectionInverse);
-		_ssaoShader->SetMatrix("SceneView",			CurrentCamera()->View);
-		_ssaoShader->SetInt("KernelSize",			24);
-
-		int pLocation = glGetUniformLocation(_ssaoShader->_programID, "gDepth");
-		int nLocation = glGetUniformLocation(_ssaoShader->_programID, "gNormal");
-		int tnLocation = glGetUniformLocation(_ssaoShader->_programID, "texNoise");
-
-		glUniform1i(pLocation, 0);
-		glUniform1i(nLocation, 1);
-		glUniform1i(tnLocation, 2);
-		
-		_renderBatch->DrawTextures(3, new Texture * [3]{ _gBuffer, _nBuffer, _ssaoNoise }, 0, 0, 2560, 1440, _ssaoShader);
-
-	}
-	_ssaoFrameBuffer->Unbind();
-	
-	_blurFrameBuffer->Bind();
-	{
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		gaussBlur->UseProgram();
-
-		gaussBlur->SetVector("Direction", fVector2(0.0f, 1.0f));
-
-		_renderBatch->DrawTexture(_ssaoTexture, 0, 0, 2560.0f, 1440.0f, gaussBlur);
-	}
-	_blurFrameBuffer->Unbind();
-
-	_ssaoFrameBuffer->Bind();
-	{
-
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		gaussBlur->UseProgram();
-
-		gaussBlur->SetVector("Direction", fVector2(1.0f, 0.0f));
-
-		_renderBatch->DrawTexture(_blurTexture, 0, 0, 2560.0f, 1440.0f, gaussBlur);
-	}
-	_ssaoFrameBuffer->Unbind();
-
-
-
-	// SSAO SHADER -----------------------------------------------
-
-
-	glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-
-	_ssaoFinal->UseProgram();
-	_ssaoFinal->SetMatrix("InverseProjection",		CurrentCamera()->ProjectionInverse);
-	_ssaoFinal->SetMatrix("InverseView",			CurrentCamera()->ViewInverse);
-	_ssaoFinal->SetMatrix("LightViewProjection",	LightCollection[0].Projection * LightCollection[0].View);
-
-	_ssaoFinal->SetVector("DirectionalLights[0].Direction",		LightCollection[0].Direction);
-	_ssaoFinal->SetVector("DirectionalLights[0].Color",			LightCollection[0].LightColor);
-	_ssaoFinal->SetFloat("DirectionalLights[0].Intensity",		LightCollection[0].Intensity);
-
-
-	int pLoc = glGetUniformLocation(_ssaoFinal->_programID, "gDepth");
-	int nLoc = glGetUniformLocation(_ssaoFinal->_programID, "gNormal");
-	int aLoc = glGetUniformLocation(_ssaoFinal->_programID, "gAlbedo");
-	int ssLoc = glGetUniformLocation(_ssaoFinal->_programID, "ssao");
-	int smLoc = glGetUniformLocation(_ssaoFinal->_programID, "_shadowMap");
-
-	glUniform1i(pLoc, 0);
-	glUniform1i(nLoc, 1);
-	glUniform1i(aLoc, 2);
-	glUniform1i(ssLoc, 3);
-	glUniform1i(smLoc, 4);
-
-
-	_renderBatch->DrawTextures(5, new Texture * [5]{ _gBuffer, _nBuffer, _aBuffer, _ssaoTexture, _depthMap }, 0, 0, 2560, 1440, _ssaoFinal);
-
-	/*
-	_renderBatch->DrawTexture(_gBuffer, 1200, 0, 200, 200);
-	_renderBatch->DrawTexture(_nBuffer, 1400, 0, 200, 200);
-	_renderBatch->DrawTexture(_aBuffer, 1600, 0, 200, 200);
-	_renderBatch->DrawTexture(_ssaoTexture, 1800, 0, 200, 200);
-	_renderBatch->DrawTexture(_depthMap, 2000, 0, 200, 200);
-	*/
-
-
-	pUxService->Render();
 
 }
+
 void Scene::AddActor(std::string _id, Actor* _ac)
 {
 	if (actorCollection.find(_id) == actorCollection.end())

@@ -10,7 +10,7 @@
 #include "Game.h"
 
 #include "../Graphics/RenderState.h"
-
+#include "../Graphics/Renderer/DeferredRenderer.h"
 
 
 
@@ -27,8 +27,10 @@ public:
 	static void key_callback_dispatch(GLFWwindow* win, int key, int scancode, int action, int mods);
 
 	Context* _currentContext;
-
 	Game* _game;
+
+	DeferredRenderer* mRenderer;
+
 
 	bool IsAttached;
 

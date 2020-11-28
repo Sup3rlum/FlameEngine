@@ -52,6 +52,9 @@ FLRESULT EngineInstance::AttachContext(Context* _context)
 	RenderState::Push(_default);
 
 
+	mRenderer = new DeferredRenderer(_context);
+
+
 	IsAttached = true;
 
 	return FLRESULT::SUCCESS;
@@ -81,7 +84,8 @@ FLRESULT EngineInstance::Start()
 	while (!(_currentContext->shouldTerminate) && IsAttached && _game != nullptr)
 	{
 		_game->_currentScene->Update();
-		_game->_currentScene->Render();
+		mRenderer->BeginRender(_game->_currentScene);
+
 
 		_currentContext->SwapChain();
 	}

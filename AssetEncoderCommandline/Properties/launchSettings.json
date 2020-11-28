@@ -2,7 +2,7 @@
   "profiles": {
     "AssetEncoderCommandline": {
       "commandName": "Project",
-      "commandLineArgs": "-i \".\\script.buildscript\""
+      "commandLineArgs": "-i \".\\sponza.buildscript\""
     }
   }
 }
