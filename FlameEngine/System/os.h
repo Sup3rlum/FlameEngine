@@ -3,7 +3,7 @@
 #include "../dll/framework.h"
 #include "../util/macros.h"
 
-EXPORT_STRUCT FLAME_OS
+EXPORT(struct,  FLAME_OS)
 {
 public:
 	STRING systemString;

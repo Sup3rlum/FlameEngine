@@ -14,6 +14,9 @@
     <Filter Include="shaders\renderbatch">
       <UniqueIdentifier>{453dffe9-dd3a-4402-9080-1edd33a1c8d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\blur">
+      <UniqueIdentifier>{7f9aa4d3-263f-49b0-9db4-2dabdaa4c24f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -111,6 +114,9 @@
     </None>
     <None Include="renderbatch_multisample.frag">
       <Filter>shaders\renderbatch</Filter>
+    </None>
+    <None Include="shaders\blur\kawase_blur.frag">
+      <Filter>shaders\blur</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

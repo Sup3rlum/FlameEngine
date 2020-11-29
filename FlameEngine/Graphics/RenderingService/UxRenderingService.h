@@ -2,19 +2,19 @@
 
 
 #include "../../dll/nchfx.h"
-#include "../../Graphics/Texture.h"
-#include "../../Graphics/ShaderDefinitions/Shader.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Graphics/Vertex.h"
-#include "../../Graphics/UserInterface/UxFont.h"
-#include "../../Graphics/RenderState.h"
+#include "../Common/Texture.h"
+#include "../ShaderDefinitions/Shader.h"
+#include "../Common/VertexBuffer.h"
+#include "../Common/Vertex.h"
+#include "../UserInterface/UxFont.h"
+#include "../Common/RenderState.h"
 #include "../../Context/ContextDescription.h"
 #include "../../Context/Context.h"
 
 
 #include "../UserInterface/UxRectangle.h"
 
-EXPORT_CLASS UxRenderingService
+EXPORT(class,  UxRenderingService)
 {
 public:
 		UxRenderingService(Context* _context);

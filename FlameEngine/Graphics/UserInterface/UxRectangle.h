@@ -4,7 +4,7 @@
 #include "../../dll/nchfx.h"
 #include "../../Mathematics/Module.h"
 
-EXPORT_STRUCT UxRectangle
+EXPORT(struct,  UxRectangle)
 {
 public:
 	union

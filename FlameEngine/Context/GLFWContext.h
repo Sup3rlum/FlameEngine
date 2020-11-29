@@ -5,7 +5,7 @@
 #include "ContextDescription.h"
 #include "Context.h"
 
-EXPORT_CLASS GLFWContext : public Context
+EXPORT(class,  GLFWContext) : public Context
 {
 public:
 

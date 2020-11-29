@@ -3,7 +3,7 @@
 
 #include "Light.h"
 
-EXPORT_STRUCT AmbientLight : public Light
+EXPORT(struct,  AmbientLight) : public Light
 {
 public:
 	float Intensity;

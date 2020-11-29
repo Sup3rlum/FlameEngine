@@ -1,15 +1,14 @@
 #pragma once
 
 #include "../../dll/nchfx.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Graphics/Vertex.h"
-#include "../../Graphics/ShaderDefinitions/Shader.h"
+#include "../Common/VertexBuffer.h"
+#include "../Common/Vertex.h"
+#include "../ShaderDefinitions/Shader.h"
 #include "../Common/Material.h"
-#include "Camera.h"
 
-EXPORT_CLASS Scene;
+EXPORT_FORWARD_DECL(class,  Scene);
 
-EXPORT_CLASS Model
+EXPORT(class,  ModelBase)
 {
 public:
 

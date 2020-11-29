@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../../../dll/nchfx.h"
-#include "../../../Graphics/Color.h"
+#include "../../../Graphics/Common/Color.h"
 #include "../../../Mathematics/Module.h"
 
-EXPORT_STRUCT Light
+EXPORT(struct,  Light)
 {
 public:
 	Color LightColor;

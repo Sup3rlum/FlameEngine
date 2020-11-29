@@ -1,14 +1,14 @@
 #pragma once
 
 
-#include "../../Graphics/ShaderDefinitions/Shader.h"
-#include "../../Graphics/FrameBuffer.h"
+#include "../ShaderDefinitions/Shader.h"
+#include "../Common/FrameBuffer.h"
 #include "../../Context/Context.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Graphics/Vertex.h"
-#include "../../Graphics//RenderState.h"
+#include "../Common/VertexBuffer.h"
+#include "../Common/Vertex.h"
+#include "../Common/RenderState.h"
 
-EXPORT_CLASS RenderingServiceBase
+EXPORT(class,  RenderingServiceBase)
 {
 public:
 	RenderingServiceBase(Context * context);

@@ -26,9 +26,9 @@ void main()
 	vec3 color = vec3(0.0);
 
 
-	for (int i = -3; i <= 3; i++)
+	for (int i = -31; i <= 31; i++)
 	{
-		color += texture2D(Texture, fTexcoord - (vec2(float(i)) * Direction / resolution)).rgb * weights7[i + 3];
+		color += texture2D(Texture, fTexcoord - (vec2(float(i)) * Direction / resolution)).rgb * weights63[i + 31];
 	}
 
 	fragColor = vec4(color, 1.0);

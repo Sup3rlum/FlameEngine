@@ -11,7 +11,7 @@ EXPORT_ENUM ShaderSourceType
 };
 
 
-EXPORT_CLASS ShaderSourceDescription
+EXPORT(class,  ShaderSourceDescription)
 {
 public:
 	STRING mSource;

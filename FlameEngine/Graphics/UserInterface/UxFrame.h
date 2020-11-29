@@ -7,7 +7,7 @@
 #include "../../Mathematics/Module.h"
 
 
-EXPORT_CLASS UxFrame : public UxComponent
+EXPORT(class,  UxFrame) : public UxComponent
 {
 public:
 

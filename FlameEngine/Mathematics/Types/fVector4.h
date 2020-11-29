@@ -6,7 +6,7 @@
 #include "fVector3.h"
 
 
-EXPORT_STRUCT fVector4
+EXPORT(class, fVector4)
 {
 public:
 

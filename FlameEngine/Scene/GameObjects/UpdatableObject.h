@@ -4,7 +4,7 @@
 #include "../../dll/nchfx.h"
 #include "../../Engine/FrameTime.h"
 
-EXPORT_CLASS UpdatableObject
+EXPORT(class,  UpdatableObject)
 {
 public:
 	virtual void Update(FrameTime* _frameTime);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
 
-EXPORT_STRUCT VertexElements
+EXPORT(struct,  VertexElements)
 {
 	int _atribNumber;
 	GLenum _type;

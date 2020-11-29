@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
-#include "../Graphics/VertexElements.h"
+#include "VertexElements.h"
 
 using namespace std;
 
 
-EXPORT_CLASS VertexBuffer
+EXPORT(class,  VertexBuffer)
 {
 
 public:

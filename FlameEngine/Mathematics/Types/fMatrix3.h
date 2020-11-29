@@ -4,7 +4,7 @@
 
 #include "fVector3.h"
 
-EXPORT_CLASS fMatrix3
+EXPORT(class,  fMatrix3)
 {
 
 		fVector3 value[3];

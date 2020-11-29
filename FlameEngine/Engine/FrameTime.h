@@ -8,7 +8,7 @@ using namespace std;
 typedef chrono::time_point<chrono::steady_clock> TimeSpan;
 typedef chrono::duration<double> TimeDuration;
 
-EXPORT_CLASS FrameTime
+EXPORT(class,  FrameTime)
 {
 public:
 

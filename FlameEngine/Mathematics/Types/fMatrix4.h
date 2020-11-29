@@ -6,7 +6,7 @@
 #include "fMatrix3.h"
 #include "fQuaternion.h"
 
-EXPORT_STRUCT fMatrix4
+EXPORT(class, fMatrix4)
 {
 
 	fVector4 value[4];

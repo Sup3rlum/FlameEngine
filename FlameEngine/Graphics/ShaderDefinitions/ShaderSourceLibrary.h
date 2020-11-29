@@ -3,7 +3,7 @@
 #include "../../dll/nchfx.h"
 #include "ShaderSourceDescription.h"
 
-EXPORT_CLASS ShaderSourceLibrary
+EXPORT(class,  ShaderSourceLibrary)
 {
 
 	static std::map<STRING, ShaderSourceDescription> mInternal;

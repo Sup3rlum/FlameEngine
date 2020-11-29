@@ -17,7 +17,7 @@ EXPORT_ENUM MouseButton
 };
 
 
-EXPORT_CLASS Mouse
+EXPORT(class,  Mouse)
 {
 };
 

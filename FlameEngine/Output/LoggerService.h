@@ -12,7 +12,7 @@ EXPORT_ENUM LogMessage
 	MSG_NONE
 };
 
-EXPORT_CLASS LoggerService
+EXPORT(class,  LoggerService)
 {
 public:
 	STRING data;

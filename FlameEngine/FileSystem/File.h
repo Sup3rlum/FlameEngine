@@ -4,7 +4,7 @@
 
 using namespace std;
 
-EXPORT_CLASS File
+EXPORT(class,  File)
 {
 public:
 	static vector<BYTE> ReadAllBytes(STRING path);

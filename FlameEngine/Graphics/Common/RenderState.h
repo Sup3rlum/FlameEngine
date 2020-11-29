@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
 using namespace std;
 
@@ -44,7 +44,7 @@ EXPORT_ENUM CullState
 };
 
 
-EXPORT_CLASS RenderState
+EXPORT(class,  RenderState)
 {
 public:
 	BlendFunc SourceBlend;

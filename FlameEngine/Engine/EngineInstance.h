@@ -9,12 +9,12 @@
 #include "../Scene/Scene.h"
 #include "Game.h"
 
-#include "../Graphics/RenderState.h"
+#include "../Graphics/Common/RenderState.h"
 #include "../Graphics/Renderer/DeferredRenderer.h"
 
 
 
-EXPORT_CLASS EngineInstance
+EXPORT(class,  EngineInstance)
 {
 public:
 	EngineInstance();

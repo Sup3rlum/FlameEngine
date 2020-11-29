@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Model.h"
+#include "../../Graphics/ModelSystem/ModelBase.h"
 #include "Actor.h"
 #include "../../FileSystem/AssetManager.h"
 
 
 
-EXPORT_CLASS GameEntity : public Actor
+EXPORT(class,  GameEntity) : public Actor
 {
 
 public:
@@ -15,6 +15,6 @@ public:
 	void Render();
 	void Update(FrameTime* _frameTime);
 
-	Model model;
+	ModelBase model;
 };
 

@@ -12,7 +12,7 @@ EXPORT_ENUM ContextProfile
 	OPENGL_COMPAT = 0x00032002	//GLFW_OPENGL_COMPAT_PROFILE
 };
 
-EXPORT_CLASS ContextDescription
+EXPORT(class,  ContextDescription)
 {
 public:
 	_UNS_ FL_INT32 contextMajorVersion;

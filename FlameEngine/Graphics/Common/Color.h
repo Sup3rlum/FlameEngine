@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../dll/nchfx.h"
-#include "../Mathematics/Module.h"
+#include "../../dll/nchfx.h"
+#include "../../Mathematics/Module.h"
 
 
 
-EXPORT_STRUCT Color : fVector4
+EXPORT(struct, Color) : fVector4
 {
 public:
 	Color(BYTE r, BYTE g, BYTE b);

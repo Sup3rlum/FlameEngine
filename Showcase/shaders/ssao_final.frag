@@ -51,20 +51,20 @@ float VarianceShadow(sampler2D shadowMap, vec2 coords, float compare)
 {
 	if (coords.x < 0.05 || coords.x > 0.95 || coords.y < 0.05 || coords.y > 0.95)
 	{
-		return 0.0;
+		return 1.0;
 	}
 
 
 	vec2 moments = texture2D(shadowMap, coords.xy).xy;
 
 	float p = step(compare, moments.x);
-	float variance = max(moments.y - moments.x * moments.x, 0.00002);
+	float variance = max(moments.y - moments.x * moments.x, 0.0);
 
 	float d = compare - moments.x;
-	float pMax = smoothstep(0.2, 1.0, variance / (variance + d * d));
+	float pMax = smoothstep(0.0, 1.0, variance / (variance + d * d));
 
 
-	return 1.0 - min(max(p, pMax), 1.0);
+	return min(max(p, pMax), 1.0);
 }
 float SimpleShadow(sampler2D shadowMap, vec2 coords, float compare)
 {
@@ -73,11 +73,11 @@ float SimpleShadow(sampler2D shadowMap, vec2 coords, float compare)
     float closestDepth = texture(_shadowMap, coords.xy).r; 
 	float bias = max(0.05 * (1.0 - dot(fNormal, -DirectionalLights[0].Direction)), 0.005); 
 	
-    float shadow = 0.0;
+    float shadow = 1.0;
 	
 	if (compare - bias > closestDepth)
 	{
-		shadow = 1.0;
+		shadow = 0.0;
 	}
 
 	return shadow;
@@ -94,6 +94,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 	
 
     return VarianceShadow(_shadowMap, projCoords.xy, currentDepth);
+    //return SimpleShadow(_shadowMap, projCoords.xy, currentDepth);
 }  
 
 
@@ -127,7 +128,7 @@ void main()
 
     float shadow = ShadowCalculation(fragPosLightSpace);     
 
-    FragColor = vec4(ambient + (1.0 - shadow) * diffuse, fullAlbedo.a);
+    FragColor = vec4(ambient + shadow * diffuse, fullAlbedo.a);
 
 
 }

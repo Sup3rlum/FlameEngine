@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include "../../dll/nchfx.h"
 
 #include "Texture.h"
 #include "MultisampleTexture.h"
 
 using namespace std;
 
-EXPORT_CLASS FrameBuffer
+EXPORT(class, FrameBuffer)
 {
 public:
 

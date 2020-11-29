@@ -9,7 +9,7 @@ EXPORT_ENUM EventType
 	POST = 1
 };
 
-EXPORT_CLASS EventManager
+EXPORT(class,  EventManager)
 {
 
 };

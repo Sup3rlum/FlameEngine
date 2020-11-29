@@ -41,14 +41,14 @@ Font::Font(const char* _fontName, int _fontSize)
 		_texture->SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
-		// Now store character for later use
+		/*// Now store character for later use
 		Character character = {
 			_texture,
 			fVector2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
 			fVector2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			face->glyph->advance.x
-		};
-		Characters.insert(std::pair<GLchar, Character>(c, character));
+		};*/
+		//Characters.insert(std::pair<GLchar, Character>(c, character));
 	}
 
 	// Destroy FreeType once we're finished

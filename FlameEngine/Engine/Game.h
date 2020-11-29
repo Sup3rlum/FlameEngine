@@ -8,7 +8,7 @@
 
 using namespace std;
 
-EXPORT_CLASS Game
+EXPORT(class,  Game)
 {
 
 public:

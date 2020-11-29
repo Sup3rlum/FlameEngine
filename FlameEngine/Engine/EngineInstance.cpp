@@ -21,7 +21,7 @@ FLRESULT EngineInstance::AttachGame(Game* _g)
 		return FLRESULT::FAIL;
 
 	_game = _g;
-
+	
 	glfwSetKeyCallback(((GLFWContext*)_currentContext)->_windowHandle, key_callback_dispatch);
 
 	_game->_currentScene = new Scene(_currentContext);

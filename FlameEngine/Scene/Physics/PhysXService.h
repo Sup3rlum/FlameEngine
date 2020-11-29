@@ -30,7 +30,7 @@
 using namespace physx;
 
 
-EXPORT_CLASS PhysXService
+EXPORT(class,  PhysXService)
 {
 public:
 

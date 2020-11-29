@@ -6,10 +6,10 @@
 
 #include "UxLabel.h"
 
-EXPORT_CLASS Scene;
+EXPORT_FORWARD_DECL(class,  Scene);
 
 
-EXPORT_CLASS UxDebugViewComponent : public UxComponent
+EXPORT(class,  UxDebugViewComponent) : public UxComponent
 {
 public:
 

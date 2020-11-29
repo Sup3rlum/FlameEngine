@@ -4,7 +4,7 @@
 
 #include "UxContainer.h"
 
-EXPORT_CLASS UxComponent
+EXPORT(class,  UxComponent)
 {
 public:
 

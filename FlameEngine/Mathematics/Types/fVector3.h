@@ -5,7 +5,7 @@
 #include "fVector2.h"
 
 
-EXPORT_STRUCT fVector3 
+EXPORT(class, fVector3) 
 {
 public:
 	
@@ -24,6 +24,7 @@ public:
 
 
 	constexpr fVector3() : x(0), y(0), z(0) {}
+
 	constexpr fVector3(float _v) : x(_v), y(_v), z(_v) {}
 	constexpr fVector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 	constexpr fVector3(fVector2 _vec, float _z) : x(_vec.x), y(_vec.y), z(_z) {}

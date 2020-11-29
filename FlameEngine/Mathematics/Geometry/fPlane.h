@@ -2,7 +2,7 @@
 
 #include "../../dll/nchfx.h"
 
-EXPORT_CLASS fPlane
+EXPORT(class,  fPlane)
 {
 };
 

@@ -2,7 +2,7 @@
 
 #include "..\..\dll\nchfx.h"
 
-EXPORT_CLASS RenderableObject
+EXPORT(class,  RenderableObject)
 {
 public:
 	virtual void Render();

@@ -137,7 +137,7 @@ EXPORT_ENUM Keys
 	MENU				= 348
 };
 
-EXPORT_CLASS Keyboard
+EXPORT(class,  Keyboard)
 {
 };
 

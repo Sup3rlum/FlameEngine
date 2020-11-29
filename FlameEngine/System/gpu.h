@@ -3,7 +3,7 @@
 #include "../dll/framework.h"
 #include "../util/macros.h"
 
-EXPORT_STRUCT FLAME_GPU
+EXPORT(struct,  FLAME_GPU)
 {
 public:
 	STRING oemVendor;

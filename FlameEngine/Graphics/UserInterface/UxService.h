@@ -7,7 +7,7 @@
 #include "UxContainer.h"
 
 
-EXPORT_CLASS UxService
+EXPORT(class,  UxService)
 {
 
 public:

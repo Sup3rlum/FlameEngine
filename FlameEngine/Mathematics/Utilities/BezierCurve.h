@@ -5,7 +5,7 @@
 #include "../Types/fVector3.h"
 
 
-EXPORT_CLASS BezierCurve
+EXPORT(class,  BezierCurve)
 {
 public:
 	std::vector<fVector3> _points;

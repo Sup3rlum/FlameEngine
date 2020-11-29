@@ -49,7 +49,7 @@ UxFont::UxFont(STRING _fontName, int _fontSize)
 			_texture,
 			fVector2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
 			fVector2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			face->glyph->advance.x
+			(unsigned int)face->glyph->advance.x
 		};
 		Characters.insert(std::pair<GLchar, UxCharacter>(c, character));
 	}

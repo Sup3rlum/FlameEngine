@@ -8,7 +8,7 @@
 #include "../../Mathematics/Module.h"
 
 
-EXPORT_CLASS Camera
+EXPORT(class,  Camera)
 {
 
 public:

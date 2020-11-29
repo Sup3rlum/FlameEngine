@@ -3,7 +3,7 @@
 #include "Camera.h"
 
 
-EXPORT_CLASS FpsCamera : public Camera
+EXPORT(class,  FpsCamera) : public Camera
 {
 
 public:

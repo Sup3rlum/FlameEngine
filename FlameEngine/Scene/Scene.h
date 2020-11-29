@@ -7,7 +7,7 @@
 #include "Environment/Sky.h"
 #include "../Graphics/ShaderDefinitions/Shader.h"
 #include "../Graphics/Common/RenderBatch.h"
-#include "../Graphics/FrameBuffer.h"
+#include "../Graphics/Common/FrameBuffer.h"
 #include "../Context/Context.h"
 #include "../FileSystem/AssetManager.h"
 #include "../Mathematics/Module.h"
@@ -20,7 +20,7 @@
 #include "../Graphics/UserInterface/UxDebugViewComponent.h"
 
 
-EXPORT_CLASS Scene
+EXPORT(class,  Scene)
 {
 public:
 	Scene(Context* _context);
@@ -42,41 +42,9 @@ public:
 
 	std::vector<DirectionalLight> LightCollection;
 
-	FrameBuffer* _frameBuffer;
-	FrameBuffer* _blurFrameBuffer;
 	Context* _context;
 
 	RenderBatch* _renderBatch;
-
-	RenderState* _depthRenderState;
-	RenderState* _SkyRenderState;
-
-	Shader* gaussBlur;
-	Shader* _ssaoShader;
-	Shader* _ssaoFinal;
-
-	Texture* _tex;
-
-	Texture* _blurTexture;
-
-	FrameBuffer* _sceneFrameBuffer;
-	FrameBuffer* _ssaoFrameBuffer;
-
-	Texture* _gBuffer;
-	Texture* _nBuffer;
-	Texture* _aBuffer;
-	Texture* _depthMap;
-
-
-	Texture* _ssaoKernelTexture;
-	Texture* _ssaoTexture;
-
-	Texture* _ssaoNoise;
-
-
-	MultisampleTexture* msGBuffer;
-
-	std::vector<fVector3> ssaoKernel;
 
 
 	PhysXService* pPhysXService;

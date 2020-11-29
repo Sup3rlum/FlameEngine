@@ -1,20 +1,20 @@
 #pragma once
 
 #include "../../dll/nchfx.h"
-#include "../../Graphics/Texture.h"
-#include "../../Graphics/MultisampleTexture.h"
-#include "../../Graphics/ShaderDefinitions/Shader.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Graphics/Vertex.h"
+#include "Texture.h"
+#include "MultisampleTexture.h"
+#include "../ShaderDefinitions/Shader.h"
+#include "VertexBuffer.h"
+#include "Vertex.h"
 #include "../../Graphics/UserInterface/UxFont.h"
-#include "../../Graphics/RenderState.h"
+#include "RenderState.h"
 #include "../../Context/ContextDescription.h"
 #include "../../Context/Context.h"
 
 
 using namespace std;
 
-EXPORT_CLASS RenderBatch
+EXPORT(class,  RenderBatch)
 {
 
 public:

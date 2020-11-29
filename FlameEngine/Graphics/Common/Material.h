@@ -2,9 +2,9 @@
 
 #include "../../dll/nchfx.h"
 
-#include "../../Graphics/Texture.h"
+#include "Texture.h"
 
-EXPORT_CLASS Material
+EXPORT(class, Material)
 {
 public:
 
@@ -21,4 +21,3 @@ public:
 	float mFresnelIndex;
 
 };
-

@@ -5,15 +5,15 @@
 
 
 
-EXPORT_STRUCT fVector2
+EXPORT(class, fVector2)
 {
+public:
 	union
 	{
 		struct { float x, y; };
 		struct { float r, g; };
 		struct { float s, t; };
 	};
-
 
 	constexpr fVector2()						: x(0), y(0) {}
 	constexpr fVector2(float _v)				: x(_v), y(_v) {}

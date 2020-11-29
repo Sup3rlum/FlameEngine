@@ -1,7 +1,7 @@
 #include "AssetManager.h"
 
 
-void AssetManager::LoadModel(STRING path, Model* m)
+void AssetManager::LoadModel(STRING path, ModelBase* m)
 {
 
 	vector<BYTE> bytedata = File::ReadAllBytes(path);

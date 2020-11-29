@@ -8,7 +8,7 @@
 #include "../flameRT/Runtime.h"
 
 
-class Context
+EXPORT(class, Context)
 {
 public:
 

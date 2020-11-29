@@ -2,7 +2,7 @@
 
 #include "nchfx.h"
 
-EXPORT_STRUCT DVERSION
+EXPORT(struct,  DVERSION)
 {
 public:
 	DVERSION(int maj, int min, int rev, int build);

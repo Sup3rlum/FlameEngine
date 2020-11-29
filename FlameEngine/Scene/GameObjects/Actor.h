@@ -9,9 +9,9 @@
 #include "../Physics/PhysXService.h"
 
 
-EXPORT_CLASS Scene;
+EXPORT_FORWARD_DECL(class,  Scene);
 
-EXPORT_CLASS Actor : public RenderableObject, public UpdatableObject
+EXPORT(class,  Actor) : public RenderableObject, public UpdatableObject
 {
 public:
 	

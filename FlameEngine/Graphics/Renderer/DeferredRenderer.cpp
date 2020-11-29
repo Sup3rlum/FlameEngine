@@ -5,7 +5,7 @@ DeferredRenderer::DeferredRenderer(Context* context)
 {
 	attachedContext = context;
 
-	mBlurRenderingService = new GaussianBlurService(context, true);
+	mBlurRenderingService = new KawaseBlurService(context, true);
 	mHbaoPlusService = new HBAOPlusService(context);
 
 	View = fMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
@@ -46,8 +46,8 @@ DeferredRenderer::DeferredRenderer(Context* context)
 
 
 
-	mDepthBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
-	mDepthBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	mDepthBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT, false);
+	mDepthBuffer->SetFilteringMode(TextureFiltering::ANISOTROPIC_8);
 	mDepthBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 	mNormalBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
@@ -109,7 +109,8 @@ void DeferredRenderer::BeginRender(Scene* scene)
 		scene->PopCamera();
 	}
 	mShadowmapFrameBuffer->Unbind();
-	mBlurRenderingService->ApplyFilter(mShadowmapFrameBuffer, mShadowmapBuffer);
+
+	mBlurRenderingService->ApplyFilter(mShadowmapFrameBuffer, mShadowmapBuffer, mBlurPassIndex);
 
 
 	mFrameBuffer->Bind();
@@ -170,12 +171,14 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	RenderState::Pop();
 
-	/*scene->_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
-	scene->_renderBatch->DrawTexture(mNormalBuffer, 1400, 0, 200, 200);
-	scene->_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
-	scene->_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
-	scene->_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);*/
-
+	if (enableDEBUGTexture)
+	{
+		scene->_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
+		scene->_renderBatch->DrawTexture(mNormalBuffer, 1400, 0, 200, 200);
+		scene->_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
+		scene->_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
+		scene->_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);
+	}
 	scene->pUxService->Render();
 }
 

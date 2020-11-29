@@ -4,10 +4,10 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "../../Graphics/Texture.h"
+#include "../../Graphics/Common/Texture.h"
 #include "../../Mathematics/Module.h"
 
-EXPORT_STRUCT Character 
+EXPORT(struct,  Character)
 {
 	Texture* texture;   // ID handle of the glyph texture
 	fVector2 Size;    // Size of glyph
@@ -16,7 +16,7 @@ EXPORT_STRUCT Character
 };
 
 
-EXPORT_CLASS Font
+EXPORT(class,  Font)
 {
 public:
 	Font(const char* _fontFamily, int size);

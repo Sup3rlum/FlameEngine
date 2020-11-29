@@ -2,11 +2,12 @@
 
 #include "../../dll/nchfx.h"
 
-#include "../../Graphics/ShaderDefinitions/Shader.h"
-#include "../../Graphics/Common/RenderBatch.h"
-#include "../../Graphics/FrameBuffer.h"
+#include "../ShaderDefinitions/Shader.h"
+#include "../Common/RenderBatch.h"
+#include "../Common/FrameBuffer.h"
 #include "../../Scene/Scene.h"
 #include "../RenderingService/GaussianBlurService.h"
+#include "../RenderingService/KawaseBlurService.h"
 #include "../RenderingService/HBAOPlusService.h"
 
 
@@ -24,7 +25,7 @@ EXPORT_ENUM SSAOStrength
 	SAMPLES_128 = 128
 };
 
-EXPORT_CLASS DeferredRenderer
+EXPORT(class,  DeferredRenderer)
 {
 public:
 	DeferredRenderer(Context* context);
@@ -36,6 +37,9 @@ public:
 
 
 	bool enableHBAO = true;
+	bool enableDEBUGTexture = true;
+	bool enableKawaseBlur = true;
+	int mBlurPassIndex = 1;
 
 private:
 
@@ -64,7 +68,7 @@ private:
 	RenderState* mRenderState;
 	fMatrix4 View;
 
-	GaussianBlurService* mBlurRenderingService;
+	KawaseBlurService* mBlurRenderingService;
 	HBAOPlusService* mHbaoPlusService;
 
 	Context* attachedContext;

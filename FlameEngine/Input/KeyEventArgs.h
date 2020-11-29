@@ -3,7 +3,7 @@
 #include "../dll/nchfx.h"
 #include "Keyboard.h"
 
-EXPORT_STRUCT KeyEventArgs
+EXPORT(struct,  KeyEventArgs)
 {
 public:
 	Keys Key;

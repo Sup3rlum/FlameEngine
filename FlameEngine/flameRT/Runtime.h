@@ -3,7 +3,7 @@
 
 #include "../dll/nchfx.h"
 
-EXPORT_CLASS Runtime
+EXPORT(class,  Runtime)
 {
 public:
 

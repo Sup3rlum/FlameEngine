@@ -13,7 +13,7 @@ EXPORT_ENUM GaussianBlurStrength
 };
 
 
-EXPORT_CLASS GaussianBlurService : public RenderingServiceBase
+EXPORT(class,  GaussianBlurService) : public RenderingServiceBase
 {
 public:
 	GaussianBlurService(Context* context, bool halfRes);

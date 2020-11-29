@@ -2,13 +2,13 @@
 
 
 #include "../../dll/nchfx.h"
-#include "../../Graphics/Texture.h"
-#include "../../Graphics/MultisampleTexture.h"
-#include "../../Graphics/Color.h"
+#include "../Common/Texture.h"
+#include "../Common/MultisampleTexture.h"
+#include "../Common/Color.h"
 
 using namespace std;
 
-EXPORT_CLASS Shader
+EXPORT(class,  Shader)
 {
 public:
 

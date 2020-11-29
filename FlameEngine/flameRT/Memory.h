@@ -2,7 +2,7 @@
 
 #include "../dll/nchfx.h"
 
-EXPORT_CLASS Memory
+EXPORT(class,  Memory)
 {
 public:
 	static float ToSingle(				_In_ BYTE* data);

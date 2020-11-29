@@ -22,27 +22,6 @@
     <ClCompile Include="Engine\Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Color.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\FrameBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\RenderState.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Vertex.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\VertexBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\VertexElements.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -64,13 +43,7 @@
     <ClCompile Include="Scene\GameObjects\Actor.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Camera.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameObjects\GameEntity.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Model.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\RenderableObject.cpp">
@@ -81,9 +54,6 @@
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\Animations\Joint.cpp">
       <Filter>Scene\GameObjects\Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\AnimatedModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\Lighting\AmbientLight.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
@@ -132,9 +102,6 @@
     <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
     <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
-    <ClCompile Include="Scene\Common\Material.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -156,7 +123,6 @@
     <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
-    <ClCompile Include="Graphics\TextureFiltering.cpp" />
     <ClCompile Include="flameRT\Memory.cpp">
       <Filter>IO</Filter>
     </ClCompile>
@@ -172,11 +138,50 @@
     <ClCompile Include="FileSystem\File.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\MultisampleTexture.cpp" />
     <ClCompile Include="Graphics\Renderer\RendererBase.cpp" />
     <ClCompile Include="Graphics\Renderer\DeferredRenderer.cpp" />
     <ClCompile Include="Graphics\RenderingService\HBAOPlusService.cpp" />
     <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
+    <ClCompile Include="Graphics\RenderingService\KawaseBlurService.cpp" />
+    <ClCompile Include="Graphics\Common\Material.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameObjects\Camera.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSystem\AnimatedModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSystem\ModelMesh.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\ModelBase.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSystem\FractureModel.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\StaticModel.cpp" />
+    <ClCompile Include="Graphics\Common\Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\MultisampleTexture.cpp" />
+    <ClCompile Include="Graphics\Common\RenderState.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\TextureFiltering.cpp" />
+    <ClCompile Include="Graphics\Common\Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\VertexBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Common\VertexElements.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Common\FLBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -199,27 +204,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Game.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Color.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\FrameBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\RenderState.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Texture.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Vertex.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\VertexBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\VertexElements.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
@@ -263,9 +247,6 @@
     <ClInclude Include="Scene\GameObjects\GameEntity.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Model.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\GameObjects\RenderableObject.h">
       <Filter>Scene\GameObjects</Filter>
     </ClInclude>
@@ -274,9 +255,6 @@
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\Animations\Joint.h">
       <Filter>Scene\GameObjects\Animations</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\AnimatedModel.h">
-      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\Lighting\AmbientLight.h">
       <Filter>Scene\GameObjects\Lighting</Filter>
@@ -328,9 +306,6 @@
     <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
     <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
     <ClInclude Include="Mathematics\Geometry\Ray.h" />
-    <ClInclude Include="Scene\Common\Material.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\ShaderDefinitions\Shader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -354,7 +329,6 @@
     <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
     <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
     <ClInclude Include="System\systeminfo.h" />
-    <ClInclude Include="Graphics\TextureFiltering.h" />
     <ClInclude Include="flameRT\Memory.h">
       <Filter>IO</Filter>
     </ClInclude>
@@ -374,11 +348,47 @@
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\os.h" />
     <ClInclude Include="System\system_memory.h" />
-    <ClInclude Include="Graphics\MultisampleTexture.h" />
     <ClInclude Include="Graphics\Renderer\RendererBase.h" />
     <ClInclude Include="Graphics\Renderer\DeferredRenderer.h" />
     <ClInclude Include="Graphics\RenderingService\HBAOPlusService.h" />
     <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
+    <ClInclude Include="Graphics\RenderingService\KawaseBlurService.h" />
+    <ClInclude Include="Graphics\Common\Material.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelSystem\AnimatedModel.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelSystem\ModelMesh.h" />
+    <ClInclude Include="Graphics\ModelSystem\FractureModel.h" />
+    <ClInclude Include="Graphics\ModelSystem\StaticModel.h" />
+    <ClInclude Include="Graphics\ModelSystem\ModelBase.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\Color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\MultisampleTexture.h" />
+    <ClInclude Include="Graphics\Common\RenderState.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\TextureFiltering.h" />
+    <ClInclude Include="Graphics\Common\Vertex.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\VertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Common\VertexElements.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Common\FLBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

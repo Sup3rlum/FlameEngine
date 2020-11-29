@@ -4,7 +4,7 @@
 #include "UxFrame.h"
 #include "UxLabel.h"
 
-EXPORT_CLASS UxWindow : public UxComponent
+EXPORT(class,  UxWindow) : public UxComponent
 {
 public:
 

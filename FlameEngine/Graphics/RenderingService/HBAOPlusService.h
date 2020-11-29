@@ -1,16 +1,16 @@
 #pragma once
 
 #include "../../Graphics/ShaderDefinitions/Shader.h"
-#include "../../Graphics/FrameBuffer.h"
+#include "../../Graphics/Common/FrameBuffer.h"
 #include "../../Context/Context.h"
-#include "../../Graphics/VertexBuffer.h"
-#include "../../Graphics/Vertex.h"
-#include "../../Graphics/RenderState.h"
-#include "../../Graphics/Texture.h"
+#include "../../Graphics/Common/VertexBuffer.h"
+#include "../../Graphics/Common/Vertex.h"
+#include "../../Graphics/Common/RenderState.h"
+#include "../../Graphics/Common/Texture.h"
 
 #include <GFSDK_SSAO.h>
 
-EXPORT_CLASS HBAOPlusService
+EXPORT(class,  HBAOPlusService)
 {
 public:
 

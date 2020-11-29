@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "macros.h"
+#include "../Framework/Common/FLBase.h"
 
 EXPORT_ENUM FLRESULT
 {

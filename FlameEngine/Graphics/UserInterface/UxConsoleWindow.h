@@ -4,7 +4,7 @@
 #include "../../Output/LoggerService.h"
 
 
-EXPORT_CLASS UxConsoleWindow : public UxWindow
+EXPORT(class,  UxConsoleWindow) : public UxWindow
 {
 public:
 

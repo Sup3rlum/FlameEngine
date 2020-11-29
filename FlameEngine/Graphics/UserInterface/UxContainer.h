@@ -6,10 +6,10 @@
 #include "../RenderingService/UxRenderingService.h"
 
 
-EXPORT_CLASS UxComponent;
+EXPORT_FORWARD_DECL(class,  UxComponent);
 
 
-EXPORT_CLASS UxContainer
+EXPORT(class,  UxContainer)
 {
 public:
 

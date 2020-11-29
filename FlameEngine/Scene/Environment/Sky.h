@@ -4,19 +4,19 @@
 #include "../../dll/nchfx.h"
 
 #include "../GameObjects/RenderableObject.h"
-#include "../GameObjects/Model.h"
+#include "../../Graphics/ModelSystem/ModelBase.h"
 
 
-EXPORT_CLASS Scene;
+EXPORT_FORWARD_DECL(class,  Scene);
 
-EXPORT_CLASS Sky : public RenderableObject
+EXPORT(class,  Sky) : public RenderableObject
 {
 public:
 
 	Sky(Scene* _sc);
 
 	void Render();
-	Model _skyboxModel;
+	ModelBase _skyboxModel;
 
 	Scene* _scene;
 

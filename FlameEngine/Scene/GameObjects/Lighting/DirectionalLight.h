@@ -4,7 +4,7 @@
 #include "Light.h"
 #include "../Camera.h"
 
-EXPORT_STRUCT DirectionalLight : public Light
+EXPORT(struct,  DirectionalLight) : public Light
 {
 public:
 	fVector3 Direction;

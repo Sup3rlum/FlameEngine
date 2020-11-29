@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Scene/GameObjects/Model.h"
-#include "../Scene/Common/Material.h"
-#include "../Graphics/Vertex.h"
+#include "../Graphics/ModelSystem/ModelBase.h"
+#include "../Graphics/Common/Material.h"
+#include "../Graphics/Common/Vertex.h"
 #include "../FileSystem/File.h"
 #include "../flameRT/Memory.h"
 
@@ -16,12 +16,12 @@ EXPORT_ENUM SignatureType
 };
 
 
-EXPORT_CLASS AssetManager
+EXPORT(class,  AssetManager)
 {
 private:
 	static bool ValidateSignature(SignatureType s);
 public:
-	static void LoadModel(STRING path, _Out_ Model* m);
+	static void LoadModel(STRING path, _Out_ ModelBase* m);
 	static void LoadMaterial(STRING path, _Out_ Material* m);
 };
 

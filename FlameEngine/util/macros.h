@@ -11,13 +11,16 @@
 #define FLAME_DLL __declspec(dllimport)
 #endif
 
+#define EXPORT_FORWARD_DECL(type, name) type FLAME_DLL name
+//#define EXPORT(type, name, ...)	type FLAME_DLL name : FLBase, __VA_ARGS__
+#define EXPORT(type, name)	type FLAME_DLL name 
+#define EXPORT_ENUM	enum class FLAME_DLL
+
+
 
 #define FLAME_MSGBOX(a, b) MessageBox(NULL, a, L"FlameEngine", b)
 #define FLAME_MSGBOX_ERROR(a) FLAME_MSGBOX(a, MB_OK | MB_ICONERROR)
 
-#define EXPORT_CLASS	class FLAME_DLL
-#define EXPORT_STRUCT	struct FLAME_DLL
-#define EXPORT_ENUM		enum EXPORT_CLASS
 
 #define STRING std::string
 

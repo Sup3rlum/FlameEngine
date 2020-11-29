@@ -6,7 +6,7 @@
 #include "os.h"
 #include "system_memory.h"
 
-EXPORT_STRUCT SystemInfo
+EXPORT(struct,  SystemInfo)
 {
 public:
 	FLAME_CPU cpuInfo;

@@ -7,7 +7,7 @@
 #include "../../Mathematics/Module.h"
 
 
-EXPORT_CLASS UxLabel : public UxComponent
+EXPORT(class,  UxLabel) : public UxComponent
 {
 public:
 

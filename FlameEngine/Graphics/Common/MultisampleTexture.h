@@ -1,17 +1,16 @@
 #pragma once
 
-#include "../dll/nchfx.h"
-#include "../util/stb_image.h"
-#include "../Mathematics/Module.h"
+#include "../../dll/nchfx.h"
+#include "../../util/stb_image.h"
+#include "../../Mathematics/Module.h"
 #include "TextureFiltering.h"
 
-EXPORT_CLASS Texture
+EXPORT(class,  MultisampleTexture)
 {
 public:
 
-	Texture(STRING filepath);
-	Texture(GLuint with, GLuint height, GLint _colorFormat, GLint outerColorFormat, GLint dataFormat, bool mimmap);
-
+	MultisampleTexture(STRING filepath, int sampleCount);
+	MultisampleTexture(GLuint with, GLuint height, GLint _colorFormat, int sampleCount);
 
 	template<typename T>
 	void SetParameter(GLenum name, T param);
@@ -28,10 +27,10 @@ public:
 	template<typename T>
 	void SetData(T* _data)
 	{
-		Bind();
+	/*	Bind();
 
 		_dataInternal = _data;
-		glTexImage2D(TextureType, 0, _colorFormat, _width, _height, 0, _outerColorFormat, _dataFormat, _dataInternal);
+		glTexImage2D(GL_TEXTURE_2D, 0, _colorFormat, _width, _height, 0, _outerColorFormat, _dataFormat, _dataInternal);*/
 	}
 
 
@@ -45,8 +44,7 @@ public:
 	GLuint _handle;
 
 	GLint _colorFormat;
-	GLint _outerColorFormat;
-	GLint _dataFormat;
+
 
 	void* _dataInternal;
 
@@ -54,6 +52,7 @@ public:
 	int _height;
 	int _channels;
 
+	int samples;
 
 	GLenum TextureType;
 

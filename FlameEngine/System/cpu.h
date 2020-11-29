@@ -3,7 +3,7 @@
 #include "../dll/framework.h"
 #include "../util/macros.h"
 
-EXPORT_STRUCT FLAME_CPU
+EXPORT(struct,  FLAME_CPU)
 {
 public:
 	STRING oemString;

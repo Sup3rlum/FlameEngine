@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../dll/nchfx.h"
-#include "../Graphics/VertexElements.h"
-#include "../Mathematics/Module.h"
+#include "../../dll/nchfx.h"
+#include "VertexElements.h"
+#include "../../Mathematics/Module.h"
 
 using namespace std;
 
 
-EXPORT_STRUCT VertexNormalTexture
+EXPORT(struct,  VertexNormalTexture)
 {
 	fVector3 _position;
 	fVector3 _normal;
@@ -23,7 +23,7 @@ EXPORT_STRUCT VertexNormalTexture
 	static vector<VertexElements> Elements;
 };
 
-EXPORT_STRUCT VertexTexture
+EXPORT(struct,  VertexTexture)
 {
 	fVector3 _position;
 	fVector2 _texCoord;
@@ -37,7 +37,7 @@ EXPORT_STRUCT VertexTexture
 	static vector<VertexElements> Elements;
 };
 
-EXPORT_STRUCT VertexColor
+EXPORT(struct,  VertexColor)
 {
 	fVector3 _position;
 	fVector3 _color;
@@ -51,7 +51,7 @@ EXPORT_STRUCT VertexColor
 	static vector<VertexElements> Elements;
 };
 
-EXPORT_STRUCT VertexNormalTextureAmbience
+EXPORT(struct,  VertexNormalTextureAmbience)
 {
 	fVector3 _position;
 	fVector3 _normal;
@@ -69,7 +69,7 @@ EXPORT_STRUCT VertexNormalTextureAmbience
 	static vector<VertexElements> Elements;
 };
 /*
-EXPORT_STRUCT AnimatedModelVertex
+EXPORT(struct,  AnimatedModelVertex)
 {
 
 	// Skin data

@@ -5,7 +5,7 @@
 #include "fVector3.h"
 #include "fVector4.h"
 
-EXPORT_CLASS fQuaternion
+EXPORT(class,  fQuaternion)
 {
 public:
 	union
@@ -33,7 +33,6 @@ public:
 		struct { __m128 mmv; };
 	};
 	
-
 	constexpr fQuaternion() :
 		i(0),
 		j(0),
