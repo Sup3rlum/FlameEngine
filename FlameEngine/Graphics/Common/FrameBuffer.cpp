@@ -42,3 +42,9 @@ void FrameBuffer::EnableDepth()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 2560, 1440);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer);
 }
+void FrameBuffer::Clear(Color c)
+{
+	Bind();
+	OpenGL::Clear(c);
+	Unbind();
+}

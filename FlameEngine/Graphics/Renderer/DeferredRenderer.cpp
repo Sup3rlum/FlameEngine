@@ -129,10 +129,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	}
 	else
 	{
-		mSsaoFrameBuffer->Bind();
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mSsaoFrameBuffer->Unbind();
+		mSsaoFrameBuffer->Clear(Color::White);
 	}
 
 	glClearColor(0.0f, 0.5f, 1.0f, 1.0f);

@@ -189,6 +189,7 @@
     <ClInclude Include="Graphics\Common\MultisampleTexture.h" />
     <ClInclude Include="Graphics\RenderingService\KawaseBlurService.h" />
     <ClInclude Include="Graphics\ModelSystem\ModelMesh.h" />
+    <ClInclude Include="Graphics\Renderer\OpenGL.h" />
     <ClInclude Include="Output\LoggerService.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="Graphics\Common\MultisampleTexture.cpp" />
     <ClCompile Include="Graphics\RenderingService\KawaseBlurService.cpp" />
     <ClCompile Include="Graphics\ModelSystem\ModelMesh.cpp" />
+    <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
     <ClCompile Include="Output\LoggerService.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />

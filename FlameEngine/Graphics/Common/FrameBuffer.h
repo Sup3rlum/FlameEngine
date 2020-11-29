@@ -4,6 +4,8 @@
 
 #include "Texture.h"
 #include "MultisampleTexture.h"
+#include "Color.h"
+#include "../Renderer/OpenGL.h"
 
 using namespace std;
 
@@ -21,6 +23,7 @@ public:
 	void Unbind();
 
 	void EnableDepth();
+	void Clear(Color color);
 
 	GLuint _handle;
 

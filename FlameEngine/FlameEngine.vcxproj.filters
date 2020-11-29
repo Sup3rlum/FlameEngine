@@ -182,6 +182,7 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Common\FLBase.cpp" />
+    <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -389,6 +390,7 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Common\FLBase.h" />
+    <ClInclude Include="Graphics\Renderer\OpenGL.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
