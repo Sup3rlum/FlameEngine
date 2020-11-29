@@ -183,8 +183,3 @@ void DeferredRenderer::EndRender()
 {
 
 }
-void DeferredRenderer::SetSSAOSamples(SSAOStrength s)
-{
-	SSAOSampleSize = s;
-	FLAME_INFO("Setting SSAO sample size to \'" + to_string((int)s) + "\'");
-}

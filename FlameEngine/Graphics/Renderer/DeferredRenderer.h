@@ -33,8 +33,6 @@ public:
 	void BeginRender(Scene* scene);
 	void EndRender();
 
-	void SetSSAOSamples(SSAOStrength s);
-
 
 	bool enableHBAO = true;
 	bool enableDEBUGTexture = true;

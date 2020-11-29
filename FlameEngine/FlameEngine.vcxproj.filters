@@ -34,12 +34,6 @@
     <ClCompile Include="util\stb_image.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Media\Font.cpp">
-      <Filter>Graphics\Media</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Media\FontManager.cpp">
-      <Filter>Graphics\Media</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameObjects\Actor.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
@@ -183,6 +177,7 @@
     </ClCompile>
     <ClCompile Include="Framework\Common\FLBase.cpp" />
     <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
+    <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -232,12 +227,6 @@
     </ClInclude>
     <ClInclude Include="util\stb_image.h">
       <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Media\Font.h">
-      <Filter>Graphics\Media</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Media\FontManager.h">
-      <Filter>Graphics\Media</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\Actor.h">
       <Filter>Scene\GameObjects</Filter>
@@ -391,6 +380,7 @@
     </ClInclude>
     <ClInclude Include="Framework\Common\FLBase.h" />
     <ClInclude Include="Graphics\Renderer\OpenGL.h" />
+    <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
