@@ -20,11 +20,15 @@ Scene::Scene(Context* _cont)
 	pUxService->PushContainer(pUxContainer);
 
 	cons = new UxConsoleWindow();
-	cons->Position = fVector2(1600, 300);
+	cons->Position = fVector2(2000, 300);
 	cons->Size = fVector2(500, 500);
+
+	pUxLabel = new UxLabel(fVector2(200), "HELLo", new UxFont("C:\\Windows\\Fonts\\arial.ttf", 16));
+	pUxLabel->Size = fVector2(400);
 
 	pUxContainer->AddComponent(new UxDebugViewComponent(this));
 	pUxContainer->AddComponent(cons);
+	pUxContainer->AddComponent(pUxLabel);
 
 
 	if (pPhysXService->InitializePhysX() == FLRESULT::FAIL)
@@ -62,6 +66,19 @@ void Scene::Update()
 		i->second->Update(NULL);
 	}
 
+	LightCollection[0].SnapToFrustum(CurrentCamera());
+	LightCollection[0].Update();
+
+
+	fMatrix4 v = fMatrix4::Transpose(CurrentCamera()->View);
+	fMatrix4 proj = fMatrix4::Transpose(CurrentCamera()->Projection);
+
+	fVector4 p = fVector4(0, 0, 0, 1);
+	fVector4 p2 = v * p;
+	fVector4 p3 = proj * p2;
+
+	pUxLabel->Text = p3.ToString();
+
 
 	pPxScene->simulate(1.0f / 60.0f);
 	pPxScene->fetchResults(true);
@@ -77,6 +94,7 @@ void Scene::Render()
 	{
 		i->second->Render();
 	}
+
 
 }
 

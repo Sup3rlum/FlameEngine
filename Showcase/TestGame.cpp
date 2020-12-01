@@ -124,7 +124,7 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 	{
 
 
-		fVector3 dir = _currentScene->CurrentCamera()->Target;
+		fVector3 dir = _currentScene->CurrentCamera()->LookDirection;
 		fVector3 pos = _currentScene->CurrentCamera()->Position;
 
 
@@ -170,5 +170,25 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 	if (args.Key == Keys::TAB && args.keyState == KeyState::PRESSED)
 	{
 		EngineInstance::_handlingInstance->mRenderer->enableDEBUGTexture = !EngineInstance::_handlingInstance->mRenderer->enableDEBUGTexture;
+	}
+
+
+	if (args.Key == Keys::P && args.keyState == KeyState::PRESSED)
+	{
+		_currentScene->PushCamera(_currentScene->LightCollection[0].LightCamera());
+	}
+	if (args.Key == Keys::P && args.keyState == KeyState::RELEASED)
+	{
+		_currentScene->PopCamera();
+	}	
+
+
+	if (args.Key == Keys::LEFT_CONTROL && args.keyState == KeyState::PRESSED)
+	{
+		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 5;
+	}	
+	if (args.Key == Keys::LEFT_CONTROL && args.keyState == KeyState::RELEASED)
+	{
+		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 40;
 	}
 }

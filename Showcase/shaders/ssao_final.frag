@@ -51,7 +51,7 @@ float VarianceShadow(sampler2D shadowMap, vec2 coords, float compare)
 {
 	if (coords.x < 0.05 || coords.x > 0.95 || coords.y < 0.05 || coords.y > 0.95)
 	{
-		return 1.0;
+		return 0.0;
 	}
 
 

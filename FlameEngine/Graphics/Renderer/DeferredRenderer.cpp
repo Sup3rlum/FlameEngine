@@ -7,6 +7,7 @@ DeferredRenderer::DeferredRenderer(Context* context)
 
 	mBlurRenderingService = new KawaseBlurService(context, true);
 	mHbaoPlusService = new HBAOPlusService(context);
+	mBoundingService = new BoundingVolumeDebugService(context);
 
 	View = fMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
@@ -101,8 +102,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 {
 	mShadowmapFrameBuffer->Bind();
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		OpenGL::Clear(Color::Transparent);
 
 		scene->PushCamera(scene->LightCollection[0].LightCamera());
 		scene->Render();
@@ -115,8 +115,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	mFrameBuffer->Bind();
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		OpenGL::Clear(Color::Transparent);
 
 		scene->Render();
 	}
@@ -132,15 +131,14 @@ void DeferredRenderer::BeginRender(Scene* scene)
 		mSsaoFrameBuffer->Clear(Color::White);
 	}
 
-	glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	OpenGL::Clear(Color::CosmicLatte);
 
 	RenderState::Push(mRenderState);
 
 	mCombineShader->UseProgram();
 	mCombineShader->SetMatrix("InverseProjection", scene->CurrentCamera()->ProjectionInverse);
 	mCombineShader->SetMatrix("InverseView", scene->CurrentCamera()->ViewInverse);
-	mCombineShader->SetMatrix("LightViewProjection", scene->LightCollection[0].Projection * scene->LightCollection[0].View);
+	mCombineShader->SetMatrix("LightViewProjection", scene->LightCollection[0].LightCamera()->Projection * scene->LightCollection[0].LightCamera()->View);
 
 	mCombineShader->SetVector("DirectionalLights[0].Direction", scene->LightCollection[0].Direction);
 	mCombineShader->SetVector("DirectionalLights[0].Color", scene->LightCollection[0].LightColor);
@@ -167,6 +165,13 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	mQuadBuffer->RenderIndexed(GL_TRIANGLES);
 
 	RenderState::Pop();
+
+	fVector3 corn[8];
+
+	scene->CurrentCamera()->GetFrustumCorners(corn);
+
+
+	mBoundingService->Render(scene->CurrentCamera(), corn);
 
 	if (enableDEBUGTexture)
 	{

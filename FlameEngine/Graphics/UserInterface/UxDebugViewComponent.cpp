@@ -59,7 +59,9 @@ void UxDebugViewComponent::Update()
 						Runtime::handlingInstance->sysInfo.cpuInfo.oemString + "\n" + 
 						Runtime::handlingInstance->sysInfo.gpuInfo.oemString + "\n" +
 						Runtime::handlingInstance->sysInfo.gpuInfo.driverString + "\n" +
-						"Memory: "		+ to_string(Runtime::handlingInstance->sysInfo.memoryInfo.size / (1024 * 1024)) + "MB\n";
+						"Memory: "		+ to_string(Runtime::handlingInstance->sysInfo.memoryInfo.size / (1024 * 1024)) + "MB\n" +
+						"Position: " + currentScene->CurrentCamera()->Position.ToString() + "\n" + 
+						"Look: " + currentScene->CurrentCamera()->LookDirection.ToString() + "\n";
 
 
 	DebugText->Update();

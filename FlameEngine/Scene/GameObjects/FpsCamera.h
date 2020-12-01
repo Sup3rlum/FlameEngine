@@ -20,7 +20,7 @@ public:
 	float mouseSpeed = 0.3f;
 	float flySpeed = 50.0f;
 
-
+	void GetFrustumCorners(fVector3* corners) override;
 	void SetCursorLocked(bool b);
 
 	bool cursordLocked;

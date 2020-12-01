@@ -16,6 +16,12 @@ fVector4 fVector4::Normalize(fVector4 v)
 	return v / v.Length();
 }
 
+STRING fVector4::ToString()
+{
+	return "X: " + std::to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z) + "W: " + std::to_string(w);
+}
+
+
 float const& fVector4::Dot(fVector4 const& l, fVector4 const& r)
 {
 	return l.x * r.x + l.y * r.y + l.z * r.z + l.w * r.w;

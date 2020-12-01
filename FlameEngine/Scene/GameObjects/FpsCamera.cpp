@@ -8,10 +8,7 @@ FpsCamera::FpsCamera(Context* _cont)
 	verticalAngle = -QUARTER_PI;
 
 
-	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 1.0f, 400.0f);
-
-
-	ProjectionInverse = fMatrix4::Inverse(Projection);
+	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 2.0f, 1000.0f);
 
 	Position = fVector3(5.0f, 5.0f, 5.0f);
 
@@ -50,7 +47,7 @@ void FpsCamera::Update()
 		verticalAngle += mouseSpeed /** _frTime->DeltaTime*/ * 0.003f * (_currentContext->_contextDescription->height / 2.0f - (float)ypos);
 	}
 
-	Target = fVector3
+	LookDirection = fVector3
 	(
 		cos(verticalAngle) * sin(horizontalAngle),
 		sin(verticalAngle),
@@ -64,15 +61,15 @@ void FpsCamera::Update()
 		cos(horizontalAngle - HALF_PI)
 	);
 
-	Up = Right ^ Target;
+	Up = Right ^ LookDirection;
 
 	if (_currentContext->GetKeyState(Keys::W) == KeyState::PRESSED)
 	{
-		Position += Target * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
+		Position += LookDirection * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 	}
 	if (_currentContext->GetKeyState(Keys::S) == KeyState::PRESSED)
 	{
-		Position -= Target * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
+		Position -= LookDirection * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 	}
 	if (_currentContext->GetKeyState(Keys::D) == KeyState::PRESSED)
 	{
@@ -83,26 +80,42 @@ void FpsCamera::Update()
 		Position -= Right * (float)FrameTime::FrameDeltaTime.count() * flySpeed;
 	}
 
-
-	View = fMatrix4::CreateView(Position, Position + Target, Up);
-	DebugView = fMatrix4::CreateView(-Target * 20.0f, fVector3(0), Up);
-
-
-
-	fMatrix3 m = fMatrix4::ToMatrix3(View);
-
-	m = fMatrix3::Transpose(m);
-
-	fMatrix4 m2(m);
-
-	m2[3][3] = 1.0f;
-
-	ViewInverse = fMatrix4::Translation(Position) * m2;
-
+	__super::Update();
 }
 
 void FpsCamera::SetCursorLocked(bool b)
 {
 	cursordLocked = b;
 	_currentContext->SetCursorVisible(!b);
+}
+
+
+void FpsCamera::GetFrustumCorners(fVector3* corners)
+{
+		fVector4 ndc_corners[8] =
+		{
+			fVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
+			fVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
+			fVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
+			fVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
+
+
+			fVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
+			fVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
+			fVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
+			fVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
+
+	};
+	fMatrix4 inverseVPMatrix = fMatrix4::Transpose(ViewInverse * ProjectionInverse);
+
+
+	for (uint32_t i = 0; i < 8; i++)
+	{
+		fVector4 p = inverseVPMatrix * ndc_corners[i];
+
+		p /= p.w;
+
+		corners[i] = p.xyz;
+	}
+
 }

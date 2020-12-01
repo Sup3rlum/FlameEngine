@@ -43,6 +43,9 @@ public:
 
 	static fVector3 Normalize(fVector3 v);
 
+	static fVector3 Max(fVector3 a, fVector3 b);
+	static fVector3 Min(fVector3 a, fVector3 b);
+
 	constexpr float& operator[](_UNS_ FL_INT64 _index)
 	{
 		assert(_index < 3);
@@ -90,6 +93,14 @@ public:
 		return *this;
 	}
 
+	constexpr fVector3& operator/=(float const& s)
+	{
+		this->x /= s;
+		this->y /= s;
+		this->z /= s;
+
+		return *this;
+	}
 
 };
 

@@ -15,6 +15,9 @@ public:
 	Camera();
 	~Camera();
 
+
+	virtual void GetFrustumCorners(fVector3* corners);
+
 	fMatrix4 View;
 	fMatrix4 DebugView;
 	fMatrix4 Projection;
@@ -22,10 +25,12 @@ public:
 	fMatrix4 ViewInverse;
 
 	fVector3 Position;
-	fVector3 Target;
+	fVector3 LookDirection;
 	fVector3 Right;
 	fVector3 Up;
 
+	float nearClip;
+	float farClip;
 
 	virtual void Update();
 

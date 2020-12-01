@@ -113,5 +113,5 @@ FLAME_DLL fMatrix4 const& operator*(float const& l, fMatrix4 const& r);
 FLAME_DLL fMatrix4 const& operator*(fMatrix4 const& l, float const& r);
 
 
-FLAME_DLL fVector4 const& operator*(fMatrix4 const& l, fVector4 const& r);
+FLAME_DLL fVector4	 operator*(fMatrix4 const& l, fVector4 const& r);
 FLAME_DLL fMatrix4& operator*(fMatrix4 const& l, fMatrix4 const& r);

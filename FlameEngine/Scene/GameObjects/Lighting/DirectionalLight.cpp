@@ -6,20 +6,35 @@ DirectionalLight::DirectionalLight(fVector3 _direction, Color _lightColor, float
 	LightColor = _lightColor;
 	Intensity = _intensity;
 
-	_positionInternal = fVector3(20.0f, 20.0f, 20.0f);
+	//_positionInternal = fVector3(20.0f, 20.0f, 20.0f);
+	_positionInternal = fVector3(100.0f, 100.0f, 100.0f);
 
-
-	View = fMatrix4::CreateView(_positionInternal, _positionInternal + Direction, fVector3(0, 1, 0));
-	Projection = fMatrix4::CreateOrthographic(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 100.0f);
-
+	_cam.Projection = fMatrix4::CreateOrthographic(-200.0f, 200.0f, -200.0f, 200.0f, 0.1f, 500.0f);
 	_cam.Position = _positionInternal;
-	_cam.View = View;
-	_cam.Projection = Projection;
 	_cam.Up = fVector3(0, 1, 0);
 
 }
 
-Camera* DirectionalLight::LightCamera()
+void DirectionalLight::SnapToFrustum(Camera* cam)
 {
-	return &_cam;
+
+	float length = 50;
+
+	fVector3 midPoint = cam->Position + cam->LookDirection * length;
+
+	fVector3 pos = midPoint - fVector3::Normalize(Direction) * length;
+
+
+	_positionInternal = pos;
+	boundingIndex = length;
+}
+
+void DirectionalLight::Update()
+{
+	_cam.LookDirection = Direction;
+	_cam.Position = _positionInternal;
+
+	//_cam.Projection = fMatrix4::CreateOrthographic(-boundingIndex, boundingIndex, -boundingIndex, boundingIndex, 0.1f, 3 * boundingIndex);
+
+	__super::Update();
 }

@@ -2,18 +2,20 @@
 
 
 #include "Light.h"
-#include "../Camera.h"
 
 EXPORT(struct,  DirectionalLight) : public Light
 {
 public:
 	fVector3 Direction;
-	fVector3 _positionInternal;
 	float Intensity;
 
-	Camera* LightCamera();
-	
-	Camera _cam;
+	void SnapToFrustum(Camera* cam);
+	void Update() override;
+
 
 	DirectionalLight(fVector3 _direction, Color _color, float _intensity);
+
+private:
+	float boundingIndex;
+	fVector3 _positionInternal;
 };

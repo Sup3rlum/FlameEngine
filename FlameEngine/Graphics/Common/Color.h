@@ -32,6 +32,7 @@ public:
 	static Color Coral;
 	static Color CornflowerBlue;
 	static Color Cornsilk;
+	static Color CosmicLatte;
 	static Color Crimson;
 	static Color Cyan;
 	static Color DarkBlue;

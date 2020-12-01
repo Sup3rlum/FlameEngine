@@ -329,7 +329,7 @@ fMatrix4 const& operator*(fMatrix4 const& l, float const& r)
 
 
 
-fVector4 const& operator*(fMatrix4 const& l, fVector4 const& r)
+fVector4 operator*(fMatrix4 const& l, fVector4 const& r)
 {
 	fVector4 _v0 = _mm_mul_ps(l[0].mmv, r.mmv);
 	fVector4 _v1 = _mm_mul_ps(l[1].mmv, r.mmv);

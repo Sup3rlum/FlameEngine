@@ -51,7 +51,7 @@ public:
 
 
 
-
+	STRING ToString();
 
 
 	float Length(); 
@@ -132,7 +132,15 @@ public:
 
 		return *this;
 	}
+	constexpr fVector4& operator/=(float const& s)
+	{
+		this->x /= s;
+		this->y /= s;
+		this->z /= s;
+		this->w /= s;
 
+		return *this;
+	}
 	operator __m128()
 	{
 		return mmv;

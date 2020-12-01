@@ -93,9 +93,7 @@
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -178,6 +176,11 @@
     <ClCompile Include="Framework\Common\FLBase.cpp" />
     <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
     <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxImage.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\ViewFrustum.cpp" />
+    <ClCompile Include="Mathematics\Geometry\fRay.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
+    <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -293,9 +296,7 @@
     <ClInclude Include="flameRT\PoolAllocator.h" />
     <ClInclude Include="flameRT\Runtime.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
     <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
-    <ClInclude Include="Mathematics\Geometry\Ray.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\Shader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -381,6 +382,11 @@
     <ClInclude Include="Framework\Common\FLBase.h" />
     <ClInclude Include="Graphics\Renderer\OpenGL.h" />
     <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
+    <ClInclude Include="Graphics\UserInterface\UxImage.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
+    <ClInclude Include="Mathematics\Geometry\fRay.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
+    <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

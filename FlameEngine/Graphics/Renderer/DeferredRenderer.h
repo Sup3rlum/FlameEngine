@@ -9,6 +9,7 @@
 #include "../RenderingService/GaussianBlurService.h"
 #include "../RenderingService/KawaseBlurService.h"
 #include "../RenderingService/HBAOPlusService.h"
+#include "../RenderingService/BoundingVolumeDebugService.h"
 
 
 EXPORT_ENUM SSAOStrength
@@ -68,6 +69,7 @@ private:
 
 	KawaseBlurService* mBlurRenderingService;
 	HBAOPlusService* mHbaoPlusService;
+	BoundingVolumeDebugService* mBoundingService;
 
 	Context* attachedContext;
 

@@ -41,6 +41,25 @@ float const& fVector3::Dot(fVector3 const& l, fVector3 const& r)
 }
 
 
+fVector3 fVector3::Max(fVector3 a, fVector3 b)
+{
+	return fVector3(
+		max(a.x, b.x),
+		max(a.y, b.y),
+		max(a.z, b.z)
+		);
+}
+
+fVector3 fVector3::Min(fVector3 a, fVector3 b)
+{
+	return fVector3(
+		min(a.x, b.x),
+		min(a.y, b.y),
+		min(a.z, b.z)
+	);
+}
+
+
 fVector3			operator-(fVector3 const& l)
 {
 	return fVector3(

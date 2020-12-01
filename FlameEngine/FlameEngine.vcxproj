@@ -180,6 +180,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
     <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
     <ClInclude Include="Framework\Common\FLBase.h" />
     <ClInclude Include="Graphics\ModelSystem\FractureModel.h" />
@@ -193,9 +194,9 @@
     <ClInclude Include="Graphics\Renderer\OpenGL.h" />
     <ClInclude Include="Output\LoggerService.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
-    <ClInclude Include="Mathematics\Geometry\Volumes\BoundingVolume.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
     <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
-    <ClInclude Include="Mathematics\Geometry\Ray.h" />
+    <ClInclude Include="Mathematics\Geometry\fRay.h" />
     <ClInclude Include="flameRT\HeapAllocator.h" />
     <ClInclude Include="flameRT\MemoryManager.h" />
     <ClInclude Include="flameRT\PoolAllocator.h" />
@@ -281,8 +282,11 @@
     <ClInclude Include="Graphics\UserInterface\UxRectangle.h" />
     <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
     <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
+    <ClInclude Include="Graphics\UserInterface\UxImage.h" />
+    <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
     <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Framework\Common\FLBase.cpp" />
     <ClCompile Include="Graphics\ModelSystem\FractureModel.cpp" />
@@ -295,9 +299,9 @@
     <ClCompile Include="Graphics\ModelSystem\ModelMesh.cpp" />
     <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
     <ClCompile Include="Output\LoggerService.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Volumes\BoundingVolume.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
     <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Ray.cpp" />
+    <ClCompile Include="Mathematics\Geometry\fRay.cpp" />
     <ClCompile Include="flameRT\HeapAllocator.cpp" />
     <ClCompile Include="flameRT\MemoryManager.cpp" />
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
@@ -370,6 +374,8 @@
     <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
+    <ClCompile Include="Graphics\UserInterface\UxImage.cpp" />
+    <ClCompile Include="Mathematics\Geometry\Volumes\ViewFrustum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl" />

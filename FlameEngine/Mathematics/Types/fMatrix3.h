@@ -73,3 +73,4 @@ public:
 
 };
 
+FLAME_DLL fVector3	 operator*(fMatrix3 const& l, fVector3 const& r);

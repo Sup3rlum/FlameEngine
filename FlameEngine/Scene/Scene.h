@@ -57,6 +57,8 @@ public:
 	UxService* pUxService;
 	UxContainer* pUxContainer;
 
+	UxLabel* pUxLabel;
+
 	UxConsoleWindow* cons;
 
 	std::unordered_map<STRING, Actor*> actorCollection;

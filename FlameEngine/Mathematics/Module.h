@@ -11,3 +11,7 @@
 #include "Types/fVector3.h"
 #include "Types/fQuaternion.h"
 
+#include "Geometry/fRay.h"
+#include "Geometry/fPlane.h"
+#include "Geometry/Volumes/ViewFrustum.h"
+

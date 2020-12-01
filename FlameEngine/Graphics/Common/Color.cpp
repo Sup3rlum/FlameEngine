@@ -49,6 +49,7 @@ Color Color::Chocolate				= Color(210, 105, 30);
 Color Color::Coral					= Color(255, 127, 80);
 Color Color::CornflowerBlue			= Color(100, 149, 237);
 Color Color::Cornsilk				= Color(255, 248, 220);
+Color Color::CosmicLatte			= Color(255, 248, 231);
 Color Color::Crimson				= Color(220, 20, 60);
 Color Color::Cyan					= Color(0, 255, 255);
 Color Color::DarkBlue				= Color(0, 0, 139);

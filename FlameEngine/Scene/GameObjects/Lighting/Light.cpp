@@ -9,3 +9,12 @@ Light::Light()
 {
 	LightColor = Color::White;
 }
+void Light::Update()
+{
+	_cam.Update();
+}
+
+Camera* Light::LightCamera()
+{
+	return &_cam;
+}
