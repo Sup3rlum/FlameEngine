@@ -10,7 +10,7 @@ Texture::Texture(STRING _path)
 	glBindTexture(TextureType, _handle);
 
 	SetWrappingMode(TextureWrapping::REPEAT);
-	SetFilteringMode(TextureFiltering::NONE);
+	SetFilteringMode(TextureFiltering::ANISOTROPIC_16);
 
 
 	_dataInternal = stbi_load(_path.c_str(), &_width, &_height, &_channels, 0);

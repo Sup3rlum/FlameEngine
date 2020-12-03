@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../dll/nchfx.h"
-#include "../../Types/fVector3.h"
+#include "../../Types/fVector4.h"
 
 EXPORT(class, AABB)
 {
@@ -16,6 +16,13 @@ public:
 
 	float LengthX();
 	float LengthY();
+	float LengthZ();
+
+	fVector3 Center();
+
+	float Volume();
+
+	void GetCorners(fVector3(&corners)[8]);
 
 	static AABB FromPointArray(fVector3* points, int numPoints);
 

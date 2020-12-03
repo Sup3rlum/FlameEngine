@@ -12,16 +12,28 @@ public:
 	static _UNS_ FL_INT64 ToULLong(		_In_ BYTE* data);
 	static STRING ToString(				_In_ BYTE* data, int length);
 
+	template<typename T>
+	static T ToType(_In_ BYTE * data)
+	{
+		T t;
+		memcpy(&t, data, sizeof(T));
+		return t;
+	}
+
+
 	static void GetData(float f,		_Out_ BYTE* data);
 	static void GetData(int i,			_Out_ BYTE* data);
 	static void GetData(double d,		_Out_ BYTE* data);
 	static void GetData(long long ll,	_Out_ BYTE* data);
 
+	template<typename T>
+	static void GetByteData(T,				_Out_ BYTE * data);
+
 
 	//TODO: Add memory tracking and release
 
 	template <typename T> 
-	static T* Create(int count)
+	static T* Create(size_t count)
 	{
 		T* mem = (T*)malloc(sizeof(T) * count);
 		return mem;

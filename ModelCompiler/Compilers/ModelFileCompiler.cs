@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using ContentCompiler.Data;
 using ContentCompiler.Math;
 
+using ContentCompiler.ImportScripts;
 
 namespace ContentCompiler.Compilers
 {
@@ -34,43 +35,44 @@ namespace ContentCompiler.Compilers
         }
 
 
-        public void StartTask(Mesh mesh)
+        public void StartTask(ModelTask task)
         {
             // (new Task(() => StartTaskInternal(mesh))).Start();
 
-            StartTaskInternal(mesh);
+            StartTaskInternal(task);
 
         }
 
-        private void StartTaskInternal(Mesh mesh)
+        private void StartTaskInternal(ModelTask task)
         {
-
-
 
             MemoryStream memory = new MemoryStream();
 
-            EncodeMesh(mesh, ref memory);
 
-            OmitBinary(ref memory);
+            EncodeMeshTable(task.model, ref memory);
+            foreach (var mesh in task.model.meshCollection)
+            {
+                EncodeMesh(mesh, ref memory);
+            }
+
+
+            OmitBinary(ref memory, task.outputFileName);
+        }
+        private void EncodeMeshTable(Model model, ref MemoryStream memory)
+        {
+            memory.Write(BitConverter.GetBytes(model.meshCollection.Count));
         }
 
-        private void EncodeMesh(Mesh mesh, ref MemoryStream memory)
+        private void EncodeMesh(ModelMesh mesh, ref MemoryStream memory)
         {
 
             for (int i = 0; i < 16; i++)
             {
-                memory.Write(BitConverter.GetBytes(mesh.Transform[i])); // World Matrix
+                memory.Write(BitConverter.GetBytes(mesh.localTransform[i])); // local Matrix
             }
 
             memory.Write(BitConverter.GetBytes(mesh.MaterialName.Length));  // materialPathLength
             memory.Write(Encoding.ASCII.GetBytes(mesh.MaterialName));       // materialPath
-
-            memory.Write(BitConverter.GetBytes(mesh.VertShaderSource.Length));  //  VertShaderSourceLength
-            memory.Write(Encoding.ASCII.GetBytes(mesh.VertShaderSource));       //  VertShaderSource
-
-
-            memory.Write(BitConverter.GetBytes(mesh.FragShaderSource.Length));  //  FragShaderSourceLength
-            memory.Write(Encoding.ASCII.GetBytes(mesh.FragShaderSource));       //  FragShaderSource
 
 
             memory.Write(BitConverter.GetBytes((ulong)(mesh.Buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));   // vDataLength
@@ -94,17 +96,18 @@ namespace ContentCompiler.Compilers
 
         private MemoryStream SignBinary(ref MemoryStream memory)
         {
+
+            // --- Checksum
+
             var data = memory.ToArray();
-
             var md5 = MD5.Create();
-
             var checksum = md5.ComputeHash(data);
 
 
             MemoryStream _mem = new MemoryStream();
 
 
-            // ---------- Header
+            // -- Header
 
             _mem.Write(Signature);                                      // Signature    
             _mem.Write(Version);                                        // Version
@@ -115,10 +118,10 @@ namespace ContentCompiler.Compilers
 
             return _mem;
         }
-        private void OmitBinary(ref MemoryStream memory)
+        private void OmitBinary(ref MemoryStream memory, string outputFile)
         {
 
-            FileStream _fStream = new FileStream(_args.OutputFilepath, FileMode.Create);
+            FileStream _fStream = new FileStream(outputFile, FileMode.Create);
 
             var bin = SignBinary(ref memory);
 

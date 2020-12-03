@@ -12,7 +12,7 @@ void Sky::Render()
 
 	glCullFace(GL_FRONT);
 
-	_skyboxModel.Render(fMatrix4::Translation( _scene->CurrentCamera()->Position), _scene);
+	_skyboxModel.Render(_scene);
 
 	glCullFace(GL_BACK);
 

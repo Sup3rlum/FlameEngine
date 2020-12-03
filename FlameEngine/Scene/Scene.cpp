@@ -28,7 +28,7 @@ Scene::Scene(Context* _cont)
 
 	pUxContainer->AddComponent(new UxDebugViewComponent(this));
 	pUxContainer->AddComponent(cons);
-	pUxContainer->AddComponent(pUxLabel);
+	//pUxContainer->AddComponent(pUxLabel);
 
 
 	if (pPhysXService->InitializePhysX() == FLRESULT::FAIL)
@@ -69,18 +69,9 @@ void Scene::Update()
 	LightCollection[0].SnapToFrustum(CurrentCamera());
 	LightCollection[0].Update();
 
+	pUxLabel->Text = LightCollection[0].LightCamera()->Position.ToString();
 
-	fMatrix4 v = fMatrix4::Transpose(CurrentCamera()->View);
-	fMatrix4 proj = fMatrix4::Transpose(CurrentCamera()->Projection);
-
-	fVector4 p = fVector4(0, 0, 0, 1);
-	fVector4 p2 = v * p;
-	fVector4 p3 = proj * p2;
-
-	pUxLabel->Text = p3.ToString();
-
-
-	pPxScene->simulate(1.0f / 60.0f);
+	pPxScene->simulate(FrameTime::FrameDeltaTime.count() * 2);
 	pPxScene->fetchResults(true);
 
 

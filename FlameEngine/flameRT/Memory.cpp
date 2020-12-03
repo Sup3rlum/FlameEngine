@@ -2,45 +2,29 @@
 
 float Memory::ToSingle(BYTE* data)
 {
-	float t = 0;
-
-	memcpy(&t, data, sizeof(BYTE) * 4);
-
-	return t;
+	return ToType<float>(data);
 }
 int Memory::ToInt(BYTE* data)
 {
-	int t = 0;
-
-	memcpy(&t, data, sizeof(BYTE) * 4);
-
-	return t;
+	return ToType<int>(data);
 }
 
 double Memory::ToDouble(BYTE* data)
 {
-	double t = 0;
-
-	memcpy(&t, data, sizeof(BYTE) * 8);
-
-	return t;
+	return ToType<double>(data);
 }
 FL_INT64 Memory::ToLLong(BYTE* data)
 {
-	long long t = 0;
-
-	memcpy(&t, data, sizeof(BYTE) * 8);
-
-	return t;
+	return ToType<long long>(data);
 }
 _UNS_ FL_INT64 Memory::ToULLong(BYTE* data)
 {
-	long long t = 0;
-
-	memcpy(&t, data, sizeof(BYTE) * 8);
-
-	return t;
+	return ToType<unsigned long long>(data);
 }
+
+
+
+
 
 
 STRING Memory::ToString(BYTE* data, int length)
@@ -69,4 +53,12 @@ void Memory::GetData(double d, BYTE* data)
 void Memory::GetData(long long ll, BYTE* data)
 {
 	memcpy(data, &ll, sizeof(BYTE) * 8);
+}
+
+
+
+template<typename T>
+void Memory::GetByteData(T t, _Out_ BYTE* data)
+{
+	memcpy(data, &t, sizeof(T));
 }

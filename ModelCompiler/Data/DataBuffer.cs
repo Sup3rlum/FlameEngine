@@ -22,6 +22,25 @@ namespace ContentCompiler.Data
         }
 
         public static int Size = 8;
+
+        public static bool operator==(VertexPositionNormalTexture l, VertexPositionNormalTexture r)
+        {
+            return l.Position.X == r.Position.X &&
+                   l.Position.Y == r.Position.Y &&
+                   l.Position.Z == r.Position.Z &&
+
+                   l.Normal.X == r.Normal.X &&
+                   l.Normal.Y == r.Normal.Y &&
+                   l.Normal.Z == r.Normal.Z &&
+
+                   l.TexCoord.X == r.TexCoord.X &&
+                   l.TexCoord.Y == r.TexCoord.Y;
+
+        }
+        public static bool operator!=(VertexPositionNormalTexture l, VertexPositionNormalTexture r)
+        {
+            return !(l == r);
+        }
     }
 
     public class DataBuffer

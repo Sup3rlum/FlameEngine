@@ -4,7 +4,7 @@
 #include "../../dll/nchfx.h"
 
 #include "../GameObjects/RenderableObject.h"
-#include "../../Graphics/ModelSystem/ModelBase.h"
+#include "../../Graphics/ModelSystem/Base/ModelBase.h"
 
 
 EXPORT_FORWARD_DECL(class,  Scene);

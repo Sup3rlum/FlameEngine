@@ -135,21 +135,9 @@
     <ClCompile Include="Graphics\RenderingService\HBAOPlusService.cpp" />
     <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
     <ClCompile Include="Graphics\RenderingService\KawaseBlurService.cpp" />
-    <ClCompile Include="Graphics\Common\Material.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameObjects\Camera.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ModelSystem\AnimatedModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ModelSystem\ModelMesh.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\ModelBase.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ModelSystem\FractureModel.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\StaticModel.cpp" />
     <ClCompile Include="Graphics\Common\Color.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -181,6 +169,25 @@
     <ClCompile Include="Mathematics\Geometry\fRay.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
     <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Animated\AnimatedModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModel.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Static\StaticModel.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Base\ModelBase.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSystem\Base\ModelMeshBase.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Static\StaticModelMesh.cpp" />
+    <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModelMesh.cpp" />
+    <ClCompile Include="Graphics\MaterialSystem\Base\MaterialBase.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.cpp" />
+    <ClCompile Include="Framework\Common\FLFileStream.cpp" />
+    <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -344,18 +351,6 @@
     <ClInclude Include="Graphics\RenderingService\HBAOPlusService.h" />
     <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
     <ClInclude Include="Graphics\RenderingService\KawaseBlurService.h" />
-    <ClInclude Include="Graphics\Common\Material.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ModelSystem\AnimatedModel.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ModelSystem\ModelMesh.h" />
-    <ClInclude Include="Graphics\ModelSystem\FractureModel.h" />
-    <ClInclude Include="Graphics\ModelSystem\StaticModel.h" />
-    <ClInclude Include="Graphics\ModelSystem\ModelBase.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Common\Color.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -387,6 +382,25 @@
     <ClInclude Include="Mathematics\Geometry\fRay.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
     <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
+    <ClInclude Include="Graphics\ModelSystem\Animated\AnimatedModel.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModel.h" />
+    <ClInclude Include="Graphics\ModelSystem\Static\StaticModel.h" />
+    <ClInclude Include="Graphics\ModelSystem\Base\ModelBase.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelSystem\Base\ModelMeshBase.h" />
+    <ClInclude Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.h" />
+    <ClInclude Include="Graphics\ModelSystem\Static\StaticModelMesh.h" />
+    <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModelMesh.h" />
+    <ClInclude Include="Graphics\MaterialSystem\Base\MaterialBase.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.h" />
+    <ClInclude Include="Framework\Common\FLFileStream.h" />
+    <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

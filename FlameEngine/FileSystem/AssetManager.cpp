@@ -1,100 +1,181 @@
 #include "AssetManager.h"
 
+template<typename modelType>
+FLRESULT AssetManager::LoadModelFromFile(STRING path, _Out_ modelType* modelType)
+{
+	return FLRESULT::SUCCESS;
+}
 
-void AssetManager::LoadModel(STRING path, ModelBase* m)
+template<>
+FLRESULT AssetManager::LoadModelFromFile<StaticModel>(STRING path, StaticModel* model)
 {
 
-	vector<BYTE> bytedata = File::ReadAllBytes(path);
 
-	int currentPosition = 0;
+	// ----------------------------------
+	//			HEADER
+	//-----------------------------------
 
-	if (bytedata.size() < 20)
+	FLFileStream flStream(path);
+
+
+	char file_signature[4];
+	flStream.ReadArray(file_signature);
+
+
+	if (!(file_signature[0] == 'F' &&
+		file_signature[1] == 'L' &&
+		file_signature[2] == '3' &&
+		file_signature[3] == 'D'))
 	{
-		return;
+		return FLRESULT::FAIL;
+	}
+
+	BYTE file_version[4];
+	flStream.ReadArray(file_version);
+
+	if (!(file_version[0] == 1 &&
+		file_version[1] == 0 &&
+		file_version[2] == 0 &&
+		file_version[3] == 0))
+	{
+		return FLRESULT::FAIL;
 	}
 
 
-	if (!(bytedata[0] == 'F' &&
-		bytedata[1] == 'L' &&
-		bytedata[2] == '3' &&
-		bytedata[3] == 'D'))
+	ModelTypeEnum model_type = (ModelTypeEnum)flStream.Read<int>();
+
+
+
+
+	BYTE file_checksum[16];
+	flStream.ReadArray(file_checksum);
+
+
+	// ----------------------------------
+	//			MESH TABLE
+	//-----------------------------------
+
+	int meshCount = flStream.Read<int>();
+
+	if (meshCount < 1)
+		return FLRESULT::FAIL;
+
+
+	/*int* meshDataLengths = Memory::Create<int>(meshCount);
+	flStream.ReadArray(meshDataLengths, meshCount);
+	*/
+
+	// ----------------------------------
+	//			MESHES
+	//-----------------------------------
+	
+	
+
+	for (int i = 0; i < meshCount; i++)
 	{
-		return;
+		model->meshCollection.push_back(StaticModelMesh());
+
+
+		fMatrix4 localTransform(0);
+		localTransform = flStream.Read<fMatrix4>();
+
+
+		// Material Info
+		int materialNameLength = flStream.Read<int>();
+
+		char* materialName = Memory::Create<char>(materialNameLength+1);
+		flStream.ReadArray(materialName, materialNameLength);
+
+		materialName[materialNameLength] = '\0';
+
+		model->meshCollection[i].mMeshMaterial = new BakedMaterial();
+		LoadMaterialFromFile(STRING(materialName), model->meshCollection[i].mMeshMaterial);
+
+
+		// Geometry Info
+
+		unsigned long long vDataLength = flStream.Read<unsigned long long>();
+		unsigned long long iDataLength = flStream.Read<unsigned long long>();
+		
+		if (vDataLength == 0 || iDataLength == 0)
+			continue;
+
+
+		VertexNormalTexture* vData = Memory::Create<VertexNormalTexture>(vDataLength);
+		unsigned int*		 iData = Memory::Create<unsigned int>(iDataLength);
+
+		flStream.ReadArray(vData, vDataLength / sizeof(VertexNormalTexture));
+		flStream.ReadArray(iData, iDataLength / sizeof(unsigned int));
+
+
+
+		model->meshCollection[i].LocalTransform = localTransform;
+		model->meshCollection[i].mVertexBuffer = new VertexBuffer(VertexNormalTexture::Elements);
+		model->meshCollection[i].mVertexBuffer->SetIndexedData(vData, iData, vDataLength / 32, iDataLength / 4);
+
+		model->meshCollection[i].mShader = Shader::FromSource(".\\shaders\\ssao_geom.vert", ".\\shaders\\ssao_geom.frag");
 	}
-
-	if (!(bytedata[4] == 1 &&
-		bytedata[5] == 0 &&
-		bytedata[6] == 0 &&
-		bytedata[7] == 0))
-	{
-		return;
-	}
-
-	currentPosition += 8;
-
-	int _static = Memory::ToInt(&bytedata[currentPosition]);
-	//size_t iLength = Memory::ToInt(&bytedata[12]); TODO Checksum
-
-	float* modelTransform = (float*)malloc(16 * sizeof(float));
-
-	currentPosition += 20;
-
-	memcpy(modelTransform, &bytedata[currentPosition], 64);
-
-
-	// Material
-	currentPosition += 64;
-	int _materialPathLength = Memory::ToInt(&bytedata[currentPosition]);
-	currentPosition += 4;
-	STRING _materialPath = Memory::ToString(&bytedata[currentPosition], _materialPathLength);
-
-	m->_material = new Material();
-	m->_material->mColorMap = new Texture(_materialPath);
-	m->_material->mColorMap->SetFilteringMode(TextureFiltering::ANISOTROPIC_8);
-	m->_material->mColorMap->SetWrappingMode(TextureWrapping::REPEAT);
-
-
-	// Vert Shader
-	currentPosition += _materialPathLength;
-	int _vertShaderLength = Memory::ToInt(&bytedata[currentPosition]);
-	currentPosition += 4;
-	STRING _vertShader = Memory::ToString(&bytedata[currentPosition], _vertShaderLength);
-
-	// Frag Shader
-	currentPosition += _vertShaderLength;
-	int _fragShaderLength = Memory::ToInt(&bytedata[currentPosition]);
-	currentPosition += 4;
-	STRING _fragShader = Memory::ToString(&bytedata[currentPosition], _fragShaderLength);
-
-
-	// Data
-	currentPosition += _fragShaderLength;
-	_UNS_ FL_INT64 vLength = Memory::ToULLong(&bytedata[currentPosition]);
-	currentPosition += 8;
-	_UNS_ FL_INT64 iLength = Memory::ToULLong(&bytedata[currentPosition]);
-
-
-	VertexNormalTexture*	vData =	(VertexNormalTexture*)malloc(vLength);
-	_UNS_ FL_INT32 *		iData =	(_UNS_ FL_INT32*)malloc(iLength);
-
-	if (vData == NULL || iData == NULL)
-		return;
-
-	currentPosition += 8;
-	memcpy(vData, &bytedata[currentPosition], vLength);
-	currentPosition += vLength;
-	memcpy(iData, &bytedata[currentPosition], iLength);
-
-
-	m->_vbo = VertexBuffer(VertexNormalTexture::Elements);
-	m->_vbo.SetIndexedData<VertexNormalTexture>(vData, iData, vLength / 32, iLength / 4);
-
-	m->_shader = Shader::FromSource(".\\shaders\\ssao_geom.vert", ".\\shaders\\ssao_geom.frag");
 }
 
 
-void AssetManager::LoadMaterial(STRING path, _Out_ Material* m)
+// --- MATERIAL LOADING
+
+
+template<typename materialType>
+FLRESULT AssetManager::LoadMaterialFromFile(STRING path, _Out_ materialType* m)
 {
+
+}
+
+template<>
+FLRESULT AssetManager::LoadMaterialFromFile<BakedMaterial>(STRING path, _Out_ BakedMaterial* material)
+{
+
+	// ----------------------------------
+	//			HEADER
+	//-----------------------------------
+
+	FLFileStream flStream(path);
+
+
+	char file_signature[4];
+	flStream.ReadArray(file_signature);
+
+
+	if (!(file_signature[0] == 'F' &&
+		file_signature[1] == 'L' &&
+		file_signature[2] == 'M' &&
+		file_signature[3] == 'T'))
+	{
+		return FLRESULT::FAIL;
+	}
+
+	BYTE file_version[4];
+	flStream.ReadArray(file_version);
+
+	if (!(file_version[0] == 1 &&
+		file_version[1] == 0 &&
+		file_version[2] == 0 &&
+		file_version[3] == 0))
+	{
+		return FLRESULT::FAIL;
+	}
+
+	int plchldr = flStream.Read<int>();
+
+	BYTE file_checksum[16];
+	flStream.ReadArray(file_checksum);
+
+
+
+	int colorMapNameLength = flStream.Read<int>();
+
+	char* colorMapName = Memory::Create<char>(colorMapNameLength + 1);
+	flStream.ReadArray(colorMapName, colorMapNameLength);
+
+	colorMapName[colorMapNameLength] = '\0';
+
+	material->mColorMap = new Texture(STRING(colorMapName));
 
 }
 

@@ -11,30 +11,36 @@ DirectionalLight::DirectionalLight(fVector3 _direction, Color _lightColor, float
 
 	_cam.Projection = fMatrix4::CreateOrthographic(-200.0f, 200.0f, -200.0f, 200.0f, 0.1f, 500.0f);
 	_cam.Position = _positionInternal;
+	_cam.LookDirection = Direction;
 	_cam.Up = fVector3(0, 1, 0);
 
 }
 
 void DirectionalLight::SnapToFrustum(Camera* cam)
 {
+	localSpace = fMatrix3::Transpose(fMatrix4::ToMatrix3(fMatrix4::CreateView(fVector3(0), Direction, _cam.Up)));
+	
 
-	float length = 50;
+	fVector3 corners[8];
 
-	fVector3 midPoint = cam->Position + cam->LookDirection * length;
+	cam->GetFrustumCorners(corners);
 
-	fVector3 pos = midPoint - fVector3::Normalize(Direction) * length;
+	aabb.SetDegenerate();
+
+	for (int i = 0; i < 8; i++)
+	{
+		fVector3 _p = localSpace * corners[i];
+
+		aabb.Enclose(_p);
+	}
 
 
-	_positionInternal = pos;
-	boundingIndex = length;
+	_cam.Position = fVector3(160, 260, 0);// fMatrix3::Transpose(localSpace)* (aabb.Center() + fVector3(0, 0, aabb.LengthZ() / 2.0f));
+
+	//_cam.Projection = fMatrix4::CreateOrthographic(-aabb.LengthX() / 2, aabb.LengthX() / 2, -aabb.LengthY() /2, aabb.LengthY() / 2, 0.1f, aabb.LengthZ());
 }
 
 void DirectionalLight::Update()
 {
-	_cam.LookDirection = Direction;
-	_cam.Position = _positionInternal;
-
-	//_cam.Projection = fMatrix4::CreateOrthographic(-boundingIndex, boundingIndex, -boundingIndex, boundingIndex, 0.1f, 3 * boundingIndex);
-
 	__super::Update();
 }

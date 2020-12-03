@@ -8,7 +8,8 @@ FpsCamera::FpsCamera(Context* _cont)
 	verticalAngle = -QUARTER_PI;
 
 
-	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 2.0f, 1000.0f);
+	Projection = fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 2.0f, 300.0f);
+
 
 	Position = fVector3(5.0f, 5.0f, 5.0f);
 
@@ -92,21 +93,36 @@ void FpsCamera::SetCursorLocked(bool b)
 
 void FpsCamera::GetFrustumCorners(fVector3* corners)
 {
-		fVector4 ndc_corners[8] =
-		{
-			fVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
-			fVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
-			fVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
-			fVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
+	/*fVector4 ndc_corners[8] =
+	{
+		fVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
+		fVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
+		fVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
+		fVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
 
 
-			fVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
-			fVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
-			fVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
-			fVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
+		fVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
+		fVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
+		fVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
+		fVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
 
 	};
-	fMatrix4 inverseVPMatrix = fMatrix4::Transpose(ViewInverse * ProjectionInverse);
+
+	
+	fMatrix4 testttt = fMatrix4::Inverse(fMatrix4::CreatePerspective(ToRadians(Fov), 16.0f / 9.0f, 2.0f, 40.0f));
+
+	fMatrix4 roview = ViewInverse;
+
+	roview[0][3] = 0;
+	roview[1][3] = 0;
+	roview[2][3] = 0;
+
+	roview[3][0] = 0;
+	roview[3][1] = 0;
+	roview[3][2] = 0;
+
+
+	fMatrix4 inverseVPMatrix = fMatrix4::Transpose(roview * testttt);
 
 
 	for (uint32_t i = 0; i < 8; i++)
@@ -116,6 +132,8 @@ void FpsCamera::GetFrustumCorners(fVector3* corners)
 		p /= p.w;
 
 		corners[i] = p.xyz;
-	}
+	}*/
+
+	__super::GetFrustumCorners(corners);
 
 }

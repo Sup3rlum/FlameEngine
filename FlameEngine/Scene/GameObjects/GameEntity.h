@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../Graphics/ModelSystem/ModelBase.h"
 #include "Actor.h"
 #include "../../FileSystem/AssetManager.h"
 
@@ -15,6 +14,6 @@ public:
 	void Render();
 	void Update(FrameTime* _frameTime);
 
-	ModelBase model;
+	StaticModel model;
 };
 

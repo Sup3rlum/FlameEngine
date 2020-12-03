@@ -26,7 +26,34 @@ void Camera::Update()
 
 void Camera::GetFrustumCorners(fVector3* corners)
 {
+	fVector4 ndc_corners[8] =
+	{
+		fVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
+		fVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
+		fVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
+		fVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
 
+
+		fVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
+		fVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
+		fVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
+		fVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
+
+	};
+
+
+
+	fMatrix4 inverseVPMatrix = fMatrix4::Transpose(ViewInverse * ProjectionInverse);
+
+
+	for (uint32_t i = 0; i < 8; i++)
+	{
+		fVector4 p = inverseVPMatrix * ndc_corners[i];
+
+		p /= p.w;
+
+		corners[i] = p.xyz;
+	}
 
 
 }

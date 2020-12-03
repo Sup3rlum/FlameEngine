@@ -10,12 +10,25 @@ using System.Linq;
 
 namespace ContentCompiler.ImportScripts
 {
+    public struct ModelTask
+    {
+        public Model model;
+        public string outputFileName;
+    }
+    public struct MaterialTask
+    {
+        public Material material;
+        public string outputFileName;
+    }
+
+
     public class BuildScript
     {
 
-        public string _outputFilePath;
         public string _filePath;
-        Mesh _mesh;
+
+        List<ModelTask> ModelObjects = new List<ModelTask>();
+        List<MaterialTask> MaterialObjects = new List<MaterialTask>();
 
 
         public BuildScript(string scriptPath)
@@ -27,60 +40,92 @@ namespace ContentCompiler.ImportScripts
         {
             XDocument doc = XDocument.Load(_filePath);
 
-            var shaderElement = doc.Element("buildscript").Element("shader");
 
-            var vertElement = shaderElement.Element("vert");
-            var geomElement = shaderElement.Element("geom");
-            var fragElement = shaderElement.Element("frag");
+            var currentScript = doc.Element("buildscript");
 
-            if (vertElement == null || fragElement == null)
+            var contentElements = currentScript.Elements("content").ToList();
+
+
+            foreach (var cElement in contentElements)
             {
-                return false;
+                if (cElement.Attribute("type").Value == "model")
+                {
+                    LoadModelScript(cElement);
+                }
+                if (cElement.Attribute("type").Value == "material")
+                {
+                    LoadMaterialScript(cElement);
+                }
+
+
             }
 
-            string vPath = vertElement.Attribute("path").Value;
-            string fPath = fragElement.Attribute("path").Value;
-
-            var meshElement = doc.Element("buildscript").Element("mesh");
-
-            var transformElement = meshElement.Element("transform");
-            var dataElement = meshElement.Element("data");
-
-            string transformData = transformElement.Attribute("data").Value;
-            string inputModelPath = dataElement.Attribute("path").Value;
-
-            string materialPath = doc.Element("buildscript").Element("material").Attribute("path").Value;
-
-            var transform = transformData.Split(" ").Select(a => float.Parse(a)).ToArray();
-
-            var data = OBJ.DecodeData(inputModelPath);
-
-            _mesh = new Mesh(data, transform);
-
-            _mesh.Buffer = data;
-            _mesh.MaterialName = materialPath;
-            _mesh.VertShaderSource = File.ReadAllText(vPath);
-            _mesh.FragShaderSource = File.ReadAllText(fPath);
-
-            _outputFilePath = doc.Element("buildscript").Element("output").Attribute("path").Value;
 
             return true;
         }
 
-        public void Execute()
+
+        private void LoadModelScript(XElement element)
         {
-            if (_mesh == null)
+
+            Model model = new Model();
+
+            var meshElements = element.Elements("mesh");
+            string outputPath = element.Element("output").Attribute("path").Value;
+
+            foreach (var mElement in meshElements)
             {
-                throw new NotImplementedException();
+
+                string materialPath = mElement.Element("material").Attribute("path").Value;
+                string transformData = mElement.Element("transform").Attribute("data").Value;
+                string inputMeshesPath = mElement.Element("meshfile").Attribute("path").Value;
+
+
+                var transform = transformData.Split(" ").Select(a => float.Parse(a)).ToArray();
+
+                var meshes = OBJ.DecodeData(inputMeshesPath);
+
+                foreach (var mesh in meshes)
+                {
+                    model.meshCollection.Add(new ModelMesh(mesh.Key, transform, mesh.Value));
+                }
+
+                model.worldTransform = transform;
             }
 
+  
+
+            ModelObjects.Add(new ModelTask() { model = model, outputFileName = outputPath });
+
+        }
+        private void LoadMaterialScript(XElement element)
+        {
+            Material material = new Material();
+
+            string colormapPath = element.Element("colormap").Attribute("path").Value;
+            string outputPath = element.Element("output").Attribute("path").Value;
+
+
+            material.colormapPath = colormapPath;
+
+            MaterialObjects.Add(new MaterialTask() { material = material, outputFileName = outputPath });
+
+        }
+
+        public void Execute()
+        {
             CompilationArguments args = new CompilationArguments();
-            args.Static = true;
-            args.OutputFilepath = _outputFilePath;
-
             ModelFileCompiler mfc = new ModelFileCompiler(args);
+            MaterialFileCompiler mtc = new MaterialFileCompiler(args);
 
-            mfc.StartTask(_mesh);
+            foreach (var modtask in ModelObjects)
+            {
+                mfc.StartTask(modtask);
+            }
+            foreach (var mattask in MaterialObjects)
+            {
+                mtc.StartTask(mattask);
+            }
         }
     }
 }

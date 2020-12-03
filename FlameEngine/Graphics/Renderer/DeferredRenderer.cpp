@@ -131,7 +131,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 		mSsaoFrameBuffer->Clear(Color::White);
 	}
 
-	OpenGL::Clear(Color::CosmicLatte);
+	OpenGL::Clear(Color::CornflowerBlue);
 
 	RenderState::Push(mRenderState);
 
@@ -166,12 +166,46 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	RenderState::Pop();
 
+	/*
 	fVector3 corn[8];
 
 	scene->CurrentCamera()->GetFrustumCorners(corn);
-
-
 	mBoundingService->Render(scene->CurrentCamera(), corn);
+
+	/*scene->LightCollection[0].aabb.GetCorners(corn);
+	for (int i = 0; i < 8; i++)
+	{
+		corn[i] = fMatrix3::Transpose(scene->LightCollection[0].localSpace) * corn[i];
+	}
+	mBoundingService->Render(scene->CurrentCamera(), corn);
+
+	fVector3 ndc_corners[8] =
+	{
+		fVector3(1.0f, -1.0f, -1.0f),	 // llb
+		fVector3(-1.0f, -1.0f, -1.0f), // lrb
+		fVector3(-1.0f, 1.0f, -1.0f),  // urb
+		fVector3(1.0f, 1.0f, -1.0f),	 // ulb
+
+
+		fVector3(1.0f, -1.0f, 1.0f),   // llf
+		fVector3(-1.0f, -1.0f, 1.0f),  // lrf
+		fVector3(-1.0f, 1.0f, 1.0f),   // urf
+		fVector3(1.0f, 1.0f, 1.0f)	 // ulf
+
+	};
+
+	fVector3 lightPos = fMatrix3::Transpose(scene->LightCollection[0].localSpace) * (scene->LightCollection[0].aabb.Center() + fVector3(0, 0, scene->LightCollection[0].aabb.LengthZ() / 2.0f));
+
+	for (int i = 0; i < 8; i++)
+	{
+		corn[i] = (fMatrix4::Transpose(fMatrix4::Translation(lightPos)) * fVector4(ndc_corners[i] * 0.5f, 1.0f)).xyz;
+	}
+	mBoundingService->Render(scene->CurrentCamera(), corn);
+
+	scene->LightCollection[0]._cam.GetFrustumCorners(corn);
+
+	mBoundingService->Render(scene->CurrentCamera(), corn);*/
+
 
 	if (enableDEBUGTexture)
 	{

@@ -147,7 +147,6 @@
     <ClCompile Include="TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="renderbatch_multisample.frag" />
     <None Include="shaders\animated_model_frag.glsl" />
     <None Include="shaders\animated_model_vert.glsl" />
     <None Include="shaders\blur\kawase_blur.frag" />
