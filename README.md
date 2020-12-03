@@ -15,6 +15,7 @@ These are the current features FlameEngine has as of now:
 
 Some of the the upcoming features I am currently working on:
 
+  - Cascading Shadow Maps
   - FFmpeg Media
   - Dynamic Skies
   - Particle Systems
