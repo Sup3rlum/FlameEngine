@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
-using ContentCompiler.Data;
-using ContentCompiler.Math;
+using FlameCompiler.Data;
+using FlameCompiler.Math;
 
 
-namespace ContentCompiler.ImportScripts
+namespace FlameCompiler.ImportScripts
 {
     public class OBJ
     {

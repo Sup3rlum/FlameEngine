@@ -28,7 +28,7 @@ void ViewFrustum::GetCorners(ViewFrustum vf, FVector3* corners)
         corners[i] = p.xyz / p.w;
     }
 }
-void ViewFrustum::GetPlanes(ViewFrustum vf, fPlane(&planes)[6])
+void ViewFrustum::GetPlanes(ViewFrustum vf, FPlane(&planes)[6])
 {
 
 }

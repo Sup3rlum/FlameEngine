@@ -1,14 +1,14 @@
-﻿using ContentCompiler.Data;
+﻿using FlameCompiler.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
-using ContentCompiler.Compilers;
+using FlameCompiler.Compilers;
 using System.Linq;
 
-namespace ContentCompiler.ImportScripts
+namespace FlameCompiler.ImportScripts
 {
     public struct ModelTask
     {

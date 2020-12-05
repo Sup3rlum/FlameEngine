@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ContentCompiler.Math
+namespace FlameCompiler.Math
 {
     public class Vertex2
     {

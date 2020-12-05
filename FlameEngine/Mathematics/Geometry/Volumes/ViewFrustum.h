@@ -12,10 +12,10 @@ public:
 	ViewFrustum(FMatrix4 vp);
 
 	static void GetCorners(ViewFrustum vf, FVector3* corners);
-	static void GetPlanes(ViewFrustum vf, fPlane(&planes)[6]);
+	static void GetPlanes(ViewFrustum vf, FPlane(&planes)[6]);
 
 private:
 	FMatrix4 viewProjection;
-	fPlane top, bottom, left, right, znear, zfar;
+	FPlane top, bottom, left, right, znear, zfar;
 };
 

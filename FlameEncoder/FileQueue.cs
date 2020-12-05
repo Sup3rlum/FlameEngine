@@ -5,10 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 
-using ContentCompiler.Compilers;
-using ContentCompiler.ImportScripts;
+using FlameCompiler.Compilers;
+using FlameCompiler.ImportScripts;
 
-namespace AssetEncoderCommandline
+namespace FlameEncoder
 {
 
     public enum AssetType

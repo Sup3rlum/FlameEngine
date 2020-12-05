@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ContentCompiler.Data
+namespace FlameCompiler.Data
 {
     public class Model
     {

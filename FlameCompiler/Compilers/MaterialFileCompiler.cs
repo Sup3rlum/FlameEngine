@@ -8,12 +8,12 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
 
-using ContentCompiler.Data;
-using ContentCompiler.Math;
+using FlameCompiler.Data;
+using FlameCompiler.Math;
 
-using ContentCompiler.ImportScripts;
+using FlameCompiler.ImportScripts;
 
-namespace ContentCompiler.Compilers
+namespace FlameCompiler.Compilers
 {
     public class MaterialFileCompiler
     {

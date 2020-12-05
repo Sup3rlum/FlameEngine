@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 
-using ContentCompiler.Math;
+using FlameCompiler.Math;
 
-namespace ContentCompiler.Data
+namespace FlameCompiler.Data
 {
     public class VertexPositionNormalTexture
     {

@@ -237,7 +237,7 @@ FMatrix4 FMatrix4::Translation(FVector3 _v)
 // ------ REFLECTION ------------------------------------------------------------
 
 
-FMatrix4 FMatrix4::Reflection(fPlane _plane)
+FMatrix4 FMatrix4::Reflection(FPlane _plane)
 {
 
 

@@ -66,13 +66,11 @@
     </ClCompile>
     <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
     <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
-    <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
     <ClCompile Include="flameRT\HeapAllocator.cpp" />
     <ClCompile Include="flameRT\MemoryManager.cpp" />
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -145,7 +143,6 @@
     <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxImage.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\ViewFrustum.cpp" />
-    <ClCompile Include="Mathematics\Geometry\fRay.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
     <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
     <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
@@ -193,7 +190,11 @@
     <ClCompile Include="Mathematics\Types\FQuaternion.cpp">
       <Filter>Mathematics\Types</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ComputeShader.cpp" />
+    <ClCompile Include="Mathematics\Geometry\FPlane.cpp" />
+    <ClCompile Include="Mathematics\Geometry\FRay.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -279,7 +280,6 @@
     </ClInclude>
     <ClInclude Include="Scene\GameObjects\UpdatableObject.h" />
     <ClInclude Include="Mathematics\Utilities\BezierCurve.h" />
-    <ClInclude Include="Mathematics\Geometry\fPlane.h" />
     <ClInclude Include="Mathematics\Module.h" />
     <ClInclude Include="Mathematics\Constants.h" />
     <ClInclude Include="Mathematics\Conversions.h" />
@@ -288,7 +288,6 @@
     <ClInclude Include="flameRT\PoolAllocator.h" />
     <ClInclude Include="flameRT\Runtime.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\Shader.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -364,7 +363,6 @@
     <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
     <ClInclude Include="Graphics\UserInterface\UxImage.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
-    <ClInclude Include="Mathematics\Geometry\fRay.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
     <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
     <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
@@ -412,7 +410,12 @@
     <ClInclude Include="Mathematics\Types\FQuaternion.h">
       <Filter>Mathematics\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderPreprocessor.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ComputeShader.h" />
+    <ClInclude Include="Mathematics\Geometry\FPlane.h" />
+    <ClInclude Include="Mathematics\Geometry\FRay.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

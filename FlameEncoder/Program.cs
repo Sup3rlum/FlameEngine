@@ -1,8 +1,8 @@
-﻿using ContentCompiler.ImportScripts;
+﻿using FlameCompiler.ImportScripts;
 using System;
 using System.Collections.Generic;
 
-namespace AssetEncoderCommandline
+namespace FlameEncoder
 {
     class Program
     {

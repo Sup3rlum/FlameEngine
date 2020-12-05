@@ -3,13 +3,14 @@
 #include "../../dll/nchfx.h"
 #include "../Types/FVector4.h"
 
-EXPORT(class,  fPlane)
+EXPORT(class,  FPlane)
 {
 public:
-	fPlane() : value(FVector4(0)) {}
-	fPlane(FVector3 normal, float distance);
-	fPlane(FVector4 vec) : value(vec) {}
+	FPlane() : value(FVector4(0)) {}
+	FPlane(FVector3 normal, float distance);
+	FPlane(FVector4 vec) : value(vec) {}
 
+	FVector3 GetNormal();
 
 	bool Contains(FVector3 point);
 

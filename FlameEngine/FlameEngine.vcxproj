@@ -180,6 +180,8 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ComputeShader.h" />
     <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
     <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
     <ClInclude Include="Framework\Common\FLFileStream.h" />
@@ -203,14 +205,13 @@
     <ClInclude Include="Output\LoggerService.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
-    <ClInclude Include="Mathematics\Geometry\PhysicsDescription.h" />
-    <ClInclude Include="Mathematics\Geometry\fRay.h" />
+    <ClInclude Include="Mathematics\Geometry\FRay.h" />
     <ClInclude Include="flameRT\HeapAllocator.h" />
     <ClInclude Include="flameRT\MemoryManager.h" />
     <ClInclude Include="flameRT\PoolAllocator.h" />
     <ClInclude Include="Mathematics\Constants.h" />
     <ClInclude Include="Mathematics\Conversions.h" />
-    <ClInclude Include="Mathematics\Geometry\fPlane.h" />
+    <ClInclude Include="Mathematics\Geometry\FPlane.h" />
     <ClInclude Include="Mathematics\Module.h" />
     <ClInclude Include="Mathematics\Utilities\BezierCurve.h" />
     <ClInclude Include="Engine\Game.h" />
@@ -273,7 +274,8 @@
     <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
     <ClInclude Include="Graphics\ModelSystem\Static\StaticModelMesh.h" />
     <ClInclude Include="Scene\GameObjects\Lighting\SpotLight.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderPreprocessor.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.h" />
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\gpu.h" />
     <ClInclude Include="System\os.h" />
@@ -299,6 +301,7 @@
     <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\ShaderDefinitions\ComputeShader.cpp" />
     <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
     <ClCompile Include="Framework\Common\FLFileStream.cpp" />
@@ -321,12 +324,11 @@
     <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
     <ClCompile Include="Output\LoggerService.cpp" />
     <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
-    <ClCompile Include="Mathematics\Geometry\PhysicsDescription.cpp" />
-    <ClCompile Include="Mathematics\Geometry\fRay.cpp" />
+    <ClCompile Include="Mathematics\Geometry\FRay.cpp" />
     <ClCompile Include="flameRT\HeapAllocator.cpp" />
     <ClCompile Include="flameRT\MemoryManager.cpp" />
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
-    <ClCompile Include="Mathematics\Geometry\fPlane.cpp" />
+    <ClCompile Include="Mathematics\Geometry\FPlane.cpp" />
     <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="FileSystem\File.cpp" />
@@ -387,7 +389,8 @@
     <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Static\StaticModelMesh.cpp" />
     <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />

@@ -1,11 +1,16 @@
-#include "fPlane.h"
+#include "FPlane.h"
 
-fPlane::fPlane(FVector3 norm, float d)
+FPlane::FPlane(FVector3 norm, float d)
 {
 	value = FVector4(FVector3::Normalize(norm), -d);
 }
 
-bool fPlane::Contains(FVector3 point)
+bool FPlane::Contains(FVector3 point)
 {
 	return FVector4::Dot(value, FVector4(point, 1)) == 0;
+}
+
+FVector3 FPlane::GetNormal()
+{
+	return FVector3::Normalize(value.xyz);
 }

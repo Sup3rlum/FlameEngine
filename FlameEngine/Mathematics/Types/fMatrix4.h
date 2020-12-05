@@ -73,7 +73,7 @@ public:
 
 	static FMatrix4 Translation(float transX, float transY, float transZ);
 	static FMatrix4 Translation(FVector3 _trans);
-	static FMatrix4 Reflection(fPlane _plane);
+	static FMatrix4 Reflection(FPlane _plane);
 
 	static FMatrix4 CreateView(FVector3 eyePos, FVector3 eyeTarget, FVector3 camUp);
 	static FMatrix4 CreatePerspective(float fov, float aspectRatio, float zNear, float zFar);
