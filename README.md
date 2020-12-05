@@ -41,4 +41,4 @@ Some of the the upcoming features I am currently working on:
 
 ## Licensing
 
-Please contact me for any licensing enquires.
+Please contact me for any licensing enquiries.
