@@ -18,7 +18,7 @@ fVector4 fVector4::Normalize(fVector4 v)
 
 STRING fVector4::ToString()
 {
-	return "X: " + std::to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z) + "W: " + std::to_string(w);
+	return "X: " + std::to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z) + " W: " + std::to_string(w);
 }
 
 

@@ -19,6 +19,7 @@ public:
 	constexpr fVector2(float _v)				: x(_v), y(_v) {}
 	constexpr fVector2(float _x, float _y)		: x(_x), y(_y) {}
 
+	STRING ToString();
 
 	float Length();
 	constexpr float LengthSquared();

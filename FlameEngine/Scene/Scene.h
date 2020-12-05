@@ -4,6 +4,9 @@
 #include "GameObjects/FpsCamera.h"
 #include "GameObjects/Actor.h"
 #include "GameObjects/Lighting/DirectionalLight.h"
+#include "GameObjects/Lighting/AmbientLight.h"
+#include "GameObjects/Lighting/SpotLight.h"
+#include "GameObjects/Lighting/PointLight.h"
 #include "Environment/Sky.h"
 #include "../Graphics/ShaderDefinitions/Shader.h"
 #include "../Graphics/Common/RenderBatch.h"
@@ -12,6 +15,7 @@
 #include "../FileSystem/AssetManager.h"
 #include "../Mathematics/Module.h"
 #include "Physics/PhysXService.h"
+#include "GameObjects/Visual/LensFlare.h"
 
 #include "../Graphics/UserInterface/UxService.h"
 #include "../Graphics/UserInterface/UxFrame.h"
@@ -39,12 +43,16 @@ public:
 	Camera* PopCamera();
 	Camera* CurrentCamera();
 
+	int GetLightsCount();
 
-	std::vector<DirectionalLight> LightCollection;
+
+
+	std::vector<DirectionalLight> DirectionalLightCollection;
+	std::vector<AmbientLight> AmbientLightCollection;
+	std::vector<SpotLight> SpotLightCollection;
+	std::vector<PointLight> PointLightCollection;
 
 	Context* _context;
-
-	RenderBatch* _renderBatch;
 
 
 	PhysXService* pPhysXService;
@@ -57,9 +65,10 @@ public:
 	UxService* pUxService;
 	UxContainer* pUxContainer;
 
-	UxLabel* pUxLabel;
-
 	UxConsoleWindow* cons;
+
+
+	float lightingIndex;
 
 	std::unordered_map<STRING, Actor*> actorCollection;
 };

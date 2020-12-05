@@ -15,7 +15,10 @@ Texture::Texture(STRING _path)
 
 	_dataInternal = stbi_load(_path.c_str(), &_width, &_height, &_channels, 0);
 
-	glTexImage2D(TextureType, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, _dataInternal);
+
+	GLuint colorFormat = GL_RGB;
+
+	glTexImage2D(TextureType, 0, colorFormat, _width, _height, 0, colorFormat, GL_UNSIGNED_BYTE, _dataInternal);
 	glGenerateMipmap(TextureType);
 
 }
@@ -54,8 +57,6 @@ void Texture::SetFilteringMode(TextureFiltering type)
 
 	Bind();
 
-
-
 	switch (type)
 	{
 	default:
@@ -70,6 +71,12 @@ void Texture::SetFilteringMode(TextureFiltering type)
 	case TextureFiltering::TRILINEAR:
 		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		break;
+	case TextureFiltering::ANISOTROPIC_4:
+		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		SetParameter(GL_TEXTURE_MAX_ANISOTROPY_EXT, 4.0f);
 		break;
 	case TextureFiltering::ANISOTROPIC_8:
 		SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

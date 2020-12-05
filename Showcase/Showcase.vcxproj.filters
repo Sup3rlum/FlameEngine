@@ -115,6 +115,7 @@
     <None Include="shaders\blur\kawase_blur.frag">
       <Filter>shaders\blur</Filter>
     </None>
+    <None Include="shaders\scene\lights.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

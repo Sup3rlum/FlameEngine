@@ -44,3 +44,12 @@ void DirectionalLight::Update()
 {
 	__super::Update();
 }
+
+void DirectionalLight::CreateFlare()
+{
+
+}
+void DirectionalLight::DrawFlare()
+{
+
+}

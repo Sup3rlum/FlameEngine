@@ -188,6 +188,11 @@
     <ClCompile Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.cpp" />
     <ClCompile Include="Framework\Common\FLFileStream.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
+    <ClCompile Include="Graphics\Common\Query.cpp" />
+    <ClCompile Include="Scene\GameObjects\Visual\LensFlare.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\PointLight.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
+    <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -401,6 +406,11 @@
     <ClInclude Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.h" />
     <ClInclude Include="Framework\Common\FLFileStream.h" />
     <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
+    <ClInclude Include="Graphics\Common\Query.h" />
+    <ClInclude Include="Scene\GameObjects\Visual\LensFlare.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\PointLight.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\SpotLight.h" />
+    <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

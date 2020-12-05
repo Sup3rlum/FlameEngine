@@ -104,7 +104,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	{
 		OpenGL::Clear(Color::Transparent);
 
-		scene->PushCamera(scene->LightCollection[0].LightCamera());
+		scene->PushCamera(scene->DirectionalLightCollection[0].LightCamera());
 		scene->Render();
 		scene->PopCamera();
 	}
@@ -138,12 +138,15 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	mCombineShader->UseProgram();
 	mCombineShader->SetMatrix("InverseProjection", scene->CurrentCamera()->ProjectionInverse);
 	mCombineShader->SetMatrix("InverseView", scene->CurrentCamera()->ViewInverse);
-	mCombineShader->SetMatrix("LightViewProjection", scene->LightCollection[0].LightCamera()->Projection * scene->LightCollection[0].LightCamera()->View);
 
-	mCombineShader->SetVector("DirectionalLights[0].Direction", scene->LightCollection[0].Direction);
-	mCombineShader->SetVector("DirectionalLights[0].Color", scene->LightCollection[0].LightColor);
-	mCombineShader->SetFloat("DirectionalLights[0].Intensity", scene->LightCollection[0].Intensity);
 
+	for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS && i < scene->DirectionalLightCollection.size(); i++)
+	{
+		mCombineShader->SetVector("DirectionalLights[" + to_string(i) + "].Direction",	scene->DirectionalLightCollection[0].Direction);
+		mCombineShader->SetVector("DirectionalLights[" + to_string(i) + "].Color",		scene->DirectionalLightCollection[0].LightColor);
+		mCombineShader->SetFloat( "DirectionalLights[" + to_string(i) + "].Intensity",	scene->DirectionalLightCollection[0].Intensity);
+		mCombineShader->SetMatrix("DirectionalLights[" + to_string(i) + "].VPMatrix",	scene->DirectionalLightCollection[0].LightCamera()->Projection * scene->DirectionalLightCollection[0].LightCamera()->View);
+	}
 
 	mCombineShader->SetInt("gDepth", 0);
 	mCombineShader->SetInt("gNormal", 1);
@@ -206,7 +209,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	mBoundingService->Render(scene->CurrentCamera(), corn);*/
 
-
+	/*
 	if (enableDEBUGTexture)
 	{
 		scene->_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
@@ -214,7 +217,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 		scene->_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
 		scene->_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
 		scene->_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);
-	}
+	}*/
 	scene->pUxService->Render();
 }
 

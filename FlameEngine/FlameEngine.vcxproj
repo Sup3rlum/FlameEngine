@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Projects\_Libraries\ftgl-2.1.3~rc5\src;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;D:\Projects\_Libraries\hbao\include;D:\Projects\_Libraries\openssl-1.1.1h\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\freetype2\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Projects\FlameEngine\FlameEngine;D:\Projects\_Libraries\ftgl-2.1.3~rc5\src;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;D:\Projects\_Libraries\hbao\include;D:\Projects\_Libraries\openssl-1.1.1h\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\freetype2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,7 +117,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
-      <AdditionalIncludeDirectories>D:\Projects\_Libraries\hbao\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,7 +163,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
@@ -180,12 +180,15 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
     <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
     <ClInclude Include="Framework\Common\FLFileStream.h" />
     <ClInclude Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.h" />
     <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModelMesh.h" />
     <ClInclude Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.h" />
     <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\PointLight.h" />
+    <ClInclude Include="Scene\GameObjects\Visual\LensFlare.h" />
     <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
     <ClInclude Include="Framework\Common\FLBase.h" />
     <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModel.h" />
@@ -245,6 +248,7 @@
     <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="Graphics\Renderer\RendererBase.h" />
     <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
+    <ClInclude Include="Graphics\Common\Query.h" />
     <ClInclude Include="Scene\Physics\PhysXService.h" />
     <ClInclude Include="Scene\Environment\Sky.h" />
     <ClInclude Include="Scene\GameObjects\Actor.h" />
@@ -268,6 +272,7 @@
     <ClInclude Include="Graphics\ModelSystem\Static\StaticModel.h" />
     <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
     <ClInclude Include="Graphics\ModelSystem\Static\StaticModelMesh.h" />
+    <ClInclude Include="Scene\GameObjects\Lighting\SpotLight.h" />
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\gpu.h" />
     <ClInclude Include="System\os.h" />
@@ -293,12 +298,15 @@
     <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
     <ClCompile Include="Framework\Common\FLFileStream.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModelMesh.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.cpp" />
     <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\PointLight.cpp" />
+    <ClCompile Include="Scene\GameObjects\Visual\LensFlare.cpp" />
     <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Framework\Common\FLBase.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModel.cpp" />
@@ -352,6 +360,7 @@
     <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Graphics\Renderer\RendererBase.cpp" />
     <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
+    <ClCompile Include="Graphics\Common\Query.cpp" />
     <ClCompile Include="Scene\Physics\PhysXService.cpp" />
     <ClCompile Include="Scene\Environment\Sky.cpp" />
     <ClCompile Include="Scene\GameObjects\Actor.cpp" />
@@ -376,6 +385,7 @@
     <ClCompile Include="Graphics\ModelSystem\Static\StaticModel.cpp" />
     <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Static\StaticModelMesh.cpp" />
+    <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />

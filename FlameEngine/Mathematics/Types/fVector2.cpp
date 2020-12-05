@@ -25,6 +25,14 @@ fVector2 const& fVector2::Lerp(fVector2 const& l, fVector2 const& r, float const
 }
 
 
+STRING fVector2::ToString()
+{
+	return "X: " + std::to_string(x) + " Y: " + std::to_string(y);
+}
+
+
+
+
 float const& fVector2::Dot(fVector2 const& l, fVector2 const& r)
 {
 	return l.x * r.x + l.y * r.y;

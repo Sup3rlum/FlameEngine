@@ -12,17 +12,18 @@ uniform sampler2D _shadowMap;
 
 uniform mat4x4 InverseProjection;
 uniform mat4x4 InverseView;
-uniform mat4x4 LightViewProjection;
 
 struct DirectionalLight
 {
 	vec3 Direction;
 	vec4 Color;
 	float Intensity;
+	mat4x4 VPMatrix;
 };
 
 
-uniform DirectionalLight DirectionalLights[3];
+
+uniform DirectionalLight DirectionalLights[5];
 
 
 
@@ -112,13 +113,13 @@ void main()
 
 
 
-	vec4 fragPosLightSpace = LightViewProjection * InverseView * FragPos;
+	vec4 fragPosLightSpace = DirectionalLights[0].VPMatrix * InverseView * FragPos;
 
 
 	float AmbientOcclusion = texture(ssao, fTexcoord).r;
     
     // then calculate lighting as usual
-    vec3 ambient = vec3(0.4f * Albedo * AmbientOcclusion);
+    vec3 ambient = vec3(0.3f * Albedo * AmbientOcclusion);
 
 
 	vec3 lightDir = -normalize(DirectionalLights[0].Direction).rgb;

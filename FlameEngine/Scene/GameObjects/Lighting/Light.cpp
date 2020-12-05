@@ -18,3 +18,13 @@ Camera* Light::LightCamera()
 {
 	return &_cam;
 }
+
+void Light::DrawFlare()
+{
+
+}
+
+void Light::CreateFlares()
+{
+
+}

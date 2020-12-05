@@ -15,7 +15,8 @@ public:
 
 	void SnapToFrustum(Camera* cam);
 	void Update() override;
-
+	void CreateFlare();
+	void DrawFlare();
 
 	DirectionalLight(fVector3 _direction, Color _color, float _intensity);
 
