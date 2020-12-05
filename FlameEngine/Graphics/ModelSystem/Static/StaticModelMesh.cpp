@@ -1,7 +1,7 @@
 #include "StaticModelMesh.h"
 #include "../../../Scene/Scene.h"
 
-void StaticModelMesh::Render(Scene* _scene, fMatrix4 _transform)
+void StaticModelMesh::Render(Scene* _scene, FMatrix4 _transform)
 {
 	mShader->UseProgram();
 

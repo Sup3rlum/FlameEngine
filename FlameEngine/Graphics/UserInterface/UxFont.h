@@ -8,12 +8,12 @@
 EXPORT(struct, UxCharacter)
 {
 	Texture * texture;   // ID handle of the glyph texture
-	fVector2 Size;    // Size of glyph
-	fVector2 Bearing;  // Offset from baseline to left/top of glyph
+	FVector2 Size;    // Size of glyph
+	FVector2 Bearing;  // Offset from baseline to left/top of glyph
 	GLuint Advance;    // Horizontal offset to advance to next glyph
 
-	UxCharacter() : texture(NULL), Size(fVector2(0)), Bearing(fVector2(0)), Advance(0) {}
-	UxCharacter(Texture * t, fVector2 s, fVector2 b, GLuint a) : texture(t), Size(s), Bearing(b), Advance(a) {}
+	UxCharacter() : texture(NULL), Size(FVector2(0)), Bearing(FVector2(0)), Advance(0) {}
+	UxCharacter(Texture * t, FVector2 s, FVector2 b, GLuint a) : texture(t), Size(s), Bearing(b), Advance(a) {}
 };
 
 

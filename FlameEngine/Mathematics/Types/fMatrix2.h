@@ -2,7 +2,7 @@
 
 
 
-class fMatrix2
+class FMatrix2
 {
 };
 

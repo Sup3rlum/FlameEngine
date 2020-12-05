@@ -65,7 +65,7 @@ private:
 	VertexBuffer* mQuadBuffer;
 
 	RenderState* mRenderState;
-	fMatrix4 View;
+	FMatrix4 View;
 
 	KawaseBlurService* mBlurRenderingService;
 	HBAOPlusService* mHbaoPlusService;

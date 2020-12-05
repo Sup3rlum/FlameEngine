@@ -12,7 +12,7 @@ EXPORT(class,  ModelBase)
 {
 public:
 
-	fMatrix4 World;
+	FMatrix4 World;
 
 
 	virtual void Render(Scene* _cam);

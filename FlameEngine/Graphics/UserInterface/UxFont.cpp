@@ -47,8 +47,8 @@ UxFont::UxFont(STRING _fontName, int _fontSize)
 		// Now store character for later use
 		UxCharacter character = {
 			_texture,
-			fVector2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			fVector2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+			FVector2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+			FVector2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			(unsigned int)face->glyph->advance.x
 		};
 		Characters.insert(std::pair<GLchar, UxCharacter>(c, character));

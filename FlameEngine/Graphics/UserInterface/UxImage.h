@@ -8,10 +8,10 @@ EXPORT(class, UxImage) : UxComponent
 {
 public:
 
-	UxImage(fVector2 position, fVector2 size, Texture* texture);
+	UxImage(FVector2 position, FVector2 size, Texture* texture);
 
-	fVector2 Position;
-	fVector2 Size;
+	FVector2 Position;
+	FVector2 Size;
 
 	void Render() override;
 	void Update() override;

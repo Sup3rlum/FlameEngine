@@ -1,33 +1,33 @@
 #pragma once
 
 #include "../../../dll/nchfx.h"
-#include "../../Types/fVector4.h"
+#include "../../Types/FVector4.h"
 
 EXPORT(class, AABB)
 {
 public:
-	fVector3 minPoint;
-	fVector3 maxPoint;
+	FVector3 minPoint;
+	FVector3 maxPoint;
 
 	AABB();
-	AABB(fVector3 min, fVector3 max);
+	AABB(FVector3 min, FVector3 max);
 
-	void Enclose(fVector3 point);
+	void Enclose(FVector3 point);
 
 	float LengthX();
 	float LengthY();
 	float LengthZ();
 
-	fVector3 Center();
+	FVector3 Center();
 
 	float Volume();
 
-	void GetCorners(fVector3(&corners)[8]);
+	void GetCorners(FVector3(&corners)[8]);
 
-	static AABB FromPointArray(fVector3* points, int numPoints);
+	static AABB FromPointArray(FVector3* points, int numPoints);
 
 	template<size_t _Size>
-	static AABB FromPointArray(fVector3 (&points)[_Size]);
+	static AABB FromPointArray(FVector3 (&points)[_Size]);
 
 	void SetDegenerate();
 };

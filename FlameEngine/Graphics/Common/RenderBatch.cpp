@@ -2,10 +2,10 @@
 
 VertexTexture _vert[4] =
 {
-	VertexTexture(fVector3(0,0,0), fVector2(0,1)),
-	VertexTexture(fVector3(1,0,0), fVector2(1,1)),
-	VertexTexture(fVector3(1,1,0), fVector2(1,0)),
-	VertexTexture(fVector3(0,1,0), fVector2(0,0))
+	VertexTexture(FVector3(0,0,0), FVector2(0,1)),
+	VertexTexture(FVector3(1,0,0), FVector2(1,1)),
+	VertexTexture(FVector3(1,1,0), FVector2(1,0)),
+	VertexTexture(FVector3(0,1,0), FVector2(0,0))
 };
 GLuint _ind[6]
 {
@@ -21,7 +21,7 @@ GLuint _ind[6]
 
 RenderBatch::RenderBatch(Context* _c)
 {
-	View = fMatrix4::CreateOrthographic(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
+	View = FMatrix4::CreateOrthographic(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
 	_shader			= Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
 	_shaderString	= Shader::FromSource("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
@@ -53,7 +53,7 @@ void RenderBatch::DrawMultisampleTexture(MultisampleTexture* _tex, float x, floa
 	_shader->UseProgram();
 
 	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -73,7 +73,7 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	_shader->UseProgram();
 
 	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -86,7 +86,7 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	RenderState::Push(State);
 
 	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_sh->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_sh->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -102,7 +102,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	_shader->UseProgram();
 
 	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -117,7 +117,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	RenderState::Push(State);
 
 	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(x, y, 0)) * fMatrix4::Scaling(fVector3(width, height, 1)));
+	_sh->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -129,7 +129,7 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	RenderState::Pop();
 }
 
-void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, fMatrix4 MatrixTransforms, Shader* _sh)
+void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, FMatrix4 MatrixTransforms, Shader* _sh)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -158,15 +158,15 @@ void RenderBatch::DrawString(string text, UxFont* font, float x, float y, Color 
 
 		_shaderString->SetMatrix(
 			"MatrixTransforms",
-			fMatrix4::Translation
+			FMatrix4::Translation
 			(
 
-				fVector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
+				FVector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
 			) 
 			* 
-			fMatrix4::Scaling
+			FMatrix4::Scaling
 			(
-				fVector3(ch.Size.x, ch.Size.y, 1)
+				FVector3(ch.Size.x, ch.Size.y, 1)
 			)
 		);
 		_shaderString->SetTexture(0, ch.texture);

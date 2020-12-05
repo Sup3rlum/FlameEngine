@@ -16,7 +16,7 @@ public:
 
 	HBAOPlusService(Context* context);
 
-	void RenderAO(Texture* depthTex, Texture* normTex, FrameBuffer* outputFBO, fMatrix4 projection, fMatrix4 view);
+	void RenderAO(Texture* depthTex, Texture* normTex, FrameBuffer* outputFBO, FMatrix4 projection, FMatrix4 view);
 
 
 	GFSDK_SSAO_Parameters	mAoParams;

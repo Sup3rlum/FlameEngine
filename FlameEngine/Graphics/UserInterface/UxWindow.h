@@ -20,8 +20,8 @@ public:
 
 	STRING WindowTitle;
 
-	fVector2 Position;
-	fVector2 Size;
+	FVector2 Position;
+	FVector2 Size;
 
 	UxRectangle mTitleRectangle;
 
@@ -30,7 +30,7 @@ public:
 	std::vector<UxComponent*> mChildren;
 	bool dragging;
 
-	fVector2 dragDiff;
+	FVector2 dragDiff;
 
 };
 

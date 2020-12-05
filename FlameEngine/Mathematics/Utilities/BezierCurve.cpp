@@ -1,9 +1,9 @@
 #include "BezierCurve.h"
 
 
-fVector3 BezierCurve::GetPoint(float _t)
+FVector3 BezierCurve::GetPoint(float _t)
 {
-	fVector3* _subPoints = new fVector3[_points.size()];
+	FVector3* _subPoints = new FVector3[_points.size()];
 
 	memcpy(_subPoints, &_points[0], sizeof(_points));
 
@@ -11,7 +11,7 @@ fVector3 BezierCurve::GetPoint(float _t)
 	{
 		for (int j = 0; j < i; j++)
 		{
-			_subPoints[j] = fVector3::Lerp(_subPoints[j], _subPoints[j + 1], _t);
+			_subPoints[j] = FVector3::Lerp(_subPoints[j], _subPoints[j + 1], _t);
 		}
 	}
 

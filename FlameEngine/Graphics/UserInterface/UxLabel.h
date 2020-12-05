@@ -11,11 +11,11 @@ EXPORT(class,  UxLabel) : public UxComponent
 {
 public:
 
-	UxLabel(fVector2 position, STRING text, UxFont* font);
+	UxLabel(FVector2 position, STRING text, UxFont* font);
 
 	STRING Text;
-	fVector2 Position;
-	fVector2 Size;
+	FVector2 Position;
+	FVector2 Size;
 
 
 	void Render() override;

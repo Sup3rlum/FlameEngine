@@ -14,9 +14,9 @@ LensFlare::LensFlare(Context* context)
 void LensFlare::Render(Camera* cam)
 {
 
-	fMatrix4 vp = fMatrix4::Transpose(cam->View * cam->Projection);
+	FMatrix4 vp = FMatrix4::Transpose(cam->View * cam->Projection);
 
-	screenPosition = (vp * fVector4(-sunDirection, 0.0f)).xy;
+	screenPosition = (vp * FVector4(-sunDirection, 0.0f)).xy;
 
 
 

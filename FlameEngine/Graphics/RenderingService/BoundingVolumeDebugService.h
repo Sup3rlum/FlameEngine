@@ -11,7 +11,7 @@ EXPORT(class, BoundingVolumeDebugService) : public RenderingServiceBase
 {
 public:
 	BoundingVolumeDebugService(Context* context);
-	void Render(Camera* cam, fVector3* Corners);
+	void Render(Camera* cam, FVector3* Corners);
 
 	VertexBuffer* mVertexBuffer;
 	Shader* mDebugShader;

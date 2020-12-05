@@ -2,7 +2,7 @@
 
 
 
-UxFrame::UxFrame(fVector2 position, fVector2 size) 
+UxFrame::UxFrame(FVector2 position, FVector2 size) 
 	: 
 	Position(position), 
 	Size(size)
@@ -15,7 +15,7 @@ UxFrame::UxFrame(fVector2 position, fVector2 size)
 	pxBorderRadius = 0.0f;
 
 
-	fVector3 w = Color::White.rgb;
+	FVector3 w = Color::White.rgb;
 
 	mTexture = new Texture(1, 1, GL_RGB32F, GL_RGB, GL_FLOAT, false);
 	mTexture->Bind();
@@ -41,7 +41,7 @@ void UxFrame::Render()
 	mFrameShader->SetVector("Color", color);
 	mFrameShader->SetVector("Dimensions", Size);
 	mFrameShader->SetMatrix("View", GetParent()->pRenderingService->mView);
-	mFrameShader->SetMatrix("MatrixTransforms", fMatrix4::Translation(fVector3(Position, 0)) * fMatrix4::Scaling(fVector3(Size, 1)));
+	mFrameShader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(Position, 0)) * FMatrix4::Scaling(FVector3(Size, 1)));
 	mFrameShader->SetTexture(0, mTexture);
 
 	GetParent()->pRenderingService->DrawElement();

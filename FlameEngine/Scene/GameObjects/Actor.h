@@ -19,9 +19,9 @@ public:
 
 	Actor();
 
-	fVector3 Position;
-	fQuaternion Rotation;
-	fVector3 Scale;
+	FVector3 Position;
+	FQuaternion Rotation;
+	FVector3 Scale;
 
 
 	Scene* _scene;

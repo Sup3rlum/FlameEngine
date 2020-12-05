@@ -17,7 +17,7 @@ public:
 	virtual void Render();
 	virtual void Update();
 
-	fMatrix4 LocalTransform;
+	FMatrix4 LocalTransform;
 
 	VertexBuffer* mVertexBuffer;
 	Shader* mShader;

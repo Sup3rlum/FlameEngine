@@ -26,8 +26,8 @@ public:
 
 	float intensity;
 
-	fVector3 sunDirection;
-	fVector2 screenPosition;
+	FVector3 sunDirection;
+	FVector2 screenPosition;
 
 	std::vector<LensFlareComponent> flares;
 

@@ -76,8 +76,8 @@ FLRESULT AssetManager::LoadModelFromFile<StaticModel>(STRING path, StaticModel* 
 		model->meshCollection.push_back(StaticModelMesh());
 
 
-		fMatrix4 localTransform(0);
-		localTransform = flStream.Read<fMatrix4>();
+		FMatrix4 localTransform(0);
+		localTransform = flStream.Read<FMatrix4>();
 
 
 		// Material Info

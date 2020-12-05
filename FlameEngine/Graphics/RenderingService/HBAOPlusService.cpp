@@ -40,10 +40,10 @@ HBAOPlusService::HBAOPlusService(Context* c)
 
 }
 
-void HBAOPlusService::RenderAO(Texture* depthTex, Texture* normTex, FrameBuffer* outputFBO, fMatrix4 Projection, fMatrix4 View)
+void HBAOPlusService::RenderAO(Texture* depthTex, Texture* normTex, FrameBuffer* outputFBO, FMatrix4 Projection, FMatrix4 View)
 {
 
-	View[3] = fVector4(0, 0, 0, 1.0f);
+	View[3] = FVector4(0, 0, 0, 1.0f);
 
 	GFSDK_SSAO_InputData_GL Input;
 	Input.DepthData.DepthTextureType = GFSDK_SSAO_HARDWARE_DEPTHS;

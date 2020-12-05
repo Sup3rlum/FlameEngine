@@ -35,11 +35,11 @@ void UxContainer::UpdateComponents()
 	}
 }
 
-fVector2 UxContainer::GetCursorPosition()
+FVector2 UxContainer::GetCursorPosition()
 {
 	double x, y;
 
 	pRenderingService->mAttachedContext->GetCursorPosition(&x, &y);
 
-	return fVector2(x, y);
+	return FVector2(x, y);
 }

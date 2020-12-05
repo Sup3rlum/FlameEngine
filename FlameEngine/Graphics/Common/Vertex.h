@@ -9,11 +9,11 @@ using namespace std;
 
 EXPORT(struct,  VertexNormalTexture)
 {
-	fVector3 _position;
-	fVector3 _normal;
-	fVector2 _texCoord;
+	FVector3 _position;
+	FVector3 _normal;
+	FVector2 _texCoord;
 
-	VertexNormalTexture(fVector3 pos, fVector3 norm, fVector2 tex)
+	VertexNormalTexture(FVector3 pos, FVector3 norm, FVector2 tex)
 	{
 		_position = pos;
 		_normal = norm;
@@ -25,10 +25,10 @@ EXPORT(struct,  VertexNormalTexture)
 
 EXPORT(struct,  VertexTexture)
 {
-	fVector3 _position;
-	fVector2 _texCoord;
+	FVector3 _position;
+	FVector2 _texCoord;
 
-	VertexTexture(fVector3 pos, fVector2 tex)
+	VertexTexture(FVector3 pos, FVector2 tex)
 	{
 		_position = pos;
 		_texCoord = tex;
@@ -39,10 +39,10 @@ EXPORT(struct,  VertexTexture)
 
 EXPORT(struct,  VertexColor)
 {
-	fVector3 _position;
-	fVector3 _color;
+	FVector3 _position;
+	FVector3 _color;
 
-	VertexColor(fVector3 pos, fVector3 col)
+	VertexColor(FVector3 pos, FVector3 col)
 	{
 		_position = pos;
 		_color = col;
@@ -53,12 +53,12 @@ EXPORT(struct,  VertexColor)
 
 EXPORT(struct,  VertexNormalTextureAmbience)
 {
-	fVector3 _position;
-	fVector3 _normal;
-	fVector2 _texCoord;
+	FVector3 _position;
+	FVector3 _normal;
+	FVector2 _texCoord;
 	float _ambience;
 
-	VertexNormalTextureAmbience(fVector3 pos, fVector3 norm, fVector2 tex, float ambience)
+	VertexNormalTextureAmbience(FVector3 pos, FVector3 norm, FVector2 tex, float ambience)
 	{
 		_position = pos;
 		_normal = norm;
@@ -73,15 +73,15 @@ EXPORT(struct,  AnimatedModelVertex)
 {
 
 	// Skin data
-	fVector3 _position;
-	fVector3 _normal;
-	fVector2 _texCoord;
+	FVector3 _position;
+	FVector3 _normal;
+	FVector2 _texCoord;
 
 	// Skeletal animation Data
 	iVector4 _jointIds;
-	fVector4 _jointWeights;
+	FVector4 _jointWeights;
 
-	AnimatedModelVertex(fVector3 pos, fVector3 norm, fVector2 tex, iVector4 jointIds, fVector4 jointWeights)
+	AnimatedModelVertex(FVector3 pos, FVector3 norm, FVector2 tex, iVector4 jointIds, FVector4 jointWeights)
 	{
 		_position = pos;
 		_normal = norm;

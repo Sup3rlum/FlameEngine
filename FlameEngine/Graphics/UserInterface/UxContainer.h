@@ -20,7 +20,7 @@ public:
 	void RenderComponents();
 	void UpdateComponents();
 
-	fVector2 GetCursorPosition();
+	FVector2 GetCursorPosition();
 
 
 	std::vector<UxComponent*> mDataInternal;

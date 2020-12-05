@@ -2,7 +2,7 @@
 
 
 
-UxWindow::UxWindow(STRING title) : UxWindow(title, UxRectangle(fVector2(0), fVector2(100)))
+UxWindow::UxWindow(STRING title) : UxWindow(title, UxRectangle(FVector2(0), FVector2(100)))
 {
 
 }
@@ -18,7 +18,7 @@ UxWindow::UxWindow(STRING title, UxRectangle bounds)
 	Background = new UxFrame(bounds.Position, bounds.Size);
 	TitleLabel = new UxLabel(bounds.Position, WindowTitle, new UxFont("C:\\Windows\\Fonts\\arial.ttf", 16));
 
-	TitleLabel->Size = fVector2(bounds.Size.x, TitleLabel->pFont->FontSize + 5);
+	TitleLabel->Size = FVector2(bounds.Size.x, TitleLabel->pFont->FontSize + 5);
 
 	Background->color = Color(200, 200, 200, 200);
 	Background->pxBorderRadius = 10;
@@ -46,12 +46,12 @@ void UxWindow::Update()
 
 	Background->Position = Position;
 	Background->Size = Size;
-	TitleLabel->Position = Position + fVector2(10);
+	TitleLabel->Position = Position + FVector2(10);
 
 
 
 	mTitleRectangle.Position = Position;
-	mTitleRectangle.Size = fVector2(Size.x, TitleLabel->Size.y);
+	mTitleRectangle.Size = FVector2(Size.x, TitleLabel->Size.y);
 
 	bool prevDrag = dragging;
 

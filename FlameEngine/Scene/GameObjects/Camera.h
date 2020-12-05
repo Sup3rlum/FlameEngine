@@ -16,18 +16,18 @@ public:
 	~Camera();
 
 
-	virtual void GetFrustumCorners(fVector3* corners);
+	virtual void GetFrustumCorners(FVector3* corners);
 
-	fMatrix4 View;
-	fMatrix4 DebugView;
-	fMatrix4 Projection;
-	fMatrix4 ProjectionInverse;
-	fMatrix4 ViewInverse;
+	FMatrix4 View;
+	FMatrix4 DebugView;
+	FMatrix4 Projection;
+	FMatrix4 ProjectionInverse;
+	FMatrix4 ViewInverse;
 
-	fVector3 Position;
-	fVector3 LookDirection;
-	fVector3 Right;
-	fVector3 Up;
+	FVector3 Position;
+	FVector3 LookDirection;
+	FVector3 Right;
+	FVector3 Up;
 
 	float nearClip;
 	float farClip;

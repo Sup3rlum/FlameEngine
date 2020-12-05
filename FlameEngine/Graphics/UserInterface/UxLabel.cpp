@@ -1,7 +1,7 @@
 #include "UxLabel.h"
 
 
-UxLabel::UxLabel(fVector2 position, STRING text, UxFont* font)
+UxLabel::UxLabel(FVector2 position, STRING text, UxFont* font)
 	:
 	Position(position),
 	Text(text),
@@ -54,15 +54,15 @@ void UxLabel::Render()
 		{
 			mLabelShader->SetMatrix(
 				"MatrixTransforms",
-				fMatrix4::Translation
+				FMatrix4::Translation
 				(
 
-					fVector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
+					FVector3(x + ch.Bearing.x, y - ch.Bearing.y, 0)
 				)
 				*
-				fMatrix4::Scaling
+				FMatrix4::Scaling
 				(
-					fVector3(ch.Size.x, ch.Size.y, 1)
+					FVector3(ch.Size.x, ch.Size.y, 1)
 				)
 			);
 			mLabelShader->SetTexture(0, ch.texture);

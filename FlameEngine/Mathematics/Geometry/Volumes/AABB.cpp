@@ -5,7 +5,7 @@ AABB::AABB()
 
 }
 
-AABB::AABB(fVector3 min, fVector3 max)
+AABB::AABB(FVector3 min, FVector3 max)
 {
 	minPoint = min;
 	maxPoint = max;
@@ -13,40 +13,40 @@ AABB::AABB(fVector3 min, fVector3 max)
 
 void AABB::SetDegenerate()
 {
-	minPoint = fVector3(std::numeric_limits<float>::infinity());
-	maxPoint = fVector3(-std::numeric_limits<float>::infinity());
+	minPoint = FVector3(std::numeric_limits<float>::infinity());
+	maxPoint = FVector3(-std::numeric_limits<float>::infinity());
 }
 
-void AABB::GetCorners(fVector3(&corners)[8])
+void AABB::GetCorners(FVector3(&corners)[8])
 {
-	fVector3 ndc_corners[8] =
+	FVector3 ndc_corners[8] =
 	{
-		fVector3(1.0f, -1.0f, -1.0f),	 // llb
-		fVector3(-1.0f, -1.0f, -1.0f), // lrb
-		fVector3(-1.0f, 1.0f, -1.0f),  // urb
-		fVector3(1.0f, 1.0f, -1.0f),	 // ulb
+		FVector3(1.0f, -1.0f, -1.0f),	 // llb
+		FVector3(-1.0f, -1.0f, -1.0f), // lrb
+		FVector3(-1.0f, 1.0f, -1.0f),  // urb
+		FVector3(1.0f, 1.0f, -1.0f),	 // ulb
 
 
-		fVector3(1.0f, -1.0f, 1.0f),   // llf
-		fVector3(-1.0f, -1.0f, 1.0f),  // lrf
-		fVector3(-1.0f, 1.0f, 1.0f),   // urf
-		fVector3(1.0f, 1.0f, 1.0f)	 // ulf
+		FVector3(1.0f, -1.0f, 1.0f),   // llf
+		FVector3(-1.0f, -1.0f, 1.0f),  // lrf
+		FVector3(-1.0f, 1.0f, 1.0f),   // urf
+		FVector3(1.0f, 1.0f, 1.0f)	 // ulf
 
 	};
 	for (int i = 0; i < 8; i++)
 	{
-		fVector3 _one = ndc_corners[i] * 0.5f + 0.5f;
-		corners[i] = _one * maxPoint + (fVector3(1) - _one) * minPoint;
+		FVector3 _one = ndc_corners[i] * 0.5f + 0.5f;
+		corners[i] = _one * maxPoint + (FVector3(1) - _one) * minPoint;
 	}
 }
 
-void AABB::Enclose(fVector3 point)
+void AABB::Enclose(FVector3 point)
 {
-	minPoint = fVector3::Min(minPoint, point);
-	maxPoint = fVector3::Max(maxPoint, point);
+	minPoint = FVector3::Min(minPoint, point);
+	maxPoint = FVector3::Max(maxPoint, point);
 }
 
-fVector3 AABB::Center()
+FVector3 AABB::Center()
 {
 	return (maxPoint - minPoint) / 2.0f + minPoint;
 }
@@ -69,7 +69,7 @@ float AABB::Volume()
 	return LengthX() * LengthY() * LengthZ();
 }
 
-AABB AABB::FromPointArray(fVector3* points, int numPoints)
+AABB AABB::FromPointArray(FVector3* points, int numPoints)
 {
 
 	AABB aabb;
@@ -82,7 +82,7 @@ AABB AABB::FromPointArray(fVector3* points, int numPoints)
 }
 
 template<size_t _Size>
-AABB FromPointArray(fVector3(&points)[_Size])
+AABB FromPointArray(FVector3(&points)[_Size])
 {
 
 	return FromPointArray(&points[0], _Size);

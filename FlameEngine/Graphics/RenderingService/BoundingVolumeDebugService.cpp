@@ -10,7 +10,7 @@ BoundingVolumeDebugService::BoundingVolumeDebugService(Context* context) : Rende
 
 }
 
-void BoundingVolumeDebugService::Render(Camera* cam, fVector3* corners)
+void BoundingVolumeDebugService::Render(Camera* cam, FVector3* corners)
 {
 
 
@@ -64,7 +64,7 @@ void BoundingVolumeDebugService::Render(Camera* cam, fVector3* corners)
 
 	mDebugShader->SetMatrix("View", cam->View);
 	mDebugShader->SetMatrix("Projection", cam->Projection);
-	mDebugShader->SetMatrix("World", fMatrix4::Identity());
+	mDebugShader->SetMatrix("World", FMatrix4::Identity());
 
 
 	mVertexBuffer->Render(GL_LINES);

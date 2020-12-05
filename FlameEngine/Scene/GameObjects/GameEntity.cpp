@@ -6,7 +6,7 @@ GameEntity::GameEntity(STRING _modelName)
 
 	AssetManager::LoadModelFromFile<StaticModel>(_modelName, &model);
 
-	Rotation = fQuaternion::Identity();
+	Rotation = FQuaternion::Identity();
 
 }
 
@@ -19,8 +19,8 @@ void GameEntity::Render()
 
 void GameEntity::Update(FrameTime* _frameTime)
 {
-	fMatrix4 rot = fMatrix4::FromQuaternion(Rotation) * fMatrix4::Scaling(Scale);
-	model.World = fMatrix4::Translation(Position) * rot;
+	FMatrix4 rot = FMatrix4::FromQuaternion(Rotation) * FMatrix4::Scaling(Scale);
+	model.World = FMatrix4::Translation(Position) * rot;
 
 	if (pPxActor != NULL)
 	{

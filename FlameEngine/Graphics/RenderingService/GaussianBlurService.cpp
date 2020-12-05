@@ -33,9 +33,9 @@ void GaussianBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture
 
 		mShader->UseProgram();
 
-		mShader->SetVector("Direction", fVector2(0.0f, 1.0f));
+		mShader->SetVector("Direction", FVector2(0.0f, 1.0f));
 		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", fMatrix4::Scaling(fVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, texture);
 
@@ -55,9 +55,9 @@ void GaussianBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture
 
 		mShader->UseProgram();
 
-		mShader->SetVector("Direction", fVector2(1.0f, 0.0f));
+		mShader->SetVector("Direction", FVector2(1.0f, 0.0f));
 		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", fMatrix4::Scaling(fVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, mBuffer);
 

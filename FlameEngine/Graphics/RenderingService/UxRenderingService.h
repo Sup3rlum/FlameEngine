@@ -23,12 +23,12 @@ public:
 		void DrawElement();
 
 		void SetView();
-		void SetView(fMatrix4 view);
+		void SetView(FMatrix4 view);
 
 
 		Shader* mDefaultComponentShader;
 		VertexBuffer* mVertexBuffer;
-		fMatrix4 mView;
+		FMatrix4 mView;
 		Context* mAttachedContext;
 };
 

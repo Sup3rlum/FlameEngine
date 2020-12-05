@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../../dll/nchfx.h"
-#include "fVector2.h"
-#include "fVector3.h"
-#include "fVector4.h"
+#include "FVector2.h"
+#include "FVector3.h"
+#include "FVector4.h"
 
-EXPORT(class,  fQuaternion)
+EXPORT(class,  FQuaternion)
 {
 public:
 	union
@@ -14,37 +14,37 @@ public:
 		struct { float r, i, j, k; };
 
 
-		struct { float w;  fVector2 xy; float z; };
-		struct { float r;  fVector2 ij; float k; };
+		struct { float w;  FVector2 xy; float z; };
+		struct { float r;  FVector2 ij; float k; };
 
 
-		struct { fVector2 wx; fVector2 yz; };
-		struct { fVector2 ri; fVector2 jk; };
+		struct { FVector2 wx; FVector2 yz; };
+		struct { FVector2 ri; FVector2 jk; };
 
 
-		struct { fVector3 wxy; float z; };
-		struct { fVector3 rij; float k; };
+		struct { FVector3 wxy; float z; };
+		struct { FVector3 rij; float k; };
 
 
-		struct { float w; fVector3 xyz; };
-		struct { float r; fVector3 ijk; };
+		struct { float w; FVector3 xyz; };
+		struct { float r; FVector3 ijk; };
 
-		struct { fVector4 vector4; };
+		struct { FVector4 vector4; };
 		struct { __m128 mmv; };
 	};
 	
-	constexpr fQuaternion() :
+	constexpr FQuaternion() :
 		i(0),
 		j(0),
 		k(0),
 		r(0) {}
-	constexpr fQuaternion(float _r, float _i, float _j, float _k) :
+	constexpr FQuaternion(float _r, float _i, float _j, float _k) :
 		i(_i),
 		j(_j),
 		k(_k),
 		r(_r) {}
 
-	constexpr fQuaternion(float _r, fVector3 _v) :
+	constexpr FQuaternion(float _r, FVector3 _v) :
 		i(_v.x),
 		j(_v.y),
 		k(_v.z),
@@ -52,7 +52,7 @@ public:
 
 
 
-	constexpr fQuaternion(fVector4 _vec) :
+	constexpr FQuaternion(FVector4 _vec) :
 		vector4(_vec) {}
 
 
@@ -63,9 +63,9 @@ public:
 
 
 
-	static fQuaternion Normalize(fQuaternion q);
-	static fQuaternion Identity();
-	static fQuaternion const& Inverse(fQuaternion q);
+	static FQuaternion Normalize(FQuaternion q);
+	static FQuaternion Identity();
+	static FQuaternion const& Inverse(FQuaternion q);
 
 
 
@@ -100,7 +100,7 @@ public:
 	}
 
 
-	constexpr fQuaternion& operator=(fQuaternion const& v)
+	constexpr FQuaternion& operator=(FQuaternion const& v)
 	{
 		this->r = v.r;
 		this->i = v.i;
@@ -114,11 +114,11 @@ public:
 };
 
 
-constexpr bool		FLAME_DLL			operator==(fQuaternion const& l, fQuaternion const& r);
-constexpr bool		FLAME_DLL			operator!=(fQuaternion const& l, fQuaternion const& r);
+constexpr bool		FLAME_DLL			operator==(FQuaternion const& l, FQuaternion const& r);
+constexpr bool		FLAME_DLL			operator!=(FQuaternion const& l, FQuaternion const& r);
 
-constexpr fQuaternion	FLAME_DLL		operator*(fQuaternion const& l, fQuaternion const& r);
-constexpr fQuaternion	FLAME_DLL		operator*(fQuaternion const& l, float const& _scalar);
-constexpr fQuaternion	FLAME_DLL		operator/(fQuaternion const& l, float const& _scalar);
-constexpr fQuaternion	FLAME_DLL		operator+(fQuaternion const& l, fQuaternion const& r);
-constexpr fQuaternion	FLAME_DLL		operator-(fQuaternion const& l, fQuaternion const& r);
+constexpr FQuaternion	FLAME_DLL		operator*(FQuaternion const& l, FQuaternion const& r);
+constexpr FQuaternion	FLAME_DLL		operator*(FQuaternion const& l, float const& _scalar);
+constexpr FQuaternion	FLAME_DLL		operator/(FQuaternion const& l, float const& _scalar);
+constexpr FQuaternion	FLAME_DLL		operator+(FQuaternion const& l, FQuaternion const& r);
+constexpr FQuaternion	FLAME_DLL		operator-(FQuaternion const& l, FQuaternion const& r);

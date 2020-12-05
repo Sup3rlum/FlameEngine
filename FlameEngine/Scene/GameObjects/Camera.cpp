@@ -12,43 +12,43 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	View = fMatrix4::CreateView(Position, Position + LookDirection, Up);
-	DebugView = fMatrix4::CreateView(-LookDirection * 20.0f, fVector3(0), Up);
+	View = FMatrix4::CreateView(Position, Position + LookDirection, Up);
+	DebugView = FMatrix4::CreateView(-LookDirection * 20.0f, FVector3(0), Up);
 
 
-	fMatrix4 m2(fMatrix3::Transpose(fMatrix4::ToMatrix3(View)));
+	FMatrix4 m2(FMatrix3::Transpose(FMatrix4::ToMatrix3(View)));
 	m2[3][3] = 1.0f;
 
-	//ViewInverse = fMatrix4::Translation(Position) * m2;
-	ViewInverse = fMatrix4::Inverse(View);
-	ProjectionInverse = fMatrix4::Inverse(Projection);
+	//ViewInverse = FMatrix4::Translation(Position) * m2;
+	ViewInverse = FMatrix4::Inverse(View);
+	ProjectionInverse = FMatrix4::Inverse(Projection);
 }
 
-void Camera::GetFrustumCorners(fVector3* corners)
+void Camera::GetFrustumCorners(FVector3* corners)
 {
-	fVector4 ndc_corners[8] =
+	FVector4 ndc_corners[8] =
 	{
-		fVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
-		fVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
-		fVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
-		fVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
+		FVector4(1.0f, -1.0f, -1.0f, 1.0f),	 // llb
+		FVector4(-1.0f, -1.0f, -1.0f, 1.0f), // lrb
+		FVector4(-1.0f, 1.0f, -1.0f, 1.0f),  // urb
+		FVector4(1.0f, 1.0f, -1.0f, 1.0f),	 // ulb
 
 
-		fVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
-		fVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
-		fVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
-		fVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
+		FVector4(1.0f, -1.0f, 1.0f, 1.0f),   // llf
+		FVector4(-1.0f, -1.0f, 1.0f, 1.0f),  // lrf
+		FVector4(-1.0f, 1.0f, 1.0f, 1.0f),   // urf
+		FVector4(1.0f, 1.0f, 1.0f, 1.0f)	 // ulf
 
 	};
 
 
 
-	fMatrix4 inverseVPMatrix = fMatrix4::Transpose(ViewInverse * ProjectionInverse);
+	FMatrix4 inverseVPMatrix = FMatrix4::Transpose(ViewInverse * ProjectionInverse);
 
 
 	for (uint32_t i = 0; i < 8; i++)
 	{
-		fVector4 p = inverseVPMatrix * ndc_corners[i];
+		FVector4 p = inverseVPMatrix * ndc_corners[i];
 
 		p /= p.w;
 

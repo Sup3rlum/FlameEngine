@@ -4,7 +4,7 @@
 #include <immintrin.h>
 #include <ctime>
 
-#include "FlameEngine/Mathematics/Types/fVector3.h"
+#include "FlameEngine/Mathematics/Types/FVector3.h"
 #include "FlameEngine/Mathematics/Types/fMatrix4.h"
 
 TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
@@ -16,7 +16,7 @@ TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
 void TestGame::Load()
 {
 
-	_currentScene->DirectionalLightCollection.push_back(DirectionalLight(fVector3(-1.0f, -1.0f, 0.2f), Color::White, 1.0f));
+	_currentScene->DirectionalLightCollection.push_back(DirectionalLight(FVector3(-1.0f, -1.0f, 0.2f), Color::White, 1.0f));
 
 	//GameEntity* _man = new GameEntity("man.fl3d");
 	GameEntity* _ground = new GameEntity("plane.fl3d");
@@ -24,17 +24,17 @@ void TestGame::Load()
 	//GameEntity* _sponza = new GameEntity("sponza.fl3d");
 	GameEntity* _house = new GameEntity("cottage.fl3d");
 
-	//_sponza->Position = fVector3(0, 0, 0);
-	//_man->Position = fVector3(4, -1, -4);
-	_box->Position = fVector3(0, 1, 0);
-	_ground->Position = fVector3(0, 0, 0);
-	//_house->Position = fVector3(35, 0.5f, -15);
+	//_sponza->Position = FVector3(0, 0, 0);
+	//_man->Position = FVector3(4, -1, -4);
+	_box->Position = FVector3(0, 1, 0);
+	_ground->Position = FVector3(0, 0, 0);
+	//_house->Position = FVector3(35, 0.5f, -15);
 
-	_ground->Scale = fVector3(5.0f);
-	_box->Scale = fVector3(1.0f);
-	//_sponza->Scale = fVector3(0.15f);
-	_house->Scale = fVector3(1.0f);
-	//_man->Scale = fVector3(1.0f);
+	_ground->Scale = FVector3(5.0f);
+	_box->Scale = FVector3(1.0f);
+	//_sponza->Scale = FVector3(0.15f);
+	_house->Scale = FVector3(1.0f);
+	//_man->Scale = FVector3(1.0f);
 
 
 	PxMaterial* pxMaterial = _currentScene->pPhysXService->mPxPhysics->createMaterial(0.5, 0.5, 0.1);
@@ -52,8 +52,8 @@ void TestGame::Load()
 
 	GameEntity* _box2 = new GameEntity("box.fl3d");
 
-	_box2->Position = fVector3(4, -1, -4);
-	_box2->Scale = fVector3(1.0f);
+	_box2->Position = FVector3(4, -1, -4);
+	_box2->Scale = FVector3(1.0f);
 
 	_box2->pPxActor = _currentScene->pPhysXService->mPxPhysics->createRigidDynamic(PxTransform(PxVec3(0, 50, 0), PxQuat(0.3, PxVec3(1, 1, 0).getNormalized())));
 	_box2->pPxActor->attachShape(*boxShape);
@@ -100,7 +100,7 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 
 		GameEntity* _box = new GameEntity("box.fl3d");
 
-		_box->Scale = fVector3(1.0f);
+		_box->Scale = FVector3(1.0f);
 
 		PxMaterial* pxMaterial = _currentScene->pPhysXService->mPxPhysics->createMaterial(0.5, 0.5, 0.1);
 
@@ -124,14 +124,14 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 	{
 
 
-		fVector3 dir = _currentScene->CurrentCamera()->LookDirection;
-		fVector3 pos = _currentScene->CurrentCamera()->Position;
+		FVector3 dir = _currentScene->CurrentCamera()->LookDirection;
+		FVector3 pos = _currentScene->CurrentCamera()->Position;
 
 
 
 		GameEntity* _box = new GameEntity("box.fl3d");
 
-		_box->Scale = fVector3(1.0f);
+		_box->Scale = FVector3(1.0f);
 
 		PxMaterial* pxMaterial = _currentScene->pPhysXService->mPxPhysics->createMaterial(0.5, 0.5, 0.1);
 
@@ -180,10 +180,10 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 
 	if (args.Key == Keys::LEFT_CONTROL && args.keyState == KeyState::PRESSED)
 	{
-		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 5;
+		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 40;
 	}	
 	if (args.Key == Keys::LEFT_CONTROL && args.keyState == KeyState::RELEASED)
 	{
-		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 40;
+		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 5;
 	}
 }

@@ -11,10 +11,10 @@ EXPORT(class,  UxFrame) : public UxComponent
 {
 public:
 
-	UxFrame(fVector2 position, fVector2 size);
+	UxFrame(FVector2 position, FVector2 size);
 
-	fVector2 Position;
-	fVector2 Size;
+	FVector2 Position;
+	FVector2 Size;
 
 	void Render() override;
 	void Update() override;

@@ -2,15 +2,15 @@
 
 
 #include "../../dll/nchfx.h"
-#include "../Types/fVector3.h"
+#include "../Types/FVector3.h"
 
 
 EXPORT(class,  BezierCurve)
 {
 public:
-	std::vector<fVector3> _points;
+	std::vector<FVector3> _points;
 
-	fVector3 GetPoint(float _t);
+	FVector3 GetPoint(float _t);
 
 };
 

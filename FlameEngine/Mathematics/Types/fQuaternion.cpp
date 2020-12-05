@@ -1,34 +1,34 @@
-#include "fQuaternion.h"
+#include "FQuaternion.h"
 
 
 
-float fQuaternion::Length()
+float FQuaternion::Length()
 {
 	return sqrt(LengthSquared());
 }
 
-constexpr float fQuaternion::LengthSquared()
+constexpr float FQuaternion::LengthSquared()
 {
 	return x * x + y * y + z * z + w * w;
 }
 
 
-fQuaternion fQuaternion::Normalize(fQuaternion v)
+FQuaternion FQuaternion::Normalize(FQuaternion v)
 {
 	return v / v.Length();
 }
 
-fQuaternion fQuaternion::Identity()
+FQuaternion FQuaternion::Identity()
 {
-	return fQuaternion(1, 0, 0, 0);
+	return FQuaternion(1, 0, 0, 0);
 }
 
-fQuaternion const& fQuaternion::Inverse(fQuaternion q)
+FQuaternion const& FQuaternion::Inverse(FQuaternion q)
 {
-	return fQuaternion(q.r, -q.i, -q.j, -q.j) / q.Length();
+	return FQuaternion(q.r, -q.i, -q.j, -q.j) / q.Length();
 }
 
-constexpr bool					operator==(fQuaternion const& l, fQuaternion const& r)
+constexpr bool					operator==(FQuaternion const& l, FQuaternion const& r)
 {
 	return (
 		l.r == r.r &&
@@ -38,15 +38,15 @@ constexpr bool					operator==(fQuaternion const& l, fQuaternion const& r)
 		);
 }
 
-constexpr bool					operator!=(fQuaternion const& l, fQuaternion const& r)
+constexpr bool					operator!=(FQuaternion const& l, FQuaternion const& r)
 {
 	return !(l == r);
 }
 
 
-constexpr fQuaternion			operator*(fQuaternion const& l, fQuaternion const& r)
+constexpr FQuaternion			operator*(FQuaternion const& l, FQuaternion const& r)
 {
-	return fQuaternion(
+	return FQuaternion(
 		(l.r * r.r) - (l.ijk & r.ijk),
 		l.ijk ^ r.ijk + r.ijk * l.r + l.ijk * r.r
 	);
@@ -54,9 +54,9 @@ constexpr fQuaternion			operator*(fQuaternion const& l, fQuaternion const& r)
 
 
 
-constexpr fQuaternion			operator*(fQuaternion const& l, float const& _scalar)
+constexpr FQuaternion			operator*(FQuaternion const& l, float const& _scalar)
 {
-	return fQuaternion(
+	return FQuaternion(
 		l.r * _scalar,
 		l.i * _scalar,
 		l.j * _scalar,
@@ -65,9 +65,9 @@ constexpr fQuaternion			operator*(fQuaternion const& l, float const& _scalar)
 }
 
 
-constexpr fQuaternion			operator/(fQuaternion const& l, float const& _scalar)
+constexpr FQuaternion			operator/(FQuaternion const& l, float const& _scalar)
 {
-	return fQuaternion(
+	return FQuaternion(
 		l.r / _scalar,
 		l.i / _scalar,
 		l.j / _scalar,
@@ -77,9 +77,9 @@ constexpr fQuaternion			operator/(fQuaternion const& l, float const& _scalar)
 
 
 
-constexpr fQuaternion			operator+(fQuaternion const& l, fQuaternion const& r)
+constexpr FQuaternion			operator+(FQuaternion const& l, FQuaternion const& r)
 {
-	return fQuaternion(
+	return FQuaternion(
 		l.r + r.r,
 		l.i + r.i,
 		l.j + r.j,
@@ -89,9 +89,9 @@ constexpr fQuaternion			operator+(fQuaternion const& l, fQuaternion const& r)
 
 
 
-constexpr fQuaternion			operator-(fQuaternion const& l, fQuaternion const& r)
+constexpr FQuaternion			operator-(FQuaternion const& l, FQuaternion const& r)
 {
-	return fQuaternion(
+	return FQuaternion(
 		l.r - r.r,
 		l.i - r.i,
 		l.j - r.j,

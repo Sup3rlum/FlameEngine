@@ -11,7 +11,7 @@ public:
 	{
 		struct
 		{
-			fVector2 Position, Size;
+			FVector2 Position, Size;
 		};
 		struct
 		{
@@ -20,9 +20,9 @@ public:
 	};
 
 	UxRectangle() : Position(0), Size(0) {}
-	UxRectangle(fVector2 p, fVector2 s) : Position(p), Size(s) {}
+	UxRectangle(FVector2 p, FVector2 s) : Position(p), Size(s) {}
 
 
-	bool Contains(fVector2 point);
+	bool Contains(FVector2 point);
 };
 

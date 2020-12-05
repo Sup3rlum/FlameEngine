@@ -57,6 +57,6 @@ public:
 
 	GLenum TextureType;
 
-	fVector4 GetData(int w, int h);
+	FVector4 GetData(int w, int h);
 };
 

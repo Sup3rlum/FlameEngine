@@ -14,7 +14,7 @@ public:
 	RenderingServiceBase(Context * context);
 
 	VertexBuffer* mQuadBuffer;
-	fMatrix4 View;
+	FMatrix4 View;
 	RenderState* mRenderState;
 	Context* mAttachedContext;
 };

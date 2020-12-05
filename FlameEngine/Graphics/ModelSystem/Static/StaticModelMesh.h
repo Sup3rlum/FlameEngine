@@ -8,6 +8,6 @@ EXPORT(class, StaticModelMesh) : public ModelMeshBase
 {
 public:
 	void Update();
-	void Render(Scene* scene, fMatrix4 transform);
+	void Render(Scene* scene, FMatrix4 transform);
 };
 

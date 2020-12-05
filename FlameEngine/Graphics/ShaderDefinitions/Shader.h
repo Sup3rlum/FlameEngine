@@ -28,12 +28,12 @@ public:
 
 
 	void UseProgram();
-	void SetMatrix(const string& name, fMatrix3 val);
-	void SetMatrix(const string& name, fMatrix4 val);
+	void SetMatrix(const string& name, FMatrix3 val);
+	void SetMatrix(const string& name, FMatrix4 val);
 
-	void SetVector(const string& name, fVector2 val);
-	void SetVector(const string& name, fVector3 val);
-	void SetVector(const string& name, fVector4 val);
+	void SetVector(const string& name, FVector2 val);
+	void SetVector(const string& name, FVector3 val);
+	void SetVector(const string& name, FVector4 val);
 
 	void SetColor(const string& name, Color color);
 

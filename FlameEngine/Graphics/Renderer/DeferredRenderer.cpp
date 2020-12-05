@@ -9,14 +9,14 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	mHbaoPlusService = new HBAOPlusService(context);
 	mBoundingService = new BoundingVolumeDebugService(context);
 
-	View = fMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
+	View = FMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
 	VertexTexture mQuadData[4] =
 	{
-		VertexTexture(fVector3(0,0,0), fVector2(0,1)),
-		VertexTexture(fVector3(1,0,0), fVector2(1,1)),
-		VertexTexture(fVector3(1,1,0), fVector2(1,0)),
-		VertexTexture(fVector3(0,1,0), fVector2(0,0))
+		VertexTexture(FVector3(0,0,0), FVector2(0,1)),
+		VertexTexture(FVector3(1,0,0), FVector2(1,1)),
+		VertexTexture(FVector3(1,1,0), FVector2(1,0)),
+		VertexTexture(FVector3(0,1,0), FVector2(0,0))
 	};
 	GLuint mQuadIndexData[6]
 	{
@@ -155,7 +155,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	mCombineShader->SetInt("_shadowMap", 4);
 
 	mCombineShader->SetMatrix("View", View);
-	mCombineShader->SetMatrix("MatrixTransforms", fMatrix4::Scaling(fVector3(attachedContext->_contextDescription->width, attachedContext->_contextDescription->height, 1)));
+	mCombineShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(attachedContext->_contextDescription->width, attachedContext->_contextDescription->height, 1)));
 
 
 	mCombineShader->SetTexture(0, mDepthBuffer);
@@ -170,7 +170,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	RenderState::Pop();
 
 	/*
-	fVector3 corn[8];
+	FVector3 corn[8];
 
 	scene->CurrentCamera()->GetFrustumCorners(corn);
 	mBoundingService->Render(scene->CurrentCamera(), corn);
@@ -178,30 +178,30 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	/*scene->LightCollection[0].aabb.GetCorners(corn);
 	for (int i = 0; i < 8; i++)
 	{
-		corn[i] = fMatrix3::Transpose(scene->LightCollection[0].localSpace) * corn[i];
+		corn[i] = FMatrix3::Transpose(scene->LightCollection[0].localSpace) * corn[i];
 	}
 	mBoundingService->Render(scene->CurrentCamera(), corn);
 
-	fVector3 ndc_corners[8] =
+	FVector3 ndc_corners[8] =
 	{
-		fVector3(1.0f, -1.0f, -1.0f),	 // llb
-		fVector3(-1.0f, -1.0f, -1.0f), // lrb
-		fVector3(-1.0f, 1.0f, -1.0f),  // urb
-		fVector3(1.0f, 1.0f, -1.0f),	 // ulb
+		FVector3(1.0f, -1.0f, -1.0f),	 // llb
+		FVector3(-1.0f, -1.0f, -1.0f), // lrb
+		FVector3(-1.0f, 1.0f, -1.0f),  // urb
+		FVector3(1.0f, 1.0f, -1.0f),	 // ulb
 
 
-		fVector3(1.0f, -1.0f, 1.0f),   // llf
-		fVector3(-1.0f, -1.0f, 1.0f),  // lrf
-		fVector3(-1.0f, 1.0f, 1.0f),   // urf
-		fVector3(1.0f, 1.0f, 1.0f)	 // ulf
+		FVector3(1.0f, -1.0f, 1.0f),   // llf
+		FVector3(-1.0f, -1.0f, 1.0f),  // lrf
+		FVector3(-1.0f, 1.0f, 1.0f),   // urf
+		FVector3(1.0f, 1.0f, 1.0f)	 // ulf
 
 	};
 
-	fVector3 lightPos = fMatrix3::Transpose(scene->LightCollection[0].localSpace) * (scene->LightCollection[0].aabb.Center() + fVector3(0, 0, scene->LightCollection[0].aabb.LengthZ() / 2.0f));
+	FVector3 lightPos = FMatrix3::Transpose(scene->LightCollection[0].localSpace) * (scene->LightCollection[0].aabb.Center() + FVector3(0, 0, scene->LightCollection[0].aabb.LengthZ() / 2.0f));
 
 	for (int i = 0; i < 8; i++)
 	{
-		corn[i] = (fMatrix4::Transpose(fMatrix4::Translation(lightPos)) * fVector4(ndc_corners[i] * 0.5f, 1.0f)).xyz;
+		corn[i] = (FMatrix4::Transpose(FMatrix4::Translation(lightPos)) * FVector4(ndc_corners[i] * 0.5f, 1.0f)).xyz;
 	}
 	mBoundingService->Render(scene->CurrentCamera(), corn);
 

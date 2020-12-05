@@ -20,8 +20,8 @@ Scene::Scene(Context* _cont)
 	pUxService->PushContainer(pUxContainer);
 
 	cons = new UxConsoleWindow();
-	cons->Position = fVector2(2000, 300);
-	cons->Size = fVector2(500, 500);
+	cons->Position = FVector2(2000, 300);
+	cons->Size = FVector2(500, 500);
 
 
 	pUxContainer->AddComponent(new UxDebugViewComponent(this));
