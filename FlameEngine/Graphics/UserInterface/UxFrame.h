@@ -23,7 +23,7 @@ public:
 	float pxBorderRadius;
 private:
 	Texture* mTexture;
-	Shader* mFrameShader;
+	Program* mFrameShader;
 
 
 };

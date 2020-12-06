@@ -11,6 +11,7 @@
 #include "../Graphics/MaterialSystem/Animated/AnimatedMaterial.h"
 
 
+#include "../Graphics/ShaderDefinitions/CompilationServices/FLSLCompilerService.h"
 #include "../Graphics/Common/Vertex.h"
 #include "../FileSystem/File.h"
 #include "../flameRT/Memory.h"

@@ -113,7 +113,14 @@ FLRESULT AssetManager::LoadModelFromFile<StaticModel>(STRING path, StaticModel* 
 		model->meshCollection[i].mVertexBuffer = new VertexBuffer(VertexNormalTexture::Elements);
 		model->meshCollection[i].mVertexBuffer->SetIndexedData(vData, iData, vDataLength / 32, iDataLength / 4);
 
-		model->meshCollection[i].mShader = Shader::FromSource(".\\shaders\\ssao_geom.vert", ".\\shaders\\ssao_geom.frag");
+		Shader* modelShaders[2] =
+		{
+			FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao_geom.vert", ShaderType::VERTEX),
+			FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao_geom.frag", ShaderType::FRAGMENT)
+		};
+
+
+		model->meshCollection[i].pRenderingProgram = new Program(modelShaders); 
 	}
 }
 

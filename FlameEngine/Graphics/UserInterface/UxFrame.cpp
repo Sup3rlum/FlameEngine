@@ -8,7 +8,16 @@ UxFrame::UxFrame(FVector2 position, FVector2 size)
 	Size(size)
 {
 
-	mFrameShader = Shader::FromSource("./shaders/ux/uxFrame.vert", "./shaders/ux/uxFrame.frag");
+
+
+	Shader* shaders[2]
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/ux/uxFrame.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/ux/uxFrame.frag", ShaderType::FRAGMENT)
+	};
+
+
+	mFrameShader = new Program(shaders);
 
 
 	color = Color::White;
@@ -37,11 +46,12 @@ void UxFrame::Render()
 
 	mFrameShader->UseProgram();
 
-	mFrameShader->SetFloat("BorderRadius", pxBorderRadius);
-	mFrameShader->SetVector("Color", color);
-	mFrameShader->SetVector("Dimensions", Size);
-	mFrameShader->SetMatrix("View", GetParent()->pRenderingService->mView);
-	mFrameShader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(Position, 0)) * FMatrix4::Scaling(FVector3(Size, 1)));
+	mFrameShader->SetUniform("BorderRadius", pxBorderRadius);
+	mFrameShader->SetUniform("Color", color);
+	mFrameShader->SetUniform("Dimensions", Size);
+	mFrameShader->SetUniform("View", GetParent()->pRenderingService->mView);
+	mFrameShader->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(Position, 0)) * FMatrix4::Scaling(FVector3(Size, 1)));
+
 	mFrameShader->SetTexture(0, mTexture);
 
 	GetParent()->pRenderingService->DrawElement();

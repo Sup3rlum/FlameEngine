@@ -1,11 +1,19 @@
 #pragma once
 
 #include "../../../dll/nchfx.h"
+#include "../Shader.h"
 
 EXPORT(class, ShaderPreprocessor)
 {
 public:
-	static bool Validate(STRING data);
-	static STRING RetrieveFull(STRING data);
+	bool Validate(STRING data);
+	STRING RetrieveFull(STRING data);
+
+	int GetVersion();
+	ShaderType GeShaderType();
+
+private:
+	int version;
+	ShaderType shaderType;
 };
 

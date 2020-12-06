@@ -180,8 +180,8 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ComputeShader.h" />
     <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
     <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
     <ClInclude Include="Framework\Common\FLFileStream.h" />
@@ -232,7 +232,7 @@
     <ClInclude Include="Graphics\Common\FrameBuffer.h" />
     <ClInclude Include="Graphics\Common\RenderBatch.h" />
     <ClInclude Include="Graphics\Common\RenderState.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\Program.h" />
     <ClInclude Include="Graphics\Common\Texture.h" />
     <ClInclude Include="Graphics\Common\Vertex.h" />
     <ClInclude Include="Graphics\Common\VertexBuffer.h" />
@@ -268,14 +268,13 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\GameObjects\UpdatableObject.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderLibrary.h" />
     <ClInclude Include="Graphics\ModelSystem\Static\StaticModel.h" />
     <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
     <ClInclude Include="Graphics\ModelSystem\Static\StaticModelMesh.h" />
     <ClInclude Include="Scene\GameObjects\Lighting\SpotLight.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\gpu.h" />
     <ClInclude Include="System\os.h" />
@@ -301,7 +300,7 @@
     <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Graphics\ShaderDefinitions\ComputeShader.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
     <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
     <ClCompile Include="Framework\Common\FLFileStream.cpp" />
@@ -346,7 +345,7 @@
     <ClCompile Include="Graphics\Common\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Common\RenderBatch.cpp" />
     <ClCompile Include="Graphics\Common\RenderState.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\Program.cpp" />
     <ClCompile Include="Graphics\Common\Texture.cpp" />
     <ClCompile Include="Graphics\Common\Vertex.cpp" />
     <ClCompile Include="Graphics\Common\VertexBuffer.cpp" />
@@ -382,15 +381,14 @@
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceDescription.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderLibrary.cpp" />
     <ClCompile Include="Graphics\Common\TextureFiltering.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Static\StaticModel.cpp" />
     <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
     <ClCompile Include="Graphics\ModelSystem\Static\StaticModelMesh.cpp" />
     <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />

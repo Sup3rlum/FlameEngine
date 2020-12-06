@@ -23,10 +23,22 @@ RenderBatch::RenderBatch(Context* _c)
 {
 	View = FMatrix4::CreateOrthographic(0.0f,(float)_c->_contextDescription->width,(float)_c->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
-	_shader			= Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
-	_shaderString	= Shader::FromSource("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
+	Shader* shaders[2] =
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch.frag", ShaderType::FRAGMENT)
+	};
+	Shader* stringshaders[2] =
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch_string.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch_string.frag", ShaderType::FRAGMENT)
+	};
 
-	_msShader = Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch/renderbatch_multisample.frag");
+
+
+	_shader = new Program(shaders);
+	_shaderString = new Program(stringshaders);
+
 
 	_vb = new VertexBuffer(VertexTexture::Elements);
 
@@ -52,8 +64,8 @@ void RenderBatch::DrawMultisampleTexture(MultisampleTexture* _tex, float x, floa
 
 	_shader->UseProgram();
 
-	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
+	_shader->SetUniform("View", View);
+	_shader->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -72,8 +84,8 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 
 	_shader->UseProgram();
 
-	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
+	_shader->SetUniform("View", View);
+	_shader->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_shader->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -81,12 +93,12 @@ void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, floa
 	RenderState::Pop();
 }
 
-void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, float height, Shader* _sh)
+void RenderBatch::DrawTexture(Texture* _tex, float x, float y, float width, float height, Program* _sh)
 {
 	RenderState::Push(State);
 
-	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
+	_sh->SetUniform("View", View);
+	_sh->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 	_sh->SetTexture(0, _tex);
 
 	_vb->RenderIndexed(GL_TRIANGLES);
@@ -101,8 +113,8 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 
 	_shader->UseProgram();
 
-	_shader->SetMatrix("View", View);
-	_shader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
+	_shader->SetUniform("View", View);
+	_shader->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -112,12 +124,12 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	_vb->RenderIndexed(GL_TRIANGLES);
 }
 
-void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Shader* _sh)
+void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Program* _sh)
 {
 	RenderState::Push(State);
 
-	_sh->SetMatrix("View", View);
-	_sh->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
+	_sh->SetUniform("View", View);
+	_sh->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(x, y, 0)) * FMatrix4::Scaling(FVector3(width, height, 1)));
 
 	for (int i = 0; i < count; i++)
 	{
@@ -129,11 +141,11 @@ void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, floa
 	RenderState::Pop();
 }
 
-void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, FMatrix4 MatrixTransforms, Shader* _sh)
+void RenderBatch::DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, FMatrix4 MatrixTransforms, Program* _sh)
 {
 	for (int i = 0; i < count; i++)
 	{
-		_sh->SetMatrix("MatrixTransforms", MatrixTransforms);
+		_sh->SetUniform("MatrixTransforms", MatrixTransforms);
 		_sh->SetTexture(i, _tex[i]);
 	}
 
@@ -149,14 +161,14 @@ void RenderBatch::DrawString(string text, UxFont* font, float x, float y, Color 
 
 	_shaderString->UseProgram();
 
-	_shaderString->SetVector("Color", color);
-	_shaderString->SetMatrix("View", View);
+	_shaderString->SetUniform("Color", color);
+	_shaderString->SetUniform("View", View);
 
 	for (int c = 0; c < text.length(); c++)
 	{
 		UxCharacter ch = font->Characters[text[c]];
 
-		_shaderString->SetMatrix(
+		_shaderString->SetUniform(
 			"MatrixTransforms",
 			FMatrix4::Translation
 			(

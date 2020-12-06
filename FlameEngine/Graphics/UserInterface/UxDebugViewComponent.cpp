@@ -24,7 +24,15 @@ UxDebugViewComponent::UxDebugViewComponent(Scene* currentScene)
 
 	};
 
-	mDebugShader = Shader::FromSource("./shaders/debug_view.vert", "./shaders/debug_view.frag");
+
+	Shader* debugshaders[2]
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.frag", ShaderType::FRAGMENT)
+	};
+
+
+	mDebugShader = new Program(debugshaders);
 	mVertexBuffer = new VertexBuffer(VertexColor::Elements);
 
 
@@ -41,9 +49,9 @@ void UxDebugViewComponent::Render()
 
 	mDebugShader->UseProgram();
 
-	mDebugShader->SetMatrix("View",			currentScene->CurrentCamera()->DebugView);
-	mDebugShader->SetMatrix("Projection",	currentScene->CurrentCamera()->Projection);
-	mDebugShader->SetMatrix("World",		FMatrix4::Identity());
+	mDebugShader->SetUniform("View",			currentScene->CurrentCamera()->DebugView);
+	mDebugShader->SetUniform("Projection",	currentScene->CurrentCamera()->Projection);
+	mDebugShader->SetUniform("World",		FMatrix4::Identity());
 
 	mVertexBuffer->Render(GL_LINES);
 

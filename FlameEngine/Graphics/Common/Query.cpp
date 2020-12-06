@@ -33,3 +33,12 @@ int Query::GetResult<int>()
 
 	return val;
 }
+
+bool Query::IsComplete()
+{
+	int val;
+
+	glGetQueryObjectiv(handle, GL_QUERY_RESULT_AVAILABLE, &val);
+
+	return val == GL_TRUE;
+}

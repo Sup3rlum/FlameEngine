@@ -20,7 +20,7 @@ public:
 
 	void ApplyFilter(FrameBuffer* frameBuffer, Texture* texture);
 
-	Shader* mShader;
+	Program* mShader;
 	FrameBuffer* mFrameBuffer;
 	Texture* mBuffer;
 

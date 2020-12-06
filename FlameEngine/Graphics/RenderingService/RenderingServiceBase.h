@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../ShaderDefinitions/Shader.h"
+#include "../ShaderDefinitions/Program.h"
 #include "../Common/FrameBuffer.h"
 #include "../../Context/Context.h"
 #include "../Common/VertexBuffer.h"

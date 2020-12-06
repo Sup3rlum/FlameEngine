@@ -3,7 +3,7 @@
 
 #include "../../dll/nchfx.h"
 #include "../Common/Texture.h"
-#include "../ShaderDefinitions/Shader.h"
+#include "../ShaderDefinitions/Program.h"
 #include "../Common/VertexBuffer.h"
 #include "../Common/Vertex.h"
 #include "../UserInterface/UxFont.h"
@@ -26,7 +26,7 @@ public:
 		void SetView(FMatrix4 view);
 
 
-		Shader* mDefaultComponentShader;
+		Program* mDefaultComponentShader;
 		VertexBuffer* mVertexBuffer;
 		FMatrix4 mView;
 		Context* mAttachedContext;

@@ -6,7 +6,15 @@ BoundingVolumeDebugService::BoundingVolumeDebugService(Context* context) : Rende
 
 	mVertexBuffer = new VertexBuffer(VertexColor::Elements);
 
-	mDebugShader = Shader::FromSource("./shaders/debug_view.vert", "./shaders/debug_view.frag");
+
+	Shader* shaders[2] =
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.frag", ShaderType::FRAGMENT)
+	};
+
+
+	mDebugShader = new Program(shaders);
 
 }
 
@@ -62,9 +70,9 @@ void BoundingVolumeDebugService::Render(Camera* cam, FVector3* corners)
 
 	mDebugShader->UseProgram();
 
-	mDebugShader->SetMatrix("View", cam->View);
-	mDebugShader->SetMatrix("Projection", cam->Projection);
-	mDebugShader->SetMatrix("World", FMatrix4::Identity());
+	mDebugShader->SetUniform("View", cam->View);
+	mDebugShader->SetUniform("Projection", cam->Projection);
+	mDebugShader->SetUniform("World", FMatrix4::Identity());
 
 
 	mVertexBuffer->Render(GL_LINES);

@@ -4,7 +4,13 @@
 GaussianBlurService::GaussianBlurService(Context* context, bool halfRes) : RenderingServiceBase(context)
 {
 
-	mShader = Shader::FromSource(".\\shaders\\renderbatch.vert", ".\\shaders\\gauss_blur.frag");
+	Shader* gaussshaders[2] =
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\renderbatch.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\gauss_blur.frag", ShaderType::FRAGMENT)
+	};
+
+	mShader = new Program(gaussshaders);
 
 	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
 	mBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
@@ -33,9 +39,9 @@ void GaussianBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture
 
 		mShader->UseProgram();
 
-		mShader->SetVector("Direction", FVector2(0.0f, 1.0f));
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("Direction", FVector2(0.0f, 1.0f));
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, texture);
 
@@ -55,9 +61,9 @@ void GaussianBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture
 
 		mShader->UseProgram();
 
-		mShader->SetVector("Direction", FVector2(1.0f, 0.0f));
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("Direction", FVector2(1.0f, 0.0f));
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, mBuffer);
 

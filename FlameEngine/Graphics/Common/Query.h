@@ -18,6 +18,10 @@ public:
 	template<>
 	int GetResult<int>();
 
+
+	bool IsComplete();
+
+
 private:
 	GLenum target;
 	GLuint handle;

@@ -3,7 +3,7 @@
 #include "../../dll/nchfx.h"
 #include "Texture.h"
 #include "MultisampleTexture.h"
-#include "../ShaderDefinitions/Shader.h"
+#include "../ShaderDefinitions/Program.h"
 #include "VertexBuffer.h"
 #include "Vertex.h"
 #include "../../Graphics/UserInterface/UxFont.h"
@@ -22,17 +22,17 @@ public:
 
 	void DrawTexture(Texture* _tex, float x, float y, float width, float height);
 	void DrawMultisampleTexture(MultisampleTexture* _tex, float x, float y, float width, float height);
-	void DrawTexture(Texture* _tex, float x, float y, float width, float height, Shader* _shader);
+	void DrawTexture(Texture* _tex, float x, float y, float width, float height, Program* _shader);
 	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height);
-	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Shader* _shader);
-	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, FMatrix4 _m, Shader* _shader);
+	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, Program* _shader);
+	void DrawTextures(int count, Texture** _tex, float x, float y, float width, float height, FMatrix4 _m, Program* _shader);
 
 	void DrawString(string text, UxFont* font, float x, float y, Color color);
 
 
-	Shader* _shader;
-	Shader* _msShader;
-	Shader* _shaderString;
+	Program* _shader;
+	Program* _msShader;
+	Program* _shaderString;
 	VertexBuffer* _vb;
 
 	FMatrix4 View;

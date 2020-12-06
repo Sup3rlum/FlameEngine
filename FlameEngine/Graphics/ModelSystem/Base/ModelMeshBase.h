@@ -4,7 +4,7 @@
 #include "../../../dll/nchfx.h"
 #include "../../Common/VertexBuffer.h"
 #include "../../Common/Vertex.h"
-#include "../../ShaderDefinitions/Shader.h"
+#include "../../ShaderDefinitions/Program.h"
 #include "../../MaterialSystem/Baked/BakedMaterial.h"
 
 EXPORT_FORWARD_DECL(class, Scene);
@@ -20,7 +20,7 @@ public:
 	FMatrix4 LocalTransform;
 
 	VertexBuffer* mVertexBuffer;
-	Shader* mShader;
+	Program* pRenderingProgram;
 
 
 	BakedMaterial* mMeshMaterial;

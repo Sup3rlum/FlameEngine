@@ -41,9 +41,36 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	mRenderState->DestinationBlend = BlendFunc::OneMinusSourceAlpha;
 
 
-	mSceneDataShader	= Shader::FromSource(".\\shaders\\ssao_geom.vert", ".\\shaders\\ssao_geom.frag");
-	mSsaoShader			= Shader::FromSource(".\\shaders\\renderbatch.vert", ".\\shaders\\ssao.frag");
-	mCombineShader		= Shader::FromSource(".\\shaders\\renderbatch.vert", ".\\shaders\\ssao_final.frag");
+	Shader* geomVert = FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao_geom.vert", ShaderType::VERTEX);
+	Shader* quadCommonVert = FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\renderbatch.vert", ShaderType::VERTEX);
+
+	Shader* geomFrag = FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao_geom.frag", ShaderType::FRAGMENT);
+	Shader* ssaoFrag = FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao.frag", ShaderType::FRAGMENT);
+	Shader* finalFrag = FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\ssao_final.frag", ShaderType::FRAGMENT);
+
+
+
+	Shader* sceneshaders[2] =
+	{
+		geomVert,
+		geomFrag
+	};
+
+	Shader* ssaoshaders[2] =
+	{
+		quadCommonVert,
+		ssaoFrag
+	};
+
+	Shader* combineshaders[2] =
+	{
+		quadCommonVert,
+		finalFrag
+	};
+
+	mSceneDataShader	= new Program(sceneshaders);
+	mSsaoShader			= new Program(ssaoshaders);
+	mCombineShader		= new Program(combineshaders);
 
 
 
@@ -136,26 +163,26 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	RenderState::Push(mRenderState);
 
 	mCombineShader->UseProgram();
-	mCombineShader->SetMatrix("InverseProjection", scene->CurrentCamera()->ProjectionInverse);
-	mCombineShader->SetMatrix("InverseView", scene->CurrentCamera()->ViewInverse);
+	mCombineShader->SetUniform("InverseProjection", scene->CurrentCamera()->ProjectionInverse);
+	mCombineShader->SetUniform("InverseView", scene->CurrentCamera()->ViewInverse);
 
 
 	for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS && i < scene->DirectionalLightCollection.size(); i++)
 	{
-		mCombineShader->SetVector("DirectionalLights[" + to_string(i) + "].Direction",	scene->DirectionalLightCollection[0].Direction);
-		mCombineShader->SetVector("DirectionalLights[" + to_string(i) + "].Color",		scene->DirectionalLightCollection[0].LightColor);
-		mCombineShader->SetFloat( "DirectionalLights[" + to_string(i) + "].Intensity",	scene->DirectionalLightCollection[0].Intensity);
-		mCombineShader->SetMatrix("DirectionalLights[" + to_string(i) + "].VPMatrix",	scene->DirectionalLightCollection[0].LightCamera()->Projection * scene->DirectionalLightCollection[0].LightCamera()->View);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Direction",	scene->DirectionalLightCollection[0].Direction);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Color",		scene->DirectionalLightCollection[0].LightColor);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Intensity",	scene->DirectionalLightCollection[0].Intensity);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].VPMatrix",	scene->DirectionalLightCollection[0].LightCamera()->Projection * scene->DirectionalLightCollection[0].LightCamera()->View);
 	}
 
-	mCombineShader->SetInt("gDepth", 0);
-	mCombineShader->SetInt("gNormal", 1);
-	mCombineShader->SetInt("gAlbedo", 2);
-	mCombineShader->SetInt("ssao", 3);
-	mCombineShader->SetInt("_shadowMap", 4);
+	mCombineShader->SetUniform("gDepth", 0);
+	mCombineShader->SetUniform("gNormal", 1);
+	mCombineShader->SetUniform("gAlbedo", 2);
+	mCombineShader->SetUniform("ssao", 3);
+	mCombineShader->SetUniform("_shadowMap", 4);
 
-	mCombineShader->SetMatrix("View", View);
-	mCombineShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(attachedContext->_contextDescription->width, attachedContext->_contextDescription->height, 1)));
+	mCombineShader->SetUniform("View", View);
+	mCombineShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(attachedContext->_contextDescription->width, attachedContext->_contextDescription->height, 1)));
 
 
 	mCombineShader->SetTexture(0, mDepthBuffer);

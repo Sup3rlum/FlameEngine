@@ -4,7 +4,13 @@
 KawaseBlurService::KawaseBlurService(Context* context, bool halfRes) : RenderingServiceBase(context)
 {
 
-	mShader = Shader::FromSource(".\\shaders\\renderbatch.vert", ".\\shaders\\blur\\kawase_blur.frag");
+	Shader* kawaseshaders[2] =
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\renderbatch.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile(".\\shaders\\blur\\kawase_blur.frag", ShaderType::FRAGMENT)
+	};
+
+	mShader = new Program(kawaseshaders);
 
 	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
 	mBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
@@ -33,9 +39,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 1.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 1.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, texture);
 
@@ -55,9 +61,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 2.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 2.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, mBuffer);
 
@@ -80,9 +86,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 3.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 3.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, texture);
 
@@ -102,9 +108,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 4.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 4.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, mBuffer);
 
@@ -128,9 +134,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 4.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 4.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, texture);
 
@@ -150,9 +156,9 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->UseProgram();
 
-		mShader->SetFloat("PassIndex", 5.5f);
-		mShader->SetMatrix("View", View);
-		mShader->SetMatrix("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("PassIndex", 5.5f);
+		mShader->SetUniform("View", View);
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
 
 		mShader->SetTexture(0, mBuffer);
 

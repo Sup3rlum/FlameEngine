@@ -2,7 +2,7 @@
 
 #include "../../dll/nchfx.h"
 
-#include "../ShaderDefinitions/Shader.h"
+#include "../ShaderDefinitions/Program.h"
 #include "../Common/RenderBatch.h"
 #include "../Common/FrameBuffer.h"
 #include "../../Scene/Scene.h"
@@ -12,19 +12,6 @@
 #include "../RenderingService/BoundingVolumeDebugService.h"
 
 
-EXPORT_ENUM SSAOStrength
-{
-	SAMPLES_1 = 1,
-	SAMPLES_2 = 2,
-	SAMPLES_4 = 4,
-	SAMPLES_8 = 8,
-	SAMPLES_16 = 16,
-	SAMPLES_24 = 24,
-	SAMPLES_36 = 36,
-	SAMPLES_48 = 48,
-	SAMPLES_64 = 64,
-	SAMPLES_128 = 128
-};
 
 EXPORT(class,  DeferredRenderer)
 {
@@ -43,13 +30,9 @@ public:
 private:
 
 
-
-	SSAOStrength SSAOSampleSize = SSAOStrength::SAMPLES_16;
-
-
-	Shader* mSceneDataShader;
-	Shader* mSsaoShader;
-	Shader* mCombineShader;
+	Program* mSceneDataShader;
+	Program* mSsaoShader;
+	Program* mCombineShader;
 
 
 	Texture* mDepthBuffer;

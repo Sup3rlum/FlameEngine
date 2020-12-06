@@ -9,7 +9,16 @@ UxImage::UxImage(FVector2 position, FVector2 size, Texture* texture)
 	mTexture(texture)
 {
 
-	mImageShader = Shader::FromSource("./shaders/ux/uxFrame.vert", "./shaders/ux/uxFrame.frag");
+
+	Shader* shaders[2]
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/ux/uxFrame.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/ux/uxFrame.frag", ShaderType::FRAGMENT)
+	};
+
+
+	mImageShader = new Program(shaders);
+
 
 
 	pxBorderRadius = 0.0f;
@@ -29,10 +38,11 @@ void UxImage::Render()
 	RenderState::Push(mRenderState);
 
 	mImageShader->UseProgram();
-	mImageShader->SetFloat("BorderRadius", pxBorderRadius);
-	mImageShader->SetVector("Dimensions", Size);
-	mImageShader->SetMatrix("View", GetParent()->pRenderingService->mView);
-	mImageShader->SetMatrix("MatrixTransforms", FMatrix4::Translation(FVector3(Position, 0)) * FMatrix4::Scaling(FVector3(Size, 1)));
+	mImageShader->SetUniform("BorderRadius", pxBorderRadius);
+	mImageShader->SetUniform("Dimensions", Size);
+	mImageShader->SetUniform("View", GetParent()->pRenderingService->mView);
+	mImageShader->SetUniform("MatrixTransforms", FMatrix4::Translation(FVector3(Position, 0)) * FMatrix4::Scaling(FVector3(Size, 1)));
+
 	mImageShader->SetTexture(0, mTexture);
 
 	GetParent()->pRenderingService->DrawElement();

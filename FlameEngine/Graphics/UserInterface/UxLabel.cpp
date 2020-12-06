@@ -15,7 +15,14 @@ UxLabel::UxLabel(FVector2 position, STRING text, UxFont* font)
 
 	pFont = font;	
 
-	mLabelShader = Shader::FromSource("./shaders/renderbatch_string.vert", "./shaders/renderbatch_string.frag");
+	Shader* shaders[2]
+	{
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch_string.vert", ShaderType::VERTEX),
+		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch_string.frag", ShaderType::FRAGMENT)
+	};
+
+	mLabelShader = new Program(shaders);
+
 	mMultiline = false;
 
 }
@@ -29,8 +36,8 @@ void UxLabel::Render()
 
 	mLabelShader->UseProgram();
 
-	mLabelShader->SetVector("Color", TextColor);
-	mLabelShader->SetMatrix("View", GetParent()->pRenderingService->mView);
+	mLabelShader->SetUniform("Color", TextColor);
+	mLabelShader->SetUniform("View", GetParent()->pRenderingService->mView);
 
 	int x = Position.x;
 	int y = Position.y + pFont->FontSize;
@@ -52,7 +59,7 @@ void UxLabel::Render()
 		}
 		else
 		{
-			mLabelShader->SetMatrix(
+			mLabelShader->SetUniform(
 				"MatrixTransforms",
 				FMatrix4::Translation
 				(

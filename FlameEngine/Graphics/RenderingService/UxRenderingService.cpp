@@ -28,7 +28,14 @@ UxRenderingService::UxRenderingService(Context* context)
 
 		mView = FMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
 
-		mDefaultComponentShader = Shader::FromSource("./shaders/renderbatch.vert", "./shaders/renderbatch.frag");
+		Shader* shaders[2]
+		{
+			FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch.vert", ShaderType::VERTEX),
+			FLSLCompilerService::CompileShaderFromSourceFile("./shaders/renderbatch.frag", ShaderType::FRAGMENT)
+		};
+
+
+		mDefaultComponentShader = new Program(shaders);
 
 		mVertexBuffer = new VertexBuffer(VertexTexture::Elements);
 
@@ -44,7 +51,7 @@ void UxRenderingService::SetView()
 }
 void UxRenderingService::SetView(FMatrix4 matrix)
 {
-	mDefaultComponentShader->SetMatrix("View", matrix);
+	mDefaultComponentShader->SetUniform("View", matrix);
 }
 
 

@@ -29,7 +29,7 @@ public:
 	Color BackgroundColor;
 	UxFont* pFont;
 	UxFrame* pBackgroundFrame;
-	Shader* mLabelShader;
+	Program* mLabelShader;
 
 	bool mMultiline;
 

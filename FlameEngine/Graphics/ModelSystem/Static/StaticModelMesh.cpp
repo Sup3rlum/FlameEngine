@@ -3,13 +3,14 @@
 
 void StaticModelMesh::Render(Scene* _scene, FMatrix4 _transform)
 {
-	mShader->UseProgram();
+	
+	pRenderingProgram->UseProgram();
 
-	mShader->SetMatrix("View", _scene->CurrentCamera()->View);
-	mShader->SetMatrix("Projection", _scene->CurrentCamera()->Projection);
-	mShader->SetMatrix("World", _transform * LocalTransform);
+	pRenderingProgram->SetUniform("View", _scene->CurrentCamera()->View);
+	pRenderingProgram->SetUniform("Projection", _scene->CurrentCamera()->Projection);
+	pRenderingProgram->SetUniform("World", _transform * LocalTransform);
 
-	mShader->SetTexture(0, mMeshMaterial->mColorMap);
+	pRenderingProgram->SetTexture(0, mMeshMaterial->mColorMap);
 
 
 	mVertexBuffer->RenderIndexed(GL_TRIANGLES);

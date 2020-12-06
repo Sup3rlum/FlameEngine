@@ -71,11 +71,6 @@
     <ClCompile Include="flameRT\PoolAllocator.cpp" />
     <ClCompile Include="flameRT\Runtime.cpp" />
     <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceDescription.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.cpp" />
     <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
     <ClCompile Include="Scene\Physics\PhysXService.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
@@ -190,11 +185,15 @@
     <ClCompile Include="Mathematics\Types\FQuaternion.cpp">
       <Filter>Mathematics\Types</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ShaderDefinitions\ComputeShader.cpp" />
     <ClCompile Include="Mathematics\Geometry\FPlane.cpp" />
     <ClCompile Include="Mathematics\Geometry\FRay.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\ShaderLibrary.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\Program.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
+    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -288,11 +287,6 @@
     <ClInclude Include="flameRT\PoolAllocator.h" />
     <ClInclude Include="flameRT\Runtime.h" />
     <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceDescription.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderSourceLibrary.h" />
     <ClInclude Include="Mathematics\Functions\Lerp.h" />
     <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
     <ClInclude Include="Scene\Physics\PhysXService.h" />
@@ -410,12 +404,16 @@
     <ClInclude Include="Mathematics\Types\FQuaternion.h">
       <Filter>Mathematics\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ShaderDefinitions\ComputeShader.h" />
     <ClInclude Include="Mathematics\Geometry\FPlane.h" />
     <ClInclude Include="Mathematics\Geometry\FRay.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderAnalyzer.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\ShaderLibrary.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\Program.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
+    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

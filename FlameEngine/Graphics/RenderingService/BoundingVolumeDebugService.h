@@ -4,7 +4,7 @@
 #include "../Common/VertexBuffer.h"
 #include "../Common/Vertex.h"
 #include "../../Scene/GameObjects/Camera.h"
-#include "../ShaderDefinitions/Shader.h"
+#include "../ShaderDefinitions/Program.h"
 #include "RenderingServiceBase.h"
 
 EXPORT(class, BoundingVolumeDebugService) : public RenderingServiceBase
@@ -14,7 +14,7 @@ public:
 	void Render(Camera* cam, FVector3* Corners);
 
 	VertexBuffer* mVertexBuffer;
-	Shader* mDebugShader;
+	Program* mDebugShader;
 	
 };
 

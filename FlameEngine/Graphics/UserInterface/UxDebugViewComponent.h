@@ -22,7 +22,7 @@ public:
 	void SetParent(UxContainer* p);
 
 	Scene* currentScene;
-	Shader* mDebugShader;
+	Program* mDebugShader;
 	UxLabel* DebugText;
 	VertexBuffer* mVertexBuffer;
 
