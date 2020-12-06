@@ -54,6 +54,8 @@ private:
 	HBAOPlusService* mHbaoPlusService;
 	BoundingVolumeDebugService* mBoundingService;
 
+	RenderBatch* _renderBatch;
+
 	Context* attachedContext;
 
 };

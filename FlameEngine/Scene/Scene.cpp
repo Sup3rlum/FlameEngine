@@ -62,9 +62,9 @@ void Scene::Update()
 		i->second->Update(NULL);
 	}
 
-	/*LightCollection[0].SnapToFrustum(CurrentCamera());
-	LightCollection[0].Update();
-	*/
+	/*LightCollection[0].SnapToFrustum(CurrentCamera());*/
+	DirectionalLightCollection[0].Update();
+	
 
 
 	pPxScene->simulate(FrameTime::FrameDeltaTime.count() * 2);

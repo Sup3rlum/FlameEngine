@@ -122,6 +122,7 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	//mS_ssaoFrameBuffer->EnableDepth();
 	mSsaoFrameBuffer->Unbind();
 
+	_renderBatch = new RenderBatch(context);
 }
 
 
@@ -236,15 +237,15 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	mBoundingService->Render(scene->CurrentCamera(), corn);*/
 
-	/*
+	
 	if (enableDEBUGTexture)
 	{
-		scene->_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
-		scene->_renderBatch->DrawTexture(mNormalBuffer, 1400, 0, 200, 200);
-		scene->_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
-		scene->_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
-		scene->_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);
-	}*/
+		_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
+		_renderBatch->DrawTexture(mNormalBuffer, 1400, 0, 200, 200);
+		_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
+		_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
+		_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);
+	}
 	scene->pUxService->Render();
 }
 
