@@ -8,7 +8,7 @@ These are the current features FlameEngine has as of now:
 
   - A scene/actor system
   - Hybrid rendering and asset pipeline using custom models, materials and shaders.
-  - Variance Soft Shadow Mapping
+  - Variance Soft Shadowmap Filtering
   - HBAO+
   - PhysX
   - GUI
