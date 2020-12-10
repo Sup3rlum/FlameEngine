@@ -18,7 +18,8 @@ public:
 	void KeyEventCallback(KeyEventArgs kea);
 
 
-	void Shoot();
+	void ShootSphere();
+	void ShootBox();
 
 };
 

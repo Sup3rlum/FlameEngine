@@ -74,6 +74,8 @@ DeferredRenderer::DeferredRenderer(Context* context)
 
 
 
+	// G-Buffer
+
 	mDepthBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT, false);
 	mDepthBuffer->SetFilteringMode(TextureFiltering::ANISOTROPIC_8);
 	mDepthBuffer->SetWrappingMode(TextureWrapping::REPEAT);
@@ -85,6 +87,10 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	mAlbedoBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
 	mAlbedoBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mAlbedoBuffer->SetWrappingMode(TextureWrapping::REPEAT);
+
+	mSpecularBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	mSpecularBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
+	mSpecularBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 
@@ -98,14 +104,14 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	mShadowmapBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
-
 	mFrameBuffer = new FrameBuffer(2560, 1440);
 	mFrameBuffer->Bind();
 	mFrameBuffer->BindTexture(mDepthBuffer, GL_COLOR_ATTACHMENT0);
 	mFrameBuffer->BindTexture(mNormalBuffer, GL_COLOR_ATTACHMENT1);
 	mFrameBuffer->BindTexture(mAlbedoBuffer, GL_COLOR_ATTACHMENT2);
+	mFrameBuffer->BindTexture(mSpecularBuffer, GL_COLOR_ATTACHMENT3);
 	mFrameBuffer->EnableDepth();
-	mFrameBuffer->SetAttachments(new GLuint[3]{ GL_COLOR_ATTACHMENT0 ,GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 }, 3);
+	mFrameBuffer->SetAttachments(new GLuint[4]{ GL_COLOR_ATTACHMENT0 ,GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 }, 4);
 	mFrameBuffer->Unbind();
 
 
@@ -170,17 +176,30 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 	for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS && i < scene->DirectionalLightCollection.size(); i++)
 	{
-		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Direction",	scene->DirectionalLightCollection[0].Direction);
-		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Color",		scene->DirectionalLightCollection[0].LightColor);
-		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Intensity",	scene->DirectionalLightCollection[0].Intensity);
-		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].VPMatrix",	scene->DirectionalLightCollection[0].LightCamera()->Projection * scene->DirectionalLightCollection[0].LightCamera()->View);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Direction",	scene->DirectionalLightCollection[i].Direction);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Color",		scene->DirectionalLightCollection[i].LightColor);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].Intensity",	scene->DirectionalLightCollection[i].Intensity);
+		mCombineShader->SetUniform("DirectionalLights[" + to_string(i) + "].VPMatrix",	scene->DirectionalLightCollection[i].LightCamera()->Projection * scene->DirectionalLightCollection[0].LightCamera()->View);
 	}
+
+	for (int i = 0; i < MAX_POINT_LIGHTS && i < scene->PointLightCollection.size(); i++)
+	{
+		mCombineShader->SetUniform("PointLights[" + to_string(i) + "].Position",			scene->PointLightCollection[i].Position);
+		mCombineShader->SetUniform("PointLights[" + to_string(i) + "].IntensityParameters", scene->PointLightCollection[i].Parameters);
+		mCombineShader->SetUniform("PointLights[" + to_string(i) + "].Color",				scene->PointLightCollection[i].LightColor);
+	}
+
+
+
+	mCombineShader->SetUniform("NumLights", (int)scene->PointLightCollection.size());
+	mCombineShader->SetUniform("CameraPosition", scene->CurrentCamera()->Position);
 
 	mCombineShader->SetUniform("gDepth", 0);
 	mCombineShader->SetUniform("gNormal", 1);
 	mCombineShader->SetUniform("gAlbedo", 2);
-	mCombineShader->SetUniform("ssao", 3);
-	mCombineShader->SetUniform("_shadowMap", 4);
+	mCombineShader->SetUniform("gSpecular", 3);
+	mCombineShader->SetUniform("ssao", 4);
+	mCombineShader->SetUniform("_shadowMap", 5);
 
 	mCombineShader->SetUniform("View", View);
 	mCombineShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(attachedContext->_contextDescription->width, attachedContext->_contextDescription->height, 1)));
@@ -189,8 +208,9 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	mCombineShader->SetTexture(0, mDepthBuffer);
 	mCombineShader->SetTexture(1, mNormalBuffer);
 	mCombineShader->SetTexture(2, mAlbedoBuffer);
-	mCombineShader->SetTexture(3, mSsaoBuffer);
-	mCombineShader->SetTexture(4, mShadowmapBuffer);
+	mCombineShader->SetTexture(3, mSpecularBuffer);
+	mCombineShader->SetTexture(4, mSsaoBuffer);
+	mCombineShader->SetTexture(5, mShadowmapBuffer);
 
 
 	mQuadBuffer->RenderIndexed(GL_TRIANGLES);
@@ -243,7 +263,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 		_renderBatch->DrawTexture(mDepthBuffer, 1200, 0, 200, 200);
 		_renderBatch->DrawTexture(mNormalBuffer, 1400, 0, 200, 200);
 		_renderBatch->DrawTexture(mAlbedoBuffer, 1600, 0, 200, 200);
-		_renderBatch->DrawTexture(mSsaoBuffer, 1800, 0, 200, 200);
+		_renderBatch->DrawTexture(mSpecularBuffer, 1800, 0, 200, 200);
 		_renderBatch->DrawTexture(mShadowmapBuffer, 2000, 0, 200, 200);
 	}
 	scene->pUxService->Render();

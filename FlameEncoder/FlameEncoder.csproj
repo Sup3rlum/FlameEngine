@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>flenc</AssemblyName>
+    <Configurations>Debug;Release;Profile</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

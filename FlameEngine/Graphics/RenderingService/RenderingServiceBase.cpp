@@ -5,7 +5,8 @@ RenderingServiceBase::RenderingServiceBase(Context* context)
 {
 	mAttachedContext = context;
 
-	View = FMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
+	//View = FMatrix4::CreateOrthographic(0.0f, (float)context->_contextDescription->width, (float)context->_contextDescription->height, 0.0f, 0.0f, 1.0f);
+	View = FMatrix4::CreateOrthographic(0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 
 
 

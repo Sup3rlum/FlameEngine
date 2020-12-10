@@ -41,7 +41,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 1.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, texture);
 
@@ -63,7 +64,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 2.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, mBuffer);
 
@@ -88,7 +90,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 3.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, texture);
 
@@ -110,7 +113,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 4.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, mBuffer);
 
@@ -136,7 +140,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 4.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, texture);
 
@@ -158,7 +163,8 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 
 		mShader->SetUniform("PassIndex", 5.5f);
 		mShader->SetUniform("View", View);
-		mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		//mShader->SetUniform("MatrixTransforms", FMatrix4::Scaling(FVector3(mAttachedContext->_contextDescription->width, mAttachedContext->_contextDescription->height, 1)));
+		mShader->SetUniform("MatrixTransforms", FMatrix4::Identity());
 
 		mShader->SetTexture(0, mBuffer);
 

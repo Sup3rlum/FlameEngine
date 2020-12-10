@@ -11,13 +11,15 @@ public:
 	MaterialBase();
 
 
-	Texture* mColorMap;
-	Texture* mNormalMap;
-	Texture* mHeightMap;
-
-
 	float mSpecularIndex;
 	float mDiffuseIndex;
 	float mFresnelIndex;
+
+	void SetMap(STRING name, Texture* map);
+	Texture* GetMap(STRING name);
+
+
+private:
+	std::map<STRING, Texture*> _internal;
 
 };

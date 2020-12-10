@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Configurations>Debug;Release;Profile</Configurations>
   </PropertyGroup>
 
 </Project>

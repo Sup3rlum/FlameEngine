@@ -68,6 +68,30 @@ EXPORT(struct,  VertexNormalTextureAmbience)
 
 	static vector<VertexElements> Elements;
 };
+
+
+
+
+EXPORT(struct, StaticModelVertex)
+{
+	FVector3 _position;
+	FVector3 _normal;
+	FVector3 _tangent;
+	FVector3 _bitangent;
+	FVector2 _texCoord;
+
+	StaticModelVertex(FVector3 pos, FVector3 norm, FVector3 tangent, FVector3 bitangent, FVector2 tex, float ambience)
+	{
+		_position = pos;
+		_normal = norm;
+		_tangent = tangent;
+		_bitangent = bitangent;
+		_texCoord = tex;
+	}
+
+	static vector<VertexElements> Elements;
+};
+
 /*
 EXPORT(struct,  AnimatedModelVertex)
 {

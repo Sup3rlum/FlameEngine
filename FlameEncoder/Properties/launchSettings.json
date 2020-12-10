@@ -2,7 +2,7 @@
   "profiles": {
     "AssetEncoderCommandline": {
       "commandName": "Project",
-      "commandLineArgs": "-i \".\\box.buildscript\""
+      "commandLineArgs": "-i \".\\materials.buildscript\""
     }
   }
 }

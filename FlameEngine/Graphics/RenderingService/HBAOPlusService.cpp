@@ -24,7 +24,7 @@ HBAOPlusService::HBAOPlusService(Context* c)
 	mAoParams.NearAO = 4.0f;
 	mAoParams.FarAO = 1.5f;
 
-	mAoParams.BackgroundAO.Enable = true;
+	mAoParams.BackgroundAO.Enable = false;
 	mAoParams.BackgroundAO.BackgroundViewDepth = 10.0f;
 
 	mAoParams.ForegroundAO.Enable = false;

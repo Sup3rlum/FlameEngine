@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Profile</Configurations>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+  </ItemGroup>
 
 </Project>

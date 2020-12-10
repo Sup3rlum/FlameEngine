@@ -43,9 +43,53 @@ namespace FlameCompiler.Data
         }
     }
 
+
+
+    public class StaticModelVertex
+    {
+        public Vertex3 Position;
+        public Vertex3 Normal;
+        public Vertex3 Tangent;
+        public Vertex3 Bitangent;
+        public Vertex2 TexCoord;
+
+
+        public StaticModelVertex(Vertex3 p, Vertex3 n, Vertex3 t, Vertex3 b, Vertex2 tc)
+        {
+            Position = p;
+            Normal = n;
+            Tangent = t;
+            Bitangent = b;
+            TexCoord = tc;
+        }
+
+        public static int Size = 14;
+
+        public static bool operator ==(StaticModelVertex l, StaticModelVertex r)
+        {
+            return l.Position.X == r.Position.X &&
+                   l.Position.Y == r.Position.Y &&
+                   l.Position.Z == r.Position.Z &&
+
+                   l.Normal.X == r.Normal.X &&
+                   l.Normal.Y == r.Normal.Y &&
+                   l.Normal.Z == r.Normal.Z &&
+
+                   l.TexCoord.X == r.TexCoord.X &&
+                   l.TexCoord.Y == r.TexCoord.Y;
+
+        }
+        public static bool operator !=(StaticModelVertex l, StaticModelVertex r)
+        {
+            return !(l == r);
+        }
+    }
+
+
+
     public class DataBuffer
     {
-        public VertexPositionNormalTexture[] Data;
+        public StaticModelVertex[] Data;
         public uint[] IndexData;
 
         public DataBuffer()

@@ -35,6 +35,27 @@ namespace FlameCompiler.Math
             return new Vertex2(a.X + b.X, a.Y + b.Y);
         }
 
+        public static Vertex2 operator -(Vertex2 a, Vertex2 b)
+        {
+            return new Vertex2(a.X - b.X, a.Y - b.Y);
+        }
+
+        public static Vertex2 operator *(float a, Vertex2 b)
+        {
+            return new Vertex2(a * b.X, a * b.Y);
+        }
+
+        public static float Dot(Vertex2 a, Vertex2 b)
+        {
+            return a.X * b.X + a.Y * b.Y;
+        }
+
+        public static Vertex2 Normalize(Vertex2 a)
+        {
+            return (1.0f / MathF.Sqrt(Dot(a, a))) * a;
+        }
+
+
         public byte[] GetBytes()
         {
             List<byte> r = new List<byte>();
@@ -76,6 +97,24 @@ namespace FlameCompiler.Math
         public static Vertex3 operator +(Vertex3 a, Vertex3 b)
         {
             return new Vertex3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+        }
+        public static Vertex3 operator -(Vertex3 a, Vertex3 b)
+        {
+            return new Vertex3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+        public static Vertex3 operator*(float a, Vertex3 b)
+        {
+            return new Vertex3(a * b.X, a * b.Y, a * b.Z);
+        }
+
+        public static float Dot(Vertex3 a, Vertex3 b)
+        {
+            return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+        }
+
+        public static Vertex3 Normalize(Vertex3 a)
+        {
+            return (1.0f / MathF.Sqrt(Dot(a, a))) * a;
         }
 
         public byte[] GetBytes()

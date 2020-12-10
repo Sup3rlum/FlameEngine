@@ -28,6 +28,17 @@ vector<VertexElements> VertexColor::Elements =
 	VertexElements(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0),
 	VertexElements(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(3 * sizeof(float)))
 };
+
+vector<VertexElements> StaticModelVertex::Elements =
+{
+	VertexElements(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)0),
+	VertexElements(1, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(3 * sizeof(float))),
+	VertexElements(2, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(6 * sizeof(float))),
+	VertexElements(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(9 * sizeof(float))),
+	VertexElements(4, 2, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(12 * sizeof(float))),
+};
+
+
 /*
 
 vector<VertexElements> AnimatedModelVertex::Elements =

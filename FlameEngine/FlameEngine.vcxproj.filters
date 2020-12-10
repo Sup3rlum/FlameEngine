@@ -194,6 +194,7 @@
     </ClCompile>
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
+    <ClCompile Include="Graphics\Renderer\XFFTRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -414,6 +415,7 @@
     </ClInclude>
     <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
+    <ClInclude Include="Graphics\Renderer\XFFTRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

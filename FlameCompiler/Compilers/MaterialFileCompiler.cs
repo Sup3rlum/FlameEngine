@@ -6,6 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Linq;
+using System.Runtime.InteropServices;
+
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.ColorSpaces;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.Memory;
 
 
 using FlameCompiler.Data;
@@ -52,8 +61,27 @@ namespace FlameCompiler.Compilers
 
         private void EncodeMaterial(Material material, ref MemoryStream memory)
         {
-                memory.Write(BitConverter.GetBytes(material.colormapPath.Length)); 
-                memory.Write(Encoding.ASCII.GetBytes(material.colormapPath)); 
+            memory.Write(BitConverter.GetBytes(material.mapDictionary.Count)); // Map Counts
+
+            foreach (var map in material.mapDictionary)
+            {
+                memory.Write(BitConverter.GetBytes(map.Key.Length));    // Map Name Length
+                memory.Write(Encoding.ASCII.GetBytes(map.Key));         // Map Name
+                memory.Write(BitConverter.GetBytes(map.Value.Width));   // Map Width
+                memory.Write(BitConverter.GetBytes(map.Value.Height));  // Map Height
+
+                int pixelformatname = map.Value.PixelType.BitsPerPixel / 8; // Channels
+
+                memory.Write(BitConverter.GetBytes(pixelformatname)); // Pixel Format
+
+
+
+                var _IMemoryGroup = map.Value.GetPixelMemoryGroup();
+                var _MemoryGroup = _IMemoryGroup.ToArray()[0];
+                var PixelData = MemoryMarshal.AsBytes(_MemoryGroup.Span).ToArray();
+
+                memory.Write(PixelData);  
+            }
         }
 
         private MemoryStream SignBinary(ref MemoryStream memory)

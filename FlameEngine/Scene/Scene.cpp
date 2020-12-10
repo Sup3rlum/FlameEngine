@@ -90,6 +90,8 @@ void Scene::AddActor(std::string _id, Actor* _ac)
 	if (actorCollection.find(_id) == actorCollection.end())
 	{
 
+		FLAME_INFO("\'" + _id + "\' added to scene!");
+
 		_ac->_scene = this;
 
 		actorCollection[_id] = _ac;

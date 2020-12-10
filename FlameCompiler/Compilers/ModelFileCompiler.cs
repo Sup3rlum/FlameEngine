@@ -25,7 +25,7 @@ namespace FlameCompiler.Compilers
 
         CompilationArguments _args;
 
-        readonly byte[] Version = new byte[] { 1, 0, 0, 0 };
+        readonly byte[] Version = new byte[] { 1, 0, 0, 2 };
         readonly byte[] Signature = { (byte)'F', (byte)'L', (byte)'3', (byte)'D' };
 
 
@@ -75,14 +75,15 @@ namespace FlameCompiler.Compilers
             memory.Write(Encoding.ASCII.GetBytes(mesh.MaterialName));       // materialPath
 
 
-            memory.Write(BitConverter.GetBytes((ulong)(mesh.Buffer.Data.Length * VertexPositionNormalTexture.Size * 4)));   // vDataLength
+            memory.Write(BitConverter.GetBytes((ulong)(mesh.Buffer.Data.Length * StaticModelVertex.Size * 4)));   // vDataLength
             memory.Write(BitConverter.GetBytes((ulong)mesh.Buffer.IndexData.Length * 4));                                   // iDataLength
 
             foreach (var v in mesh.Buffer.Data)
             {
                 memory.Write(v.Position.GetBytes());
-
                 memory.Write(v.Normal.GetBytes());          //vData
+                memory.Write(v.Tangent.GetBytes());          //vData
+                memory.Write(v.Bitangent.GetBytes());          //vData
                 memory.Write(v.TexCoord.GetBytes());
             }
 

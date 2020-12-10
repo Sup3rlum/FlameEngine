@@ -8,6 +8,13 @@ using System.Xml.Linq;
 using FlameCompiler.Compilers;
 using System.Linq;
 
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.ColorSpaces;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+
+
+
 namespace FlameCompiler.ImportScripts
 {
     public struct ModelTask
@@ -102,11 +109,32 @@ namespace FlameCompiler.ImportScripts
         {
             Material material = new Material();
 
-            string colormapPath = element.Element("colormap").Attribute("path").Value;
+            var mapElements = element.Elements("map");
             string outputPath = element.Element("output").Attribute("path").Value;
 
+            foreach (var map in mapElements)
+            {
+                string name = map.Attribute("name").Value;
+                string path = map.Attribute("path").Value;
 
-            material.colormapPath = colormapPath;
+                Image<Rgba32> im;
+
+                try
+                {
+                    im  = Image.Load<Rgba32>(path);
+                }
+                catch (Exception x)
+                {
+                    Console.WriteLine(x.Message);
+                    continue;
+                }
+
+                material.mapDictionary.Add(name, im);
+
+            }
+
+
+
 
             MaterialObjects.Add(new MaterialTask() { material = material, outputFileName = outputPath });
 

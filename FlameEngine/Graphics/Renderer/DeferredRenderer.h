@@ -26,6 +26,7 @@ public:
 	bool enableDEBUGTexture = true;
 	bool enableKawaseBlur = true;
 	int mBlurPassIndex = 1;
+	bool enableGlossMap = true;
 
 private:
 
@@ -38,6 +39,8 @@ private:
 	Texture* mDepthBuffer;
 	Texture* mNormalBuffer;
 	Texture* mAlbedoBuffer;
+	Texture* mSpecularBuffer;
+
 	Texture* mSsaoBuffer;
 	Texture* mShadowmapBuffer;
 
@@ -55,6 +58,7 @@ private:
 	BoundingVolumeDebugService* mBoundingService;
 
 	RenderBatch* _renderBatch;
+
 
 	Context* attachedContext;
 

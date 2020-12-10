@@ -9,7 +9,7 @@ DirectionalLight::DirectionalLight(FVector3 _direction, Color _lightColor, float
 	//_positionInternal = FVector3(20.0f, 20.0f, 20.0f);
 	_positionInternal = FVector3(100.0f, 100.0f, 100.0f);
 
-	_cam.Projection = FMatrix4::CreateOrthographic(-200.0f, 200.0f, -200.0f, 200.0f, 0.1f, 500.0f);
+	_cam.Projection = FMatrix4::CreateOrthographic(-100.0f, 100.0f, -100.0f, 100.0f, 0.1f, 300.0f);
 	_cam.Position = _positionInternal;
 	_cam.LookDirection = Direction;
 	_cam.Up = FVector3(0, 1, 0);

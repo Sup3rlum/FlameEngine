@@ -36,7 +36,7 @@ FLRESULT AssetManager::LoadModelFromFile<StaticModel>(STRING path, StaticModel* 
 	if (!(file_version[0] == 1 &&
 		file_version[1] == 0 &&
 		file_version[2] == 0 &&
-		file_version[3] == 0))
+		file_version[3] == 2))
 	{
 		return FLRESULT::FAIL;
 	}
@@ -101,17 +101,17 @@ FLRESULT AssetManager::LoadModelFromFile<StaticModel>(STRING path, StaticModel* 
 			continue;
 
 
-		VertexNormalTexture* vData = Memory::Create<VertexNormalTexture>(vDataLength);
+		StaticModelVertex*	 vData = Memory::Create<StaticModelVertex>(vDataLength);
 		unsigned int*		 iData = Memory::Create<unsigned int>(iDataLength);
 
-		flStream.ReadArray(vData, vDataLength / sizeof(VertexNormalTexture));
+		flStream.ReadArray(vData, vDataLength / sizeof(StaticModelVertex));
 		flStream.ReadArray(iData, iDataLength / sizeof(unsigned int));
 
 
 
 		model->meshCollection[i].LocalTransform = localTransform;
-		model->meshCollection[i].mVertexBuffer = new VertexBuffer(VertexNormalTexture::Elements);
-		model->meshCollection[i].mVertexBuffer->SetIndexedData(vData, iData, vDataLength / 32, iDataLength / 4);
+		model->meshCollection[i].mVertexBuffer = new VertexBuffer(StaticModelVertex::Elements);
+		model->meshCollection[i].mVertexBuffer->SetIndexedData(vData, iData, vDataLength / sizeof(StaticModelVertex), iDataLength / sizeof(unsigned int));
 
 		Shader* modelShaders[2] =
 		{
@@ -174,15 +174,34 @@ FLRESULT AssetManager::LoadMaterialFromFile<BakedMaterial>(STRING path, _Out_ Ba
 	flStream.ReadArray(file_checksum);
 
 
+	// ----------------------------------
+	//			MAP DATA
+	//-----------------------------------
 
-	int colorMapNameLength = flStream.Read<int>();
+	int mapCount = flStream.Read<int>();
 
-	char* colorMapName = Memory::Create<char>(colorMapNameLength + 1);
-	flStream.ReadArray(colorMapName, colorMapNameLength);
+	for (int i = 0; i < mapCount; i++)
+	{
+		int mapNameLength = flStream.Read<int>();
+		char* mapName = Memory::Create<char>(mapNameLength + 1);
+		flStream.ReadArray(mapName, mapNameLength);
+		mapName[mapNameLength] = '\0';
 
-	colorMapName[colorMapNameLength] = '\0';
+		int mapWidth = flStream.Read<int>();
+		int mapHeight = flStream.Read<int>();
+		int channels = flStream.Read<int>();
 
-	material->mColorMap = new Texture(STRING(colorMapName));
+		BYTE* pixelData = Memory::Create<BYTE>(mapWidth * mapHeight * channels);
+		flStream.ReadArray(pixelData, mapWidth * mapHeight * channels);
+
+		Texture* mapTexture = new Texture(mapWidth, mapHeight, GL_RGBA32F, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, false);
+		mapTexture->SetData(pixelData);
+
+		mapTexture->SetFilteringMode(TextureFiltering::BILINEAR);
+		mapTexture->SetWrappingMode(TextureWrapping::REPEAT);
+
+		material->SetMap(STRING(mapName), mapTexture);
+	}
 
 }
 

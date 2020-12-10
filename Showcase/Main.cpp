@@ -17,7 +17,7 @@ int main()
 	_contextDesc.contextCompatibility = 1;
 	_contextDesc.width = 2560;
 	_contextDesc.height = 1440;
-	_contextDesc.fullscreen = true;
+	_contextDesc.fullscreen = false;
 
 	GLFWContext* context = new GLFWContext();
 
