@@ -12,7 +12,7 @@ GaussianBlurService::GaussianBlurService(Context* context, bool halfRes) : Rende
 
 	mShader = new Program(gaussshaders);
 
-	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
+	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 

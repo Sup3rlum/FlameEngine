@@ -195,6 +195,8 @@
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
     <ClCompile Include="Graphics\Renderer\XFFTRenderer.cpp" />
+    <ClCompile Include="Graphics\Common\TextureArray.cpp" />
+    <ClCompile Include="Graphics\Common\ITextureBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -416,6 +418,8 @@
     <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
     <ClInclude Include="Graphics\Renderer\XFFTRenderer.h" />
+    <ClInclude Include="Graphics\Common\TextureArray.h" />
+    <ClInclude Include="Graphics\Common\ITextureBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

@@ -47,7 +47,7 @@ void HBAOPlusService::RenderAO(Texture* depthTex, Texture* normTex, FrameBuffer*
 
 	GFSDK_SSAO_InputData_GL Input;
 	Input.DepthData.DepthTextureType = GFSDK_SSAO_HARDWARE_DEPTHS;
-	Input.DepthData.FullResDepthTexture = GFSDK_SSAO_Texture_GL(GL_TEXTURE_2D, depthTex->_handle);
+	Input.DepthData.FullResDepthTexture = GFSDK_SSAO_Texture_GL(GL_TEXTURE_2D, depthTex->GetHandle());
 	Input.DepthData.ProjectionMatrix.Data = GFSDK_SSAO_Float4x4(&Projection[0].x);
 	Input.DepthData.ProjectionMatrix.Layout = GFSDK_SSAO_ROW_MAJOR_ORDER;
 	Input.DepthData.MetersToViewSpaceUnits = 1.0f;

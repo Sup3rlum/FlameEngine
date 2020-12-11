@@ -33,3 +33,6 @@
 #include "../System/systeminfo.h"
 
 #include "../Output/LoggerService.h"
+
+
+typedef unsigned int uint;

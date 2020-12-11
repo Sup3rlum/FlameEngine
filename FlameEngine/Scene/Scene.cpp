@@ -47,7 +47,7 @@ Scene::Scene(Context* _cont)
 
 	PushCamera(new FpsCamera(_cont));
 
-
+	
 
 	FLAME_INFO("Scene finished loading");
 }

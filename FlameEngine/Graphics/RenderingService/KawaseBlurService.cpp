@@ -12,7 +12,7 @@ KawaseBlurService::KawaseBlurService(Context* context, bool halfRes) : Rendering
 
 	mShader = new Program(kawaseshaders);
 
-	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
+	mBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 

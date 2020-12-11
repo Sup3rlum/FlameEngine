@@ -76,30 +76,30 @@ DeferredRenderer::DeferredRenderer(Context* context)
 
 	// G-Buffer
 
-	mDepthBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT, false);
+	mDepthBuffer = new Texture(2560, 1440, GL_RG32F, GL_RGBA, GL_FLOAT);
 	mDepthBuffer->SetFilteringMode(TextureFiltering::ANISOTROPIC_8);
 	mDepthBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
-	mNormalBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	mNormalBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mNormalBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mNormalBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
-	mAlbedoBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	mAlbedoBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mAlbedoBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mAlbedoBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
-	mSpecularBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	mSpecularBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mSpecularBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mSpecularBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
 
-	mSsaoBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, false);
+	mSsaoBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mSsaoBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mSsaoBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
 
-	mShadowmapBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT, true);
+	mShadowmapBuffer = new Texture(2560, 1440, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 	mShadowmapBuffer->SetFilteringMode(TextureFiltering::BILINEAR);
 	mShadowmapBuffer->SetWrappingMode(TextureWrapping::REPEAT);
 
@@ -114,6 +114,7 @@ DeferredRenderer::DeferredRenderer(Context* context)
 	mFrameBuffer->SetAttachments(new GLuint[4]{ GL_COLOR_ATTACHMENT0 ,GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 }, 4);
 	mFrameBuffer->Unbind();
 
+	
 
 	mShadowmapFrameBuffer = new FrameBuffer(2560, 1440);
 	mShadowmapFrameBuffer->Bind();
@@ -212,6 +213,7 @@ void DeferredRenderer::BeginRender(Scene* scene)
 	mCombineShader->SetTexture(4, mSsaoBuffer);
 	mCombineShader->SetTexture(5, mShadowmapBuffer);
 
+	
 
 	mQuadBuffer->RenderIndexed(GL_TRIANGLES);
 
@@ -271,5 +273,5 @@ void DeferredRenderer::BeginRender(Scene* scene)
 
 void DeferredRenderer::EndRender()
 {
-
+	
 }

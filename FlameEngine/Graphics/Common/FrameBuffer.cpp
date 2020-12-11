@@ -11,12 +11,12 @@ FrameBuffer::FrameBuffer(GLuint _w, GLuint _h)
 
 void FrameBuffer::BindTexture(Texture* _tex, GLuint attachment)
 {
-	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->TextureType, _tex->_handle, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->GetInternalType(), _tex->GetHandle(), 0);
 }
 
 void FrameBuffer::BindTexture(MultisampleTexture* _tex, GLuint attachment)
 {
-	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->TextureType, _tex->_handle, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, _tex->GetInternalType(), _tex->GetHandle(), 0);
 }
 
 

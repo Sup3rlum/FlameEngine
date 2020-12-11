@@ -26,7 +26,7 @@ UxFrame::UxFrame(FVector2 position, FVector2 size)
 
 	FVector3 w = Color::White.rgb;
 
-	mTexture = new Texture(1, 1, GL_RGB32F, GL_RGB, GL_FLOAT, false);
+	mTexture = new Texture(1, 1, GL_RGB32F, GL_RGB, GL_FLOAT);
 	mTexture->Bind();
 	{
 		mTexture->SetData(&w);

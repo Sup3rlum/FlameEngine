@@ -260,6 +260,7 @@
   <ItemGroup>
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
     <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
+    <ClInclude Include="Graphics\Common\ITextureBase.h" />
     <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
     <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
     <ClInclude Include="Framework\Common\FLFileStream.h" />
@@ -359,6 +360,7 @@
     <ClInclude Include="System\systeminfo.h" />
     <ClInclude Include="Graphics\Common\TextureFiltering.h" />
     <ClInclude Include="System\system_memory.h" />
+    <ClInclude Include="Graphics\Common\TextureArray.h" />
     <ClInclude Include="util\gfunc.h" />
     <ClInclude Include="util\macros.h" />
     <ClInclude Include="util\result.h" />
@@ -380,6 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
+    <ClCompile Include="Graphics\Common\ITextureBase.cpp" />
     <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
     <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
     <ClCompile Include="Framework\Common\FLFileStream.cpp" />
@@ -468,6 +471,7 @@
     <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
     <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
+    <ClCompile Include="Graphics\Common\TextureArray.cpp" />
     <ClCompile Include="util\stb_image.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
     <ClCompile Include="Graphics\UserInterface\UxService.cpp" />

@@ -73,12 +73,12 @@ void Program::SetUniform<Color>(STRING name, Color val)
 void Program::SetTexture(_UNS_ FL_INT32 _id, Texture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0 + _id);
-	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
+	glBindTexture(GL_TEXTURE_2D, _tex->GetHandle());
 }
 void Program::SetTexture(_UNS_ FL_INT32 _id, MultisampleTexture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0 + _id);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->_handle);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->GetHandle());
 }
 
 
@@ -87,10 +87,10 @@ void Program::SetTexture(_UNS_ FL_INT32 _id, MultisampleTexture* _tex)
 void Program::SetTexture(STRING name, Texture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _tex->_handle);
+	glBindTexture(GL_TEXTURE_2D, _tex->GetHandle());
 }
 void Program::SetTexture(STRING name, MultisampleTexture* _tex)
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->_handle);
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _tex->GetHandle());
 }

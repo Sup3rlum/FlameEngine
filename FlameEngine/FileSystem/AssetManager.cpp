@@ -194,7 +194,7 @@ FLRESULT AssetManager::LoadMaterialFromFile<BakedMaterial>(STRING path, _Out_ Ba
 		BYTE* pixelData = Memory::Create<BYTE>(mapWidth * mapHeight * channels);
 		flStream.ReadArray(pixelData, mapWidth * mapHeight * channels);
 
-		Texture* mapTexture = new Texture(mapWidth, mapHeight, GL_RGBA32F, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, false);
+		Texture* mapTexture = new Texture(mapWidth, mapHeight, GL_RGBA32F, channels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE);
 		mapTexture->SetData(pixelData);
 
 		mapTexture->SetFilteringMode(TextureFiltering::BILINEAR);

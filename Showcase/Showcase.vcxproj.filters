@@ -116,6 +116,8 @@
       <Filter>shaders\blur</Filter>
     </None>
     <None Include="shaders\scene\lights.glsl" />
+    <None Include="shaders\flamev\geomgen.fvx" />
+    <None Include="shaders\flamev\new.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

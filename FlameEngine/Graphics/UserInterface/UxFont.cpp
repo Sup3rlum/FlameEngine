@@ -32,8 +32,7 @@ UxFont::UxFont(STRING _fontName, int _fontSize)
 			face->glyph->bitmap.rows,
 			GL_RED,
 			GL_RED,
-			GL_UNSIGNED_BYTE,
-			false
+			GL_UNSIGNED_BYTE
 		);
 
 		_texture->SetData(face->glyph->bitmap.buffer);
