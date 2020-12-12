@@ -24,7 +24,7 @@ Some of the the upcoming features I am currently working on:
 
 ## Images
 
-<img src="https://cdn.discordapp.com/attachments/717866375212826705/787178741834055684/test0.png" width="562" height="512">
+<img src="https://cdn.discordapp.com/attachments/717866375212826705/787178741834055684/test0.png" width="900" height="552">
 
 ## Dependencies
 
