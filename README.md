@@ -24,20 +24,20 @@ Some of the the upcoming features I am currently working on:
 
 ## Images
 
-<img src="https://media.discordapp.net/attachments/717866375212826705/773742234323124244/unknown.png" width="562" height="512">
+<img src="https://cdn.discordapp.com/attachments/717866375212826705/787178741834055684/test0.png" width="900" height="552">
 
 ## Dependencies
 
-- PhysX 4.1
-- HBAO+  4.0
-- OpenGL 4.0
-- glew32
-- GLFW
-- FTGL
-- OpenSSL
-- C# 8 (Corresponding Roslyn version for x-Platform compilation)
-- .NET Core 3.1
-
+  - PhysX 4.1
+  - HBAO+  4.0
+  - OpenGL 4.0
+  - glew32
+  - GLFW
+  - libpng
+  - OpenSSL
+  - C# 8 (Corresponding Roslyn version for x-Platform compilation)
+  - .NET Core 3.1
+  - ImageSharp
 
 ## Licensing
 
