@@ -7,9 +7,11 @@
 #include "FlameEngine/Mathematics/Types/FVector3.h"
 #include "FlameEngine/Mathematics/Types/fMatrix4.h"
 
+
+#include "FlameEngine/Framework/PNG/PngHelper.h"
+
 TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
 {
-
 
 }
 
@@ -18,11 +20,11 @@ void TestGame::Load()
 
 	_currentScene->DirectionalLightCollection.push_back(DirectionalLight(FVector3(-1.0f, -1.0f, 0.2f), Color::White, 1.0f));
 
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-1.0f, 1.0f, 0.2f), Color::Red,		FVector3(1.0f, 0.0f, 0.1f)));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-14.0f, 1.0f, 1.2f), Color::Blue,		FVector3(1.0f, 0.0f, 0.1f)));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(7.0f, 1.0f, 5.2f), Color::Green,		FVector3(1.0f, 0.0f, 0.1f)));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-2.0f, 1.0f, 10.2f), Color::Yellow,	FVector3(1.0f, 0.0f, 0.1f)));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(11.0f, 1.0f, -4.2f), Color::White,	FVector3(1.0f, 0.0f, 0.1f)));
+	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-20.0f, 1.0f, 0.0f), Color::Red,		1.0f, 10.0f));
+	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-10.0f, 5.0f, 0.0f), Color::Blue,		2.0f, 15.0f));
+	_currentScene->PointLightCollection.push_back(PointLight(FVector3(0.0f,	 3.0f, 0.0f), Color::Green,		3.3f, 3.0f));
+	_currentScene->PointLightCollection.push_back(PointLight(FVector3(10.0f, 5.0f, 0.0f), Color::Yellow,	0.5f, 25.0f));
+	_currentScene->PointLightCollection.push_back(PointLight(FVector3(20.0f, 1.0f, 0.0f), Color::White,	7.0f, 1.3f));
 
 	//GameEntity* _man = new GameEntity("man.fl3d");
 	//_man->Position = FVector3(4, -1, -4);
@@ -42,9 +44,9 @@ void TestGame::Load()
 
 	/*GameEntity* _sponza = new GameEntity("sponza.fl3d");
 	_sponza->Position = FVector3(0, 0, 0);
-	_sponza->Scale = FVector3(0.15f);*/
-	//_currentScene->AddActor("sponza", _sponza);
-
+	_sponza->Scale = FVector3(0.15f);
+	_currentScene->AddActor("sponza", _sponza);
+	*/
 
 
 	//GameEntity* _house = new GameEntity("cottage.fl3d");
@@ -101,7 +103,7 @@ void TestGame::ShootSphere()
 
 	_sphere->pPxActor->is<PxRigidDynamic>()->setMass(10.0f);
 	_sphere->pPxActor->is<PxRigidDynamic>()->setAngularDamping(0.5f);
-	//_sphere->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 10);
+	_sphere->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 10);
 
 
 	char buff[128];
@@ -130,7 +132,7 @@ void TestGame::ShootBox()
 
 	_sphere->pPxActor->is<PxRigidDynamic>()->setMass(10.0f);
 	_sphere->pPxActor->is<PxRigidDynamic>()->setAngularDamping(0.5f);
-	//_sphere->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 10);
+	_sphere->pPxActor->is<PxRigidDynamic>()->setLinearVelocity(PxVec3(dir.x, dir.y, dir.z) * 100);
 
 
 	char buff[128];
@@ -198,5 +200,15 @@ void TestGame::KeyEventCallback(KeyEventArgs args)
 	if (args.Key == Keys::LEFT_CONTROL && args.keyState == KeyState::RELEASED)
 	{
 		((FpsCamera*)_currentScene->CurrentCamera())->flySpeed = 5;
+	}
+
+	if (args.Key == Keys::ENTER && args.keyState == KeyState::RELEASED)
+	{
+		EngineInstance::_handlingInstance->mRenderer->ScreenShot();
+	}
+
+	if (args.Key == Keys::N && args.keyState == KeyState::RELEASED)
+	{
+		_currentScene->snapToFrust = !_currentScene->snapToFrust;
 	}
 }

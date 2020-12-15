@@ -10,193 +10,186 @@
     <ClCompile Include="Context\GLFWContext.cpp">
       <Filter>Context</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\EngineInstance.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EventManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\FrameTime.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
+    <ClCompile Include="Core\Engine\MaterialSystem\Animated\AnimatedMaterial.cpp" />
+    <ClCompile Include="Core\Engine\MaterialSystem\Baked\BakedMaterial.cpp" />
+    <ClCompile Include="Core\Engine\MaterialSystem\Base\MaterialBase.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="dll\Version.cpp">
+    <ClCompile Include="Core\Engine\ModelSystem\Animated\AnimatedModel.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\ModelSystem\Animated\AnimatedModelMesh.cpp" />
+    <ClCompile Include="Core\Engine\ModelSystem\Base\ModelBase.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\ModelSystem\Base\ModelMeshBase.cpp" />
+    <ClCompile Include="Core\Engine\ModelSystem\Fracture\FractureModel.cpp" />
+    <ClCompile Include="Core\Engine\ModelSystem\Fracture\FractureModelMesh.cpp" />
+    <ClCompile Include="Core\Engine\ModelSystem\Static\StaticModel.cpp" />
+    <ClCompile Include="Core\Engine\ModelSystem\Static\StaticModelMesh.cpp" />
+    <ClCompile Include="Core\Engine\ShaderSystem\CompilationServices\FLSLCompilerService.cpp" />
+    <ClCompile Include="Core\Engine\ShaderSystem\CompilationServices\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Core\Runtime\Common\Memory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Runtime\Common\Runtime.cpp" />
+    <ClCompile Include="Core\Framework\Common\FArray.cpp" />
+    <ClCompile Include="Core\Framework\Common\FObject.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Services\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Services\HBAOPlusService.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Services\RenderingServiceBase.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Services\ShadowmapService.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Services\UxRenderingService.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\OpenGL\GLFramework.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Query.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\RenderBatch.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\RenderState.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Common\EngineInstance.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Common\EventManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Common\FrameTime.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Devices\Keyboard.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Devices\KeyEventArgs.cpp" />
+    <ClCompile Include="Core\Devices\Mouse.cpp" />
+    <ClCompile Include="Core\Logging\LoggerService.cpp" />
+    <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxComponent.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxConsoleWindow.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxContainer.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxDebugViewComponent.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxFont.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxFrame.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxImage.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxLabel.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxRectangle.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxService.cpp" />
+    <ClCompile Include="Core\UX\UXFramework\UxWindow.cpp" />
+    <ClCompile Include="Core\Framework\Common\FString.cpp" />
+    <ClCompile Include="Core\Binary\dllmain.cpp">
       <Filter>dll</Filter>
     </ClCompile>
-    <ClCompile Include="dll\dllmain.cpp">
-      <Filter>dll</Filter>
-    </ClCompile>
-    <ClCompile Include="util\stb_image.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Actor.cpp">
+    <ClCompile Include="Core\Engine\Scene\Physics\PhysXService.cpp" />
+    <ClCompile Include="Core\Engine\Scene\CameraSystem\FirstPersonCamera.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\GameEntity.cpp">
+    <ClCompile Include="Core\Engine\Scene\CameraSystem\CameraBase.cpp">
       <Filter>Scene\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\RenderableObject.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Animations\Animation.cpp">
-      <Filter>Scene\GameObjects\Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Animations\Joint.cpp">
-      <Filter>Scene\GameObjects\Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Lighting\AmbientLight.cpp">
+    <ClCompile Include="Core\Engine\Scene\LightingSystem\AmbientLight.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Lighting\DirectionalLight.cpp">
+    <ClCompile Include="Core\Engine\Scene\LightingSystem\DirectionalLight.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\Lighting\Light.cpp">
+    <ClCompile Include="Core\Engine\Scene\LightingSystem\PointLight.cpp" />
+    <ClCompile Include="Core\Engine\Scene\LightingSystem\SpotLight.cpp" />
+    <ClCompile Include="Core\Engine\Scene\LightingSystem\LightBase.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Environment\Sky.cpp">
+    <ClCompile Include="Core\Engine\Scene\Physics\PhysXFactory.cpp" />
+    <ClCompile Include="Core\Engine\Scene\Common\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Scene\Environment\Sky.cpp">
       <Filter>Scene\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameObjects\FpsCamera.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameObjects\UpdatableObject.cpp" />
-    <ClCompile Include="Mathematics\Utilities\BezierCurve.cpp" />
-    <ClCompile Include="flameRT\HeapAllocator.cpp" />
-    <ClCompile Include="flameRT\MemoryManager.cpp" />
-    <ClCompile Include="flameRT\PoolAllocator.cpp" />
-    <ClCompile Include="flameRT\Runtime.cpp" />
-    <ClCompile Include="flameRT\SingleFrameAllocator.cpp" />
-    <ClCompile Include="Graphics\RenderingService\GaussianBlurService.cpp" />
-    <ClCompile Include="Scene\Physics\PhysXService.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxComponent.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxService.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxContainer.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxFrame.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxLabel.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxFont.cpp" />
-    <ClCompile Include="Graphics\Common\RenderBatch.cpp">
+    <ClCompile Include="Core\Engine\ShaderSystem\Common\Program.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\RenderingService\UxRenderingService.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxWindow.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxRectangle.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxConsoleWindow.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxDebugViewComponent.cpp" />
-    <ClCompile Include="flameRT\Memory.cpp">
+    <ClCompile Include="Core\Engine\ShaderSystem\Common\Shader.cpp" />
+    <ClCompile Include="Core\Engine\ShaderSystem\Library\ShaderLibrary.cpp" />
+    <ClCompile Include="Core\Engine\Scene\EnititySystem\Actor.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Scene\Common\RenderableObject.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Scene\Common\UpdatableObject.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\Deferred\DeferredRenderer.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\Deferred\RenderPass.cpp" />
+    <ClCompile Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.cpp" />
+    <ClCompile Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\XFFT\XFFTRenderer.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\ComputeBuffer.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureFiltering.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureArray.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureAnisotropy.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\MultisampleTexture.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\ITextureBase.cpp" />
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\VertexBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\VertexElements.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Scene\EnititySystem\EntityBase.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Scene\EnititySystem\StaticActor.cpp" />
+    <ClCompile Include="Core\Engine\Scene\EnititySystem\DynamicActor.cpp" />
+    <ClCompile Include="Core\Engine\Scene\ParticleSystem\ParticleEngine.cpp" />
+    <ClCompile Include="Core\Engine\Scene\ParticleSystem\ParticleRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Scene\EnititySystem\EntityGroup.cpp" />
+    <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
+    <ClCompile Include="Core\Math\Geometry\Volumes\AABB.cpp" />
+    <ClCompile Include="Core\Math\Geometry\Volumes\BoundingSphere.cpp" />
+    <ClCompile Include="Core\Math\Geometry\Volumes\OBB.cpp" />
+    <ClCompile Include="Core\Math\Geometry\Volumes\ViewFrustum.cpp" />
+    <ClCompile Include="Core\Math\Geometry\FPlane.cpp" />
+    <ClCompile Include="Core\Math\Geometry\FRay.cpp" />
+    <ClCompile Include="Core\Math\Types\FMatrix2.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FMatrix3.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FMatrix4.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FQuaternion.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FVector2.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FVector3.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Types\FVector4.cpp">
+      <Filter>Mathematics\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Utilities\BezierCurve.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\ContentLibrary.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\LocalContentService.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Keyboard.cpp">
+    <ClCompile Include="Core\Engine\GameSystem\Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Input\KeyEventArgs.cpp" />
-    <ClCompile Include="Input\Mouse.cpp" />
-    <ClCompile Include="Output\LoggerService.cpp" />
-    <ClCompile Include="FileSystem\AssetManager.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem\File.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Renderer\RendererBase.cpp" />
-    <ClCompile Include="Graphics\Renderer\DeferredRenderer.cpp" />
-    <ClCompile Include="Graphics\RenderingService\HBAOPlusService.cpp" />
-    <ClCompile Include="Graphics\RenderingService\RenderingServiceBase.cpp" />
-    <ClCompile Include="Graphics\RenderingService\KawaseBlurService.cpp" />
-    <ClCompile Include="Scene\GameObjects\Camera.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\Color.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\FrameBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\MultisampleTexture.cpp" />
-    <ClCompile Include="Graphics\Common\RenderState.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\TextureFiltering.cpp" />
-    <ClCompile Include="Graphics\Common\Vertex.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\VertexBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Common\VertexElements.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Common\FLBase.cpp" />
-    <ClCompile Include="Graphics\Renderer\OpenGL.cpp" />
-    <ClCompile Include="Media\FFmpeg\FFmpeg.cpp" />
-    <ClCompile Include="Graphics\UserInterface\UxImage.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Volumes\ViewFrustum.cpp" />
-    <ClCompile Include="Mathematics\Geometry\Volumes\AABB.cpp" />
-    <ClCompile Include="Graphics\RenderingService\BoundingVolumeDebugService.cpp" />
-    <ClCompile Include="Graphics\RenderingService\ShadowmapService.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Animated\AnimatedModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModel.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Static\StaticModel.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Base\ModelBase.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ModelSystem\Base\ModelMeshBase.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Static\StaticModelMesh.cpp" />
-    <ClCompile Include="Graphics\ModelSystem\Fracture\FractureModelMesh.cpp" />
-    <ClCompile Include="Graphics\MaterialSystem\Base\MaterialBase.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.cpp" />
-    <ClCompile Include="Framework\Common\FLFileStream.cpp" />
-    <ClCompile Include="Graphics\MaterialSystem\Baked\BakedMaterial.cpp" />
-    <ClCompile Include="Graphics\Common\Query.cpp" />
-    <ClCompile Include="Scene\GameObjects\Visual\LensFlare.cpp" />
-    <ClCompile Include="Scene\GameObjects\Lighting\PointLight.cpp" />
-    <ClCompile Include="Scene\GameObjects\Lighting\SpotLight.cpp" />
-    <ClCompile Include="Scene\GameObjects\Visual\Fog.cpp" />
-    <ClCompile Include="Mathematics\Types\FVector4.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FVector3.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FVector2.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FMatrix4.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FMatrix3.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FMatrix2.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Types\FQuaternion.cpp">
-      <Filter>Mathematics\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathematics\Geometry\FPlane.cpp" />
-    <ClCompile Include="Mathematics\Geometry\FRay.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\ShaderLibrary.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\Program.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ShaderDefinitions\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.cpp" />
-    <ClCompile Include="Graphics\Renderer\XFFTRenderer.cpp" />
-    <ClCompile Include="Graphics\Common\TextureArray.cpp" />
-    <ClCompile Include="Graphics\Common\ITextureBase.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\GameFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -208,218 +201,201 @@
     <ClInclude Include="Context\GLFWContext.h">
       <Filter>Context</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\EngineInstance.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EventManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\FrameTime.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="dll\Version.h">
-      <Filter>dll</Filter>
-    </ClInclude>
-    <ClInclude Include="dll\nchfx.h">
-      <Filter>dll</Filter>
-    </ClInclude>
-    <ClInclude Include="dll\logger.h">
-      <Filter>dll</Filter>
-    </ClInclude>
-    <ClInclude Include="dll\framework.h">
-      <Filter>dll</Filter>
-    </ClInclude>
-    <ClInclude Include="util\result.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\macros.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\gfunc.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="util\stb_image.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Actor.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Camera.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\GameEntity.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\RenderableObject.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Animations\Animation.h">
-      <Filter>Scene\GameObjects\Animations</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Animations\Joint.h">
-      <Filter>Scene\GameObjects\Animations</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Lighting\AmbientLight.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Lighting\DirectionalLight.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\Lighting\Light.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Environment\Sky.h">
-      <Filter>Scene\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\FpsCamera.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameObjects\UpdatableObject.h" />
-    <ClInclude Include="Mathematics\Utilities\BezierCurve.h" />
-    <ClInclude Include="Mathematics\Module.h" />
-    <ClInclude Include="Mathematics\Constants.h" />
-    <ClInclude Include="Mathematics\Conversions.h" />
-    <ClInclude Include="flameRT\HeapAllocator.h" />
-    <ClInclude Include="flameRT\MemoryManager.h" />
-    <ClInclude Include="flameRT\PoolAllocator.h" />
-    <ClInclude Include="flameRT\Runtime.h" />
-    <ClInclude Include="flameRT\SingleFrameAllocator.h" />
-    <ClInclude Include="Mathematics\Functions\Lerp.h" />
-    <ClInclude Include="Graphics\RenderingService\GaussianBlurService.h" />
-    <ClInclude Include="Scene\Physics\PhysXService.h" />
-    <ClInclude Include="Graphics\UserInterface\UxComponent.h" />
-    <ClInclude Include="Graphics\UserInterface\UxService.h" />
-    <ClInclude Include="Graphics\UserInterface\UxContainer.h" />
-    <ClInclude Include="Graphics\UserInterface\UxFrame.h" />
-    <ClInclude Include="Graphics\UserInterface\UxLabel.h" />
-    <ClInclude Include="Graphics\UserInterface\UxFont.h" />
-    <ClInclude Include="Graphics\Common\RenderBatch.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\RenderingService\UxRenderingService.h" />
-    <ClInclude Include="Graphics\UserInterface\UxWindow.h" />
-    <ClInclude Include="Graphics\UserInterface\UxRectangle.h" />
-    <ClInclude Include="Graphics\UserInterface\UxConsoleWindow.h" />
-    <ClInclude Include="Graphics\UserInterface\UxDebugViewComponent.h" />
     <ClInclude Include="System\systeminfo.h" />
-    <ClInclude Include="flameRT\Memory.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\Keyboard.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\KeyEventArgs.h" />
-    <ClInclude Include="Input\Mouse.h" />
-    <ClInclude Include="Output\LoggerService.h" />
-    <ClInclude Include="FileSystem\AssetManager.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\File.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="System\gpu.h" />
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\os.h" />
     <ClInclude Include="System\system_memory.h" />
-    <ClInclude Include="Graphics\Renderer\RendererBase.h" />
-    <ClInclude Include="Graphics\Renderer\DeferredRenderer.h" />
-    <ClInclude Include="Graphics\RenderingService\HBAOPlusService.h" />
-    <ClInclude Include="Graphics\RenderingService\RenderingServiceBase.h" />
-    <ClInclude Include="Graphics\RenderingService\KawaseBlurService.h" />
-    <ClInclude Include="Graphics\Common\Color.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\FrameBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\MultisampleTexture.h" />
-    <ClInclude Include="Graphics\Common\RenderState.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\Texture.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\TextureFiltering.h" />
-    <ClInclude Include="Graphics\Common\Vertex.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\VertexBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Common\VertexElements.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Common\FLBase.h" />
-    <ClInclude Include="Graphics\Renderer\OpenGL.h" />
-    <ClInclude Include="Media\FFmpeg\FFmpeg.h" />
-    <ClInclude Include="Graphics\UserInterface\UxImage.h" />
-    <ClInclude Include="Mathematics\Geometry\Volumes\ViewFrustum.h" />
-    <ClInclude Include="Mathematics\Geometry\Volumes\AABB.h" />
-    <ClInclude Include="Graphics\RenderingService\BoundingVolumeDebugService.h" />
-    <ClInclude Include="Graphics\RenderingService\ShadowmapService.h" />
-    <ClInclude Include="Graphics\ModelSystem\Animated\AnimatedModel.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModel.h" />
-    <ClInclude Include="Graphics\ModelSystem\Static\StaticModel.h" />
-    <ClInclude Include="Graphics\ModelSystem\Base\ModelBase.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ModelSystem\Base\ModelMeshBase.h" />
-    <ClInclude Include="Graphics\ModelSystem\Animated\AnimatedModelMesh.h" />
-    <ClInclude Include="Graphics\ModelSystem\Static\StaticModelMesh.h" />
-    <ClInclude Include="Graphics\ModelSystem\Fracture\FractureModelMesh.h" />
-    <ClInclude Include="Graphics\MaterialSystem\Base\MaterialBase.h">
+    <ClInclude Include="Core\Common\CoreCommon.h" />
+    <ClInclude Include="Core\Engine\MaterialSystem\Animated\AnimatedMaterial.h" />
+    <ClInclude Include="Core\Engine\MaterialSystem\Baked\BakedMaterial.h" />
+    <ClInclude Include="Core\Engine\MaterialSystem\Base\MaterialBase.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\MaterialSystem\Animated\AnimatedMaterial.h" />
-    <ClInclude Include="Framework\Common\FLFileStream.h" />
-    <ClInclude Include="Graphics\MaterialSystem\Baked\BakedMaterial.h" />
-    <ClInclude Include="Graphics\Common\Query.h" />
-    <ClInclude Include="Scene\GameObjects\Visual\LensFlare.h" />
-    <ClInclude Include="Scene\GameObjects\Lighting\PointLight.h" />
-    <ClInclude Include="Scene\GameObjects\Lighting\SpotLight.h" />
-    <ClInclude Include="Scene\GameObjects\Visual\Fog.h" />
-    <ClInclude Include="Mathematics\Types\FVector4.h">
-      <Filter>Mathematics\Types</Filter>
+    <ClInclude Include="Core\Engine\ModelSystem\Animated\AnimatedModel.h">
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Mathematics\Types\FVector3.h">
-      <Filter>Mathematics\Types</Filter>
+    <ClInclude Include="Core\Engine\ModelSystem\Animated\AnimatedModelMesh.h" />
+    <ClInclude Include="Core\Engine\ModelSystem\Base\ModelBase.h">
+      <Filter>Scene\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Mathematics\Types\FVector2.h">
-      <Filter>Mathematics\Types</Filter>
+    <ClInclude Include="Core\Engine\ModelSystem\Base\ModelMeshBase.h" />
+    <ClInclude Include="Core\Engine\ModelSystem\Fracture\FractureModel.h" />
+    <ClInclude Include="Core\Engine\ModelSystem\Fracture\FractureModelMesh.h" />
+    <ClInclude Include="Core\Engine\ModelSystem\Static\StaticModel.h" />
+    <ClInclude Include="Core\Engine\ModelSystem\Static\StaticModelMesh.h" />
+    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\flsl.h" />
+    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\FLSLCompilerService.h" />
+    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\ShaderPreprocessor.h" />
+    <ClInclude Include="Core\Runtime\Common\Runtime.h" />
+    <ClInclude Include="Core\Runtime\Common\Memory.h">
+      <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="Mathematics\Types\FMatrix4.h">
-      <Filter>Mathematics\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathematics\Types\FMatrix3.h">
-      <Filter>Mathematics\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathematics\Types\FMatrix2.h">
-      <Filter>Mathematics\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathematics\Types\FQuaternion.h">
-      <Filter>Mathematics\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathematics\Geometry\FPlane.h" />
-    <ClInclude Include="Mathematics\Geometry\FRay.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\ShaderPreprocessor.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\flsl.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\ShaderLibrary.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\Program.h">
+    <ClInclude Include="Core\Framework\Common\FArray.h" />
+    <ClInclude Include="Core\Framework\Common\FObject.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Services\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Services\HBAOPlusService.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Services\RenderingServiceBase.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Services\ShadowmapService.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Services\UxRenderingService.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\OpenGL\GLFramework.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Color.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ShaderDefinitions\Shader.h" />
-    <ClInclude Include="Graphics\ShaderDefinitions\CompilationServices\FLSLCompilerService.h" />
-    <ClInclude Include="Graphics\Renderer\XFFTRenderer.h" />
-    <ClInclude Include="Graphics\Common\TextureArray.h" />
-    <ClInclude Include="Graphics\Common\ITextureBase.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Query.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\RenderBatch.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\RenderState.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Common\EngineInstance.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Common\EventManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Common\FrameTime.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Devices\Keyboard.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Devices\KeyEventArgs.h" />
+    <ClInclude Include="Core\Devices\Mouse.h" />
+    <ClInclude Include="Core\Logging\LoggerService.h" />
+    <ClInclude Include="Core\Common\CoreDefinitions.h" />
+    <ClInclude Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxComponent.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxConsoleWindow.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxContainer.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxDebugViewComponent.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxFont.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxFrame.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxImage.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxLabel.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxRectangle.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxService.h" />
+    <ClInclude Include="Core\UX\UXFramework\UxWindow.h" />
+    <ClInclude Include="Core\Framework\Common\FString.h" />
+    <ClInclude Include="Core\Engine\Scene\Physics\PhysXService.h" />
+    <ClInclude Include="Core\Engine\Scene\CameraSystem\FirstPersonCamera.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\CameraSystem\CameraBase.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\LightingSystem\AmbientLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\LightingSystem\DirectionalLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\LightingSystem\PointLight.h" />
+    <ClInclude Include="Core\Engine\Scene\LightingSystem\SpotLight.h" />
+    <ClInclude Include="Core\Engine\Scene\LightingSystem\LightBase.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\Physics\PhysXFactory.h" />
+    <ClInclude Include="Core\Engine\Scene\Common\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\Environment\Sky.h">
+      <Filter>Scene\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\ShaderSystem\Common\Program.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\ShaderSystem\Common\Shader.h" />
+    <ClInclude Include="Core\Engine\ShaderSystem\Library\ShaderLibrary.h" />
+    <ClInclude Include="Core\Engine\Scene\EnititySystem\Actor.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\Common\RenderableObject.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\Common\UpdatableObject.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\Deferred\DeferredRenderer.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\Deferred\RenderPass.h" />
+    <ClInclude Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.h" />
+    <ClInclude Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\XFFT\XFFTRenderer.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\ComputeBuffer.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureFiltering.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureArray.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureAnisotropy.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\MultisampleTexture.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\ITextureBase.h" />
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\Vertex.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\VertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\VertexElements.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\EnititySystem\EntityBase.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Scene\EnititySystem\StaticActor.h" />
+    <ClInclude Include="Core\Engine\Scene\EnititySystem\DynamicActor.h" />
+    <ClInclude Include="Core\Engine\Scene\ParticleSystem\ParticleEngine.h" />
+    <ClInclude Include="Core\Engine\Scene\ParticleSystem\ParticleRenderer.h" />
+    <ClInclude Include="Core\Engine\Scene\EnititySystem\EntityGroup.h" />
+    <ClInclude Include="Core\Common\CoreAssert.h" />
+    <ClInclude Include="Core\Common\CoreBase.h" />
+    <ClInclude Include="Core\Common\CoreFwdDeclarations.h" />
+    <ClInclude Include="Core\Framework\IO\FileStream.h" />
+    <ClInclude Include="Core\Math\Geometry\Volumes\AABB.h" />
+    <ClInclude Include="Core\Math\Geometry\Volumes\BoundingSphere.h" />
+    <ClInclude Include="Core\Math\Geometry\Volumes\OBB.h" />
+    <ClInclude Include="Core\Math\Geometry\Volumes\ViewFrustum.h" />
+    <ClInclude Include="Core\Math\Geometry\FPlane.h" />
+    <ClInclude Include="Core\Math\Geometry\FRay.h" />
+    <ClInclude Include="Core\Math\Types\FMatrix2.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FMatrix3.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FMatrix4.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FQuaternion.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FVector2.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FVector3.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\FVector4.h">
+      <Filter>Mathematics\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Utilities\BezierCurve.h" />
+    <ClInclude Include="Core\Math\Constants.h" />
+    <ClInclude Include="Core\Math\Conversions.h" />
+    <ClInclude Include="Core\Math\Module.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\ContentLibrary.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\LocalContentService.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Game.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\simddef.h" />
+    <ClInclude Include="Core\Engine\GameSystem\GameFramework.h" />
+    <ClInclude Include="Platform\OpenGL\glext.h" />
+    <ClInclude Include="Platform\OpenGL\gl.h" />
+    <ClInclude Include="Platform\Windows\wgl\wgl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -476,6 +452,7 @@
     <None Include="shaders\geom.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Context">

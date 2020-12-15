@@ -118,6 +118,8 @@
     <None Include="shaders\scene\lights.glsl" />
     <None Include="shaders\flamev\geomgen.fvx" />
     <None Include="shaders\flamev\new.fs" />
+    <None Include="shaders\scene\depthpass.frag" />
+    <None Include="shaders\scene\depthpass.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

@@ -49,6 +49,8 @@ namespace FlameCompiler.Compilers
             MemoryStream memory = new MemoryStream();
 
 
+            EncodeMaterialTable(task.model, ref memory);
+
             EncodeMeshTable(task.model, ref memory);
             foreach (var mesh in task.model.meshCollection)
             {
@@ -62,6 +64,17 @@ namespace FlameCompiler.Compilers
         {
             memory.Write(BitConverter.GetBytes(model.meshCollection.Count));
         }
+
+
+        private void EncodeMaterialTable(Model model, ref MemoryStream memory)
+        {
+            foreach (var mesh in model.meshCollection)
+            {
+
+            }
+        }
+
+
 
         private void EncodeMesh(ModelMesh mesh, ref MemoryStream memory)
         {

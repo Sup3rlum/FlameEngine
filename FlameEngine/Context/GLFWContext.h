@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../dll/nchfx.h"
+#include <GLFW/glfw3.h>
+
+#include "Core/Common/CoreCommon.h"
 #include "../Input/KeyEventArgs.h"
 #include "ContextDescription.h"
 #include "Context.h"

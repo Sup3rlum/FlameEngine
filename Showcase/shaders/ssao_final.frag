@@ -30,7 +30,8 @@ struct DirectionalLight
 struct PointLight
 {
 	vec3 Position;
-	vec3 IntensityParameters;
+	float Intensity;
+	float Radius;
 	vec4 Color;
 };
 
@@ -65,11 +66,6 @@ vec3 UnpackPosition(vec2 tCoord)
 
 float VarianceShadow(sampler2D shadowMap, vec2 coords, float compare)
 {
-	if (coords.x < 0.05 || coords.x > 0.95 || coords.y < 0.05 || coords.y > 0.95)
-	{
-		return 0.0;
-	}
-
 
 	vec2 moments = texture2D(shadowMap, coords.xy).xy;
 
@@ -114,8 +110,10 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos)
 
     // attenuation
     float dist    = length(light.Position - fragPos);
-	vec3 dist_poly = vec3(1, dist, dist * dist);
-    float attenuation = 1.0 / dot(dist_poly, light.IntensityParameters);    
+
+	float denom = (dist / light.Radius + 1);
+
+    float attenuation = light.Intensity / (denom * denom);    
 
 
 	vec3 diffuseLight = light.Color.rgb * attenuation * max(dot(lightDir, normal), 0.0);
@@ -174,8 +172,6 @@ void main()
     float shadow =  ShadowCalculation(fragPosLightSpace);     
 
 
-
-
 	vec3 lighting = vec3(0);
 
 	for (int i = 0; i < NumLights; i++)
@@ -183,6 +179,7 @@ void main()
 		lighting += CalcPointLight(PointLights[i], Normal, (InverseView * FragPos).xyz);
 
 	}
+
 
     FragColor = vec4(ambient + shadow * diffuse + lighting, fullAlbedo.a);
 
