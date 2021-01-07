@@ -19,16 +19,16 @@ public:
 		FVector2(0)
 	} {}
 
-	constexpr FMatrix2(float s) :
+	FMatrix2(float s) :
 		value
 	{
 		FVector2(s, 0),
 		FVector2(0, s)
 	} {}
 
-	constexpr FMatrix2(
-		FVector2 const& v1,
-		FVector2 const& v2) :
+	FMatrix2(
+		const FVector2& v1,
+		const FVector2& v2) :
 		value
 	{
 		FVector2(v1),
@@ -37,9 +37,9 @@ public:
 
 
 
-	static FMatrix2 Transpose(FMatrix2 m);
-	static FMatrix2 Inverse(FMatrix2 m);
-	static float Determinant(FMatrix2 m);
+	static FMatrix2 Transpose(const FMatrix2& m);
+	static FMatrix2 Inverse(const FMatrix2& m);
+	static float Determinant(const FMatrix2& m);
 
 
 	FVector2& operator[](size_t _index)
@@ -50,7 +50,7 @@ public:
 	}
 
 
-	constexpr FVector2 const& operator[](size_t _index) const
+	const FVector2& operator[](size_t _index) const
 	{
 		assert(_index < 2);
 
@@ -59,7 +59,7 @@ public:
 
 
 
-	constexpr FMatrix2& operator=(FMatrix2 const& m)
+	FMatrix2& operator=(FMatrix2 const& m)
 	{
 		this->value[0] = m[0];
 		this->value[1] = m[1];
@@ -69,5 +69,5 @@ public:
 
 };
 
-FLAME_API FVector2	 operator*(FMatrix2 const& l, FVector2 const& r);
-FLAME_API FMatrix2	 operator*(float const& l, FMatrix2 const& r);
+FLAME_API FVector2	 operator*(const FMatrix2& l, const FVector2& r);
+FLAME_API FMatrix2	 operator*(const float& l, const FMatrix2& r);

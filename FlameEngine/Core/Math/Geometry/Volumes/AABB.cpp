@@ -17,9 +17,9 @@ void AABB::SetDegenerate()
 	maxPoint = FVector3(-std::numeric_limits<float>::infinity());
 }
 
-void AABB::GetCorners(FVector3(&corners)[8])
+void AABB::GetCorners(FStaticArray<FVector3, 8>& corners)
 {
-	FVector3 ndc_corners[8] =
+	FStaticArray<FVector3, 8> ndcCorners =
 	{
 		FVector3(1.0f, -1.0f, -1.0f),	 // llb
 		FVector3(-1.0f, -1.0f, -1.0f), // lrb
@@ -35,7 +35,7 @@ void AABB::GetCorners(FVector3(&corners)[8])
 	};
 	for (int i = 0; i < 8; i++)
 	{
-		FVector3 _one = ndc_corners[i] * 0.5f + 0.5f;
+		FVector3 _one = ndcCorners[i] * 0.5f + 0.5f;
 		corners[i] = _one * maxPoint + (FVector3(1) - _one) * minPoint;
 	}
 }
@@ -45,46 +45,45 @@ void AABB::Enclose(FVector3 point)
 	minPoint = FVector3::Min(minPoint, point);
 	maxPoint = FVector3::Max(maxPoint, point);
 }
+void AABB::Enclose(const FArray<FVector3>& points)
+{
+	for (int i = 0; i < points.Length();i++)
+	{
+		Enclose(points[i]);
+	}
+}
 
-FVector3 AABB::Center()
+FVector3 AABB::Center() const
 {
 	return (maxPoint - minPoint) / 2.0f + minPoint;
 }
 
-float AABB::LengthX()
+float AABB::LengthX() const
 {
 	return maxPoint.x - minPoint.x;
 }
-float AABB::LengthY()
+float AABB::LengthY() const
 {
 	return maxPoint.y - minPoint.y;
 }
-float AABB::LengthZ()
+float AABB::LengthZ() const
 {
 	return maxPoint.z - minPoint.z;
 }
 
-float AABB::Volume()
+float AABB::Volume() const
 {
 	return LengthX() * LengthY() * LengthZ();
 }
 
-AABB AABB::FromPointArray(FVector3* points, int numPoints)
+AABB AABB::FromPointArray(const FArray<FVector3>& points)
 {
 
 	AABB aabb;
 	aabb.SetDegenerate();
-	for (int i = 0; i < numPoints; i++)
+	for (int i = 0; i < points.Length(); i++)
 	{
 		aabb.Enclose(points[i]);
 	}
 	return aabb;
 }
-
-template<size_t _Size>
-AABB FromPointArray(FVector3(&points)[_Size])
-{
-
-	return FromPointArray(&points[0], _Size);
-}
-

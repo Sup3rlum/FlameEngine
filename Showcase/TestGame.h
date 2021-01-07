@@ -1,25 +1,19 @@
 #pragma once
 
-#include "FlameEngine/Context/GLFWContext.h"
-#include "FlameEngine/Engine/EngineInstance.h"
-#include "FlameEngine/Scene/GameObjects/GameEntity.h"
+#include "FlameEngine/Core/Engine/GameSystem/Game.h"
 
 
 
-class TestGame : public Game
+class TestGameApplication : public GameApplication
 {
 public:
-	TestGame(STRING name, DVERSION dv);
+	TestGameApplication(FString name);
 
 	void Load();
 	void Dispose();
 	void Suspend();
 
-	void KeyEventCallback(KeyEventArgs kea);
 
-
-	void ShootSphere();
-	void ShootBox();
 
 };
 

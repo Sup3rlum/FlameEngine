@@ -7,12 +7,12 @@ EXPORT(class,  FPlane)
 {
 public:
 	FPlane() : value(FVector4(0)) {}
-	FPlane(FVector3 normal, float distance);
-	FPlane(FVector4 vec) : value(vec) {}
+	FPlane(const FVector3& normal, float distance);
+	FPlane(const FVector4& vec) : value(vec) {}
 
 	FVector3 GetNormal();
 
-	bool Contains(FVector3 point);
+	bool Contains(const FVector3& point);
 
 
 private:

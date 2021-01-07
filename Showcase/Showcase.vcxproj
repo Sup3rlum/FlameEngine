@@ -104,6 +104,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>D:\Projects\DelusionEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\Projects\FlameEngine\FlameEngine;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -204,6 +207,7 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestGame.cpp" />
+    <ClCompile Include="TestPlayerCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\animated_model_frag.glsl" />
@@ -246,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
+    <ClInclude Include="TestPlayerCharacter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,7 @@
 #pragma once
 
 
-#include "../dll/framework.h"
-#include "../util/macros.h"
+#include "Core/Common/CoreCommon.h"
 
 EXPORT(struct,  FLAME_SYSTEM_MEMORY)
 {

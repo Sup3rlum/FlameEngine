@@ -10,10 +10,10 @@ EXPORT(class, FRay)
 {
 public:
 
-	FRay(FVector3 origin, FVector3 dir) : Origin(origin), Direction(dir) {}
-	FRay(FVector3 dir) : Origin(FVector3(0)), Direction(dir) {}
+	FRay(const FVector3& origin, const FVector3& dir) : Origin(origin), Direction(dir) {}
+	FRay(const FVector3& dir) : Origin(FVector3(0)), Direction(dir) {}
 
-	bool Intersects(FPlane plane);
+	bool Intersects(const FPlane& plane) const;
 
 	FVector3 Origin;
 	FVector3 Direction;

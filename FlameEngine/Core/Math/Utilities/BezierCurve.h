@@ -8,7 +8,7 @@
 EXPORT(class,  BezierCurve)
 {
 public:
-	std::vector<FVector3> _points;
+	FArray<FVector3> _points;
 
 	FVector3 GetPoint(float _t);
 

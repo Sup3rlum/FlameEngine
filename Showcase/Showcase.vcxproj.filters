@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestGame.cpp" />
+    <ClCompile Include="TestPlayerCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -123,5 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
+    <ClInclude Include="TestPlayerCharacter.h" />
   </ItemGroup>
 </Project>

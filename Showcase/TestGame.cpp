@@ -4,18 +4,13 @@
 #include <immintrin.h>
 #include <ctime>
 
-#include "FlameEngine/Mathematics/Types/FVector3.h"
-#include "FlameEngine/Mathematics/Types/fMatrix4.h"
 
-
-#include "FlameEngine/Framework/PNG/PngHelper.h"
-
-TestGame::TestGame(STRING name, DVERSION dv) : Game(name, dv)
+TestGameApplication::TestGameApplication(FString appName) : GameApplication(appName)
 {
 
 }
 
-void TestGame::Load()
+void TestGameApplication::Load()
 {
 
 	_currentScene->DirectionalLightCollection.push_back(DirectionalLight(FVector3(-1.0f, -1.0f, 0.2f), Color::White, 1.0f));
@@ -68,22 +63,21 @@ void TestGame::Load()
 	
 
 
-	Game::Load();
 }
 
-void TestGame::Suspend()
+void TestGameApplication::Suspend()
 {
 
 
 }
 
-void TestGame::Dispose()
+void TestGameApplication::Dispose()
 {
 
 
 }
 
-void TestGame::ShootSphere()
+void TestGameApplication::ShootSphere()
 {
 	FVector3 dir = _currentScene->CurrentCamera()->LookDirection;
 	FVector3 pos = _currentScene->CurrentCamera()->Position;
@@ -112,7 +106,7 @@ void TestGame::ShootSphere()
 
 	_currentScene->AddActor(buff, _sphere);
 }
-void TestGame::ShootBox()
+void TestGameApplication::ShootBox()
 {
 	FVector3 dir = _currentScene->CurrentCamera()->LookDirection;
 	FVector3 pos = _currentScene->CurrentCamera()->Position;
@@ -143,7 +137,7 @@ void TestGame::ShootBox()
 }
 
 
-void TestGame::KeyEventCallback(KeyEventArgs args)
+void TestGameApplication::KeyEventCallback(KeyEventArgs args)
 {
 	if (args.Key == Keys::LEFT_ALT && args.keyState == KeyState::PRESSED)
 	{

@@ -2,7 +2,7 @@
 
 
 FVector3 BezierCurve::GetPoint(float _t)
-{
+{/*
 	FVector3* _subPoints = new FVector3[_points.size()];
 
 	memcpy(_subPoints, &_points[0], sizeof(_points));
@@ -13,8 +13,8 @@ FVector3 BezierCurve::GetPoint(float _t)
 		{
 			_subPoints[j] = FVector3::Lerp(_subPoints[j], _subPoints[j + 1], _t);
 		}
-	}
+	}*/
 
-	return _subPoints[0];
+	return 0;// _subPoints[0];
 
 }

@@ -13,21 +13,21 @@ public:
 	AABB(FVector3 min, FVector3 max);
 
 	void Enclose(FVector3 point);
+	void Enclose(const FArray<FVector3>& point);
 
-	float LengthX();
-	float LengthY();
-	float LengthZ();
+	FORCEINLINE float LengthX() const;
+	FORCEINLINE float LengthY() const;
+	FORCEINLINE float LengthZ() const;
 
-	FVector3 Center();
+	FORCEINLINE FVector3 Center() const;
 
-	float Volume();
+	FORCEINLINE float Volume() const;
 
-	void GetCorners(FVector3(&corners)[8]);
+	void GetCorners(FStaticArray<FVector3, 8>& out);
 
-	static AABB FromPointArray(FVector3* points, int numPoints);
+	static AABB FromPointArray(const FArray<FVector3>&points);
 
-	template<size_t _Size>
-	static AABB FromPointArray(FVector3 (&points)[_Size]);
+
 
 	void SetDegenerate();
 };

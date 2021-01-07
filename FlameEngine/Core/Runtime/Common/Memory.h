@@ -7,27 +7,8 @@
 EXPORT(class,  Memory)
 {
 public:
-	static FString	ToString(FArray<BYTE> bytedata);
 
-	template<typename T>
-	static T ToType(FArray<T> bytedata)
-	{
-		T t;
-		memcpy(&t, data, sizeof(T));
-		return t;
-	}
-
-	template<typename T>
-	static FArray<T> GetByteMemory(T)
-	{
-		FArray<T> mem;
-
-		return mem;
-	}
-
-
-
-	template <typename T> 
+	template <typename T>
 	static T* Create(size_t count)
 	{
 		T* mem = (T*)malloc(sizeof(T) * count);
@@ -42,9 +23,40 @@ public:
 
 
 	template <typename T>
-	void Free(T* mem)
+	static void Free(T* mem)
 	{
-		delete[] mem;
+		free(mem);
 	}
+
+
+
+	template <typename T>
+	static void Copy(T* dst, T* source, size_t size)
+	{
+		memcpy(dst, source, size);
+	}
+
+	template <typename TDst, typename TSource>
+	static void CopyReinterpret(TDst* dst, TSource* source, size_t size)
+	{
+		memcpy(dst, source, size);
+	}
+
+	template <typename T>
+	static void CopyOverlap(T* dst, T* source, size_t size)
+	{
+		memmove(dst, source, size);
+	}
+
+
+	template <typename TData>
+	static TData* Realloc(TData* Src, size_t Size)
+	{
+		TData* newPtr = Create(Size);
+		Copy(newPtr, Src, size);
+		Free(Src);
+		return newPtr;
+	}
+
 };
 

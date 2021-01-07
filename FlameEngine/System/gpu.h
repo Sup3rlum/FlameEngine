@@ -1,14 +1,13 @@
 #pragma once
 
-#include "../dll/framework.h"
-#include "../util/macros.h"
+#include "Core/Common/CoreCommon.h"
 
 EXPORT(struct,  FLAME_GPU)
 {
 public:
-	STRING oemVendor;
-	STRING oemString;
-	STRING driverString;
+	FString oemVendor;
+	FString oemString;
+	FString driverString;
 
 	ULONGLONG vMemory;
 };

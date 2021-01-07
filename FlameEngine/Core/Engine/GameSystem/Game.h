@@ -1,30 +1,26 @@
 #pragma once
 
-#include "..\dll\nchfx.h"
-#include "..\dll\Version.h"
-#include "..\Scene\Scene.h"
-#include "..\Input\KeyEventArgs.h"
+#include "Core/Common/CoreCommon.h"
+#include "Common/Scene.h"
 
 
-using namespace std;
-
-EXPORT(class,  Game)
+EXPORT(class,  GameApplication)
 {
 
 public:
-	Game(STRING name, DVERSION ver);
-	virtual void Load();
-	virtual void Dispose();
-	virtual void Suspend();
+	GameApplication(const FString& name);
+
+	virtual void Load() = 0;
+	virtual void Dispose() = 0;
+	virtual void Suspend() = 0;
 
 
+	virtual void Run();
 
-	virtual void KeyEventCallback(KeyEventArgs args);
+	virtual ~GameApplication();
 
-	STRING Name;
-	DVERSION Version;
-
-	Scene* _currentScene;
+	FUniquePointer<Scene> currentScene;
+	FString applicationName;
 
 };
 

@@ -20,7 +20,7 @@ public:
 		FVector3(0)
 	} {}
 
-	constexpr FMatrix3(float s) :
+	FMatrix3(float s) :
 		value
 	{
 		FVector3(s, 0, 0),
@@ -28,7 +28,7 @@ public:
 		FVector3(0, 0, s)
 	} {}
 
-	constexpr FMatrix3(
+	FMatrix3(
 		FVector3 const& v1,
 		FVector3 const& v2,
 		FVector3 const& v3) :
@@ -41,8 +41,9 @@ public:
 
 
 
-	static FMatrix3 Transpose(FMatrix3 m);
-
+	static FMatrix3 Transpose(const FMatrix3& m);
+	static FMatrix3 Inverse(const FMatrix3& m);
+	static float Determinant(const FMatrix3& m);
 
 	FVector3& operator[](size_t _index)
 	{
@@ -52,7 +53,7 @@ public:
 	}
 
 
-	constexpr FVector3 const& operator[](size_t _index) const
+	const FVector3& operator[](size_t _index) const
 	{
 		assert(_index < 3);
 
@@ -61,7 +62,7 @@ public:
 
 
 
-	constexpr FMatrix3& operator=(FMatrix3 const& m)
+	FMatrix3& operator=(const FMatrix3& m)
 	{
 		this->value[0] = m[0];
 		this->value[1] = m[1];
@@ -73,4 +74,4 @@ public:
 
 };
 
-FLAME_API FVector3	 operator*(FMatrix3 const& l, FVector3 const& r);
+FLAME_API FVector3	 operator*(const FMatrix3& l, FVector3 const& r);

@@ -13,36 +13,33 @@ public:
 		struct { float x, y; };
 		struct { float r, g; };
 		struct { float s, t; };
+
+		struct { float data[2]; };
 	};
 
 	constexpr FVector2()						: x(0), y(0) {}
-	constexpr FVector2(float _v)				: x(_v), y(_v) {}
-	constexpr FVector2(float _x, float _y)		: x(_x), y(_y) {}
+	FVector2(float _v)				: x(_v), y(_v) {}
+	FVector2(float _x, float _y)		: x(_x), y(_y) {}
 
-	STRING ToString();
+	FString ToString();
 
 	float Length();
-	constexpr float LengthSquared();
+	float LengthSquared();
 
 
-	static FVector2 const& Lerp(FVector2 const& l, FVector2 const& r, float const& t);
-
-	static float const& Dot(FVector2 const& l, FVector2 const& r);
-
+	static const FVector2& Lerp(const FVector2& l, const FVector2& r, const float& t);
+	static const float& Dot(const FVector2& l, const FVector2& r);
 	static FVector2 Normalize(FVector2 v);
 
 
-	constexpr float& operator[](_UNS_ FL_INT64 _index)
+	float& operator[](size_t _index)
 	{
 		assert(_index < 2);
 
-		if (_index == 0)
-			return x;
-		else
-			return y;
+		return data[_index];
 	}
 
-	constexpr FVector2& operator=(FVector2 const& v)
+	FVector2& operator=(const FVector2& v)
 	{
 		this->x = v.x;
 		this->y = v.y;
@@ -53,12 +50,12 @@ public:
 
 };
 
-FLAME_API constexpr bool					operator==(FVector2 const& l, FVector2 const& r);
-FLAME_API constexpr bool					operator!=(FVector2 const& l, FVector2 const& r);
+FLAME_API bool					operator==(const FVector2& l, const FVector2& r);
+FLAME_API bool					operator!=(const FVector2& l, const FVector2& r);
 
-FLAME_API constexpr FVector2			operator*(FVector2 const& l, FVector2 const& r);
-FLAME_API constexpr FVector2			operator/(FVector2 const& l, FVector2 const& r);
-FLAME_API constexpr FVector2			operator*(FVector2 const& l, float const& _scalar);
-FLAME_API constexpr FVector2			operator/(FVector2 const& l, float const& _scalar);
-FLAME_API constexpr FVector2			operator+(FVector2 const& l, FVector2 const& r);
-FLAME_API constexpr FVector2			operator-(FVector2 const& l, FVector2 const& r);
+FLAME_API FVector2			operator*(const FVector2& l, const FVector2& r);
+FLAME_API FVector2			operator/(const FVector2& l, const FVector2& r);
+FLAME_API FVector2			operator*(const FVector2& l, const float& _scalar);
+FLAME_API FVector2			operator/(const FVector2& l, const float& _scalar);
+FLAME_API FVector2			operator+(const FVector2& l, const FVector2& r);
+FLAME_API FVector2			operator-(const FVector2& l, const FVector2& r);

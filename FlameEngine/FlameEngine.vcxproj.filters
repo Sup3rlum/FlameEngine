@@ -10,64 +10,12 @@
     <ClCompile Include="Context\GLFWContext.cpp">
       <Filter>Context</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\MaterialSystem\Animated\AnimatedMaterial.cpp" />
-    <ClCompile Include="Core\Engine\MaterialSystem\Baked\BakedMaterial.cpp" />
-    <ClCompile Include="Core\Engine\MaterialSystem\Base\MaterialBase.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\ModelSystem\Animated\AnimatedModel.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\ModelSystem\Animated\AnimatedModelMesh.cpp" />
-    <ClCompile Include="Core\Engine\ModelSystem\Base\ModelBase.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\ModelSystem\Base\ModelMeshBase.cpp" />
-    <ClCompile Include="Core\Engine\ModelSystem\Fracture\FractureModel.cpp" />
-    <ClCompile Include="Core\Engine\ModelSystem\Fracture\FractureModelMesh.cpp" />
-    <ClCompile Include="Core\Engine\ModelSystem\Static\StaticModel.cpp" />
-    <ClCompile Include="Core\Engine\ModelSystem\Static\StaticModelMesh.cpp" />
-    <ClCompile Include="Core\Engine\ShaderSystem\CompilationServices\FLSLCompilerService.cpp" />
-    <ClCompile Include="Core\Engine\ShaderSystem\CompilationServices\ShaderPreprocessor.cpp" />
     <ClCompile Include="Core\Runtime\Common\Memory.cpp">
       <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="Core\Runtime\Common\Runtime.cpp" />
     <ClCompile Include="Core\Framework\Common\FArray.cpp" />
     <ClCompile Include="Core\Framework\Common\FObject.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Services\BoundingVolumeDebugService.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Services\HBAOPlusService.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Services\RenderingServiceBase.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Services\ShadowmapService.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Services\UxRenderingService.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\OpenGL\GLFramework.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Color.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\FrameBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Query.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\RenderBatch.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\RenderState.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Common\EngineInstance.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Common\EventManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Common\FrameTime.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Devices\Keyboard.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Devices\KeyEventArgs.cpp" />
-    <ClCompile Include="Core\Devices\Mouse.cpp" />
     <ClCompile Include="Core\Logging\LoggerService.cpp" />
     <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxComponent.cpp" />
@@ -85,74 +33,8 @@
     <ClCompile Include="Core\Binary\dllmain.cpp">
       <Filter>dll</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\Physics\PhysXService.cpp" />
-    <ClCompile Include="Core\Engine\Scene\CameraSystem\FirstPersonCamera.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\CameraSystem\CameraBase.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\LightingSystem\AmbientLight.cpp">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\LightingSystem\DirectionalLight.cpp">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\LightingSystem\PointLight.cpp" />
-    <ClCompile Include="Core\Engine\Scene\LightingSystem\SpotLight.cpp" />
-    <ClCompile Include="Core\Engine\Scene\LightingSystem\LightBase.cpp">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\Physics\PhysXFactory.cpp" />
-    <ClCompile Include="Core\Engine\Scene\Common\Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\Environment\Sky.cpp">
-      <Filter>Scene\Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\ShaderSystem\Common\Program.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\ShaderSystem\Common\Shader.cpp" />
-    <ClCompile Include="Core\Engine\ShaderSystem\Library\ShaderLibrary.cpp" />
-    <ClCompile Include="Core\Engine\Scene\EnititySystem\Actor.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\Common\RenderableObject.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\Common\UpdatableObject.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\Deferred\DeferredRenderer.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\Deferred\RenderPass.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Renderer\XFFT\XFFTRenderer.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\ComputeBuffer.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureFiltering.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureArray.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\TextureAnisotropy.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\MultisampleTexture.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Texture\ITextureBase.cpp" />
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\Vertex.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\VertexBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\RenderingSystem\Common\Geometry\VertexElements.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\EnititySystem\EntityBase.cpp">
-      <Filter>Scene\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Scene\EnititySystem\StaticActor.cpp" />
-    <ClCompile Include="Core\Engine\Scene\EnititySystem\DynamicActor.cpp" />
-    <ClCompile Include="Core\Engine\Scene\ParticleSystem\ParticleEngine.cpp" />
-    <ClCompile Include="Core\Engine\Scene\ParticleSystem\ParticleRenderer.cpp" />
-    <ClCompile Include="Core\Engine\Scene\EnititySystem\EntityGroup.cpp" />
     <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\AABB.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\BoundingSphere.cpp" />
@@ -190,6 +72,95 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Core\Engine\GameSystem\GameFramework.cpp" />
+    <ClCompile Include="Core\Runtime\Common\MemoryInspector.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexElements.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\ITextureBase.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureArray.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\ComputeBuffer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\Query.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\RenderBatch.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Common\RenderState.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlusService.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\RenderingServiceBase.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\ShadowmapService.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\UxRenderingService.cpp" />
+    <ClCompile Include="Core\Engine\ShaderFramework\Common\Program.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\ShaderFramework\Common\Shader.cpp" />
+    <ClCompile Include="Core\Engine\ShaderFramework\CompilationServices\FLSLCompilerService.cpp" />
+    <ClCompile Include="Core\Engine\ShaderFramework\CompilationServices\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Core\Engine\ShaderFramework\Library\ShaderLibrary.cpp" />
+    <ClCompile Include="Core\Engine\FlameRI\FRI.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\RenderableObject.cpp" />
+    <ClCompile Include="Core\Runtime\Common\MemoryStack.cpp" />
+    <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
+    <ClCompile Include="Core\Framework\Common\FDelegate.cpp" />
+    <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\ControllableObject.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\PlayerObject.cpp" />
+    <ClCompile Include="Core\Engine\Common\FTime.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\CameraSystem\Camera.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\GameSystem\CameraSystem\FirstPersonCamera.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\GameSystem\Common\Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\GameSystem\Common\ThinkingObject.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Environment\Sky.cpp">
+      <Filter>Scene\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\GameSystem\Factories\SceneFactory.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\ParticleSystem\ParticleEngine.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\ParticleSystem\ParticleRenderer.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXFactory.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXFramework.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXService.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Common\Actor.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXPXCast.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXShape.cpp" />
+    <ClCompile Include="Core\Framework\Common\FStack.cpp" />
+    <ClCompile Include="Core\Framework\Globals\FGlobalID.cpp" />
+    <ClCompile Include="Core\Framework\Common\FHashMap.cpp" />
+    <ClCompile Include="Core\Framework\Common\FHash.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Common\SkeletalCharacher.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Common\Entity.cpp">
+      <Filter>Scene\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\GameSystem\LightingSystem\Light.cpp">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -207,65 +178,12 @@
     <ClInclude Include="System\os.h" />
     <ClInclude Include="System\system_memory.h" />
     <ClInclude Include="Core\Common\CoreCommon.h" />
-    <ClInclude Include="Core\Engine\MaterialSystem\Animated\AnimatedMaterial.h" />
-    <ClInclude Include="Core\Engine\MaterialSystem\Baked\BakedMaterial.h" />
-    <ClInclude Include="Core\Engine\MaterialSystem\Base\MaterialBase.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\ModelSystem\Animated\AnimatedModel.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\ModelSystem\Animated\AnimatedModelMesh.h" />
-    <ClInclude Include="Core\Engine\ModelSystem\Base\ModelBase.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\ModelSystem\Base\ModelMeshBase.h" />
-    <ClInclude Include="Core\Engine\ModelSystem\Fracture\FractureModel.h" />
-    <ClInclude Include="Core\Engine\ModelSystem\Fracture\FractureModelMesh.h" />
-    <ClInclude Include="Core\Engine\ModelSystem\Static\StaticModel.h" />
-    <ClInclude Include="Core\Engine\ModelSystem\Static\StaticModelMesh.h" />
-    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\flsl.h" />
-    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\FLSLCompilerService.h" />
-    <ClInclude Include="Core\Engine\ShaderSystem\CompilationServices\ShaderPreprocessor.h" />
     <ClInclude Include="Core\Runtime\Common\Runtime.h" />
     <ClInclude Include="Core\Runtime\Common\Memory.h">
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="Core\Framework\Common\FArray.h" />
     <ClInclude Include="Core\Framework\Common\FObject.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Services\BoundingVolumeDebugService.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Services\HBAOPlusService.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Services\RenderingServiceBase.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Services\ShadowmapService.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Services\UxRenderingService.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\OpenGL\GLFramework.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Color.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\FrameBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Query.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\RenderBatch.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\RenderState.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Common\EngineInstance.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Common\EventManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Common\FrameTime.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Devices\Keyboard.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Devices\KeyEventArgs.h" />
-    <ClInclude Include="Core\Devices\Mouse.h" />
     <ClInclude Include="Core\Logging\LoggerService.h" />
     <ClInclude Include="Core\Common\CoreDefinitions.h" />
     <ClInclude Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.h" />
@@ -281,74 +199,8 @@
     <ClInclude Include="Core\UX\UXFramework\UxService.h" />
     <ClInclude Include="Core\UX\UXFramework\UxWindow.h" />
     <ClInclude Include="Core\Framework\Common\FString.h" />
-    <ClInclude Include="Core\Engine\Scene\Physics\PhysXService.h" />
-    <ClInclude Include="Core\Engine\Scene\CameraSystem\FirstPersonCamera.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\CameraSystem\CameraBase.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\LightingSystem\AmbientLight.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\LightingSystem\DirectionalLight.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\LightingSystem\PointLight.h" />
-    <ClInclude Include="Core\Engine\Scene\LightingSystem\SpotLight.h" />
-    <ClInclude Include="Core\Engine\Scene\LightingSystem\LightBase.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\Physics\PhysXFactory.h" />
-    <ClInclude Include="Core\Engine\Scene\Common\Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\Environment\Sky.h">
-      <Filter>Scene\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\ShaderSystem\Common\Program.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\ShaderSystem\Common\Shader.h" />
-    <ClInclude Include="Core\Engine\ShaderSystem\Library\ShaderLibrary.h" />
-    <ClInclude Include="Core\Engine\Scene\EnititySystem\Actor.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\Common\RenderableObject.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\Common\UpdatableObject.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\Deferred\DeferredRenderer.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\Deferred\RenderPass.h" />
     <ClInclude Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.h" />
     <ClInclude Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Renderer\XFFT\XFFTRenderer.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\ComputeBuffer.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureFiltering.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureArray.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\TextureAnisotropy.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\Texture.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\MultisampleTexture.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Texture\ITextureBase.h" />
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\Vertex.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\VertexBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\RenderingSystem\Common\Geometry\VertexElements.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\EnititySystem\EntityBase.h">
-      <Filter>Scene\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Scene\EnititySystem\StaticActor.h" />
-    <ClInclude Include="Core\Engine\Scene\EnititySystem\DynamicActor.h" />
-    <ClInclude Include="Core\Engine\Scene\ParticleSystem\ParticleEngine.h" />
-    <ClInclude Include="Core\Engine\Scene\ParticleSystem\ParticleRenderer.h" />
-    <ClInclude Include="Core\Engine\Scene\EnititySystem\EntityGroup.h" />
     <ClInclude Include="Core\Common\CoreAssert.h" />
     <ClInclude Include="Core\Common\CoreBase.h" />
     <ClInclude Include="Core\Common\CoreFwdDeclarations.h" />
@@ -396,6 +248,128 @@
     <ClInclude Include="Platform\OpenGL\glext.h" />
     <ClInclude Include="Platform\OpenGL\gl.h" />
     <ClInclude Include="Platform\Windows\wgl\wgl.h" />
+    <ClInclude Include="Core\Runtime\Common\MemoryInspector.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\Vertex.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexElements.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\ITextureBase.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureArray.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\ComputeBuffer.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\Query.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\RenderBatch.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Common\RenderState.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.h" />
+    <ClInclude Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlusService.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\RenderingServiceBase.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\ShadowmapService.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\UxRenderingService.h" />
+    <ClInclude Include="Core\Engine\ShaderFramework\Common\Program.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\ShaderFramework\Common\Shader.h" />
+    <ClInclude Include="Core\Engine\ShaderFramework\CompilationServices\flsl.h" />
+    <ClInclude Include="Core\Engine\ShaderFramework\CompilationServices\FLSLCompilerService.h" />
+    <ClInclude Include="Core\Engine\ShaderFramework\CompilationServices\ShaderPreprocessor.h" />
+    <ClInclude Include="Core\Engine\ShaderFramework\Library\ShaderLibrary.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRI.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRICommandList.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRIContext.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRIDefinitions.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRIResource.h" />
+    <ClInclude Include="Core\Math\Types\FMatrix.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRICommand.h" />
+    <ClInclude Include="Platform\OpenGL\glcorearb.h" />
+    <ClInclude Include="Platform\OpenGL\wgl.h" />
+    <ClInclude Include="Core\Engine\FlameRI\FRIDynamicAllocator.h" />
+    <ClInclude Include="Core\Framework\Common\FByteArray.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\RenderableObject.h" />
+    <ClInclude Include="Core\Runtime\Common\MemoryStack.h" />
+    <ClInclude Include="Core\Framework\Common\FDelegate.h" />
+    <ClInclude Include="Core\Engine\Common\CommandRegistry.h" />
+    <ClInclude Include="Core\Engine\GameSystem\ControllableObject.h" />
+    <ClInclude Include="Core\Engine\GameSystem\PlayerObject.h" />
+    <ClInclude Include="Core\Engine\Common\FTime.h" />
+    <ClInclude Include="Core\Math\Types\FScalar.h" />
+    <ClInclude Include="Core\Math\Types\ITimeDimensional.h" />
+    <ClInclude Include="Core\Math\Types\FVector.h" />
+    <ClInclude Include="Core\Math\Types\IMassDimensional.h" />
+    <ClInclude Include="Core\Math\Types\FTransform.h" />
+    <ClInclude Include="Core\Engine\GameSystem\KeyInputBinding.h" />
+    <ClInclude Include="Core\Framework\Common\FSmartPointer.h" />
+    <ClInclude Include="Core\Engine\GameSystem\CameraSystem\Camera.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\CameraSystem\FirstPersonCamera.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Common\Actor.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Common\EntityBase.h">
+      <Filter>Scene\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Common\EntityGroup.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Common\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Common\ThinkingObject.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\Sky.h">
+      <Filter>Scene\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\Factories\SceneFactory.h" />
+    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\AmbientLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\DirectionalLight.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\LightBase.h">
+      <Filter>Scene\GameObjects\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\PointLight.h" />
+    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\SpotLight.h" />
+    <ClInclude Include="Core\Engine\GameSystem\ParticleSystem\ParticleEngine.h" />
+    <ClInclude Include="Core\Engine\GameSystem\ParticleSystem\ParticleRenderer.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXFactory.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXService.h" />
+    <ClInclude Include="Core\Math\Types\FVectorDefinitions.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXFrameworkPX_Includes.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXPXCast.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXShape.h" />
+    <ClInclude Include="Core\Framework\Common\FStack.h" />
+    <ClInclude Include="Core\Framework\Globals\FGlobalID.h" />
+    <ClInclude Include="Core\Framework\Common\FHashMap.h" />
+    <ClInclude Include="Core\Framework\Common\FHash.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Common\SkeletalCharacher.h" />
+    <ClInclude Include="Core\Framework\Common\FType.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Scene\SceneSerializer.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Scene\SerializerFwd.h" />
+    <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">
@@ -453,6 +427,7 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="Core\Engine\FlameRI\FRICommandList.inl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Context">

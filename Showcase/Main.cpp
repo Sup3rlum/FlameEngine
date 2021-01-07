@@ -1,6 +1,5 @@
 
 
-#include "FlameEngine/util/gfunc.h"
 #include "TestGame.h"
 
 
@@ -25,7 +24,7 @@ int main()
 
 	EngineInstance* _engineInstance = new EngineInstance();
 
-	TestGame* tg = new TestGame("TestGame", DVERSION(1, 0, 0, 0));
+	TestGame* tg = new TestGame("TestGame");
 
 
 	_engineInstance->AttachContext(context);

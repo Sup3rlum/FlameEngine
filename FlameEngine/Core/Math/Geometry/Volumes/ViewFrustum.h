@@ -9,10 +9,10 @@
 EXPORT(class, ViewFrustum)
 {
 public:
-	ViewFrustum(FMatrix4 vp);
+	ViewFrustum(const FMatrix4& vp);
 
 	static void GetCorners(ViewFrustum vf, FVector3* corners);
-	static void GetPlanes(ViewFrustum vf, FPlane(&planes)[6]);
+	static void GetPlanes(ViewFrustum vf, FStaticArray<FPlane, 6>& planes);
 
 private:
 	FMatrix4 viewProjection;

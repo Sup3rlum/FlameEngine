@@ -30,6 +30,7 @@ public:
 		struct { float r; FVector3 ijk; };
 
 		struct { FVector4 vector4; };
+		struct { float data[4]; };
 		struct { __m128 mmv; };
 	};
 	
@@ -38,13 +39,13 @@ public:
 		j(0),
 		k(0),
 		r(0) {}
-	constexpr FQuaternion(float _r, float _i, float _j, float _k) :
+	FQuaternion(float _r, float _i, float _j, float _k) :
 		i(_i),
 		j(_j),
 		k(_k),
 		r(_r) {}
 
-	constexpr FQuaternion(float _r, FVector3 _v) :
+	FQuaternion(float _r, FVector3 _v) :
 		i(_v.x),
 		j(_v.y),
 		k(_v.z),
@@ -52,20 +53,20 @@ public:
 
 
 
-	constexpr FQuaternion(FVector4 _vec) :
+	FQuaternion(FVector4 _vec) :
 		vector4(_vec) {}
 
 
 
 
 	float Length();
-	constexpr float LengthSquared();
+	float LengthSquared();
 
 
 
 	static FQuaternion Normalize(FQuaternion q);
 	static FQuaternion Identity();
-	static FQuaternion const& Inverse(FQuaternion q);
+	static const FQuaternion& Inverse(FQuaternion q);
 
 
 
@@ -75,32 +76,18 @@ public:
 	{
 		assert(_index < 4);
 
-		if (_index == 0)
-			return r;
-		else if (_index == 1)
-			return i;
-		else if (_index == 2)
-			return j;
-		else
-			return k;
+		return data[_index];
 	}
 
-	constexpr float const& operator[](size_t _index) const
+	const float& operator[](size_t _index) const
 	{
 		assert(_index < 4);
 
-		if (_index == 0)
-			return r;
-		else if (_index == 1)
-			return i;
-		else if (_index == 2)
-			return j;
-		else
-			return k;
+		return data[_index];
 	}
 
 
-	constexpr FQuaternion& operator=(FQuaternion const& v)
+	FQuaternion& operator=(const FQuaternion& v)
 	{
 		this->r = v.r;
 		this->i = v.i;
@@ -114,11 +101,11 @@ public:
 };
 
 
-constexpr bool		FLAME_API			operator==(FQuaternion const& l, FQuaternion const& r);
-constexpr bool		FLAME_API			operator!=(FQuaternion const& l, FQuaternion const& r);
+bool		FLAME_API			operator==(const FQuaternion& l, const FQuaternion& r);
+bool		FLAME_API			operator!=(const FQuaternion& l, const FQuaternion& r);
 
-constexpr FQuaternion	FLAME_API		operator*(FQuaternion const& l, FQuaternion const& r);
-constexpr FQuaternion	FLAME_API		operator*(FQuaternion const& l, float const& _scalar);
-constexpr FQuaternion	FLAME_API		operator/(FQuaternion const& l, float const& _scalar);
-constexpr FQuaternion	FLAME_API		operator+(FQuaternion const& l, FQuaternion const& r);
-constexpr FQuaternion	FLAME_API		operator-(FQuaternion const& l, FQuaternion const& r);
+FQuaternion	FLAME_API		operator*(const FQuaternion& l, const FQuaternion& r);
+FQuaternion	FLAME_API		operator*(const FQuaternion& l, const float& _scalar);
+FQuaternion	FLAME_API		operator/(const FQuaternion& l, const float& _scalar);
+FQuaternion	FLAME_API		operator+(const FQuaternion& l, const FQuaternion& r);
+FQuaternion	FLAME_API		operator-(const FQuaternion& l, const FQuaternion& r);

@@ -33,6 +33,7 @@ public:
 		struct { float r; FVector3 gba; };
 		struct { float s; FVector3 tpq; };
 
+		struct { float data[4]; };
 		struct { __m128 mmv; };
 
 ;
@@ -40,15 +41,15 @@ public:
 
 	constexpr FVector4() : x(0), y(0), z(0), w(0) {}
 
-	constexpr FVector4(float _v) : x(_v), y(_v), z(_v), w(_v) {}
+	FVector4(float _v) : x(_v), y(_v), z(_v), w(_v) {}
 
-	constexpr FVector4(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) {}
+	FVector4(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) {}
 
-	constexpr FVector4(FVector3 _vec, float _w) : x(_vec.x), y(_vec.y), z(_vec.z), w(_w) {}
+	FVector4(FVector3 _vec, float _w) : x(_vec.x), y(_vec.y), z(_vec.z), w(_w) {}
 
-	constexpr FVector4(FVector2 _vec1, FVector2 _vec2) : x(_vec1.x), y(_vec1.y), z(_vec2.x), w(_vec2.y) {}
+	FVector4(FVector2 _vec1, FVector2 _vec2) : x(_vec1.x), y(_vec1.y), z(_vec2.x), w(_vec2.y) {}
 
-	constexpr FVector4(__m128 pv) : mmv(pv) {}
+	FVector4(__m128 pv) : mmv(pv) {}
 
 
 
@@ -56,12 +57,11 @@ public:
 
 
 	float Length(); 
-	constexpr float LengthSquared();
+	float LengthSquared();
 
 
-	static float const& Dot(FVector4 const& l, FVector4 const& r);
-
-	static FVector4 Normalize(FVector4 v);
+	static const float& Dot(const FVector4& l, const FVector4& r);
+	static FVector4 Normalize(const FVector4& v);
 
 
 
@@ -69,32 +69,18 @@ public:
 	{
 		assert(_index < 4);
 
-		if (_index == 0)
-			return x;
-		else if (_index == 1)
-			return y;
-		else if (_index == 2)
-			return z;
-		else
-			return w;
+		return data[_index];
 	}
 
-	constexpr float const& operator[](size_t _index) const
+	const float& operator[](size_t _index) const
 	{
 		assert(_index < 4);
 
-		if (_index == 0)
-			return x;
-		else if (_index == 1)
-			return y;
-		else if (_index == 2)
-			return z;
-		else
-			return w;
+		return data[_index];
 	}
 
 
-	constexpr FVector4& operator=(FVector4 const& v)
+	FVector4& operator=(const FVector4& v)
 	{
 		this->x = v.x;
 		this->y = v.y;
@@ -105,7 +91,7 @@ public:
 	}
 
 
-	constexpr FVector4& operator+=(FVector4 const& v)
+	FVector4& operator+=(const FVector4& v)
 	{
 		this->x += v.x;
 		this->y += v.y;
@@ -114,7 +100,7 @@ public:
 
 		return *this;
 	}
-	constexpr FVector4& operator-=(FVector4 const& v)
+	FVector4& operator-=(const FVector4& v)
 	{
 		this->x -= v.x;
 		this->y -= v.y;
@@ -124,7 +110,7 @@ public:
 		return *this;
 	}
 
-	constexpr FVector4& operator*=(float const& s)
+	FVector4& operator*=(const float& s)
 	{
 		this->x *= s;
 		this->y *= s;
@@ -133,7 +119,7 @@ public:
 
 		return *this;
 	}
-	constexpr FVector4& operator/=(float const& s)
+	FVector4& operator/=(const float& s)
 	{
 		this->x /= s;
 		this->y /= s;
@@ -151,12 +137,12 @@ public:
 
 
 
-FLAME_API constexpr bool					operator==(FVector4 const& l, FVector4 const& r);
-FLAME_API constexpr bool					operator!=(FVector4 const& l, FVector4 const& r);
+FLAME_API bool					operator==(const FVector4& l, const FVector4& r);
+FLAME_API bool					operator!=(const FVector4& l, const FVector4& r);
 
-FLAME_API constexpr FVector4			operator*(FVector4 const& l, FVector4 const& r);
-FLAME_API constexpr FVector4			operator/(FVector4 const& l, FVector4 const& r);
-FLAME_API constexpr FVector4			operator*(FVector4 const& l, float const& _scalar);
-FLAME_API constexpr FVector4			operator/(FVector4 const& l, float const& _scalar);
-FLAME_API constexpr FVector4			operator+(FVector4 const& l, FVector4 const& r);
-FLAME_API constexpr FVector4			operator-(FVector4 const& l, FVector4 const& r);
+FLAME_API FVector4			operator*(const FVector4& l, const FVector4& r);
+FLAME_API FVector4			operator/(const FVector4& l, const FVector4& r);
+FLAME_API FVector4			operator*(const FVector4& l, const float& _scalar);
+FLAME_API FVector4			operator/(const FVector4& l, const float& _scalar);
+FLAME_API FVector4			operator+(const FVector4& l, const FVector4& r);
+FLAME_API FVector4			operator-(const FVector4& l, const FVector4& r);
