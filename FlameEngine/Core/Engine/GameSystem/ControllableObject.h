@@ -8,9 +8,6 @@
 #include "KeyInputBinding.h"
 
 
-EXPORT_FORWARD_DECL(class, ControllableObject);
-
-
 EXPORT(class, ControlComponent)
 {
 public:

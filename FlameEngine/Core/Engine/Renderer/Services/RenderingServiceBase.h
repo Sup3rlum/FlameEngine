@@ -1,21 +1,15 @@
 #pragma once
 
 
-#include "../ShaderDefinitions/Program.h"
-#include "../Common/FrameBuffer.h"
-#include "../../Context/Context.h"
-#include "../Common/VertexBuffer.h"
-#include "../Common/Vertex.h"
-#include "../Common/RenderState.h"
+#include "Core/Common/CoreCommon.h"
+#include "Core/Engine/FlameRI/FRI.h"
+
 
 EXPORT(class,  RenderingServiceBase)
 {
 public:
-	RenderingServiceBase(Context * context);
+	RenderingServiceBase();
 
-	VertexBuffer* mQuadBuffer;
-	FMatrix4 View;
-	RenderState* mRenderState;
-	Context* mAttachedContext;
+
 };
 

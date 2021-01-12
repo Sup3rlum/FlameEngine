@@ -15,6 +15,38 @@ typedef wchar_t* WCstr;
 /*
 *  Defines an immutable, stack allocated string
 */
+
+
+template<size_t GenSize>
+struct FStaticANSIString : public FStaticArray<char, GenSize>
+{
+public:
+	FStaticANSIString()
+	{
+		this->dataInternal = { 0 };
+	}
+	FStaticANSIString(CstrLiteral str)
+	{
+		size_t tsize = strlen(str);
+		tsize = min(tsize, GenSize);
+
+		memcpy(this->dataInternal, str, tsize * sizeof(char));
+		this->dataInternal[tsize] = '\0';
+	}
+
+
+	size_t GetStrLen() const
+	{
+		return strlen(this->dataInternal);
+	}
+
+	FChar* ToCString() const
+	{
+		return this->dataInternal;
+	}
+};
+
+
 template<size_t GenSize>
 struct FStaticString : public FStaticArray<FChar, GenSize>
 {

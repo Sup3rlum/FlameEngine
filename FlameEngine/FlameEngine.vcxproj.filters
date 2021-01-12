@@ -73,40 +73,12 @@
     </ClCompile>
     <ClCompile Include="Core\Engine\GameSystem\GameFramework.cpp" />
     <ClCompile Include="Core\Runtime\Common\MemoryInspector.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\Vertex.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexElements.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\ITextureBase.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureArray.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\Color.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\ComputeBuffer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\FrameBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\Query.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\RenderBatch.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Common\RenderState.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlusService.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\RenderingServiceBase.cpp" />
@@ -161,6 +133,16 @@
     <ClCompile Include="Core\Engine\GameSystem\LightingSystem\Light.cpp">
       <Filter>Scene\GameObjects\Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIImpl.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\DeferredRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\RenderPass.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\XFFTRenderer.cpp" />
+    <ClCompile Include="Core\Math\Types\IVector4.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.cpp" />
+    <ClCompile Include="Platform\Windows\Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context\Context.h">
@@ -247,42 +229,13 @@
     <ClInclude Include="Core\Engine\GameSystem\GameFramework.h" />
     <ClInclude Include="Platform\OpenGL\glext.h" />
     <ClInclude Include="Platform\OpenGL\gl.h" />
-    <ClInclude Include="Platform\Windows\wgl\wgl.h" />
     <ClInclude Include="Core\Runtime\Common\MemoryInspector.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\Vertex.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexElements.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\ITextureBase.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\Texture.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureArray.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\Color.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\ComputeBuffer.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\FrameBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\Query.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\RenderBatch.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Common\RenderState.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.h" />
-    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.h" />
-    <ClInclude Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlusService.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\RenderingServiceBase.h" />
@@ -304,7 +257,6 @@
     <ClInclude Include="Core\Math\Types\FMatrix.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRICommand.h" />
     <ClInclude Include="Platform\OpenGL\glcorearb.h" />
-    <ClInclude Include="Platform\OpenGL\wgl.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRIDynamicAllocator.h" />
     <ClInclude Include="Core\Framework\Common\FByteArray.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderableObject.h" />
@@ -370,6 +322,22 @@
     <ClInclude Include="Core\Engine\GameSystem\Scene\SceneSerializer.h" />
     <ClInclude Include="Core\Engine\GameSystem\Scene\SerializerFwd.h" />
     <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRI.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIDynamic.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIResource.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGL.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRICommand.h" />
+    <ClInclude Include="Core\Engine\Renderer\RenderPass.h" />
+    <ClInclude Include="Core\Engine\Renderer\DeferredRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\XFFTRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Types\IVector4.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContextVersion.h" />
+    <ClInclude Include="Platform\Windows\Win32Context.h" />
+    <ClInclude Include="Platform\Windows\wgl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

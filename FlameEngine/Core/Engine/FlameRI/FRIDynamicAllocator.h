@@ -6,20 +6,24 @@
 
 class FRIDynamicAllocator
 {
-	virtual FResourceVertexBuffer RHICreateVertexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor resourceDescriptor);
+public:
+	virtual FResourceIndexBuffer* DynamicCreateIndexBuffer(uint32 IndexCount, uint32 Usage, FResourceCreationDescriptor resourceDescriptor);
+	virtual FResourceVertexBuffer* DynamicCreateVertexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor resourceDescriptor);
 
 
-	virtual FResourceVertexShader	FRICreateVertexShader(FArray<byte> binCode);
-	virtual FResourcePixelShader	FRICreatePixelShader(FArray<byte> binCode);
-	virtual FResourceGeometryShader FRICreateGeometryShader(FArray<byte> binCode);
-	virtual FResourceHullShader		FRICreateHullShader(FArray<byte> binCode);
-	virtual FResourceDomainShader	FRICreateDomainShader(FArray<byte> binCode);
-	virtual FResourceComputeShader	FRICreateComputeShader(FArray<byte> binCode);
+	virtual FResourceVertexShader* DynamicCreateVertexShader(const FArray<byte>& binCode);
+	virtual FResourcePixelShader* DynamicCreatePixelShader(const FArray<byte>& binCode);
+	virtual FResourceGeometryShader* DynamicCreateGeometryShader(const FArray<byte>& binCode);
+	virtual FResourceHullShader* DynamicCreateHullShader(const FArray<byte>& binCode);
+	virtual FResourceDomainShader* DynamicCreateDomainShader(const FArray<byte>& binCode);
+	virtual FResourceComputeShader* DynamicCreateComputeShader(const FArray<byte>& binCode);
 
-	virtual FResourceTexture2D		FRICreateTexture2D(uint32 width, uint32 height);
-	virtual FResourceTexture3D		FRICreateTexture3D(uint32 width, uint32 height, uint32 depth);
+	virtual FResourceShaderPipeline* DynamicCreateShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor);
 
-	virtual FResourceFrameBuffer	FRICreateFrameBuffer();
+	virtual FResourceTexture2D* DynamicCreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, uint32 channels = 4, FResourceCreationDescriptor resourceDescriptor = FResourceCreationDescriptor(NULL, 0));
+	virtual FResourceTexture3D* DynamicCreateTexture3D(uint32 width, uint32 height, uint32 depth, FResourceCreationDescriptor resourceDescriptor);
+ 
+	virtual FResourceFrameBuffer* DynamicCreateFrameBuffer();
 
 
 };

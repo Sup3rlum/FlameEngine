@@ -9,6 +9,7 @@
 #include "../Common/EntityBase.h"
 #include "../Common/EntityGroup.h"
 #include "Core/Framework/Common/FHashMap.h"
+#include "../ControllableObject.h"
 
 
 
@@ -31,6 +32,9 @@ public:
 	void PopCamera();
 	Camera* CurrentCamera();
 	
+
+
+	FArray<ControllableObject*> controllableObjectReferences;
 
 	FHashMap<FGlobalID, FSceneEntityBase*> actorCollection;
 };

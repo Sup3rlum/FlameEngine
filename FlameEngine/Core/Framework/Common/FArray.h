@@ -115,6 +115,11 @@ public:
 		return dataInternal[index];
 	}
 
+	operator GenType* ()
+	{
+		return dataInternal;
+	}
+
 protected:
 	GenType dataInternal[GenSize];
 };

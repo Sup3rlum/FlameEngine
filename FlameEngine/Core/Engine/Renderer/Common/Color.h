@@ -1,17 +1,31 @@
 #pragma once
 
-#include "../../dll/nchfx.h"
-#include "../../Mathematics/Module.h"
+#include "Core/Common/CoreCommon.h"
+#include "Core/Math/Module.h"
 
 
 
 EXPORT(struct, Color) : FVector4
 {
 public:
-	Color(BYTE r, BYTE g, BYTE b);
-	Color(BYTE r, BYTE g, BYTE b, BYTE a);
-	Color(_UNS_ FL_INT32 hex);
+	Color(byte r, byte g, byte b);
+	Color(byte r, byte g, byte b, byte a);
+
+	Color(float r, float g, float b) : FVector4(r, g, b, 1) {}
+	Color(float r, float g, float b, float a) : FVector4(r, g, b, a) {}
+
+
+	Color(uint32 hex);
 	Color();
+
+
+	static Color Invert(const Color& color)
+	{
+		return Color(1 - color.r, 1 - color.g, 1 - color.b, color.a);
+	}
+
+
+
 
 	static Color Alicelue;
 	static Color AntiqueWhite;
@@ -157,4 +171,3 @@ public:
 
 	static Color Transparent;
 };
-

@@ -56,11 +56,11 @@ public:
 	FString ToString();
 
 
-	float Length(); 
-	float LengthSquared();
+	float Length() const; 
+	float LengthSquared() const;
 
 
-	static const float& Dot(const FVector4& l, const FVector4& r);
+	static float Dot(const FVector4& l, const FVector4& r);
 	static FVector4 Normalize(const FVector4& v);
 
 

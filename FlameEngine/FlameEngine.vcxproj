@@ -258,6 +258,12 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGL.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRICommand.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContextVersion.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIDynamic.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIResource.h" />
     <ClInclude Include="Core\Engine\GameSystem\ControllableObject.h" />
     <ClInclude Include="Core\Engine\Common\CommandRegistry.h" />
     <ClInclude Include="Core\Common\CoreAssert.h" />
@@ -280,13 +286,11 @@
     <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\BoundingSphere.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\ContentLibrary.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\ComputeBuffer.h" />
     <ClInclude Include="Core\Common\CoreCommon.h" />
     <ClInclude Include="Core\Common\CoreDefinitions.h" />
-    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.h" />
+    <ClInclude Include="Core\Engine\Renderer\RenderPass.h" />
     <ClInclude Include="Core\Engine\ShaderFramework\CompilationServices\FLSLCompilerService.h" />
     <ClInclude Include="Core\Engine\ShaderFramework\CompilationServices\flsl.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\ITextureBase.h" />
     <ClInclude Include="Core\Framework\IO\FileStream.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
     <ClInclude Include="Core\Engine\GameSystem\LightingSystem\PointLight.h" />
@@ -298,12 +302,12 @@
     <ClInclude Include="Core\Math\Types\FVectorDefinitions.h" />
     <ClInclude Include="Core\Math\Types\IMassDimensional.h" />
     <ClInclude Include="Core\Math\Types\ITimeDimensional.h" />
+    <ClInclude Include="Core\Math\Types\IVector4.h" />
     <ClInclude Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.h" />
     <ClInclude Include="Core\Framework\Common\FObject.h" />
-    <ClInclude Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\DeferredRenderer.h" />
     <ClInclude Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlusService.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.h" />
     <ClInclude Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.h" />
     <ClInclude Include="Core\Logging\LoggerService.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\AABB.h" />
@@ -319,14 +323,9 @@
     <ClInclude Include="Context\ContextDescription.h" />
     <ClInclude Include="Context\GLFWContext.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\Color.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\FrameBuffer.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\RenderBatch.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\RenderState.h" />
     <ClInclude Include="Core\Engine\ShaderFramework\Common\Program.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\Texture.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\Vertex.h" />
+    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexElements.h" />
     <ClInclude Include="Core\Runtime\Common\Memory.h" />
     <ClInclude Include="Core\Math\Types\FMatrix2.h" />
     <ClInclude Include="Core\Math\Types\FMatrix3.h" />
@@ -337,7 +336,6 @@
     <ClInclude Include="Core\Math\Types\FVector4.h" />
     <ClInclude Include="Core\Runtime\Common\Runtime.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\RenderingServiceBase.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Query.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysXService.h" />
     <ClInclude Include="Core\Engine\GameSystem\Environment\Sky.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\Actor.h" />
@@ -370,24 +368,22 @@
     <ClInclude Include="Core\Framework\Common\FStack.h" />
     <ClInclude Include="Core\Framework\Globals\FGlobalID.h" />
     <ClInclude Include="Core\Framework\Common\FHashMap.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRI.h" />
     <ClInclude Include="Platform\OpenGL\gl.h" />
     <ClInclude Include="Platform\OpenGL\glcorearb.h" />
     <ClInclude Include="Platform\OpenGL\glext.h" />
-    <ClInclude Include="Platform\OpenGL\wgl.h" />
-    <ClInclude Include="Platform\Windows\wgl\wgl.h" />
+    <ClInclude Include="Platform\Windows\wgl.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRICommand.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderableObject.h" />
     <ClInclude Include="Core\Engine\GameSystem\PlayerObject.h" />
     <ClInclude Include="Core\Engine\GameSystem\Factories\SceneFactory.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\SkeletalCharacher.h" />
+    <ClInclude Include="Platform\Windows\Win32Context.h" />
     <ClInclude Include="System\cpu.h" />
     <ClInclude Include="System\gpu.h" />
     <ClInclude Include="System\os.h" />
     <ClInclude Include="System\systeminfo.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.h" />
     <ClInclude Include="System\system_memory.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureArray.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.h" />
     <ClInclude Include="Core\UX\UXFramework\UxComponent.h" />
     <ClInclude Include="Core\UX\UXFramework\UxService.h" />
     <ClInclude Include="Core\UX\UXFramework\UxContainer.h" />
@@ -401,10 +397,11 @@
     <ClInclude Include="Core\UX\UXFramework\UxDebugViewComponent.h" />
     <ClInclude Include="Core\UX\UXFramework\UxImage.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\ViewFrustum.h" />
-    <ClInclude Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\XFFTRenderer.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\ThinkingObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\Actor.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\ControllableObject.cpp" />
     <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
@@ -413,18 +410,16 @@
     <ClCompile Include="Core\Framework\Common\FHash.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\ContentLibrary.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\ComputeBuffer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\RenderPass.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\RenderPass.cpp" />
     <ClCompile Include="Core\Engine\ShaderFramework\CompilationServices\FLSLCompilerService.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\ITextureBase.cpp" />
     <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Core\Math\Types\IVector4.cpp" />
     <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Core\Framework\Common\FObject.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Renderer\Deferred\DeferredRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\DeferredRenderer.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlusService.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\MultisampleTexture.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.cpp" />
     <ClCompile Include="Core\Logging\LoggerService.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\AABB.cpp" />
@@ -438,14 +433,9 @@
     <ClCompile Include="Context\GLFWContext.cpp" />
     <ClCompile Include="Core\Binary\dllmain.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\Color.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\FrameBuffer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\RenderBatch.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\RenderState.cpp" />
     <ClCompile Include="Core\Engine\ShaderFramework\Common\Program.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\Texture.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\Vertex.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexBuffer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexElements.cpp" />
     <ClCompile Include="Core\Runtime\Common\Memory.cpp" />
     <ClCompile Include="Core\Math\Types\FMatrix2.cpp" />
     <ClCompile Include="Core\Math\Types\FMatrix3.cpp" />
@@ -456,7 +446,6 @@
     <ClCompile Include="Core\Math\Types\FVector4.cpp" />
     <ClCompile Include="Core\Runtime\Common\Runtime.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\RenderingServiceBase.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Query.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXService.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Environment\Sky.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\Camera.cpp" />
@@ -465,12 +454,9 @@
     <ClCompile Include="Core\Engine\GameSystem\LightingSystem\Light.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\Scene.cpp" />
     <ClCompile Include="Core\Engine\ShaderFramework\Library\ShaderLibrary.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureFiltering.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\ShadowmapService.cpp" />
     <ClCompile Include="Core\Engine\ShaderFramework\CompilationServices\ShaderPreprocessor.cpp" />
     <ClCompile Include="Core\Engine\ShaderFramework\Common\Shader.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureArray.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Common\Texture\TextureAnisotropy.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxComponent.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxService.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxContainer.cpp" />
@@ -484,7 +470,7 @@
     <ClCompile Include="Core\UX\UXFramework\UxDebugViewComponent.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxImage.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\ViewFrustum.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Renderer\XFFT\XFFTRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\XFFTRenderer.cpp" />
     <ClCompile Include="Core\Framework\Common\FArray.cpp" />
     <ClCompile Include="Core\Framework\Common\FString.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PhysXFactory.cpp" />
@@ -507,6 +493,8 @@
     <ClCompile Include="Core\Framework\Globals\FGlobalID.cpp" />
     <ClCompile Include="Core\Framework\Common\FHashMap.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\SkeletalCharacher.cpp" />
+    <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIImpl.cpp" />
+    <ClCompile Include="Platform\Windows\Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Engine\FlameRI\FRICommandList.inl" />

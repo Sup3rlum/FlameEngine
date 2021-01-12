@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Core/Common/CoreCommon.h"
-#include "Core/Framework/Common/FDelegate.h"
-
 
 enum class FKeyboardKeys : int32
 {
@@ -137,6 +135,12 @@ EXPORT(enum class, FKeyboardKeyEvent) : int32
 	OnPress = 0,
 	OnRelease = 1,
 	OnHold = 2
+};
+
+
+struct FKeyEventArgs
+{
+	
 };
 
 

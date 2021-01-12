@@ -9,6 +9,7 @@
 //#include "Types/FScalar.h"
 //#include "Types/FVector.h"
 #include "Types/FVector4.h"
+#include "Types/IVector4.h"
 #include "Types/FQuaternion.h"
 #include "Types/FMatrix.h"
 #include "Types/FTransform.h"

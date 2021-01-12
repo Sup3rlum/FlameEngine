@@ -1,28 +1,28 @@
 #include "FVector4.h"
 
 
-float FVector4::Length() 
+float FVector4::Length() const
 {
 	return sqrt(LengthSquared());
 }
 
-constexpr float FVector4::LengthSquared()
+constexpr float FVector4::LengthSquared() const
 {
 	return x * x + y * y + z * z + w * w;
 }
 
-FVector4 FVector4::Normalize(FVector4 v)
+FVector4 FVector4::Normalize(const FVector4& v)
 {
 	return v / v.Length();
 }
 
-STRING FVector4::ToString()
+FString FVector4::ToString()
 {
-	return "X: " + std::to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z) + " W: " + std::to_string(w);
+	return FString::Format("{ X:%0 Y:%1 Z:%2 W:%3 }", x, y, z, w);
 }
 
 
-float const& FVector4::Dot(FVector4 const& l, FVector4 const& r)
+float FVector4::Dot(FVector4 const& l, FVector4 const& r)
 {
 	return l.x * r.x + l.y * r.y + l.z * r.z + l.w * r.w;
 }

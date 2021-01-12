@@ -1,7 +1,7 @@
-#include "Vertex.h"
+#include "VertexComponent.h"
 
 
-vector<VertexElements> VertexTexture::Elements =
+FArray<FVertexElementComponentAttribute> FVertexComponent_PositionNormalTexture::ComponentAttributes =
 {
 	VertexElements(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0),
 	VertexElements(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(3 * sizeof(float)))

@@ -1,14 +1,15 @@
 #pragma once
 
-#include "FRI.h"
+
 #include "FRIDefinitions.h"
 #include "../Renderer/Common/Color.h"
 #include "Core/Math/Module.h"
+#include "Core/Common/CoreCommon.h"
 
 
 struct FResourceObject
 {
-
+	virtual bool IsValidResource() { return false; };
 };
 
 
@@ -31,13 +32,11 @@ struct FResourceTexture3D : public FResourceObject
 	uint32 Width;
 	uint32 Height;
 	uint32 Depth;
-	uint32 SampleCount;
 
-	FResourceTexture3D(uint32 Width, uint32 Height, uint32 Depth, uint32 SampleCount) :
+	FResourceTexture3D(uint32 Width, uint32 Height, uint32 Depth) :
 		Width(Width),
 		Height(Height),
-		Depth(Depth),
-		SampleCount(SampleCount)
+		Depth(Depth)
 	{
 
 	}
@@ -78,11 +77,11 @@ struct FResourceVertexBuffer : public FResourceObject
 
 struct FResourceIndexBuffer : public FResourceObject
 {
-	uint32 Size;
+	uint32 IndexCount;
 	uint32 Usage;
 
-	FResourceIndexBuffer(uint32 Size, uint32 Usage) :
-		Size(Size),
+	FResourceIndexBuffer(uint32 IndexCount, uint32 Usage) :
+		IndexCount(IndexCount),
 		Usage(Usage)
 	{
 
@@ -130,8 +129,16 @@ struct FResourceTextureParameterBuffer : public FResourceObject
 {
 	struct FTextureParameterBufferParameter
 	{
-		uint32 Parameter;
-		EFRIUniformBufferParameterType paramType;
+
+		uint32 Param;
+
+		union
+		{
+			int32 EnumParam;
+			float FloatParam;
+		};
+
+		EFRITextureParameterBufferParameterType paramType;
 	};
 
 	FArray<FTextureParameterBufferParameter> Data;
@@ -143,6 +150,17 @@ struct FResourceTextureParameterBuffer : public FResourceObject
 
 
 };
+
+
+struct FResourceRenderQuery : public FResourceObject
+{
+	FResourceRenderQuery()
+	{
+
+	}
+};
+
+
 
 
 /*****************************
@@ -161,20 +179,45 @@ struct FResourceShaderBase : public FResourceObject
 	{
 
 	}
+
+	virtual uint32 GetResource() const = 0;
+
 };
 
 
-struct FResourceVertexShader : public FResourceObject {};
-struct FResourcePixelShader : public FResourceObject {};
-struct FResourceGeometryShader : public FResourceObject {};
-struct FResourceHullShader : public FResourceObject {};
-struct FResourceDomainShader : public FResourceObject {};
-struct FResourceComputeShader : public FResourceObject {};
+struct FResourceVertexShader : public FResourceShaderBase { FResourceVertexShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FResourcePixelShader : public FResourceShaderBase { FResourcePixelShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FResourceGeometryShader : public FResourceShaderBase { FResourceGeometryShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FResourceHullShader : public FResourceShaderBase { FResourceHullShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FResourceDomainShader : public FResourceShaderBase { FResourceDomainShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FResourceComputeShader : public FResourceShaderBase { FResourceComputeShader(FString Name) : FResourceShaderBase(Name) {} };
+
+struct FResourceShaderPipelineCreationDescriptor
+{
+	uint32 NumShaders;
+	FResourceShaderBase* ShaderArray;
+
+	FResourceShaderPipelineCreationDescriptor(uint32 NumShaders, FResourceShaderBase* ShaderArray) :
+		NumShaders(NumShaders),
+		ShaderArray(ShaderArray)
+	{
+
+	}
+};
+
+
+struct FResourceShaderPipeline : FResourceObject
+{
+	FResourceShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor)
+	{
+
+	}
+};
 
 
 struct FResourceArrayInterface
 {
-	virtual void* GetResourceData() = NULL;
+	virtual void* GetResourceData() = 0;
 	virtual size_t GetResourceDataSize() = 0;
 };
 
@@ -182,12 +225,44 @@ struct FResourceArrayInterface
 
 struct FResourceCreationDescriptor
 {
-	FResourceCreationDescriptor(FResourceArrayInterface* DataArray) :
-		DataArray(DataArray)
+public:
+	FResourceCreationDescriptor(FResourceArrayInterface* DataArray, size_t ByteSize) :
+		DataArray(DataArray),
+		ByteSize(ByteSize)
 	{
 
 	}
-
-
+	size_t ByteSize;
 	FResourceArrayInterface* DataArray;
+};
+
+struct FResourceVertexDeclarationComponent
+{
+	uint32 AttribNumber;
+	uint32 Type;
+	bool Normalized;
+	uint32 Stride;
+	uint32 ByteSize;
+	void* Offset;
+
+	FResourceVertexDeclarationComponent(uint32 attribNumber, uint32 byteSize, uint32 type, bool norm, uint32 stride, void* offset) :
+		AttribNumber(attribNumber),
+		Type(type),
+		Normalized(norm),
+		Stride(stride),
+		Offset(offset),
+		ByteSize(byteSize)
+	{
+	}
+};
+
+
+struct FResourceVertexDeclaration : FResourceObject
+{
+	FArray<FResourceVertexDeclarationComponent> DeclarationElements;
+
+	FResourceVertexDeclaration(const FArray<FResourceVertexDeclarationComponent>& decl) :
+		DeclarationElements(decl)
+	{
+	}
 };
