@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../../dll/nchfx.h"
-#include "../../Context/Context.h"
-#include "../../Graphics/Common/RenderBatch.h"
-#include "../RenderingService/UxRenderingService.h"
+#include "Core/Common/CoreCommon.h"
 
 
+/*
 EXPORT_FORWARD_DECL(class,  UxComponent);
 
 
 EXPORT(class,  UxContainer)
 {
 public:
-
-	UxContainer(Context* context);
+	/*
+	UxContainer();
 
 	void AddComponent(UxComponent* component);
 
@@ -28,3 +26,4 @@ public:
 	UxRenderingService* pRenderingService;
 };
 
+*/

@@ -1,7 +1,7 @@
 #include "UxContainer.h"
 #include "UxComponent.h"
 
-
+/*
 UxContainer::UxContainer(Context* context)
 {
 	pRenderingService = new UxRenderingService(context);
@@ -42,4 +42,4 @@ FVector2 UxContainer::GetCursorPosition()
 	pRenderingService->mAttachedContext->GetCursorPosition(&x, &y);
 
 	return FVector2(x, y);
-}
+}*/

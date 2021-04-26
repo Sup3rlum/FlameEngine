@@ -1,6 +1,6 @@
 #include "UxLabel.h"
 
-
+/*
 UxLabel::UxLabel(FVector2 position, STRING text, UxFont* font)
 	:
 	Position(position),
@@ -100,4 +100,4 @@ void UxLabel::Update()
 	pBackgroundFrame->Position = Position;
 
 	pBackgroundFrame->Update();
-}
+}*/

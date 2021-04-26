@@ -4,38 +4,78 @@
 #include "Core/Common/CoreCommon.h"
 #include "Core/Framework/Common/FString.h"
 #include "Core/Framework/Common/FStack.h"
-#include "../CameraSystem/Camera.h"
 #include "Core/Framework/Globals/FGlobalID.h"
-#include "../Common/EntityBase.h"
-#include "../Common/EntityGroup.h"
-#include "Core/Framework/Common/FHashMap.h"
-#include "../ControllableObject.h"
+#include "../EntityComponent/EntityComponentSystem.h"
+
+#include "../Physics/PhysicsComponent.h"
+#include "../CameraSystem/CameraSystem.h"
+#include "../ControlComponent.h"
+#include "../Physics/PhysicsService.h"
+#include "../Physics/PhysicsAllocator.h"
+#include "../LightingSystem/LightComponent.h"
+#include "../SkinnedMeshComponent.h"
+#include "../Animation/AnimationComponent.h"
+
+struct PhysicsSceneDescription
+{
+	PhysicsScene* pScene;
+	PhysicsService* pService;
+	PhysicsAllocator* pAllocator;
+
+};
 
 
-
-EXPORT(class,  Scene)
+EXPORT(class,  Scene) : public IElementIdentifiable
 {
 public:
-	Scene();
+	Scene(PhysicsSceneDescription physDesc);
 	~Scene();
 
+
+	template<typename... TComponents>
+	Entity CreateEntity(TComponents... args)
+	{
+		Entity e = CreateEntity<TComponents...>();
+		(e.SetComponent(args), ...);
+		return e;
+	}
+
+	template<typename... TComponents>
+	Entity CreateEntity(const FString& name)
+	{
+		return entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
+	}
+
+
+
+	template<typename...TComponents>
+	FEntityComponentSystem<TComponents...> CreateSystem()
+	{
+		return FEntityComponentSystem<TComponents...>(&entityWorld);
+	}
+
+
+	FGlobalID GetID() const
+	{
+		return sceneID;
+	}
+
+	void LoadSystems();
 	void Update();
-	void Render();
 
 
-	FStack<Camera*> _cameraStack;
+	Entity Camera;
+	Entity Sun;
 
-	void AddEntity(FString name, FSceneEntityBase* ac);
-	void RemoveEntity(FGlobalID id);
+	PhysicsAllocator* Physics;
 
-	void PushCamera(Camera* _cam);
-	void PopCamera();
-	Camera* CurrentCamera();
-	
+private:
 
+	PhysicsScene* physicsScene;
+	PhysicsService* physicsService;
 
-	FArray<ControllableObject*> controllableObjectReferences;
+	FGlobalID sceneID;
+	EntityWorld entityWorld;
 
-	FHashMap<FGlobalID, FSceneEntityBase*> actorCollection;
 };
 

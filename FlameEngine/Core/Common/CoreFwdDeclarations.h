@@ -3,9 +3,8 @@
 #include "CoreBase.h"
 
 template<typename GenType>
-EXPORT_FORWARD_DECL(class, FArray);
+struct FArray;
 
 template<typename GenType, size_t GenSize>
-EXPORT_FORWARD_DECL(class, FStaticArray);
+struct FStaticArray;
 
-EXPORT_FORWARD_DECL(class, FString);

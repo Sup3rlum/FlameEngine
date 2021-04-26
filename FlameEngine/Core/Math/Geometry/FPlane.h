@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Common/CoreCommon.h"
-#include "../Types/FVector4.h"
+#include "../Types/Vector.h"
 
 EXPORT(class,  FPlane)
 {

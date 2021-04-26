@@ -1,17 +1,16 @@
-#include "FLFileStream.h"
+#include "FileStream.h"
 
 
-using namespace std;
 
-FLFileStream::FLFileStream(STRING path)
+IOFileStream::IOFileStream(FString path)
 {
-	_file.open(path, ios::binary);
+	_file.open(path.ToPlatformString(), std::ios::binary);
 
 	if (_file.fail())
 	{
-		STRING str = "Error opening file " + path;
+		FString str = FStringFormatter::Format("Error opening file %0", path);
 
-		MessageBoxA(NULL, str.c_str(), "FlameEngine", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, str.ToPlatformString(), L"FlameEngine", MB_OK | MB_ICONERROR);
 
 		return;
 	}

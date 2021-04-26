@@ -1,7 +1,7 @@
 #pragma once
 
 
-
+/*
 #include "UxComponent.h"
 
 #include "../../Mathematics/Module.h"
@@ -28,3 +28,4 @@ private:
 
 };
 
+*/

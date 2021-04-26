@@ -1,5 +1,7 @@
 #pragma once
 
+/*
+
 #include "Core/Common/CoreCommon.h"
 
 #include "UxContainer.h"
@@ -16,7 +18,6 @@ public:
 
 	virtual void Render();
 	virtual void Update();
-	RenderState* mRenderState;
 
 
 	virtual void SetVisibility(bool vis);
@@ -29,3 +30,4 @@ private:
 	friend class UxContainer;
 };
 
+*/

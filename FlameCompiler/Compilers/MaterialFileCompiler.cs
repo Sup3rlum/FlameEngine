@@ -61,26 +61,46 @@ namespace FlameCompiler.Compilers
 
         private void EncodeMaterial(Material material, ref MemoryStream memory)
         {
-            memory.Write(BitConverter.GetBytes(material.mapDictionary.Count)); // Map Counts
 
-            foreach (var map in material.mapDictionary)
+            int mapCount = 0;
+
+            for (int i = 0; i < material.mapArray.Length; i++)
             {
-                memory.Write(BitConverter.GetBytes(map.Key.Length));    // Map Name Length
-                memory.Write(Encoding.ASCII.GetBytes(map.Key));         // Map Name
-                memory.Write(BitConverter.GetBytes(map.Value.Width));   // Map Width
-                memory.Write(BitConverter.GetBytes(map.Value.Height));  // Map Height
-
-                int pixelformatname = map.Value.PixelType.BitsPerPixel / 8; // Channels
-
-                memory.Write(BitConverter.GetBytes(pixelformatname)); // Pixel Format
+                if (material.mapArray[i] != null)
+                {
+                    mapCount++;
+                }
+            }
 
 
+            memory.Write(BitConverter.GetBytes(mapCount));    // Map Count
 
-                var _IMemoryGroup = map.Value.GetPixelMemoryGroup();
-                var _MemoryGroup = _IMemoryGroup.ToArray()[0];
-                var PixelData = MemoryMarshal.AsBytes(_MemoryGroup.Span).ToArray();
 
-                memory.Write(PixelData);  
+            for (int i = 0; i < material.mapArray.Length; i++)
+            {
+                if (material.mapArray[i] != null)
+                {
+
+                    memory.Write(BitConverter.GetBytes(i));    // Map Type Enum
+                    memory.Write(BitConverter.GetBytes(material.mapArray[i].Width));   // Map Width
+                    memory.Write(BitConverter.GetBytes(material.mapArray[i].Height));  // Map Height
+
+                    int pixelformatname = material.mapArray[i].PixelType.BitsPerPixel / 8; // Channels
+
+                    memory.Write(BitConverter.GetBytes(pixelformatname)); // Pixel Channels
+                    memory.Write(BitConverter.GetBytes(pixelformatname)); // Pixel Format
+                    memory.Write(BitConverter.GetBytes(0)); // dummy
+
+
+
+                    var _IMemoryGroup = material.mapArray[i].GetPixelMemoryGroup();
+                    var _MemoryGroup = _IMemoryGroup.ToArray()[0];
+                    var PixelData = MemoryMarshal.AsBytes(_MemoryGroup.Span).ToArray();
+
+                    memory.Write(BitConverter.GetBytes((ulong)PixelData.Length));
+
+                    memory.Write(PixelData);
+                }
             }
         }
 
@@ -101,7 +121,7 @@ namespace FlameCompiler.Compilers
 
             _mem.Write(Signature);                                      // Signature    
             _mem.Write(Version);                                        // Version
-            _mem.Write(BitConverter.GetBytes(_args.Static ? 1 : 0));    // Compressed
+            //_mem.Write(BitConverter.GetBytes(_args.Static ? 1 : 0));    // Compressed
             _mem.Write(checksum);                                       // Checksum
 
             _mem.Write(data);                                           // Data

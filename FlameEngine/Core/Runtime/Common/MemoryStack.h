@@ -1,119 +1,152 @@
 #pragma once
 
-#include "Core/Common/CoreCommon.h"
+#include "Core/Common/Alignment.h"
+#include "Memory.h"
 
-EXPORT(class, MemoryStack)
 
+
+
+class FMemoryBlockAllocator
+{
+public:
+	enum
+	{
+		PageBlockSize = 6144
+	};
+};
+
+
+class FMemoryStack
 {
 
 public:
 
-	MemoryStack(int32 InMinMarksToAlloc = 1)
-		: Top(nullptr)
-		, End(nullptr)
-		, TopChunk(nullptr)
-		, TopMark(nullptr)
-		, NumMarks(0)
-		, MinMarksToAlloc(InMinMarksToAlloc)
+	struct FMemoryBlockHeader
 	{
-	}
-
-	~MemoryStack()
-	{
-		FreeChunks(nullptr);
-	}
-
-	FORCEINLINE byte* PushBytes(int32 AllocSize, int32 Alignment)
-	{
-		return (byte*)Alloc(AllocSize, max(AllocSize >= 16 ? (int32)16 : (int32)8, Alignment));
-	}
-
-	FORCEINLINE void* Alloc(int32 AllocSize, int32 Alignment)
-	{
-		// Debug checks.
-		/*checkSlow(AllocSize >= 0);
-		checkSlow((Alignment & (Alignment - 1)) == 0);
-		checkSlow(Top <= End);
-		checkSlow(NumMarks >= MinMarksToAlloc);*/
-
-
-		// Try to get memory from the current chunk.
-		byte* Result = Align(Top, Alignment);
-		byte* NewTop = Result + AllocSize;
-
-		// Make sure we didn't overflow.
-		if (NewTop <= End)
-		{
-			Top = NewTop;
-		}
-		else
-		{
-			// We'd pass the end of the current chunk, so allocate a new one.
-			AllocateNewChunk(AllocSize + Alignment);
-			Result = Align(Top, Alignment);
-			NewTop = Result + AllocSize;
-			Top = NewTop;
-		}
-		return Result;
-	}
-
-	/** return true if this stack is empty. */
-	FORCEINLINE bool IsEmpty() const
-	{
-		return TopChunk == nullptr;
-	}
-
-	FORCEINLINE void Flush()
-	{
-		FreeChunks(nullptr);
-	}
-	FORCEINLINE int32 GetNumMarks()
-	{
-		return NumMarks;
-	}
-	/** @return the number of bytes allocated for this FMemStack that are currently in use. */
-	int32 GetByteCount() const;
-
-	// Returns true if the pointer was allocated using this allocator
-	bool ContainsPointer(const void* Pointer) const;
-
-
-
-	// Types.
-	struct FTaggedMemory
-	{
-		FTaggedMemory* Next;
+		FMemoryBlockHeader* Next;
 		int32 DataSize;
 
 		byte* Data() const
 		{
-			return ((byte*)this) + sizeof(FTaggedMemory);
+			return ((byte*)this) + sizeof(FMemoryBlockHeader);
+		}
+		int32 BlockSize() const
+		{
+			return DataSize + sizeof(FMemoryBlockHeader);
 		}
 	};
 
-private:
+	FMemoryStack() :
+		Top(nullptr),
+		End(nullptr),
+		TopBlock(nullptr)
+	{
 
-	/**
-	 * Allocate a new chunk of memory of at least MinSize size,
-	 * updates the memory stack's Chunks table and ActiveChunks counter.
-	 */
-	void AllocateNewChunk(int32 MinSize);
+	}
 
-	/** Frees the chunks above the specified chunk on the stack. */
-	void FreeChunks(FTaggedMemory* NewTopChunk);
+	void* Alloc(int32 AllocSize, int32 Alignment)
+	{
+		byte* AlignedTop = Align(Top, Alignment);
+		byte* NewTop = AlignedTop + AllocSize;
 
-	// Variables.
-	byte* Top;				// Top of current chunk (Top<=End).
-	byte* End;				// End of current chunk.
-	FTaggedMemory* TopChunk;			// Only chunks 0..ActiveChunks-1 are valid.
+		// Check if there is still memory left in the current memory block
+		if (NewTop <= End)
+		{
+			// Move the top pointer to the new top of the current memory block
+			Top = NewTop;
+		}
+		// There is not enough memory in the current memory block, so allocate a new one:
+		else
+		{
+			AllocateNewBlock(AllocSize + Alignment);
+			AlignedTop = Align(Top, Alignment);
+			Top = AlignedTop + AllocSize;
+		}
 
-	/** The top mark on the stack. */
-	class FMemMark* TopMark;
+		return AlignedTop;
+	}
 
-	/** The number of marks on this stack. */
-	int32 NumMarks;
+	FORCEINLINE void AllocateNewBlock(int32 MinMemorySize)
+	{
+		FMemoryBlockHeader* Block = nullptr;
 
-	/** Used for a checkSlow. Most stacks require a mark to allocate. Command lists don't because they never mark, only flush*/
-	int32 MinMarksToAlloc;
+		// Get the minimum space required for the chunk
+		uint32 TotalSize = MinMemorySize + sizeof(FMemoryBlockHeader);
+
+		uint32 AllocSize = AlignNonPowerOf2(TotalSize, FMemoryBlockAllocator::PageBlockSize);
+		Block = (FMemoryBlockHeader*)malloc(AllocSize);
+
+		Block->DataSize = AllocSize - sizeof(FMemoryBlockHeader);
+		Block->Next = TopBlock;
+		TopBlock = Block;
+
+		Top = Block->Data();
+		End = Top + Block->DataSize;
+
+
+	}
+
+	FORCEINLINE void FreeBlocks(FMemoryBlockHeader* NewTopBlock)
+	{
+		while (TopBlock != NewTopBlock)
+		{
+			FMemoryBlockHeader* RemoveBlock = TopBlock;
+			TopBlock = TopBlock->Next;
+
+			free(RemoveBlock);
+		}
+
+		Top = nullptr;
+		End = nullptr;
+
+		if (TopBlock)
+		{
+			Top = TopBlock->Data();
+			End = Top + TopBlock->DataSize;
+		}
+
+	}
+
+
+	FORCEINLINE int32 GetByteCount() const
+	{
+		int32 Count = 0;
+		for (FMemoryBlockHeader* Block = TopBlock; Block; Block = Block->Next)
+		{
+			if (Block != TopBlock)
+			{
+				Count += Block->DataSize;
+			}
+			else
+			{
+				Count += Top - Block->Data();
+			}
+		}
+		return Count;
+	}
+
+	FORCEINLINE void PopBlock()
+	{
+		if (TopBlock)
+		{
+			FreeBlocks(TopBlock->Next);
+		}
+	}
+
+
+	void Flush()
+	{
+		FreeBlocks(nullptr);
+	}
+
+	~FMemoryStack()
+	{
+		Flush();
+	}
+
+	byte* Top;
+	byte* End;
+	FMemoryBlockHeader* TopBlock;
+
 };
 

@@ -1,9 +1,8 @@
 #pragma once
 
 #include "UxWindow.h"
-#include "../../Output/LoggerService.h"
 
-
+/*
 EXPORT(class,  UxConsoleWindow) : public UxWindow
 {
 public:
@@ -21,3 +20,4 @@ public:
 	UxLabel* TextLine;
 };
 
+*/

@@ -2,7 +2,7 @@
 
 
 #include "Core/Common/CoreCommon.h"
-#include "../Types/FVector3.h"
+#include "../Types/Vector.h"
 
 
 EXPORT(class,  BezierCurve)

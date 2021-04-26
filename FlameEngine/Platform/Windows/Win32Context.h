@@ -3,8 +3,6 @@
 
 #include "Core/Common/CoreCommon.h"
 
-#include <windows.h>
-
 
 typedef FDelegate<LRESULT(HWND, UINT, WPARAM, LPARAM)> FWin32MessageProcDelegate;
 
@@ -62,13 +60,13 @@ struct Win32Context
 		wc.lpfnWndProc = Win32MessageProcSignature;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
-		wc.hInstance = NULL;
+		wc.hInstance = GetModuleHandle(NULL);
 		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 		wc.hIconSm = wc.hIcon;
 		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 		wc.lpszMenuName = NULL;
-		wc.lpszClassName = Name.ToWCString();
+		wc.lpszClassName = Name.ToPlatformString();
 		wc.cbSize = sizeof(WNDCLASSEX);
 
 		RegisterClassEx(&wc);
@@ -77,8 +75,8 @@ struct Win32Context
 
 		hWindow = CreateWindowEx(
 			WS_EX_APPWINDOW,
-			Name.ToWCString(),
-			Name.ToWCString(),
+			Name.ToPlatformString(),
+			Name.ToPlatformString(),
 			WS_OVERLAPPEDWINDOW,
 			PosX,
 			PosY,
@@ -101,6 +99,8 @@ struct Win32Context
 			SetForegroundWindow(hWindow);
 			SetFocus(hWindow);
 		}
+
+		UpdateWindow(hWindow);
 	}
 
 	void SetPixelFormat(PPIXELFORMATDESCRIPTOR pfd)
@@ -108,12 +108,33 @@ struct Win32Context
 		::SetPixelFormat(hDeviceContext, 1, pfd);
 	}
 
+	void SetCursorPosition(int x, int y)
+	{
+		if (hWindow)
+		{
+			SetCursorPos(x, y);
+		}
+	}
+
+	void GetCursorPosition(int* x, int* y)
+	{
+		if (hWindow)
+		{
+			POINT point;
+
+			GetCursorPos(&point);
+
+
+			*x = point.x;
+			*y = point.y;
+		}
+	}
+
 	~Win32Context()
 	{
 		ReleaseDC(hWindow, hDeviceContext);
 		DestroyWindow(hWindow);
 	}
-
 
 private:
 

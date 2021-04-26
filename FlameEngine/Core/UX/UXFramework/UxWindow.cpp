@@ -1,6 +1,6 @@
 #include "UxWindow.h"
 
-
+/*
 
 UxWindow::UxWindow(STRING title) : UxWindow(title, UxRectangle(FVector2(0), FVector2(100)))
 {
@@ -82,3 +82,4 @@ void UxWindow::SetParent(UxContainer* p)
 	TitleLabel->SetParent(p);
 	__super::SetParent(p);
 }
+*/

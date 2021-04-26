@@ -5,6 +5,7 @@
 #include "Core/Engine/FlameRI/FRI.h"
 
 
+/*
 EXPORT(class,  RenderingServiceBase)
 {
 public:
@@ -13,3 +14,4 @@ public:
 
 };
 
+*/

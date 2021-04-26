@@ -75,7 +75,7 @@ FStack<GenType>::FStack(const FStack<GenType>& arr)
 {
 	size = arr.size;
 	capacity = arr.capacity;
-	ptrInternal = Memory::Create<GenType>(size);
+	ptrInternal = Memory::Alloc<GenType>(size);
 
 	memcpy(ptrInternal, arr.ptrInternal, size * sizeof(GenType));
 }
@@ -85,7 +85,7 @@ FStack<GenType>::FStack(size_t initSize)
 {
 	size = initSize;
 	capacity = initSize;
-	ptrInternal = Memory::Create<GenType>(initSize);
+	ptrInternal = Memory::Alloc<GenType>(initSize);
 
 	Memory::Zero(ptrInternal);
 
@@ -100,7 +100,7 @@ FStack<GenType>& FStack<GenType>::operator=(const FStack<GenType>& arr)
 
 	size = arr.size;
 	capacity = arr.capacity;
-	ptrInternal = Memory::Create<GenType>(size);
+	ptrInternal = Memory::Alloc<GenType>(size);
 
 	memcpy(ptrInternal, arr.ptrInternal, size);
 
@@ -117,7 +117,7 @@ void FStack<GenType>::Reserve(size_t newcapacity)
 		capacity = 0;
 	}
 
-	GenType* Newbuffer = Memory::Create<GenType>(newcapacity);
+	GenType* Newbuffer = Memory::Alloc<GenType>(newcapacity);
 
 	unsigned int l_Size = min(newcapacity, size);
 

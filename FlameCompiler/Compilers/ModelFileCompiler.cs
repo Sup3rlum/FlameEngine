@@ -49,47 +49,31 @@ namespace FlameCompiler.Compilers
             MemoryStream memory = new MemoryStream();
 
 
-            EncodeMaterialTable(task.model, ref memory);
-
-            EncodeMeshTable(task.model, ref memory);
-            foreach (var mesh in task.model.meshCollection)
-            {
-                EncodeMesh(mesh, ref memory);
-            }
+            EncodeMesh(task.mesh, ref memory);
 
 
             OmitBinary(ref memory, task.outputFileName);
         }
-        private void EncodeMeshTable(Model model, ref MemoryStream memory)
-        {
-            memory.Write(BitConverter.GetBytes(model.meshCollection.Count));
-        }
 
-
-        private void EncodeMaterialTable(Model model, ref MemoryStream memory)
-        {
-            foreach (var mesh in model.meshCollection)
-            {
-
-            }
-        }
-
-
-
-        private void EncodeMesh(ModelMesh mesh, ref MemoryStream memory)
+        private void EncodeMesh(Mesh mesh, ref MemoryStream memory)
         {
 
-            for (int i = 0; i < 16; i++)
-            {
-                memory.Write(BitConverter.GetBytes(mesh.localTransform[i])); // local Matrix
-            }
+            memory.Write(BitConverter.GetBytes((ulong)mesh.Buffer.Data.Length));   // vDataLength
+            memory.Write(BitConverter.GetBytes((ulong)mesh.Buffer.vertexDeclaration.VertexSize));   // vertexSize
 
-            memory.Write(BitConverter.GetBytes(mesh.MaterialName.Length));  // materialPathLength
-            memory.Write(Encoding.ASCII.GetBytes(mesh.MaterialName));       // materialPath
-
-
-            memory.Write(BitConverter.GetBytes((ulong)(mesh.Buffer.Data.Length * StaticModelVertex.Size * 4)));   // vDataLength
             memory.Write(BitConverter.GetBytes((ulong)mesh.Buffer.IndexData.Length * 4));                                   // iDataLength
+            memory.Write(BitConverter.GetBytes((uint)EFRIIndexType.UINT32));                                   // iDataLength
+            memory.Write(BitConverter.GetBytes((uint)mesh.Buffer.vertexDeclaration.VertComponents.Length));                                   // iDataLength
+
+            foreach (var v in mesh.Buffer.vertexDeclaration.VertComponents)
+            {
+                memory.Write(BitConverter.GetBytes(v.AttribNumber));
+                memory.Write(BitConverter.GetBytes(v.Length));
+                memory.Write(BitConverter.GetBytes((uint)v.Type));
+                memory.Write(BitConverter.GetBytes(v.Normalized ? (uint)1 : (uint)0));
+                memory.Write(BitConverter.GetBytes(v.Stride));
+                memory.Write(BitConverter.GetBytes(v.Offset));
+            }
 
             foreach (var v in mesh.Buffer.Data)
             {
@@ -125,7 +109,7 @@ namespace FlameCompiler.Compilers
 
             _mem.Write(Signature);                                      // Signature    
             _mem.Write(Version);                                        // Version
-            _mem.Write(BitConverter.GetBytes(_args.Static ? 1 : 0));    // Compressed
+            //_mem.Write(BitConverter.GetBytes(_args.Static ? 1 : 0));    // Compressed
             _mem.Write(checksum);                                       // Checksum
 
             _mem.Write(data);                                           // Data
@@ -143,5 +127,12 @@ namespace FlameCompiler.Compilers
 
             _fStream.Close();
         }
+
+        /*
+        public void EncodeBytes<T>(ref MemoryStream memory, T data )
+        {
+            memory.Write(BitConverter.GetBytes(data));
+        }*/
+
     }
 }

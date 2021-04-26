@@ -1,6 +1,6 @@
 #include "VertexComponent.h"
 
-
+/*
 FArray<FVertexElementComponentAttribute> FVertexComponent_PositionNormalTexture::ComponentAttributes =
 {
 	VertexElements(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0),
@@ -38,7 +38,7 @@ vector<VertexElements> StaticModelVertex::Elements =
 	VertexElements(4, 2, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(12 * sizeof(float))),
 };
 
-
+*/
 /*
 
 vector<VertexElements> AnimatedModelVertex::Elements =

@@ -3,8 +3,3 @@
 #include "Core/Framework/Common/FArray.h"
 
 
-
-FString Memory::ToString(FArray<BYTE> bytedata)
-{
-	return "Hello";
-}

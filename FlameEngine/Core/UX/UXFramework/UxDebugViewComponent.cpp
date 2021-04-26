@@ -1,4 +1,6 @@
 #include "UxDebugViewComponent.h"
+
+/*
 #include "../../Scene/Scene.h"
 
 UxDebugViewComponent::UxDebugViewComponent(Scene* currentScene)
@@ -79,4 +81,4 @@ void UxDebugViewComponent::SetParent(UxContainer* p)
 {
 	DebugText->SetParent(p);
 	__super::SetParent(p);
-}
+}*/

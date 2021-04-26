@@ -1,6 +1,6 @@
 #pragma once
 
-#include <winuser.h>
+#include <windows.h>
 #include <stdio.h>
 #include <functional>
 
@@ -49,12 +49,6 @@ typedef unsigned char byte;
 typedef char		  sbyte;
 
 
-
-template <typename T>
-FORCEINLINE constexpr T Align(T Val, uint64 Alignment)
-{
-	return (T)(((uint64)Val + Alignment - 1) & ~(Alignment - 1));
-}
 
 EXPORT(enum class, FResult)
 {

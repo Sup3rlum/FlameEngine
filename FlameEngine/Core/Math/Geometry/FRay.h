@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Common/CoreCommon.h"
-#include "../Types/FVector3.h"
+#include "../Types/Vector.h"
 
 #include "FPlane.h"
 

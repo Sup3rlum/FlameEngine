@@ -1,10 +1,8 @@
 #pragma once
 
-#include  "../Common/Texture.h"
-#include "../../Mathematics/Module.h"
 
 #include <FTGL/ftgl.h>
-
+/*
 EXPORT(struct, UxCharacter)
 {
 	Texture * texture;   // ID handle of the glyph texture
@@ -28,3 +26,4 @@ public:
 	std::map<GLchar, UxCharacter> Characters;
 };
 
+*/

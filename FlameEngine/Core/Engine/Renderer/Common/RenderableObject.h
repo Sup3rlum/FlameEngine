@@ -5,6 +5,8 @@
 
 EXPORT(class, RenderableObjectBase)
 {
+public:
+	FRICommandList renderCommandList;
 };
 
 

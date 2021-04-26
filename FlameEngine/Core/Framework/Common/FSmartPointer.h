@@ -1,25 +1,7 @@
 #pragma once
 
 #include "Core/Common/CoreBase.h"
-#include "FType.h"
-
-
-
-
-template<typename _Type>
-FORCEINLINE FRemoveReference<_Type>&& MoveRef(_Type&& userType) noexcept
-{
-	return static_cast<FRemoveReference<_Type>&&>(userType);
-}
-
-
-
-template <typename _Type>
-FORCEINLINE _Type&& ForwardRef(FRemoveReference<_Type>&& _Arg) noexcept
-{
-	static_assert(!IsLValueRef<_Type>, "bad forward call");
-	return static_cast<_Type&&>(_Arg);
-}
+#include "Core/Common/TypeTraits.h"
 
 
 
@@ -49,6 +31,8 @@ public:
 	{
 		this->data = fpOther.data;
 		fpOther.data = NULL;
+
+		return *this;
 	}
 
 
@@ -64,7 +48,12 @@ public:
 	}
 
 
-	TUserType* operator->() const
+	const TUserType* operator->() const
+	{
+		return data;
+	}
+
+	TUserType* operator->()
 	{
 		return data;
 	}

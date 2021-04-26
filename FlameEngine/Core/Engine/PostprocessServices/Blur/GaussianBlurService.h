@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 
 #include "RenderingServiceBase.h"
 
@@ -11,7 +11,6 @@ EXPORT_ENUM GaussianBlurStrength
 	KERNEL_29 = 3,
 	KERNEL_63 = 4
 };
-
 
 EXPORT(class,  GaussianBlurService) : public RenderingServiceBase
 {
@@ -27,3 +26,4 @@ public:
 	GaussianBlurStrength mBlurStrength = GaussianBlurStrength::KERNEL_5;
 };
 
+*/

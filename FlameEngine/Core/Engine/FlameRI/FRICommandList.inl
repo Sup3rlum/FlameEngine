@@ -11,7 +11,7 @@ class FRICommandBase;
 class FRICommandListIterator
 {
 public:
-	FRICommandListIterator(FRICommandList& CmdList)
+	FRICommandListIterator(FRICommandListBase& CmdList)
 	{
 		CmdPtr = CmdList.First;
 		NumCommands = 0;
@@ -39,4 +39,21 @@ private:
 	FRICommandBase* CmdPtr;
 	uint32 NumCommands;
 	uint32 CmdListNumCommands;
+};
+
+struct FRICommandListExecutor
+{
+	void Execute(FRICommandListBase& cmdList)
+	{
+		FRICommandListIterator Iter(cmdList);
+
+		while (Iter.HasCommandsLeft())
+		{
+			FRICommandBase* Cmd = Iter.NextCommand();
+			CurrentCommand = Cmd;
+			Cmd->ExecuteCmd(cmdList);
+		}
+	}
+
+	FRICommandBase* CurrentCommand;
 };

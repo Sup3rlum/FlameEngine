@@ -1,7 +1,7 @@
 #pragma once
 
-
-#include "../../dll/nchfx.h"
+/*
+#include "Core/Common/CoreCommon.h"
 
 
 #include "UxContainer.h"
@@ -25,7 +25,8 @@ public:
 	void Update();
 
 private:
-	std::stack<UxContainer*> pCurrentContainer;
+	FStack<UxContainer*> pCurrentContainer;
 
 };
 
+*/

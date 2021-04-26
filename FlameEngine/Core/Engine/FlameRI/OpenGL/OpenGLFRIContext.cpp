@@ -1,37 +1,45 @@
 
 #include "OpenGLFRIContext.h"
-
+#include "OpenGLFRIDynamic.h"
 
 
 #include <GL/wglew.h>
 
 
 
-LRESULT OpenGLFRIContext::Win32MessageHandler(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK OpenGLFRIContext::Win32MessageHandler(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
-	if (umessage == WM_KEYDOWN)
+	switch (umessage)
 	{
-
-		uint32 repeatCount = wparam & 0x7FFF;
-
-		if (repeatCount > 0)
+		case  WM_KEYDOWN:
 		{
-			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnHold);
+			uint32 repeatCount = wparam & 0x7FFF;
+
+			if (repeatCount > 0)
+			{
+				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnHold);
+			}
+			else
+			{
+				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnPress);
+			}
+			break;
 		}
-		else
+		case WM_KEYUP:
 		{
-			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnPress);
+			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnRelease);
+			break;
 		}
+		default:
+
+			return 	DefWindowProc(hwnd, umessage, wparam, lparam);
 	}
-	if (umessage == WM_KEYUP)
-	{
-		InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnRelease);
-	}
+	return 0; 
 }
 
 void OpenGLFRIContext::Initialize()
 {
-	if (!GLContextDrvVersion->CheckIsSupportedOnPlatform())
+	if (!GLContextDrvVersion.CheckIsSupportedOnPlatform())
 	{
 		return;
 	}
@@ -48,20 +56,32 @@ void OpenGLFRIContext::Initialize()
 	int PosX = 100, PosY = 100;
 
 	if (InstanceDescription.IsFullscreen)
-	{/*
-		// If full screen set the screen to maximum size of the users desktop and 32bit.
-		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
-		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-		dmScreenSettings.dmPelsWidth = (unsigned long)screenWidth;
-		dmScreenSettings.dmPelsHeight = (unsigned long)screenHeight;
-		dmScreenSettings.dmBitsPerPel = 32;
+	{
+
+
+		DEVMODE dmScreenSettings;                               // Device Mode
+		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));   // Makes Sure Memory's Cleared
+		dmScreenSettings.dmSize = sizeof(dmScreenSettings);       // Size Of The Devmode Structure
+		dmScreenSettings.dmPelsWidth = screenWidth;                // Selected Screen Width
+		dmScreenSettings.dmPelsHeight = screenHeight;               // Selected Screen Height
+		dmScreenSettings.dmBitsPerPel = 32;                 // Selected Bits Per Pixel
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
-		// Change the display settings to full screen.
-		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
+		// Try To Set Selected Mode And Get Results.  NOTE: CDS_FULLSCREEN Gets Rid Of Start Bar.
+		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+		{
+			printf("Wtf??");
+		}
 
-		// Set the position of the window to the top left corner.
-		PosX = PosY = 0;*/
+		/*
+		MONITORINFO mi = { sizeof(mi) };
+		GetMonitorInfo(, &mi);
+		SetWindowPos(window->win32.handle, HWND_TOPMOST,
+			mi.rcMonitor.left,
+			mi.rcMonitor.top,
+			mi.rcMonitor.right - mi.rcMonitor.left,
+			mi.rcMonitor.bottom - mi.rcMonitor.top,
+			SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS);*/
 	}
 	else
 	{
@@ -73,11 +93,14 @@ void OpenGLFRIContext::Initialize()
 		PosY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 	}
 
-	win32Context = new Win32Context("Engine", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &Win32MessageHandler>(this));
+	win32Context = new Win32Context("Engine2", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &OpenGLFRIContext::Win32MessageHandler>(this));
+	isActive = true;
 
 	InitializeOpenGL();
 
+
 	win32Context->Show();
+
 
 }
 bool OpenGLFRIContext::InitializeOpenGLExtensions()
@@ -85,7 +108,7 @@ bool OpenGLFRIContext::InitializeOpenGLExtensions()
 
 	PIXELFORMATDESCRIPTOR pfd;
 
-	Win32Context wglLoadExtContext = Win32Context("WGLContext", 0, 0, 320, 240);
+	Win32Context wglLoadExtContext("WGLContext", 0, 0, 320, 240);
 	wglLoadExtContext.SetPixelFormat(&pfd);
 
 
@@ -94,14 +117,14 @@ bool OpenGLFRIContext::InitializeOpenGLExtensions()
 
 	if (g_hRC == NULL)
 	{
-		//std::cout << "HGLRC ERROR" << std::endl;
+		printf("HGLRG\n");
 	}
 
 
 	if (glewInit() != GLEW_OK)
 	{
 		//TODO: Error loading GL extensions
-		//	std::cout << "GLEWINIT ERROR" << std::endl;
+		printf("GLEWINIT ERROR\n");// << std::endl;
 	}
 
 
@@ -140,20 +163,21 @@ bool OpenGLFRIContext::InitializeOpenGL()
 
 	if (result != 1)
 	{
-		//std::cout << "PixelFormat error" << std::endl;
+		printf("PixelFormat error");//
 		return false;
 	}
 
 	result = SetPixelFormat(win32Context->hDeviceContext, pixelFormat[0], &pixelFormatDescriptor);
 	if (result != 1)
 	{
+		printf("PixelFormat error2\n");//
 		return false;
 	}
 
 	FStaticArray<int, 5> attributeList =
 	{
-		WGL_CONTEXT_MAJOR_VERSION_ARB, (int)GLContextDrvVersion->GetMajor(),
-		WGL_CONTEXT_MINOR_VERSION_ARB, (int)GLContextDrvVersion->GetMinor(),
+		WGL_CONTEXT_MAJOR_VERSION_ARB, (int)GLContextDrvVersion.GetMajor(),
+		WGL_CONTEXT_MINOR_VERSION_ARB, (int)GLContextDrvVersion.GetMinor(),
 		0
 	};
 
@@ -161,14 +185,22 @@ bool OpenGLFRIContext::InitializeOpenGL()
 
 	if (hGLRenderingContext == NULL)
 	{
-		//std::cout << "HLGRC2 ERROR" << std::endl;
+		printf("HLGRC2 ERROR\n");// << std::endl;
 
 		return false;
 	}
 
 	result = wglMakeCurrent(win32Context->hDeviceContext, hGLRenderingContext);
 
+	wglSwapIntervalEXT(0);
 
+
+	dynamicAllocator = new OpenGLFRIDynamicAllocator();
+
+
+	InitializeOpenGLStates();
+
+	InitializeOpenGLUniformExtensions();
 }
 
 void OpenGLFRIContext::SwapBuffers()
@@ -177,22 +209,23 @@ void OpenGLFRIContext::SwapBuffers()
 }
 
 
-bool OpenGLFRIContext::HandleEvents()
+void OpenGLFRIContext::HandleEvents()
 {
 	MSG msg;
-	while (PeekMessage(&msg, win32Context->hWindow, 0, 0, PM_NOREMOVE))
+	while (PeekMessage(&msg, win32Context->hWindow, 0, 0, PM_REMOVE))
 	{
-		if (GetMessage(&msg, win32Context->hWindow, 0, 0))
+		if (msg.message == WM_QUIT)
 		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			PollCloseEvent();
 		}
 		else
 		{
-			return false;
+
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 	}
-	return true;
+
 }
 
 
@@ -202,4 +235,42 @@ OpenGLFRIContext::~OpenGLFRIContext()
 	wglDeleteContext(hGLRenderingContext);
 
 	delete win32Context;
+}
+
+
+
+void OpenGLFRIContext::SetCursorPosition(FVector2 pos)
+{
+	win32Context->SetCursorPosition(pos.x, pos.y);
+}
+
+
+FVector2 OpenGLFRIContext::GetCursorPosition()
+{
+	int x, y;
+	win32Context->GetCursorPosition(&x, &y);
+
+
+	return FVector2(x, y);
+}
+
+IVector2 OpenGLFRIContext::GetViewportSize()
+{
+	return IVector2(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+}					
+
+
+void OpenGLFRIContext::InitializeOpenGLStates()
+{
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 }

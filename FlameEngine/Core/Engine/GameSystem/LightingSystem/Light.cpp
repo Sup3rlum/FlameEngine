@@ -2,6 +2,7 @@
 
 
 
+/*
 
 DirectionalLight::DirectionalLight(const FVector3& direction, Color lightColor, float intensity) :
 	Direction(direction),
@@ -15,6 +16,7 @@ DirectionalLight::DirectionalLight(const FVector3& direction, Color lightColor, 
 
 void DirectionalLight::SnapToFrustum(Camera* cam)
 {
+	/*
 	localSpace = FMatrix3::Transpose(FMatrix4::ToMatrix3(FViewMatrix(FVector3(0), Direction, _cam.Up)));
 	
 
@@ -39,7 +41,7 @@ void DirectionalLight::SnapToFrustum(Camera* cam)
 
 void DirectionalLight::Update()
 {
-	__super::Update();
+	
 }
 
 void DirectionalLight::CreateFlare()
@@ -49,4 +51,4 @@ void DirectionalLight::CreateFlare()
 void DirectionalLight::DrawFlare()
 {
 
-}
+}*/

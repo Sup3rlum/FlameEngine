@@ -1,6 +1,6 @@
 #include "UxFont.h"
 
-
+/*
 UxFont::UxFont(STRING _fontName, int _fontSize)
 {
 
@@ -56,4 +56,4 @@ UxFont::UxFont(STRING _fontName, int _fontSize)
 	// Destroy FreeType once we're finished
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);
-}
+}*/

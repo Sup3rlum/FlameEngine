@@ -1,6 +1,6 @@
 #include "UxConsoleWindow.h"
 
-
+/*
 
 UxConsoleWindow::UxConsoleWindow() : UxWindow("FlameEngine::Console")
 {
@@ -35,4 +35,4 @@ void UxConsoleWindow::SetParent(UxContainer* p)
 void UxConsoleWindow::ToggleConsole()
 {
 	SetVisibility(!GetVisibility());
-}
+}*/

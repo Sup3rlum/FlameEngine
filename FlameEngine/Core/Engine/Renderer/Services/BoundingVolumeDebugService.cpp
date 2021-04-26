@@ -1,81 +1,98 @@
 #include "BoundingVolumeDebugService.h"
 
 
-BoundingVolumeDebugService::BoundingVolumeDebugService(Context* context) : RenderingServiceBase(context)
+BoundingVolumeDebugService::BoundingVolumeDebugService(FRICommandList& cmdList) :
+	vDecl(FArray<FResourceVertexDeclarationComponent>())
 {
 
-	mVertexBuffer = new VertexBuffer(VertexColor::Elements);
+	FAnsiString vsData = IOFileStream("./shaders/debug_view.vert").ReadAnsiFile();
+	FAnsiString psData = IOFileStream("./shaders/debug_view.frag").ReadAnsiFile();
 
+	FResourceVertexShader* vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
+	FResourcePixelShader* ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
 
-	Shader* shaders[2] =
+	pipeline = cmdList.GetDynamic()->DynamicCreateShaderPipeline
+	(
+		FResourceShaderPipelineCreationDescriptor(
+			2,
+			new FResourceShaderBase * [2]{ vs, ps }
+		)
+	);
+
+	FArray<FResourceVertexDeclarationComponent> vArray =
 	{
-		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.vert", ShaderType::VERTEX),
-		FLSLCompilerService::CompileShaderFromSourceFile("./shaders/debug_view.frag", ShaderType::FRAGMENT)
+		FResourceVertexDeclarationComponent(0, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0),
+		FResourceVertexDeclarationComponent(1, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12)
 	};
 
 
-	mDebugShader = new Program(shaders);
+
+	ViewLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "View");
+	ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "Projection");
+
+	vDecl.DeclarationElements = vArray;
+
+
+	std::cout << sizeof(FVertexComponent_Color) << std::endl;
 
 }
 
-void BoundingVolumeDebugService::Render(Camera* cam, FVector3* corners)
+void BoundingVolumeDebugService::Render(FRICommandList& cmdList, const CameraComponent& cam, FVector3* corners)
 {
+	FVertexComponent_Color vData[24] = 
+	{
+		FVertexComponent_Color(corners[0], Color::Blue.rgb),
+		FVertexComponent_Color(corners[1], Color::Blue.rgb),
+
+		FVertexComponent_Color(corners[1], Color::Blue.rgb),
+		FVertexComponent_Color(corners[2], Color::Blue.rgb),
+			
+		FVertexComponent_Color(corners[2], Color::Blue.rgb),
+		FVertexComponent_Color(corners[3], Color::Blue.rgb),
+			  
+		FVertexComponent_Color(corners[3], Color::Blue.rgb),
+		FVertexComponent_Color(corners[0], Color::Blue.rgb),
 
 
-	VertexColor vData[24] = {
-		VertexColor(corners[0], Color::Blue.rgb),
-		VertexColor(corners[1], Color::Blue.rgb),
-									 
-		VertexColor(corners[1], Color::Blue.rgb),
-		VertexColor(corners[2], Color::Blue.rgb),
-									
-		VertexColor(corners[2], Color::Blue.rgb),
-		VertexColor(corners[3], Color::Blue.rgb),
-									  
-		VertexColor(corners[3], Color::Blue.rgb),
-		VertexColor(corners[0], Color::Blue.rgb),
+		FVertexComponent_Color(corners[4], Color::Red.rgb),
+		FVertexComponent_Color(corners[5], Color::Red.rgb),
+			   
+		FVertexComponent_Color(corners[5], Color::Red.rgb),
+		FVertexComponent_Color(corners[6], Color::Red.rgb),
+			   
+		FVertexComponent_Color(corners[6], Color::Red.rgb),
+		FVertexComponent_Color(corners[7], Color::Red.rgb),
+			   
+		FVertexComponent_Color(corners[7], Color::Red.rgb),
+		FVertexComponent_Color(corners[4], Color::Red.rgb),
 
 
+		FVertexComponent_Color(corners[0], Color::Green.rgb),
+		FVertexComponent_Color(corners[4], Color::Green.rgb),
 
-		VertexColor(corners[4], Color::Red.rgb),
-		VertexColor(corners[5], Color::Red.rgb),
-									   
-		VertexColor(corners[5], Color::Red.rgb),
-		VertexColor(corners[6], Color::Red.rgb),
-									   
-		VertexColor(corners[6], Color::Red.rgb),
-		VertexColor(corners[7], Color::Red.rgb),
-									   
-		VertexColor(corners[7], Color::Red.rgb),
-		VertexColor(corners[4], Color::Red.rgb),
+		FVertexComponent_Color(corners[1], Color::Green.rgb),
+		FVertexComponent_Color(corners[5], Color::Green.rgb),
 
+		FVertexComponent_Color(corners[2], Color::Green.rgb),
+		FVertexComponent_Color(corners[6], Color::Green.rgb),
 
-
-		VertexColor(corners[0], Color::Black.rgb),
-		VertexColor(corners[4], Color::Black.rgb),
-
-		VertexColor(corners[1], Color::Black.rgb),
-		VertexColor(corners[5], Color::Black.rgb),
-
-		VertexColor(corners[2], Color::Black.rgb),
-		VertexColor(corners[6], Color::Black.rgb),
-
-		VertexColor(corners[3], Color::Black.rgb),
-		VertexColor(corners[7], Color::Black.rgb)
+		FVertexComponent_Color(corners[3], Color::Green.rgb),
+		FVertexComponent_Color(corners[7], Color::Green.rgb)
 	};
 
-	mVertexBuffer->SetData(vData, 24);
-
-	RenderState::Push(mRenderState);
-
-	mDebugShader->UseProgram();
-
-	mDebugShader->SetUniform("View", cam->View);
-	mDebugShader->SetUniform("Projection", cam->Projection);
-	mDebugShader->SetUniform("World", FMatrix4::Identity());
 
 
-	mVertexBuffer->Render(GL_LINES);
+	vBuffer = cmdList.GetDynamic()->DynamicCreateVertexBuffer(24, 0, FResourceCreationDescriptor(vData, 24 * sizeof(FVertexComponent_Color)));
 
-	RenderState::Pop();
+	cmdList.GetDynamic()->AttachVertexDeclaration(vDecl);
+
+	cmdList.SetShaderPipeline(pipeline);
+
+	cmdList.SetShaderUniformParameter(FUniformParameter(ViewLoc, cam.View));
+	cmdList.SetShaderUniformParameter(FUniformParameter(ProjLoc, cam.Projection));
+
+	cmdList.SetGeometrySource(vBuffer);
+	cmdList.DrawPrimitives((uint32)EFRIPrimitiveType::Lines, 24);
+
+
 }

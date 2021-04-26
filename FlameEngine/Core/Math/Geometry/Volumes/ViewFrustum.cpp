@@ -1,7 +1,7 @@
 #include "ViewFrustum.h"
 
 
-ViewFrustum::ViewFrustum(FMatrix4 vp)
+ViewFrustum::ViewFrustum(const FMatrix4& vp)
 {
 	viewProjection = vp;
 }
@@ -28,7 +28,7 @@ void ViewFrustum::GetCorners(ViewFrustum vf, FVector3* corners)
         corners[i] = p.xyz / p.w;
     }
 }
-void ViewFrustum::GetPlanes(ViewFrustum vf, FPlane(&planes)[6])
+void ViewFrustum::GetPlanes(ViewFrustum vf, FStaticArray<FPlane, 6>& planes)
 {
 
 }

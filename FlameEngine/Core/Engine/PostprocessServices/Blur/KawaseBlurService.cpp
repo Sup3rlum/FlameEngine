@@ -1,6 +1,6 @@
 #include "KawaseBlurService.h"
 
-
+/*
 KawaseBlurService::KawaseBlurService(Context* context, bool halfRes) : RenderingServiceBase(context)
 {
 
@@ -168,4 +168,4 @@ void KawaseBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture, 
 	}
 	frameBuffer->Unbind();
 
-}
+}*/

@@ -56,6 +56,20 @@ struct FResourceTextureCubeMap : public FResourceObject
 
 	}
 };
+struct FResourceTexture2DArray : public FResourceObject
+{
+	uint32 Width;
+	uint32 Height;
+	uint32 NumLayers;
+
+	FResourceTexture2DArray(uint32 Width, uint32 Height, uint32 NumLayers) :
+		Width(Width),
+		Height(Height),
+		NumLayers(NumLayers)
+	{
+
+	}
+};
 
 
 
@@ -106,49 +120,135 @@ struct FResourceFrameBuffer : public FResourceObject
 };
 
 
+struct FUniformParameter
+{
+	uint32 Location;
+	uint32 ArrayCount;
+
+	union
+	{
+		uint32 UintParam;
+		int32 IntParam;
+		float FloatParam;
+		bool BoolParam;
+
+		const float* FloatVParam;
+		const int* IntVParam;
+
+	};
+
+
+	FUniformParameter(uint32 Location, uint32 val) : Location(Location), paramType(EFRIUniformBufferParameterType::UInt32), UintParam(val), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, int32 val) : Location(Location), paramType(EFRIUniformBufferParameterType::Int32), IntParam(val), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, float val) : Location(Location), paramType(EFRIUniformBufferParameterType::Float), FloatParam(val), ArrayCount(1) {}
+
+	FUniformParameter(uint32 Location, FVector4 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector4), FloatVParam(&vec[0]), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, FVector3 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector3), FloatVParam(&vec[0]), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, FVector2 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector2), FloatVParam(&vec[0]), ArrayCount(1) {}
+
+	FUniformParameter(uint32 Location, FMatrix4 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix4), FloatVParam(&mat[0][0]), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, FMatrix3 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix3), FloatVParam(&mat[0][0]), ArrayCount(1) {}
+	FUniformParameter(uint32 Location, FMatrix2 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix2), FloatVParam(&mat[0][0]), ArrayCount(1) {}
+
+
+
+	FUniformParameter(uint32 Location, const FArray<FVector4>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector4), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
+	FUniformParameter(uint32 Location, const FArray<FVector3>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector3), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
+	FUniformParameter(uint32 Location, const FArray<FVector2>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector2), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
+									   
+	FUniformParameter(uint32 Location, const FArray<FMatrix4>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix4), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
+	FUniformParameter(uint32 Location, const FArray<FMatrix3>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix3), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
+	FUniformParameter(uint32 Location, const FArray<FMatrix2>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix2), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
+
+
+
+	FUniformParameter(const FUniformParameter& other) :
+		Location(other.Location),
+		paramType(other.paramType),
+		FloatVParam(other.FloatVParam)
+	{
+
+	}
+
+	EFRIUniformBufferParameterType paramType;
+private:
+	FUniformParameter();
+};
+
+
+struct FUniformSampler
+{
+	uint32 Unit;
+	EFRIUniformSamplerType samplerType;
+
+	union
+	{
+		FResourceTexture2D* Param2D;
+		FResourceTexture3D* Param3D;
+		FResourceTextureCubeMap* ParamCube;
+		FResourceTexture2DArray* Param2DArray;
+	};
+
+
+	FUniformSampler(uint32 unit, FResourceTexture2D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2D), Param2D(val) {}
+	FUniformSampler(uint32 unit, FResourceTexture3D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler3D), Param3D(val) {}
+	FUniformSampler(uint32 unit, FResourceTextureCubeMap* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSamplerCube), ParamCube(val) {}
+	FUniformSampler(uint32 unit, FResourceTexture2DArray* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2DArray), Param2DArray(val) {}
+
+private:
+	FUniformSampler();
+};
+
+
 
 struct FResourceUniformBuffer : public FResourceObject
 {
-	struct FUniformParameter
-	{
-		uint32 Location;
-		EFRIUniformBufferParameterType paramType;
-	};
 
 	FArray<FUniformParameter> Data;
 
 
-	FResourceUniformBuffer(FArray<FUniformParameter> Data)
+	FResourceUniformBuffer(FArray<FUniformParameter> Data) :
+		Data(Data)
 	{
-		this->Data = Data;
 	}
 
 };
 
+struct FTextureParameterBufferParameter
+{
+	uint32 ParamName;
+	union
+	{
+		int32 EnumParam;
+		float FloatParam;
+	};
+	EFRITextureParameterBufferParameterType paramType;
+
+	FTextureParameterBufferParameter(EFRITextureParamName ParamName, EFRITextureWrapMode mode)		: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Enum), EnumParam((int32)mode) {}
+	FTextureParameterBufferParameter(EFRITextureParamName ParamName, EFRITextureFilterMode mode)	: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Enum), EnumParam((int32)mode) {}
+	FTextureParameterBufferParameter(EFRITextureParamName ParamName, float value)					: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Float), FloatParam(value) {}
+
+private:
+	FTextureParameterBufferParameter();
+};
+
+
 struct FResourceTextureParameterBuffer : public FResourceObject
 {
-	struct FTextureParameterBufferParameter
-	{
 
-		uint32 Param;
-
-		union
-		{
-			int32 EnumParam;
-			float FloatParam;
-		};
-
-		EFRITextureParameterBufferParameterType paramType;
-	};
 
 	FArray<FTextureParameterBufferParameter> Data;
 
-	FResourceTextureParameterBuffer(FArray<FTextureParameterBufferParameter> Data)
+	FResourceTextureParameterBuffer(const FArray<FTextureParameterBufferParameter>& Data) :
+		Data(Data)
 	{
-		this->Data = Data;
+
 	}
+	FResourceTextureParameterBuffer(const FResourceTextureParameterBuffer& other) :
+		Data(other.Data)
+	{
 
-
+	}
 };
 
 
@@ -195,9 +295,9 @@ struct FResourceComputeShader : public FResourceShaderBase { FResourceComputeSha
 struct FResourceShaderPipelineCreationDescriptor
 {
 	uint32 NumShaders;
-	FResourceShaderBase* ShaderArray;
+	FResourceShaderBase** ShaderArray;
 
-	FResourceShaderPipelineCreationDescriptor(uint32 NumShaders, FResourceShaderBase* ShaderArray) :
+	FResourceShaderPipelineCreationDescriptor(uint32 NumShaders, FResourceShaderBase** ShaderArray) :
 		NumShaders(NumShaders),
 		ShaderArray(ShaderArray)
 	{
@@ -217,8 +317,7 @@ struct FResourceShaderPipeline : FResourceObject
 
 struct FResourceArrayInterface
 {
-	virtual void* GetResourceData() = 0;
-	virtual size_t GetResourceDataSize() = 0;
+
 };
 
 
@@ -239,19 +338,19 @@ public:
 struct FResourceVertexDeclarationComponent
 {
 	uint32 AttribNumber;
-	uint32 Type;
-	bool Normalized;
+	uint32 Length;
+	EFRIVertexDeclerationAttributeType Type;
+	EFRIBool Normalized;
 	uint32 Stride;
-	uint32 ByteSize;
-	void* Offset;
+	uint32 Offset;
 
-	FResourceVertexDeclarationComponent(uint32 attribNumber, uint32 byteSize, uint32 type, bool norm, uint32 stride, void* offset) :
+	FResourceVertexDeclarationComponent(uint32 attribNumber, uint32 length, EFRIVertexDeclerationAttributeType type, EFRIBool norm, uint32 stride, uint32 offset) :
 		AttribNumber(attribNumber),
 		Type(type),
 		Normalized(norm),
 		Stride(stride),
 		Offset(offset),
-		ByteSize(byteSize)
+		Length(length)
 	{
 	}
 };
@@ -265,4 +364,47 @@ struct FResourceVertexDeclaration : FResourceObject
 		DeclarationElements(decl)
 	{
 	}
+};
+
+struct FResourceFrameBufferTextureAttachment
+{
+	union
+	{
+		FResourceTexture2D* Param2D;
+		FResourceTexture3D* Param3D;
+		FResourceTextureCubeMap* ParamCube;
+		FResourceTexture2DArray* Param2DArray;
+	};
+
+	EResourceFBTextureAttachmentType attachmentType;
+	EFRIUniformSamplerType textureType;
+
+
+	FResourceFrameBufferTextureAttachment(FResourceTexture2D* texture, EResourceFBTextureAttachmentType attachmentType) : Param2D(texture), attachmentType(attachmentType), textureType(EFRIUniformSamplerType::TSampler2D) {}
+	FResourceFrameBufferTextureAttachment(FResourceTexture2DArray* texture, EResourceFBTextureAttachmentType attachmentType) : Param2DArray(texture), attachmentType(attachmentType), textureType(EFRIUniformSamplerType::TSampler2DArray) {}
+};
+
+
+struct FResourceTextureColorDescriptor
+{
+	EFRITextureChannelStorage storageFormat;
+	EFRITextureChannels channelFormat;
+	EFRITexturePixelStorage pixelStorage;
+
+	FResourceTextureColorDescriptor(EFRITextureChannelStorage storageFormat, EFRITextureChannels channelFormat, EFRITexturePixelStorage pixelStorage) :
+		storageFormat(storageFormat),
+		channelFormat(channelFormat),
+		pixelStorage(pixelStorage)
+	{
+
+	}
+
+
+};
+
+
+
+struct FRIByte : FResourceArrayInterface
+{
+	byte _Internal;
 };

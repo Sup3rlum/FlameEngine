@@ -63,12 +63,17 @@ public:
 	FORCEINLINE static void ClearColor(Color color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+	FORCEINLINE static void ClearDepth()
+	{
+		//glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	FORCEINLINE static void GenBuffers(uint32 bufferNum, GLuint* buffers)
 	{
 		glGenBuffers(bufferNum, buffers);
 	}
-	FORCEINLINE static void BufferData(uint32 buffer, uint32 type, void* data, size_t byteSize, uint32 drawAccess)
+	FORCEINLINE static void BufferData(uint32 buffer, GLenum type, void* data, size_t byteSize, uint32 drawAccess)
 	{
 		glBindBuffer(type, buffer);
 		glBufferData(type, byteSize, data, drawAccess);

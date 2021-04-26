@@ -21,7 +21,9 @@ EXPORT(struct, FVertexElementComponentAttribute)
 		Stride = stride;
 		Offset = offset;
 		ByteSize = byteSize;
+
 	}
+
 };
 
 
@@ -30,19 +32,13 @@ EXPORT(struct, FVertexElementComponentAttribute)
 
 EXPORT(struct, FVertexComponentInterface) : public FResourceArrayInterface
 {
-public:
-	static FArray<FVertexElementComponentAttribute> ComponentAttributes;
-
-	virtual void* GetResourceData() { return this; }
-	virtual size_t GetResourceDataSize() { return 0; }
 
 
-	
 
 };
 
 
-EXPORT(struct,  FVertexComponent_PositionNormalTexture) : public FVertexComponentBase
+EXPORT(struct,  FVertexComponent_PositionNormalTexture) : public FVertexComponentInterface
 {
 	FVector3 Position;
 	FVector3 Normal;
@@ -57,19 +53,19 @@ EXPORT(struct,  FVertexComponent_PositionNormalTexture) : public FVertexComponen
 
 };
 
-EXPORT(struct, FVertexComponent_PositionTexture) : public FVertexComponentBase
+EXPORT(struct, FVertexComponent_PositionTexture) : public FVertexComponentInterface
 {
 	FVector3 Position;
 	FVector2 TexCoord;
 
-	FVertexComponent_PositionTexture(FVector3 pos, FVector3 norm, FVector2 tex) :
+	FVertexComponent_PositionTexture(FVector3 pos, FVector2 tex) :
 		Position(pos),
 		TexCoord(tex)
 	{
 	}
 };
 
-EXPORT(struct, FVertexComponent_Color) : public FVertexComponentBase
+EXPORT(struct, FVertexComponent_Color) : public FVertexComponentInterface
 {
 	FVector3 Position;
 	FVector3 Color;
@@ -81,9 +77,20 @@ EXPORT(struct, FVertexComponent_Color) : public FVertexComponentBase
 	}
 };
 
+EXPORT(struct, FVertexComponent) : public FVertexComponentInterface
+{
+	FVector3 Position;
+
+	FVertexComponent(FVector3 pos) :
+		Position(pos)
+	{
+	}
+};
 
 
-EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentBase
+
+
+EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentInterface
 {
 	FVector3 Position;
 	FVector3 Normal;
@@ -101,7 +108,7 @@ EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentBase
 	}
 };
 
-EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentBase
+EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentInterface
 {
 	FVector3 Position;
 	FVector3 Normal;
@@ -121,6 +128,16 @@ EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentBas
 
 		jointIds(jointIds),
 		jointWeights(jointWeights)
+	{
+	}
+};
+
+EXPORT(struct, FIndexComponent) : public FResourceArrayInterface
+{
+	uint32 Index;
+
+	FIndexComponent() : Index(0) {}
+	FIndexComponent(uint32 index) : Index(index)
 	{
 	}
 };

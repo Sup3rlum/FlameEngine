@@ -4,7 +4,7 @@
 FRICommandListExecutor GCommandExecutor;
 
 
-void FRICommandList::Flush()
+void FRICommandListBase::Flush()
 {
 	GCommandExecutor.Execute(*this);
 }

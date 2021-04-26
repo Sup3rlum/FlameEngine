@@ -19,7 +19,7 @@ namespace FlameCompiler.ImportScripts
 {
     public struct ModelTask
     {
-        public Model model;
+        public Mesh mesh;
         public string outputFileName;
     }
     public struct MaterialTask
@@ -55,7 +55,7 @@ namespace FlameCompiler.ImportScripts
 
             foreach (var cElement in contentElements)
             {
-                if (cElement.Attribute("type").Value == "model")
+                if (cElement.Attribute("type").Value == "mesh")
                 {
                     LoadModelScript(cElement);
                 }
@@ -75,36 +75,36 @@ namespace FlameCompiler.ImportScripts
         private void LoadModelScript(XElement element)
         {
 
-            Model model = new Model();
+            Mesh mesh;
 
-            var meshElements = element.Elements("mesh");
+            string inputMeshPath = element.Element("source").Attribute("path").Value;
             string outputPath = element.Element("output").Attribute("path").Value;
 
-            foreach (var mElement in meshElements)
-            {
-
-                string materialPath = mElement.Element("material").Attribute("path").Value;
-                string transformData = mElement.Element("transform").Attribute("data").Value;
-                string inputMeshesPath = mElement.Element("meshfile").Attribute("path").Value;
 
 
-                var transform = transformData.Split(" ").Select(a => float.Parse(a)).ToArray();
+            var meshes = OBJ.DecodeData(inputMeshPath);
 
-                var meshes = OBJ.DecodeData(inputMeshesPath);
 
-                foreach (var mesh in meshes)
-                {
-                    model.meshCollection.Add(new ModelMesh(mesh.Key, transform, mesh.Value));
-                }
+            mesh = new Mesh(meshes[0].Key);
 
-                model.worldTransform = transform;
-            }
-
-  
-
-            ModelObjects.Add(new ModelTask() { model = model, outputFileName = outputPath });
+ 
+            ModelObjects.Add(new ModelTask() { mesh = mesh, outputFileName = outputPath });
 
         }
+
+
+
+        private MaterialMapType GetMaterialMapType(string name) => name switch
+        {
+            "Diffuse" => MaterialMapType.Diffuse,
+            "Normal" => MaterialMapType.Normal,
+            "Height" => MaterialMapType.Height,
+            "Roughness" => MaterialMapType.Roughness,
+            "Metallic" => MaterialMapType.Metallic,
+            "AmbientOcclusion" => MaterialMapType.AmbientOcclusion,
+            _ => throw new Exception("Material Map type not recognized")
+        };
+
         private void LoadMaterialScript(XElement element)
         {
             Material material = new Material();
@@ -118,10 +118,13 @@ namespace FlameCompiler.ImportScripts
                 string path = map.Attribute("path").Value;
 
                 Image<Rgba32> im;
+                MaterialMapType type;
+
 
                 try
                 {
                     im  = Image.Load<Rgba32>(path);
+                    type = GetMaterialMapType(name);
                 }
                 catch (Exception x)
                 {
@@ -129,7 +132,7 @@ namespace FlameCompiler.ImportScripts
                     continue;
                 }
 
-                material.mapDictionary.Add(name, im);
+                material.mapArray[(int)type] = im;
 
             }
 

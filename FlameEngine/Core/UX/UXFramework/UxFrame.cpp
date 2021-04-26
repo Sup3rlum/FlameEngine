@@ -1,5 +1,5 @@
 #include "UxFrame.h"
-
+/*
 
 
 UxFrame::UxFrame(FVector2 position, FVector2 size) 
@@ -62,4 +62,4 @@ void UxFrame::Render()
 void UxFrame::Update()
 {
 
-}
+}*/

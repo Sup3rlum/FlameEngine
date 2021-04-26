@@ -23,5 +23,5 @@ void LoggerService::PushMessage(LogMessage type, FString msg)
 		break;
 	}
 
-	data += (fMessagePrefix + msg + "\n");
+	data += (fMessagePrefix + msg + FString("\n"));
 }

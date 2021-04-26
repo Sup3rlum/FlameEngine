@@ -11,9 +11,9 @@ public:
 	Color(byte r, byte g, byte b);
 	Color(byte r, byte g, byte b, byte a);
 
-	Color(float r, float g, float b) : FVector4(r, g, b, 1) {}
+	/*Color(float r, float g, float b) : FVector4(r, g, b, 1) {}
 	Color(float r, float g, float b, float a) : FVector4(r, g, b, a) {}
-
+	*/
 
 	Color(uint32 hex);
 	Color();
@@ -130,6 +130,7 @@ public:
 	static Color Orange;
 	static Color OrangeRed;
 	static Color Orchid;
+	static Color PaleAzure;
 	static Color PaleGoldenrod;
 	static Color PaleGreen;
 	static Color PaleTurquoise;

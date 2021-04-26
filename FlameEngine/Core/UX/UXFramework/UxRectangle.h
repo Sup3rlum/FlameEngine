@@ -1,6 +1,6 @@
 #pragma once
 
-
+/*
 #include "../../dll/nchfx.h"
 #include "../../Mathematics/Module.h"
 
@@ -26,3 +26,4 @@ public:
 	bool Contains(FVector2 point);
 };
 
+*/

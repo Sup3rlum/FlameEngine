@@ -1,163 +1,160 @@
 #pragma once
 
-
+#include <cstring>
 #include "Core/Common/CoreBase.h"
 #include "FArray.h"
-#include <cstring>
+#include "FStringMemoryAllocator.h"
 
 
-typedef wchar_t FChar;
-typedef const char* CstrLiteral;
-typedef const wchar_t* WCstrLiteral;
-typedef char* Cstr;
-typedef wchar_t* WCstr;
+
+
+
+
 
 /*
 *  Defines an immutable, stack allocated string
 */
 
 
-template<size_t GenSize>
-struct FStaticANSIString : public FStaticArray<char, GenSize>
+template<typename TBasicChar, size_t GenSize>
+struct TStaticString: public FStaticArray<TBasicChar, GenSize>
 {
 public:
-	FStaticANSIString()
+	TStaticString()
 	{
-		this->dataInternal = { 0 };
-	}
-	FStaticANSIString(CstrLiteral str)
-	{
-		size_t tsize = strlen(str);
-		tsize = min(tsize, GenSize);
 
-		memcpy(this->dataInternal, str, tsize * sizeof(char));
-		this->dataInternal[tsize] = '\0';
 	}
 
 
-	size_t GetStrLen() const
+	template<typename TBasicType>
+	TStaticString(TBasicType val)
 	{
-		return strlen(this->dataInternal);
-	}
-
-	FChar* ToCString() const
-	{
-		return this->dataInternal;
-	}
-};
-
-
-template<size_t GenSize>
-struct FStaticString : public FStaticArray<FChar, GenSize>
-{
-public:
-	FStaticString()
-	{
-		this->dataInternal = { 0 };
-	}
-	FStaticString(CstrLiteral str)
-	{
-		size_t tsize = strlen(str);
-		tsize = min(tsize, GenSize);
-
-		size_t outSize;
-
-		mbstowcs_s(&outSize, this->dataInternal, tsize + 1, str, tsize);
-
-		this->dataInternal[tsize] = '\0';
-	}
-	FStaticString(WCstrLiteral str)
-	{
-		size_t tsize = wcslen(str);
-
-		tsize = min(tsize, GenSize);
-
-		memcpy(this->dataInternal, str, tsize * sizeof(FChar));
-		this->dataInternal[tsize] = '\0';
+		size_t tsize = FBaseStringMemoryAllocator::GetLength(val);
+		FBaseStringMemoryAllocator::Allocate(this->dataInternal, val, min(tsize, GenSize));
+		this->dataInternal[tsize] = 0;
 	}
 
 
 
 	size_t GetStrLen() const
 	{
-		return wcslen(this->dataInternal);
+		return FBaseStringMemoryAllocator::GetLength(this->dataInternal);
 	}
 
-	FChar* ToWCString() const
+	const TBasicChar* ToPlatformString() const
 	{
 		return this->dataInternal;
 	}
 };
 
-template<size_t GenSize>
-bool operator==(const FStaticString<GenSize>& str, const FStaticString<GenSize>& str2)
+
+
+template<typename TBaseChar>
+EXPORT(struct, TString) : public FArray<TBaseChar>
 {
-	return str.GetStrLen() == str2.GetStrLen() && !memcmp(&str[0], &str2[0], str.GetStrLen() * sizeof(FChar));
-}
-template<size_t GenSize>
-bool operator!=(const FStaticString<GenSize>& str, const FStaticString<GenSize>& str2)
-{
-	return !(str == str2);
-}
-
-
-
-EXPORT(struct, FString) : public FArray<FChar>
-{
-
+	typedef FArray<TBaseChar> BaseType;
+	typedef TBaseChar CharType;
 
 public:
-	FString();
-	FString(CstrLiteral);
-	FString(WCstrLiteral);
-	FString(const FString& f);
-	FString(FString&& f) noexcept;
+	TString() : BaseType() {}
+	TString(const TString& f) : BaseType(f) {}
+	TString(TString&& f) noexcept : BaseType(f) {}
+	
+	template<size_t GenSize>
+	TString(const TStaticString<TBaseChar, GenSize>& str) : BaseType(str) {}
 
 
-	FString(int32_t);
-	FString(int64_t);
-	FString(uint32_t);
-	FString(uint64_t);
-	FString(float);
-	FString(double);
-	FString(char);
-	FString(wchar_t);
-	FString(bool);
+private:
+	template<typename TGenType>
+	void TConstructFromType(TGenType val)
+	{
+		this->Resize(FBaseStringMemoryAllocator::GetLength(val));
+		FBaseStringMemoryAllocator::Allocate(this->ptrInternal, val, this->size);
+	}
+
+public:
+
+	TString(double val) { TConstructFromType(val); }
+	TString(float val) { TConstructFromType(val); }
+	TString(int32 val) { TConstructFromType(val); }
+	TString(uint32 val) { TConstructFromType(val); }
+	TString(int64 val) { TConstructFromType(val); }
+	TString(uint64 val) { TConstructFromType(val); }
+	TString(const FChar* val) { TConstructFromType(val); }
+	TString(const char* val) { TConstructFromType(val); }
+
+	BaseType ToCharArray() const
+	{
+		return BaseType(this->ptrInternal, this->size);
+	}
 
 
-	FArray<FChar> ToCharArray();
+	TBaseChar* ToPlatformString() const
+	{
+		TBaseChar* allocation = Memory::AllocCounted<TBaseChar>(this->size + 1);
+		Memory::CopyCounted(allocation, this->ptrInternal, this->size);
+		allocation[this->size] = 0;
 
-	FChar* ToWCString() const;
-
-
-
-	int FindFirst(const FString& fstring, const FString& what);
-	FArray<int> FindAll(const FString& fstring, const FString& what);
-
-	void Replace(const FString& what, const FString& withWhat);
+		return allocation;
+	}
 
 
 
-	FString& operator=(const FString&);
-	FString& operator=(FString&&);
+	FArray<int> FindAll(const TString& fstring, const TString& what)
+	{
+		FArray<int> occurances;
 
-	FString& operator=(CstrLiteral);
-	FString& operator=(WCstrLiteral);
-
-
-	FString& operator+=(const FString&);
-	FString& operator+=(CstrLiteral);
-	FString& operator+=(WCstrLiteral);
-
-	FString& operator+=(char);
-	FString& operator+=(wchar_t);
+		if (what.Length() > fstring.Length())
+			return occurances;
 
 
-	template<typename...TArgs>
-	static FString Format(const FString& Format, const TArgs&... args);
+		for (int i = 0; i < fstring.Length(); i++)
+		{
+			// We have passed the point where there is not enough string left to match
+			if (i + what.Length() > fstring.Length())
+			{
+				break;
+			}
+
+			// Instead of returning the first occurance, we add it to the list of found ones
+			if (!memcmp(&fstring[i], what.Begin(), what.ByteSize()))
+			{
+				occurances.Add(i);
+			}
+
+		}
+
+		return occurances;
+	}
+	//int FindFirst(const TString& fstring, const TString& what);
+
+	// TODO : Implement
+	void Replace(const TString& what, const TString& withWhat) {}
+
+
+
+	TString& operator=(const TString& str)
+	{
+		BaseType::operator=(str);
+		return *this;
+	}
+	TString& operator=(TString&& str) noexcept
+	{
+		BaseType::operator=(MoveRef(str));
+		return *this;
+	}
+
+	TString& operator+=(const TString& other)
+	{
+		this->AddArray(other);
+		return *this;
+	}
+
 };
 
-EXPORT(struct, FStringFormatArg)
+
+template<typename TBasicChar>
+EXPORT(struct, TStringFormatArg)
 {
 	enum EType { Int, UInt, Double, String, StringLiteral };
 
@@ -168,20 +165,20 @@ EXPORT(struct, FStringFormatArg)
 		int64_t IntValue;
 		uint64_t UIntValue;
 		double DoubleValue;
-		const FChar* StringLiteralValue;
+		const TBasicChar* StringLiteralValue;
 	};
 
-	FString StringValue;
+	TString<TBasicChar> StringValue;
 
-	FStringFormatArg(const int32_t Value) : Type(Int), IntValue(Value) {}
-	FStringFormatArg(const uint32_t Value) : Type(UInt), UIntValue(Value) {}
-	FStringFormatArg(const int64_t Value) : Type(Int), IntValue(Value) {}
-	FStringFormatArg(const uint64_t Value) : Type(UInt), UIntValue(Value) {}
-	FStringFormatArg(const float Value) : Type(Double), DoubleValue(Value) {}
-	FStringFormatArg(const double Value) : Type(Double), DoubleValue(Value) {}
-	FStringFormatArg(FString Value) : Type(String), StringValue(Value) {}
-	FStringFormatArg(const FChar* Value) : Type(StringLiteral), StringLiteralValue(Value) {}
-	FStringFormatArg(const FStringFormatArg& RHS)
+	TStringFormatArg(const int32_t Value) : Type(Int), IntValue(Value) {}
+	TStringFormatArg(const uint32_t Value) : Type(UInt), UIntValue(Value) {}
+	TStringFormatArg(const int64_t Value) : Type(Int), IntValue(Value) {}
+	TStringFormatArg(const uint64_t Value) : Type(UInt), UIntValue(Value) {}
+	TStringFormatArg(const float Value) : Type(Double), DoubleValue(Value) {}
+	TStringFormatArg(const double Value) : Type(Double), DoubleValue(Value) {}
+	TStringFormatArg(TString<TBasicChar> Value) : Type(String), StringValue(Value) {}
+	TStringFormatArg(const TBasicChar * Value) : Type(StringLiteral), StringLiteralValue(Value) {}
+	TStringFormatArg(const TStringFormatArg & RHS)
 	{
 		Type = RHS.Type;
 		switch (Type)
@@ -197,77 +194,107 @@ EXPORT(struct, FStringFormatArg)
 
 private:
 
-	FStringFormatArg();
+	TStringFormatArg();
 };
 
 
-template<typename...TArgs>
-FString FString::Format(const FString& Format, const TArgs&... args)
+template<size_t GenSize>
+using FStaticAnsiString = TStaticString<char, GenSize>;
+
+template<size_t GenSize>
+using FStaticString = TStaticString<FChar, GenSize>;
+
+template<size_t GenSize>
+using FStaticUTF32String = TStaticString<char32_t, GenSize>;
+
+
+typedef TString<char> FAnsiString;
+typedef TString<FChar> FString;
+typedef TString<char32_t> FUTF32String;
+
+
+
+template<typename TBasicChar>
+EXPORT(struct, TStringFormatter)
 {
+	typedef TString<TBasicChar> TStringType;
+	typedef TStringFormatArg<TBasicChar> TArgType;
 
-	FArray<FStringFormatArg> formatargs = { FStringFormatArg(args) ... };
-
-	FString result = "";
-
-	int formatReq = 0;
-
-	for (size_t i = 0; i < Format.size; i++)
+public:
+	template<typename...TArgs>
+	static TStringType Format(const TStringType& Format, const TArgs&... args)
 	{
-		if (Format[i] != L'%')
-		{
-			result += Format[i];
-		}
-		else
-		{
+		FArray<TArgType> formatargs = { TArgType(args) ... };
 
-			int formatIndex = (Format[i++ + 1] - L'0');
+		TStringType result;
 
-			if (Format[i] == L'%')
+		int formatReq = 0;
+
+		for (size_t i = 0; i < Format.Length(); i++)
+		{
+			if (Format[i] != FStringFormatterSpecifier<TBasicChar>::Percent())
 			{
-				result += L'%';
+				result += Format[i];
 			}
-
-			if (formatIndex >= 0 && formatIndex <= 9)
+			else
 			{
 
-				FStringFormatArg::EType debugt = formatargs[formatIndex].Type;
+				int formatIndex = (Format[i++ + 1] - FStringFormatterSpecifier<TBasicChar>::Zero() /* "0" */);
 
-				if (debugt == FStringFormatArg::Double)
+				if (Format[i] == FStringFormatterSpecifier<TBasicChar>::Percent())
 				{
-					result += FString(formatargs[formatIndex].DoubleValue);
+					result += FStringFormatterSpecifier<TBasicChar>::Percent() /* % */;
+				}
 
-				}
-				if (debugt == FStringFormatArg::Int)
+				if (formatIndex >= 0 && formatIndex <= 9)
 				{
-					result += FString(formatargs[formatIndex].IntValue);
-				}
-				if (debugt == FStringFormatArg::UInt)
-				{
-					result += FString(formatargs[formatIndex].UIntValue);
+					typename TArgType::EType debugt = formatargs[formatIndex].Type;
 
-				}
-				if (debugt == FStringFormatArg::StringLiteral)
-				{
-					result += FString(formatargs[formatIndex].StringLiteralValue);
-				}
-				if (debugt == FStringFormatArg::String)
-				{
-					result += formatargs[formatIndex].StringValue;
+					if (debugt == TArgType::Double)
+					{
+						result += TStringType(formatargs[formatIndex].DoubleValue);
+					}
+					if (debugt == TArgType::Int)
+					{
+						result += TStringType(formatargs[formatIndex].IntValue);
+					}
+					if (debugt == TArgType::UInt)
+					{
+						result += TStringType(formatargs[formatIndex].UIntValue);
+					}
+					if (debugt == TArgType::StringLiteral)
+					{
+						result += TStringType(formatargs[formatIndex].StringLiteralValue);
+					}
+					if (debugt == TArgType::String)
+					{
+						result += formatargs[formatIndex].StringValue;
+					}
 				}
 			}
 		}
+
+		return result;
 	}
 
-	return result;
-}
+};
+
+typedef TStringFormatter<char> FAnsiStringFormatter;
+typedef TStringFormatter<FChar> FStringFormatter;
 
 
 
-bool operator==(const FString& str, const FString&);
-bool operator!=(const FString& str, const FString&);
+enum class EStringByteEncoding
+{
+	ANSI,
+	UTF8
+};
+
+struct FStringEncoder
+{
+	static FString GetFromBytes(FArray<byte> byteArray, EStringByteEncoding encoding);
+};
 
 
-const FString& operator+(const FString& str, const FString&);
-FString operator+(const FString& str, CstrLiteral);
-FString operator+(const FString& str, WCstrLiteral);
+#include "FString.inl"
 

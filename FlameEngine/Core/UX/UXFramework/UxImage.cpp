@@ -1,7 +1,7 @@
 #include "UxImage.h"
 
 
-
+/*
 UxImage::UxImage(FVector2 position, FVector2 size, Texture* texture)
 	:
 	Position(position),
@@ -52,4 +52,4 @@ void UxImage::Render()
 void UxImage::Update()
 {
 
-}
+}*/

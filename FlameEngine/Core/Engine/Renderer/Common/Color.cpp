@@ -1,6 +1,6 @@
 #include "Color.h"
 
-Color::Color(BYTE r, BYTE g, BYTE b)
+Color::Color(byte r, byte g, byte b)
 {
 	this->r = (float)r / 255.0f;
 	this->g = (float)g / 255.0f;
@@ -8,14 +8,14 @@ Color::Color(BYTE r, BYTE g, BYTE b)
 	this->a = 1.0f;
 }
 
-Color::Color(BYTE r, BYTE g, BYTE b, BYTE a)
+Color::Color(byte r, byte g, byte b, byte a)
 {
 	this->r = (float)r / 255.0f;
 	this->g = (float)g / 255.0f;
 	this->b = (float)b / 255.0f;
 	this->a = (float)a / 255.0f;
 }
-Color::Color(_UNS_ FL_INT32 hex)
+Color::Color(uint32 hex)
 {
 	Color(
 		((hex >> 24) & 0xFF),
@@ -34,7 +34,7 @@ Color Color::Alicelue				= Color(240, 248, 255);
 Color Color::AntiqueWhite			= Color(250, 235, 215);
 Color Color::Aqua					= Color(0, 255, 255);
 Color Color::Aquamarine				= Color(127, 255, 212);
-Color Color::Azure					= Color(240, 255, 255);
+Color Color::Azure					= Color(0, 127, 255);
 Color Color::Beige					= Color(245, 245, 220);
 Color Color::Bisque					= Color(255, 228, 196);
 Color Color::Black					= Color(0, 0, 0);
@@ -133,6 +133,7 @@ Color Color::OliveDrab				= Color(107, 142, 35);
 Color Color::Orange					= Color(255, 165, 0);
 Color Color::OrangeRed				= Color(255, 69, 0);
 Color Color::Orchid					= Color(218, 112, 214);
+Color Color::PaleAzure				= Color(240, 255, 255);
 Color Color::PaleGoldenrod			= Color(238, 232, 170);
 Color Color::PaleGreen				= Color(152, 251, 152);
 Color Color::PaleTurquoise			= Color(175, 238, 238);

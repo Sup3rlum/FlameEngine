@@ -1,68 +1,85 @@
 #pragma once
 
-#include "../Graphics/ModelSystem/Base/ModelBase.h"
-#include "../Graphics/ModelSystem/Animated/AnimatedModel.h"
-#include "../Graphics/ModelSystem/Fracture/FractureModel.h"
-#include "../Graphics/ModelSystem/Static/StaticModel.h"
+
+#include "Core/Framework/IO/FileStream.h"
 
 
-#include "../Graphics/MaterialSystem/Base/MaterialBase.h"
-#include "../Graphics/MaterialSystem/Baked/BakedMaterial.h"
-#include "../Graphics/MaterialSystem/Animated/AnimatedMaterial.h"
-
-
-#include "../Graphics/ShaderDefinitions/CompilationServices/FLSLCompilerService.h"
-#include "../Graphics/Common/Vertex.h"
-#include "../FileSystem/File.h"
-#include "../flameRT/Memory.h"
-#include "../Framework/Common/FLFileStream.h"
-
-
-
-EXPORT_ENUM SignatureType
+enum class ELocalContentFileStorage
 {
-	Model,
-	Material
-};
-
-
-EXPORT_ENUM ModelTypeEnum
-{
-	STATIC = 1,
-	ANIMATED = 2,
-	FRACTURE = 3
+	BINARY,
+	JSON,
+	XML
 };
 
 
 
-EXPORT(class,  LocalContentService)
+struct FLocalContentFileDescriptionBase
 {
-private:
-	static bool ValidateSignature(SignatureType s);
+	FStaticAnsiString<4> Signature;
+	ELocalContentFileStorage FileStorage;
+
+	FLocalContentFileDescriptionBase(FStaticAnsiString<4> Signature, ELocalContentFileStorage FileStorage) :
+		Signature(Signature),
+		FileStorage(FileStorage)
+	{
+
+	}
+
+	FLocalContentFileDescriptionBase() = delete;
+};
+
+
+template<typename TComponentType>
+struct TSerializerInterface
+{
+	virtual TComponentType Serialize(IOFileStream& fileStream) = 0;
+};
+
+
+
+
+
+
+template<typename TComponentType, typename TDescriptor, typename TSerializer>
+struct FLocalContentLoader
+{
+	bool LoadAsync = false;
+	bool ValidateChecksum = true;
+
+
 public:
+	FLocalContentLoader(bool LoadAsync, bool ValidateChecksum) : LoadAsync(LoadAsync), ValidateChecksum(ValidateChecksum)
+	{
+	}
+
+	template<typename...TArgs>
+	TComponentType LoadFromLocal(FString filepath, TArgs... targs)
+	{
+		TDescriptor descriptor;
+
+		if (descriptor.FileStorage == ELocalContentFileStorage::BINARY)
+		{
+
+			IOFileStream fileStream(filepath);
 
 
-	// -- Model Loading
+			FStaticAnsiString<4> fileSignature;
+			FStaticArray<byte, 4> fileVersion;
+			FStaticArray<byte, 16> fileChecksum;
 
-	template<typename modelType>
-	static FLRESULT LoadModelFromFile(STRING path, _Out_ modelType* m);
+			fileStream.ReadArray(fileSignature);
+			fileStream.ReadArray(fileVersion);
+			fileStream.ReadArray(fileChecksum);
 
-	template<>
-	static FLRESULT LoadModelFromFile<AnimatedModel>(STRING path,	_Out_ AnimatedModel * modelType);
-	template<>
-	static FLRESULT LoadModelFromFile<StaticModel>(STRING path,		_Out_ StaticModel * modelType);
-	template<>
-	static FLRESULT LoadModelFromFile<FractureModel>(STRING path,	_Out_ FractureModel * modelType);
+			if (fileSignature != descriptor.Signature)
+			{
+				// TODO: Not matching signature
+			}
 
+			return TSerializer(targs...).Serialize(fileStream);
 
-	// -- Material Loading
+		}
 
-	template<typename materialType>
-	static FLRESULT LoadMaterialFromFile(STRING path, _Out_ materialType * m);
-
-	template<>
-	static FLRESULT LoadMaterialFromFile<BakedMaterial>(STRING path, _Out_ BakedMaterial * m);
-	template<>
-	static FLRESULT LoadMaterialFromFile<AnimatedMaterial>(STRING path, _Out_ AnimatedMaterial* m);
+	}
 };
 

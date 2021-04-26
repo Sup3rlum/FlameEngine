@@ -1,6 +1,6 @@
 #pragma once
 
-
+/*
 #include "../../dll/nchfx.h"
 #include "../Common/Texture.h"
 #include "../ShaderDefinitions/Program.h"
@@ -32,3 +32,4 @@ public:
 		Context* mAttachedContext;
 };
 
+*/

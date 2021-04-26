@@ -1,20 +1,24 @@
 #pragma once
 
-#include "../../dll/nchfx.h"
-#include "../Common/VertexBuffer.h"
-#include "../Common/Vertex.h"
-#include "../../Scene/GameObjects/Camera.h"
-#include "../ShaderDefinitions/Program.h"
-#include "RenderingServiceBase.h"
 
-EXPORT(class, BoundingVolumeDebugService) : public RenderingServiceBase
+#include "../../GameSystem/CameraSystem/CameraComponent.h"
+#include "../Common/Geometry/VertexComponent.h"
+
+#include "Core/Engine/FlameRI/FRI.h"
+#include "Core/Framework/IO/FileStream.h"
+
+EXPORT(class, BoundingVolumeDebugService) 
 {
 public:
-	BoundingVolumeDebugService(Context* context);
-	void Render(Camera* cam, FVector3* Corners);
+	BoundingVolumeDebugService(FRICommandList& cmdList);
+	void Render(FRICommandList& cmdList, const CameraComponent& cam, FVector3* Corners);
 
-	VertexBuffer* mVertexBuffer;
-	Program* mDebugShader;
-	
+	FResourceShaderPipeline* pipeline;
+	FResourceVertexBuffer* vBuffer;
+
+	uint32 ViewLoc;
+	uint32 ProjLoc;
+
+	FResourceVertexDeclaration vDecl;
+
 };
-

@@ -1,68 +1,198 @@
 #include "TestGame.h"
 
-
-#include <immintrin.h>
-#include <ctime>
-
+#include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/Mesh.h"
+#include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/SkinnedMesh.h"
+#include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/Material.h"
+#include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/AnimationSequence.h"
 
 TestGameApplication::TestGameApplication(FString appName) : GameApplication(appName)
 {
 
+	playerEntity = currentScene->CreateEntity<TransformComponent, CameraComponent, FirstPersonCharacterComponent, ControlComponent>("player");
+	currentScene->Camera = playerEntity;
+
+
+	playerEntity.SetComponent(CameraComponent(FViewMatrix(FVector3(5, 5, 5), FVector3(0, 0, 0), FVector3(0, 1, 0)), FPerspectiveMatrix(PI / 4, 16.0f / 9.0f, 0.1f, 300.0f)));
+	playerEntity.Component<TransformComponent>().Transform.Position = FVector3(5, 5, 5);
+	playerEntity.Component<TransformComponent>().Transform.Orientation = FQuaternion::Identity();
+
+	playerEntity.Component<FirstPersonCharacterComponent>().yaw = 2.3;
+	playerEntity.Component<FirstPersonCharacterComponent>().flySpeed = 100.0;
+
+
+
+
+	currentScene->Sun = currentScene->CreateEntity<DirectionalLightComponent>("Sun");
+	currentScene->Sun.Component<DirectionalLightComponent>().Direction = FVector3::Normalize(FVector3(-1, -1, -1));
+	currentScene->Sun.Component<DirectionalLightComponent>().Intensity = 1.0f;
+	/*currentScene->Sun.Component<DirectionalLightComponent>().VMatrix = FViewMatrix(FVector3(30, 30, 0), FVector3(0), FVector3(0, 1, 0));
+	currentScene->Sun.Component<DirectionalLightComponent>().PMatrix = FOrthographicMatrix(-30, 30, -30, 30, 0.1f, 50.0f);*/
+}
+
+
+void TestGameApplication::Update()
+{
+	FirstPersonCharacterSystem playerSystem = currentScene->CreateSystem<TransformComponent, CameraComponent, FirstPersonCharacterComponent, ControlComponent>();
+
+
+	playerSystem.ForEach([&](Entity ent, TransformComponent& transformComponent, CameraComponent& cam, FirstPersonCharacterComponent& fp, ControlComponent& control)
+		{
+
+			if (control.IsKeyDown(FKeyboardKeys::Z))
+			{
+				fp.isCursorLocked = !fp.isCursorLocked;
+			}
+			
+			if (control.IsKeyDown(FKeyboardKeys::A))
+			{
+				transformComponent.Transform.Position -= fp.Right * fp.flySpeed * 0.001f;
+			}
+			if (control.IsKeyDown(FKeyboardKeys::D))
+			{
+				transformComponent.Transform.Position += fp.Right * fp.flySpeed * 0.001f;
+			}
+
+			if (control.IsKeyDown(FKeyboardKeys::W))
+			{
+				transformComponent.Transform.Position += fp.LookDirection * fp.flySpeed * 0.001f;
+
+			}
+
+			if (control.IsKeyDown(FKeyboardKeys::S))
+			{
+				transformComponent.Transform.Position -= fp.LookDirection * fp.flySpeed * 0.001f;
+			}
+
+			if (control.IsKeyDown(FKeyboardKeys::K))
+			{
+				boneGuy.Component<AnimationComponent>().PlaySequence("Run");
+			}
+
+
+
+			if (control.IsKeyDown(FKeyboardKeys::Space))
+			{
+				isShooting = true;
+
+			}
+			if (!control.IsKeyDown(FKeyboardKeys::Space))
+			{
+				isShooting = false;
+			}
+
+			if (!wasShooting)
+			{
+				if (isShooting)
+				{
+					Shoot();
+				}
+			}
+
+
+			fp.pitch = FMathFunc::Clamp
+			(
+				fp.pitch,
+				-HALF_PI + 0.1f,
+				HALF_PI - 0.1f
+			);
+
+
+			FVector2 cursorPos = FriContext->GetCursorPosition();
+
+			if (fp.isCursorLocked)
+			{
+
+				FVector2 viewportSize = FriContext->GetViewportSize();
+
+				FriContext->SetCursorPosition
+				(
+					viewportSize / 2.0f
+				);
+
+
+				FVector2 offset = (viewportSize / 2.0f - cursorPos) * 0.3f * -0.003f;
+
+				fp.yaw -= offset.x;
+				fp.pitch -= offset.y;
+			}
+
+			
+			fp.LookDirection = FVector3
+			(
+				FMathFunc::Cos(fp.pitch) * FMathFunc::Sin(fp.yaw),
+				FMathFunc::Sin(fp.pitch),
+				FMathFunc::Cos(fp.pitch) * FMathFunc::Cos(fp.yaw)
+			);
+			
+			fp.Right = FVector3
+			(
+				FMathFunc::Sin(fp.yaw - HALF_PI),
+				0,
+				FMathFunc::Cos(fp.yaw - HALF_PI)
+			);
+			
+			fp.Up = fp.Right ^ fp.LookDirection;
+
+			cam.View = FViewMatrix(transformComponent.Transform.Position, transformComponent.Transform.Position + fp.LookDirection, fp.Up);
+		});
+
+	wasShooting = isShooting;
+}
+
+
+
+void TestGameApplication::Shoot()
+{
+	
+	FMeshLoader modelLoader(false, true);
+	FMaterialLoader materialLoader(false, true);
+
+	Entity ball = currentScene->CreateEntity<MeshComponent, MaterialComponent, TransformComponent, DynamicPhysicsComponent>("ball");
+
+	ball.SetComponent<MeshComponent>(modelLoader.LoadFromLocal("models/sphere.fl3d", FriContext));
+	ball.SetComponent<MaterialComponent>(materialLoader.LoadFromLocal("materials/default.flmt", FriContext));
+
+	ball.SetComponent<TransformComponent>(FTransform(FVector3(0, 10, 0)));
+	ball.SetComponent<DynamicPhysicsComponent>(currentScene->Physics->CreateDynamic(ball.Component<TransformComponent>().Transform));
+	ball.Component<DynamicPhysicsComponent>().AttachShape(currentScene->Physics->CreateShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), SphereGeometry(1.0f)));
+	ball.Component<DynamicPhysicsComponent>().SetAngularVelocity(FVector3(0.2f, 0, 0));
 }
 
 void TestGameApplication::Load()
 {
+	FMeshLoader modelLoader(false, true);
+	FSkinnedMeshLoader skinnedModelLoader(false, true);
+	FMaterialLoader materialLoader(false, true);
+	FAnimSequenceLoader animLoader(false, true);
 
-	_currentScene->DirectionalLightCollection.push_back(DirectionalLight(FVector3(-1.0f, -1.0f, 0.2f), Color::White, 1.0f));
 
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-20.0f, 1.0f, 0.0f), Color::Red,		1.0f, 10.0f));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(-10.0f, 5.0f, 0.0f), Color::Blue,		2.0f, 15.0f));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(0.0f,	 3.0f, 0.0f), Color::Green,		3.3f, 3.0f));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(10.0f, 5.0f, 0.0f), Color::Yellow,	0.5f, 25.0f));
-	_currentScene->PointLightCollection.push_back(PointLight(FVector3(20.0f, 1.0f, 0.0f), Color::White,	7.0f, 1.3f));
+	floorEntity = currentScene->CreateEntity<MeshComponent, MaterialComponent, TransformComponent, StaticPhysicsComponent>("ground");
 
-	//GameEntity* _man = new GameEntity("man.fl3d");
-	//_man->Position = FVector3(4, -1, -4);
-	//_man->Scale = FVector3(1.0f);
+	floorEntity.SetComponent<MeshComponent>(modelLoader.LoadFromLocal("models/plane.fl3d", FriContext));
+	floorEntity.SetComponent<MaterialComponent>(materialLoader.LoadFromLocal("materials/default.flmt", FriContext));
 
-	PxMaterial* pxMaterial = _currentScene->pPhysXService->mPxPhysics->createMaterial(0.8, 0.8, 0.1);
+	floorEntity.Component<MaterialComponent>().SetWrapMode(EMaterialWrap::Repeat);
+	floorEntity.Component<MaterialComponent>().SetFilterMode(EMaterialFilter::Trilinear);
 
-	GameEntity* _ground = new GameEntity("plane.fl3d");
-	_ground->Position = FVector3(0, 0, 0);
-	_ground->Scale = FVector3(5.0f);
-	_ground->pPxActor = _currentScene->pPhysXService->mPxPhysics->createRigidStatic(PxTransform(PxVec3(0, 0, 0), PxQuat(HALF_PI, PxVec3(0, 0, 1))));
-	PxShape* _groundShape = _currentScene->pPhysXService->mPxPhysics->createShape(PxPlaneGeometry(), *pxMaterial);
-	_ground->pPxActor->attachShape(*_groundShape);
-	_currentScene->AddActor("ground", _ground);
+	floorEntity.SetComponent<TransformComponent>(FTransform(FQuaternion::FromAxisAngle(-HALF_PI, FVector3(1, 0, 0))));
+	floorEntity.SetComponent<StaticPhysicsComponent>(currentScene->Physics->CreateStatic(FTransform(FQuaternion::FromAxisAngle(HALF_PI, FVector3(0, 0, 1)))));
+
+	floorEntity.Component<StaticPhysicsComponent>().AttachShape(currentScene->Physics->CreateShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), PlaneGeometry()));
 
 
 
-	/*GameEntity* _sponza = new GameEntity("sponza.fl3d");
-	_sponza->Position = FVector3(0, 0, 0);
-	_sponza->Scale = FVector3(0.15f);
-	_currentScene->AddActor("sponza", _sponza);
-	*/
+	boneGuy = currentScene->CreateEntity<SkinnedMeshComponent, MaterialComponent, TransformComponent, AnimationComponent>("boneGuy");
 
+	boneGuy.SetComponent<SkinnedMeshComponent>(skinnedModelLoader.LoadFromLocal("models/bone_guy.fl3d", FriContext));
 
-	//GameEntity* _house = new GameEntity("cottage.fl3d");
-	//_house->Scale = FVector3(1.0f);
-	//_house->Position = FVector3(35, 0.5f, -15);
+	boneGuy.SetComponent<MaterialComponent>(materialLoader.LoadFromLocal("materials/default.flmt", FriContext));
+	boneGuy.Component<MaterialComponent>().SetWrapMode(EMaterialWrap::Repeat);
+	boneGuy.Component<MaterialComponent>().SetFilterMode(EMaterialFilter::Trilinear);
 
+	boneGuy.SetComponent<TransformComponent>(FTransform(FQuaternion::FromAxisAngle(-HALF_PI, FVector3(1, 0, 0))));
+	boneGuy.Component<AnimationComponent>() = AnimationComponent();
 
-
-
-
-
-	//_currentScene->AddActor("man", _man);
-
-
-
-	//_currentScene->AddActor("house", _house);
-
-
-	
-
-
+	boneGuy.Component<AnimationComponent>().AddSequence("Run", animLoader.LoadFromLocal("animations/anim_guy.fl3d.anim"));
 }
 
 void TestGameApplication::Suspend()
@@ -76,9 +206,11 @@ void TestGameApplication::Dispose()
 
 
 }
-
+/*/
 void TestGameApplication::ShootSphere()
 {
+
+	
 	FVector3 dir = _currentScene->CurrentCamera()->LookDirection;
 	FVector3 pos = _currentScene->CurrentCamera()->Position;
 
@@ -105,7 +237,8 @@ void TestGameApplication::ShootSphere()
 	sprintf_s(buff, "sphere%d", _currentScene->actorCollection.size());
 
 	_currentScene->AddActor(buff, _sphere);
-}
+}*/
+/*
 void TestGameApplication::ShootBox()
 {
 	FVector3 dir = _currentScene->CurrentCamera()->LookDirection;
@@ -205,4 +338,4 @@ void TestGameApplication::KeyEventCallback(KeyEventArgs args)
 	{
 		_currentScene->snapToFrust = !_currentScene->snapToFrust;
 	}
-}
+}*/

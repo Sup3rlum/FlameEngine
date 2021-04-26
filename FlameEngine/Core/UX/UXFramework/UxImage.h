@@ -1,5 +1,7 @@
 #pragma once
 
+/*
+
 #include "../../dll/nchfx.h"
 
 #include "UxComponent.h"
@@ -22,3 +24,4 @@ private:
 	Program* mImageShader;
 };
 
+*/

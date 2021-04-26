@@ -86,9 +86,50 @@ namespace FlameCompiler.Data
     }
 
 
+    public enum EFRIVertexDeclerationAttributeType : uint
+    {
+        Float = 0x1406,
+        Int = 0x1404
+    }
+
+    enum EFRIIndexType : uint
+    {
+        UINT8 = 0x1401,
+	    UINT16 = 0x1403,
+	    UINT32 = 0x1405
+    }
+
+    public class VertexDeclerationComponent
+    {
+        public uint AttribNumber;
+        public EFRIVertexDeclerationAttributeType Type;
+        public bool Normalized;
+        public uint Stride;
+        public uint Length;
+        public uint Offset;
+
+        public VertexDeclerationComponent(uint a, uint l, EFRIVertexDeclerationAttributeType t, bool n, uint s, uint o)
+        {
+            AttribNumber = a;
+            Type = t;
+            Normalized = n;
+            Stride = s;
+            Length = l;
+            Offset = o;
+        }
+
+    }
+
+    public class VertexDeclaration
+    {
+        public int VertexSize;
+        public VertexDeclerationComponent[] VertComponents;
+    }
+
 
     public class DataBuffer
     {
+        public VertexDeclaration vertexDeclaration;
         public StaticModelVertex[] Data;
         public uint[] IndexData;
 

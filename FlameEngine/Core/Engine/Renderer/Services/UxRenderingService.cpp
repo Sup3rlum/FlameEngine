@@ -1,6 +1,6 @@
 #include "UxRenderingService.h"
 
-
+/*
 VertexTexture mVertexData[4] =
 {
 	VertexTexture(FVector3(0,0,0), FVector2(0,1)),
@@ -63,4 +63,4 @@ void UxRenderingService::DrawElement()
 {
 
 	mVertexBuffer->RenderIndexed(GL_TRIANGLES);
-}
+}*/

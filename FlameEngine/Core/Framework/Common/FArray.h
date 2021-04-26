@@ -2,14 +2,14 @@
 
 
 #include "Core/Common/CoreBase.h"
+#include "Core/Common/TypeTraits.h"
 #include "Core/Runtime/Common/Memory.h"
 
 
 
 
-
 template<typename GenType, size_t GenSize>
-EXPORT(class, FStaticArray)
+struct FStaticArray
 {
 public:
 	typedef GenType* IteratorType;
@@ -28,22 +28,33 @@ public:
 
 	FStaticArray(const GenType(&constArr)[GenSize])
 	{
-		memcpy(dataInternal, constArr, GenSize * sizeof(GenType));
+		Memory::CopyCounted<GenType>(dataInternal, constArr, GenSize);
+	}
+	FStaticArray(const GenType* constArr)
+	{
+		Memory::CopyCounted<GenType>(dataInternal, constArr, GenSize);
 	}
 	/*
 	*	Copy Constructor
 	*/
 	FStaticArray(const FStaticArray<GenType, GenSize>&arr)
 	{
-		memcpy(dataInternal, arr.dataInternal, GenSize * sizeof(GenType));
+		Memory::CopyCounted<GenType>(dataInternal, arr.dataInternal, GenSize);
 	}
 	/*
 	*	C++ why you make me use std :(
 	*/
-	FStaticArray(std::initializer_list<GenType> list) : FStaticArray(static_cast<const GenType*>(list.begin()), GenSize) 
+	FStaticArray(std::initializer_list<GenType> list) : FStaticArray(static_cast<const GenType*>(list.begin())) 
 	{
 		assert(GenSize == list.size());
 	}
+
+	
+	virtual ~FStaticArray()
+	{
+		//Memory::Free(dataInternal);
+	}
+	
 
 
 	/* Sizing methods */
@@ -68,14 +79,24 @@ public:
 
 
 	/* Iteration */
-	IteratorType Begin() const
+	GenType* Begin()
 	{
 		return dataInternal;
 	}
-	IteratorType End() const
+	const GenType* Begin() const
+	{
+		return dataInternal;
+	}
+
+	GenType* End()
 	{
 		return dataInternal + GenSize;
 	}
+	const GenType* End() const
+	{
+		return dataInternal + GenSize;
+	}
+
 
 	GenType& First()
 	{
@@ -126,7 +147,7 @@ protected:
 
 
 template<typename GenType>
-EXPORT(struct, FArray)
+struct FArray
 {
 public:
 
@@ -136,33 +157,31 @@ public:
 	/*
 	*	Default Constructor
 	*/
-	FArray()
+	FArray() :
+		size(0),
+		capacity(0),
+		ptrInternal(NULL)
 	{
-		size = 0;
-		capacity = 0;
-		ptrInternal = NULL;
 	}
 
-	FArray(size_t initSize)
+	FArray(size_t initSize) :
+		size(initSize),
+		capacity(initSize)
 	{
-		size = initSize;
-		capacity = initSize;
-		ptrInternal = Memory::Create<GenType>(initSize);
+		ptrInternal = Memory::AllocCounted<GenType>(initSize);
 
 		Memory::Zero(ptrInternal, size);
 	}
 	/*
 	*	From memory block Constructor
 	*/
-	FArray(const GenType * constArr, size_t _Size)
+	FArray(const GenType* constArr, size_t _Size) :
+		size(_Size),
+		capacity(_Size)
 	{
-		size = _Size;
-		capacity = _Size;
+		ptrInternal = Memory::AllocCounted<GenType>(_Size);
 
-		ptrInternal = Memory::Create<GenType>(_Size);
-
-		memcpy(ptrInternal, constArr, _Size * sizeof(GenType));
-
+		Memory::CopyCounted<GenType>(ptrInternal, constArr, _Size);
 	}
 	/*
 	*	From FStaticArray constructor
@@ -179,12 +198,11 @@ public:
 	/*
 	*	Move Constructor
 	*/
-	FArray(FArray<GenType> && arr)
+	FArray(FArray<GenType> && arr) :
+		size(arr.size),
+		capacity(arr.capacity),
+		ptrInternal(arr.ptrInternal)
 	{
-		size = arr.size;
-		capacity = arr.capacity;
-		ptrInternal = arr.ptrInternal;
-
 
 		arr.size = 0;
 		arr.capacity = 0;
@@ -194,6 +212,17 @@ public:
 	*	C++ why you make me use std :(
 	*/
 	FArray(std::initializer_list<GenType> list) : FArray(static_cast<const GenType*>(list.begin()), list.size()) {}
+
+	/*
+	*   Destructor
+	*/
+
+	
+	virtual ~FArray()
+	{
+		Memory::Free(ptrInternal);
+	}
+	
 
 
 	/* Sizing methods */
@@ -215,17 +244,47 @@ public:
 	{
 		return ptrInternal == NULL || size == 0 || capacity == 0;
 	}
-
-
 	/* Iteration */
-	IteratorType Begin() const
+	IteratorType Begin()
 	{
 		return ptrInternal;
 	}
-	IteratorType End() const
+	const IteratorType Begin() const
+	{
+		return ptrInternal;
+	}
+	IteratorType End()
 	{
 		return ptrInternal + size;
 	}
+	const IteratorType End() const
+	{
+		return ptrInternal + size;
+	}
+
+
+
+	/* C++ range based for loop */
+
+	IteratorType begin()
+	{
+		return ptrInternal;
+	}
+	const IteratorType begin() const
+	{
+		return ptrInternal;
+	}
+	IteratorType end()
+	{
+		return ptrInternal + size;
+	}
+	const IteratorType end() const
+	{
+		return ptrInternal + size;
+	}
+
+
+	/*----------------*/
 
 	GenType& First()
 	{
@@ -252,11 +311,15 @@ public:
 
 	GenType& operator[](size_t index)
 	{
+		assert(index < size);
+
 		return ptrInternal[index];
 	}
 
 	const GenType& operator[](size_t index) const
 	{
+		assert(index < size);
+
 		return ptrInternal[index];
 	}
 
@@ -266,51 +329,59 @@ public:
 
 		size = arr.size;
 		capacity = arr.capacity;
-		ptrInternal = Memory::Create<GenType>(size);
+		ptrInternal = Memory::AllocCounted<GenType>(size);
 
-		memcpy(ptrInternal, arr.ptrInternal, size * sizeof(GenType));
+		Memory::CopyCounted(ptrInternal, arr.ptrInternal, size);
 
 		return *this;
 	}
 
 
 	/* Array Operations */
-	void Add(const GenType & v)
+	FArray<GenType>& Add(const GenType & v)
 	{
 		if (size >= capacity)
 			Reserve(capacity + 5);
 		ptrInternal[size++] = v;
+
+		return *this;
 	}
 
 
-	void Add(GenType && v)
+	FArray<GenType>& Add(GenType && v)
 	{
 		if (size >= capacity)
 			Reserve(capacity + 5);
 		ptrInternal[size++] = v;
+
+		return *this;
 	}
 
 
-	void AddArray(const FArray<GenType>&arr)
+	FArray<GenType>& AddArray(const FArray<GenType>&arr)
 	{
 		size_t oldSize = size;
-		Resize(size + arr.size);
 
-		memcpy(ptrInternal + oldSize, arr.ptrInternal, arr.size * sizeof(GenType));
+		if (size + arr.size >= capacity)
+			Resize(size + arr.size);
+
+		Memory::CopyCounted(ptrInternal + oldSize, arr.ptrInternal, arr.size);
+
+		return *this;
 	}
 
 
-	void Insert(const GenType & elem, size_t index)
+	FArray<GenType>& Insert(const GenType & elem, size_t index)
 	{
 
 		if (index > size || ptrInternal == NULL)
-			return;
+			return *this;
 
 
-		GenType* Newbuffer = Memory::Create<GenType>(size + 1);
+		GenType* Newbuffer = Memory::AllocCounted<GenType>(size + 1);
 
-		memcpy(Newbuffer, ptrInternal, index * sizeof(GenType));
-		memcpy(&Newbuffer[index + 1], &ptrInternal[index], (size - index) * sizeof(GenType));
+		Memory::CopyCounted(Newbuffer, ptrInternal, index);
+		Memory::CopyCounted(&Newbuffer[index + 1], &ptrInternal[index], (size - index));
 
 		Newbuffer[index] = elem;
 
@@ -319,32 +390,35 @@ public:
 		capacity = size + 1;
 		size++;
 
+		return *this;
 	}
-	void Insert(const FArray<GenType>&elems, size_t index)
+	FArray<GenType>& Insert(const FArray<GenType>&elems, size_t index)
 	{
 
-		if (index > size || ptrInternal == NULL || elems.Size() == 0)
-			return;
+		if (index > size || ptrInternal == NULL || elems.Length() == 0)
+			return *this;
 
 
-		GenType* Newbuffer = Memory::Create<GenType>(size + elems.size);
+		GenType* Newbuffer = Memory::AllocCounted<GenType>(size + elems.size);
 
-		memcpy(Newbuffer, ptrInternal, index * sizeof(GenType));
-		memcpy(&Newbuffer[index + elems.size], &ptrInternal[index], (size - index) * sizeof(GenType));
+		Memory::CopyCounted(Newbuffer, ptrInternal, index);
+		Memory::CopyCounted(&Newbuffer[index + elems.size], &ptrInternal[index], (size - index));
 
-		memcpy(&Newbuffer[index], elems.Begin(), elems.size * sizeof(GenType));
+		Memory::CopyCounted(&Newbuffer[index], elems.Begin(), elems.size);
 
 		ptrInternal = Newbuffer;
 
 		capacity = size + elems.size;
 		size += elems.size;
 
+		return *this;
 	}
 
-	void Remove(size_t index)
+	FArray<GenType>& Remove(size_t index)
 	{
-		memmove(&ptrInternal[index], &ptrInternal[index + 1], (size-- - index) * sizeof(GenType));
+		Memory::CopyOverlap(&ptrInternal[index], &ptrInternal[index + 1], (size-- - index) * sizeof(GenType));
 
+		return *this;
 	}
 
 	void Resize(size_t newsize)
@@ -362,12 +436,12 @@ public:
 			capacity = 0;
 		}
 
-		GenType* Newbuffer = Memory::Create<GenType>(newcapacity);
+		GenType* Newbuffer = Memory::AllocCounted<GenType>(newcapacity);
 
-		unsigned int l_Size = min(newcapacity, size);
+		uint32 l_Size = min(newcapacity, size);
 
 
-		memcpy(Newbuffer, ptrInternal, l_Size * sizeof(GenType));
+		Memory::CopyCounted(Newbuffer, ptrInternal, l_Size);
 
 		capacity = newcapacity;
 		//delete[] ptrInternal;
@@ -388,3 +462,6 @@ protected:
 	GenType* ptrInternal;
 
 };
+
+
+#include "FArray.inl"

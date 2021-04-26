@@ -53,10 +53,10 @@
     <None Include="shaders\renderbatch_string.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao.frag">
+    <None Include="shaders\deferred\Shadowmap.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao.vert">
+    <None Include="shaders\deferred\Shadowmap.vert">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\ssao_blur.frag">
@@ -121,9 +121,27 @@
     <None Include="shaders\flamev\new.fs" />
     <None Include="shaders\scene\depthpass.frag" />
     <None Include="shaders\scene\depthpass.vert" />
+    <None Include="shaders\deferred\GBufferGen.frag" />
+    <None Include="shaders\deferred\GBufferGenSkinned.vert" />
+    <None Include="shaders\deferred\Combine.frag" />
+    <None Include="shaders\deferred\Combine.vert" />
+    <None Include="shaders\basic\quad.frag" />
+    <None Include="shaders\basic\quad.vert" />
+    <None Include="shaders\basic\quad_array.frag" />
+    <None Include="shaders\basic\quad_array.vert" />
+    <None Include="shaders\atmosphere\atmosphere.frag" />
+    <None Include="shaders\atmosphere\atmosphere.vert" />
+    <None Include="shaders\atmosphere\basic.frag" />
+    <None Include="shaders\util\SATGen.frag" />
+    <None Include="shaders\deferred\GBufferGen.vert" />
+    <None Include="animations\anim_guy.fl3d.anim" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestPlayerCharacter.h" />
+    <ClInclude Include="TestPlayerSystem.h" />
+    <ClInclude Include="FirstPersonCharacterComponent.h" />
+    <ClInclude Include="shaders\atmosphere\basic.vert" />
+    <ClInclude Include="shaders\util\SATGen.vert" />
   </ItemGroup>
 </Project>

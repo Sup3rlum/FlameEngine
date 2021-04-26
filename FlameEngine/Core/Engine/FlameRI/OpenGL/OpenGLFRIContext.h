@@ -1,16 +1,19 @@
 #pragma once
 
+#include "Platform/Windows/Win32Context.h"
 #include "../FRIContext.h"
 #include "OpenGLFRIContextVersion.h"
 #include "OpenGL.h"
-#include "Platform/Windows/Win32Context.h"
+
 
 class OpenGLFRIContext : public FRIContext
 {
 public:
-	OpenGLFRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion* glVer = new FOpenGLVersion_45()) :
-		FRIContext(description, contextToCopy),
-		GLContextDrvVersion(glVer)
+	OpenGLFRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion glVer = FOpenGLVersion_45()) :
+		FRIContext(description, EFRIRendererFramework::OpenGL, contextToCopy),
+		GLContextDrvVersion(glVer),
+		win32Context(NULL),
+		hGLRenderingContext(NULL)
 	{
 
 	}
@@ -18,25 +21,30 @@ public:
 
 	~OpenGLFRIContext();
 
-	void Run();
 	void Initialize();
 	bool InitializeOpenGLExtensions();
+	bool InitializeOpenGLUniformExtensions();
 	bool InitializeOpenGL();
+	void InitializeOpenGLStates();
 	void* GetPlatformSpecificHandle() { return win32Context; }
 
 	void SwapBuffers();
 
-	bool HandleEvents();
+	void HandleEvents();
+
+	FVector2 GetCursorPosition();
+	void SetCursorPosition(FVector2 pos);
+
+	IVector2 GetViewportSize();
+
 
 	LRESULT Win32MessageHandler(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
 
 private:
 
-
 	HGLRC hGLRenderingContext;
 
-	OpenGLContextDrvVersion* GLContextDrvVersion;
+	OpenGLContextDrvVersion GLContextDrvVersion;
 	Win32Context* win32Context;
-
 
 };

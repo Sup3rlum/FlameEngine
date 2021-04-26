@@ -1,13 +1,71 @@
 #pragma once
 
-#include "FRICommand.h"
+#include "FRIResource.h"
 #include "FRIContext.h"
 #include "Core/Runtime/Common/MemoryStack.h"
 
+/*
+* 
+*	I have defined some hacky-ish macros to help code commands faster and help sake readability.
+* 
+*	FRegiterCommand creates a struct with set cmdName prefixed with FRICommand
+*	e.g. FRegisterCommand(CallMom) -> struct FRICommandCallMom : FRICommand<FRICommandCallMom>
+* 
+*	FRegisterCommandMultiTemplate does the same job, but allows for template specialization, slotting the generic
+*	parameterizations in their proper places upon declaration
+*	e.g. FRegisterCommand(CallDad, TGenType1, TGenType2, TGenType3) ->
+*	
+*	template<typename TGenType1, typename TGenType2, typename TGenType3>
+*	struct FRICommandCallDad : FRICommand<FRICommandCallDad<TGenType1, TGenType2,TGenType3>>
+* 
+*	FRICmdInit initializes a __forceinline constructor with the prefixed name matching the struct definition name
+* 
+*/
+
+#define FTEMPLATETYPENAME(genType) typename genType
 
 
-struct FRICommandList
+#define _GET_NTH_ARG(_1, _2, _3, _4, _5, N, ...) N
+
+
+#define _fe_0(_call, ...)
+#define _fe_1(_call, x) _call(x)
+#define _fe_2(_call, x, ...) _call(x) _fe_1(_call, __VA_ARGS__)
+#define _fe_3(_call, x, ...) _call(x) _fe_2(_call, __VA_ARGS__)
+#define _fe_4(_call, x, ...) _call(x) _fe_3(_call, __VA_ARGS__)
+
+#define CALL_MACRO_X_FOR_EACH(x, ...) \
+    _GET_NTH_ARG("ignored", ##__VA_ARGS__, \
+    _fe_4, _fe_3, _fe_2, _fe_1, _fe_0)(x, ##__VA_ARGS__)
+
+
+#define FRegisterFRICommand(cmdName) struct FRICommand##cmdName : FRICommand<FRICommand##cmdName>
+
+#define FRegisterFRICommandMultiTemplate(cmdName, ...) template<CALL_MACRO_X_FOR_EACH(FTEMPLATETYPENAME, __VA_ARGS__)> \
+														struct FRICommand##cmdName : FRICommand<FRICommand##cmdName<__VA_ARGS__>>
+
+
+#define FRICmdInit(name) FINLINE FRICommand##name
+
+
+struct FRICommandListBase;
+
+
+
+
+struct FRICommandBase
 {
+	FRICommandBase* Next = NULL;
+
+	virtual void ExecuteCmd(FRICommandListBase& cmdList) = 0;
+};
+
+
+struct FRICommandListBase
+{
+
+
+
 
 	void Flush();
 
@@ -26,28 +84,655 @@ struct FRICommandList
 		return AllocCommand(sizeof(TCmd), alignof(TCmd));
 	}
 
-	MemoryStack MemoryStack;
+
+	FRIDynamicAllocator* GetDynamic() const
+	{
+		return FriDynamic;
+	}
+
+
+
+
+	FMemoryStack MemoryStack;
 	FRICommandBase* First;
 	FRICommandBase** CommandLink;
 	uint32 NumCommands;
+
+
+	FRIDynamicAllocator* FriDynamic;
 };
 
 
-struct FRICommandListExecutor
-{
-	void Execute(FRICommandList cmdList)
-	{
-		FRICommandListIterator Iter(cmdList);
 
-		while (Iter.HasCommandsLeft())
+
+
+template<typename FCmdParam>
+struct FRICommand : FRICommandBase
+{
+	FINLINE void ExecuteCmd(FRICommandListBase& cmdList)
+	{
+		FCmdParam* cmd = static_cast<FCmdParam*>(this);
+
+		cmd->Execute(cmdList);
+		cmd->~FCmdParam();
+	}
+
+};
+
+
+/*
+* 
+*	VIEWPORT
+* 
+* 
+*/
+
+FRegisterFRICommand(SetViewport)
+{
+	uint32 x;
+	uint32 y;
+	uint32 width;
+	uint32 height;
+
+	FRICmdInit(SetViewport)(uint32 x, uint32 y, uint32 width, uint32 height) :
+		x(x),
+		y(y),
+		width(width),
+		height(height)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+/*
+* 
+*  FRAMEBUFFER
+* 
+*/
+
+
+FRegisterFRICommand(BindFrameBuffer)
+{
+	FResourceFrameBuffer* frameBuffer;
+
+	FRICmdInit(BindFrameBuffer)(FResourceFrameBuffer* frameBuffer) :
+		frameBuffer(frameBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+
+FRegisterFRICommand(ClearBufferColor)
+{
+	FResourceFrameBuffer* frameBuffer;
+	Color color;
+
+	FRICmdInit(ClearBufferColor)(FResourceFrameBuffer* frameBuffer, Color color) :
+		frameBuffer(frameBuffer),
+		color(color)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+FRegisterFRICommand(ClearBuffer)
+{
+	FResourceFrameBuffer* frameBuffer;
+	uint32 clearbit;
+
+	FRICmdInit(ClearBuffer)(FResourceFrameBuffer* frameBuffer, uint32 clearbit) :
+		frameBuffer(frameBuffer),
+		clearbit(clearbit)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+
+FRegisterFRICommandMultiTemplate(CopyBufferData, GenFrameBufferPtr)
+{
+	GenFrameBufferPtr frameBufferSource;
+	GenFrameBufferPtr frameBufferDest;
+	uint32 clearbit;
+
+	FRICmdInit(CopyBufferData)(GenFrameBufferPtr frameBufferSource, GenFrameBufferPtr frameBufferDest, uint32 clearbit) :
+		frameBufferSource(frameBufferSource),
+		frameBufferDest(frameBufferDest),
+		clearbit(clearbit)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+
+FRegisterFRICommand(SetDepthCompareFunc)
+{
+	uint32 depthfunc;
+	FRICmdInit(SetDepthCompareFunc)(uint32 depthfunc) :
+		depthfunc(depthfunc)
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+
+FRegisterFRICommand(SetAlphaBlendFunc)
+{
+	uint32 blendfunc;
+	FRICmdInit(SetAlphaBlendFunc)(uint32 blendfunc) :
+		blendfunc(blendfunc)
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+
+FRegisterFRICommand(SetPrimitiveCullMode)
+{
+	uint32 cullmode;
+	FRICmdInit(SetPrimitiveCullMode)(uint32 cullmode) :
+		cullmode(cullmode)
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+
+
+FRegisterFRICommand(BeginFrame)
+{
+	FRICmdInit(BeginFrame)()
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+FRegisterFRICommand(EndFrame)
+{
+	FRICmdInit(EndFrame)()
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+FRegisterFRICommand(BeginScene)
+{
+	FRICmdInit(BeginScene)()
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+FRegisterFRICommand(EndScene)
+{
+	FRICmdInit(EndScene)()
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+/*
+* 
+*  BUFFER RENDERING
+* 
+*/
+
+
+FRegisterFRICommand(SetGeometrySource)
+{
+	FResourceVertexBuffer* vertexBuffer;
+
+	FRICmdInit(SetGeometrySource)(FResourceVertexBuffer * vertexBuffer) :
+		vertexBuffer(vertexBuffer)
+	{
+
+	}
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+
+
+FRegisterFRICommand(DrawPrimitives)
+{
+	uint32 elementType;
+	uint32 elementCount;
+
+	FRICmdInit(DrawPrimitives)(uint32 elementType, uint32 elementCount) :
+		elementType(elementType),
+		elementCount(elementCount)
+	{
+		
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+FRegisterFRICommand(DrawPrimitivesIndexed)
+{
+
+	uint32 elementType;
+	uint32 elementCount;
+	uint32 indexType;
+	FResourceIndexBuffer* indexBuffer;
+
+	FRICmdInit(DrawPrimitivesIndexed)(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer) :
+		elementType(elementType),
+		elementCount(elementCount),
+		indexType(indexType),
+		indexBuffer(indexBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+
+};
+
+
+/*
+* 
+* SHADERS
+* 
+*/
+
+
+
+FRegisterFRICommand(SetShaderPipeline)
+{
+	FResourceShaderPipeline* shaderPipelineProgram;
+
+	FRICmdInit(SetShaderPipeline)(FResourceShaderPipeline* shader) :
+		shaderPipelineProgram(shaderPipelineProgram)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+FRegisterFRICommand(SetShaderUniformBuffer)
+{
+	FResourceShaderPipeline* shader;
+	FResourceUniformBuffer* uniformBuffer;
+
+	FRICmdInit(SetShaderUniformBuffer)(FResourceShaderPipeline* shader, FResourceUniformBuffer* uniformBuffer) :
+		shader(shader),
+		uniformBuffer(uniformBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+FRegisterFRICommand(SetShaderUniformParameter)
+{
+	FResourceShaderPipeline* shader;
+	FUniformParameter uniformBuffer;
+
+	FRICmdInit(SetShaderUniformParameter)(FResourceShaderPipeline * shader, FUniformParameter uniformBuffer) :
+		shader(shader),
+		uniformBuffer(uniformBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase & cmdList);
+};
+
+
+/*
+* 
+* TEXTURES
+* 
+*/
+
+
+FRegisterFRICommand(SetTextureStorage2D)
+{
+	uint32 innerColorFormat;
+	uint32 coverColorFormat;
+	uint32 dataColorFormat;
+
+	FRICmdInit(SetTextureStorage2D)(uint32 innerColorFormat, uint32 coverColorFormat, uint32 dataColorFormat) :
+		innerColorFormat(innerColorFormat),
+		coverColorFormat(coverColorFormat),
+		dataColorFormat(dataColorFormat)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+FRegisterFRICommand(SetTextureStorage3D)
+{
+	uint32 innerColorFormat;
+	uint32 coverColorFormat;
+	uint32 dataColorFormat;
+
+	FRICmdInit(SetTextureStorage3D)(uint32 innerColorFormat, uint32 coverColorFormat, uint32 dataColorFormat):
+		innerColorFormat(innerColorFormat),
+		coverColorFormat(coverColorFormat),
+		dataColorFormat(dataColorFormat)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+FRegisterFRICommandMultiTemplate(SetTextureParameterBuffer, GenResourceTexture)
+{
+	GenResourceTexture* texture;
+	FResourceTextureParameterBuffer* parameterBuffer;
+
+	FRICmdInit(SetTextureParameterBuffer)(GenResourceTexture * texture, FResourceTextureParameterBuffer parameterBuffer) :
+		texture(texture),
+		parameterBuffer(parameterBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+
+/*
+* 
+* 
+* COMPUTE
+* 
+* 
+*/
+
+
+
+
+
+/*
+* 
+* 
+* MISC
+* 
+* 
+*/
+
+
+FRegisterFRICommandMultiTemplate(BeginOcclusionQuery, GenOcclusionQueryPtr)
+{
+	GenOcclusionQueryPtr occlusionQuery;
+
+	FRICmdInit(BeginOcclusionQuery)(GenOcclusionQueryPtr occlusionQuery) :
+		occlusionQuery(occlusionQuery)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+FRegisterFRICommandMultiTemplate(EndOcclusionQuery, GenOcclusionQueryPtr)
+{
+	GenOcclusionQueryPtr occlusionQuery;
+
+	FRICmdInit(EndOcclusionQuery)(GenOcclusionQueryPtr occlusionQuery) :
+		occlusionQuery(occlusionQuery)
+	{
+
+	}
+
+	void Execute(FRICommandListBase& cmdList);
+};
+
+
+
+#define ALLOC_COMMAND(...) new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
+
+
+class FRICommandList : public FRICommandListBase
+{
+	bool IsImmediate;
+
+public:
+
+	bool Bypass() const
+	{
+		return IsImmediate;
+	}
+
+	FRICommandList(FRIDynamicAllocator* allocator, bool IsImmediate = true) :
+		IsImmediate(IsImmediate)
+	{
+		this->FriDynamic = allocator;
+	}
+
+	FRICommandList(bool IsImmediate = true) : IsImmediate(IsImmediate) {}
+
+
+	FORCEINLINE void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
+	{
+		if (Bypass())
 		{
-			FRICommandBase* Cmd = Iter.NextCommand();
-			CurrentCommand = Cmd;
-			Cmd->ExecuteCmd();
+			GetDynamic()->SetViewport(x, y, width, height);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetViewport)(x, y, width, height);
+	}
+
+
+	FORCEINLINE void DrawPrimitives(uint32 elementType, uint32 elementCount)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->DrawPrimitives(elementType, elementCount);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandDrawPrimitives)(elementType, elementCount);
+	}
+
+	FORCEINLINE void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->DrawPrimitivesIndexed(elementType, elementCount, indexType,  indexBuffer);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(elementType, elementCount, indexType, indexBuffer);
+	}
+	FORCEINLINE void SetShaderPipeline(FResourceShaderPipeline* shaderPipeline)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetShaderPipeline(shaderPipeline);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
+	}
+	FORCEINLINE void SetGeometrySource(FResourceVertexBuffer* vertexBuffer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetGeometrySource(vertexBuffer);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
+	}
+	FORCEINLINE void BindFrameBuffer(FResourceFrameBuffer* frameBuffer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->BindFrameBuffer(frameBuffer);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandBindFrameBuffer)(frameBuffer);
+	}
+
+
+	FORCEINLINE void UnbindFrameBuffer()
+	{
+		if (Bypass())
+		{
+			GetDynamic()->UnbindFrameBuffer();
+			return;
 		}
 	}
 
-	FRICommandBase* CurrentCommand;
+
+	FORCEINLINE void BeginScene()
+	{
+		if (Bypass())
+		{
+			GetDynamic()->BeginScene();
+			return;
+		}
+		ALLOC_COMMAND(FRICommandBeginScene)();
+	}
+	FORCEINLINE void BeginFrame()
+	{
+		if (Bypass())
+		{
+			GetDynamic()->BeginFrame();
+			return;
+		}
+		ALLOC_COMMAND(FRICommandBeginFrame)();
+	}
+	FORCEINLINE void EndScene()
+	{
+		if (Bypass())
+		{
+			GetDynamic()->EndScene();
+			return;
+		}
+		ALLOC_COMMAND(FRICommandEndScene)();
+	}
+	FORCEINLINE void EndFrame()
+	{
+		if (Bypass())
+		{
+			GetDynamic()->EndFrame();
+			return;
+		}
+		ALLOC_COMMAND(FRICommandEndFrame)();
+	}
+	FORCEINLINE void SetShaderUniformParameter(FUniformParameter param)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetShaderUniformParameter(&param);
+		}
+	}
+
+
+	FORCEINLINE void ClearBuffer(FResourceFrameBuffer* buffer, Color color)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->ClearBuffer(buffer, color);
+		}
+	}
+	
+
+	FORCEINLINE void SetShaderSampler(FUniformSampler param)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetShaderSampler(&param);
+		}
+	}
+	FORCEINLINE void SetTextureParameterBuffer(FResourceTexture2D* tex, FResourceTextureParameterBuffer param)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetTextureParameterBuffer(tex, param);
+		}
+	}
+
+	FORCEINLINE void SetTextureParameterBuffer(FResourceTexture2DArray* tex, FResourceTextureParameterBuffer param)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetTextureParameterBuffer(tex, param);
+		}
+	}
+
+	FORCEINLINE void SetFramebufferTextureLayer(FResourceTexture2DArray* tex, uint32 layer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetFramebufferTextureLayer(tex, layer);
+		}
+	}
+	FORCEINLINE void AttachLayeredTexture(FResourceTexture2DArray* tex)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->AttachLayeredTexture(tex);
+		}
+	}
+
+	FORCEINLINE void SetBackCull(bool back)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetBackCull(back);
+		}
+	}
+
+	FORCEINLINE void FlushMipMaps(FResourceTexture2D* tex)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->FlushMipMaps(tex);
+		}
+	}
+
+
+	FORCEINLINE void FlushMipMaps(FResourceTexture2DArray* tex)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->FlushMipMaps(tex);
+		}
+	}
 };
+
+
+
+
 
 #include "FRICommandList.inl"

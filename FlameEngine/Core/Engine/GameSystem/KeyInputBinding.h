@@ -5,6 +5,7 @@
 enum class FKeyboardKeys : int32
 {
 	Unknown = -1,
+	Escape = 27,
 	Space = 32,
 	Apostrophe= 39,
 	Comma = 44,
@@ -56,7 +57,7 @@ enum class FKeyboardKeys : int32
 	World1 = 161,
 	World2 = 162,
 	
-	Escape = 256,
+	//Escape = 256,
 	Enter = 257,
 	Tab = 258,
 	Backspace = 259,

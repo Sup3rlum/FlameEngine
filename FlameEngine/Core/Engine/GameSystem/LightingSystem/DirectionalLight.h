@@ -1,6 +1,6 @@
 #pragma once
 
-
+/*
 #include "LightBase.h"
 
 
@@ -13,7 +13,7 @@ public:
 	FVector3 Direction;
 
 	void SnapToFrustum(Camera* cam);
-	void Update() override;
+	void Update();
 	void CreateFlare();
 	void DrawFlare();
 
@@ -25,4 +25,4 @@ public:
 private:
 	float boundingIndex;
 
-};
+};*/

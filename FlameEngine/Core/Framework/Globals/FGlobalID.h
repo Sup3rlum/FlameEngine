@@ -52,7 +52,15 @@ private:
 
 
 public:
-	FGlobalID(FString name);
+	FGlobalID(FString name) : nameInternal(name), guidInternal(GenerateGUID())
+	{
+
+	}
+
+	const FString& GetName() const
+	{
+		return nameInternal;
+	}
 
 	FString& GetFullString()
 	{
@@ -61,6 +69,8 @@ public:
 		WCstrLiteral guidStrLit = new FChar[40];
 		//StringFromGUID2(guidInternal.win32Guid, guidStrLit, 40);
 		
+
+		return str;
 	}
 
 
@@ -75,3 +85,9 @@ private:
 	}
 };
 
+
+
+EXPORT(struct, IElementIdentifiable)
+{
+	virtual FGlobalID GetID() const = 0;
+};

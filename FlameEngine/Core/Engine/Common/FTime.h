@@ -7,11 +7,10 @@ typedef long long FTimeType;
 
 EXPORT(struct, FTimeContainer)
 {
-protected:
+public:
 
 	FTimeType data;
 
-public:
 	bool operator<(FTimeContainer & other)
 	{
 		return data < other.data;
@@ -34,6 +33,7 @@ public:
 
 EXPORT(class, FTime)
 {
+public:
 	static FTimeType PlatformTickFrequency();
 
 

@@ -4,10 +4,12 @@
 #include "Common/Scene.h"
 #include "Core/Engine/FlameRI/FRI.h"
 
+#include "Core/Engine/Renderer/DeferredRenderer.h"
+
 
 EXPORT(class,  GameApplication)
 {
-private:
+protected:
 	FRIContext* FriContext;
 
 	void InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyEvent);
@@ -19,15 +21,22 @@ public:
 	virtual void Dispose();
 	virtual void Suspend();
 
+	virtual void Update();
 
 	virtual void Run();
 
+	PhysicsSceneDescription CreatePhysicsSceneDescription();
+
+
+	void BeginRender(FRICommandList& cmdList);
+	void EndRender(FRICommandList& cmdList);
+
 	virtual ~GameApplication();
 
-	FUniquePointer<Scene> currentScene;
+	Scene* currentScene;
 	FString applicationName;
 
-
+	DeferredRenderer renderer;
 
 };
 

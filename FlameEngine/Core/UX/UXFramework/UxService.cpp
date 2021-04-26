@@ -1,6 +1,6 @@
 #include "UxService.h"
 
-
+/*
 UxService::UxService()
 {
 
@@ -39,4 +39,4 @@ UxContainer* UxService::PopContainer()
 	pCurrentContainer.pop();
 
 	return ptr;
-}
+}*/

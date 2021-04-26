@@ -202,6 +202,21 @@ namespace FlameCompiler.ImportScripts
                 dataBuffer.Data = indexedVData.ToArray();
                 dataBuffer.IndexData = indexData.ToArray();
 
+                dataBuffer.vertexDeclaration = new VertexDeclaration();
+
+
+                List<VertexDeclerationComponent> vdecl = new List<VertexDeclerationComponent>();
+                vdecl.Add(new VertexDeclerationComponent(0, 3, EFRIVertexDeclerationAttributeType.Float, false, 14 * 4, 0));
+                vdecl.Add(new VertexDeclerationComponent(1, 3, EFRIVertexDeclerationAttributeType.Float, false, 14 * 4, 3*4));
+                vdecl.Add(new VertexDeclerationComponent(2, 3, EFRIVertexDeclerationAttributeType.Float, false, 14 * 4, 6*4));
+                vdecl.Add(new VertexDeclerationComponent(3, 3, EFRIVertexDeclerationAttributeType.Float, false, 14 * 4, 9*4));
+                vdecl.Add(new VertexDeclerationComponent(4, 2, EFRIVertexDeclerationAttributeType.Float, false, 14 * 4, 12*4));
+
+                dataBuffer.vertexDeclaration.VertComponents = vdecl.ToArray();
+                dataBuffer.vertexDeclaration.VertexSize = 14 * 4;
+
+
+
                 meshBuffers.Add(new KeyValuePair<DataBuffer,string>(dataBuffer, materialNames[v]));
             }
 

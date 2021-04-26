@@ -1,6 +1,6 @@
 #include "RenderingServiceBase.h"
 
-
+/*
 RenderingServiceBase::RenderingServiceBase(Context* context)
 {
 	mAttachedContext = context;
@@ -40,3 +40,4 @@ RenderingServiceBase::RenderingServiceBase(Context* context)
 	mRenderState->DestinationBlend = BlendFunc::OneMinusSourceAlpha;
 
 }
+*/

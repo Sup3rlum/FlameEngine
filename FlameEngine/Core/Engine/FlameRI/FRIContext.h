@@ -4,11 +4,17 @@
 #include "Core/Common/CoreCommon.h"
 
 #include "Core/Engine/GameSystem/KeyInputBinding.h"
+#include "FRIDynamicAllocator.h"
 
 enum class ERenderingContextPixelFormat
 {
 	
 };
+
+
+
+
+
 
 struct FRIRenderingContextDescription
 {
@@ -24,22 +30,54 @@ struct FRIRenderingContextDescription
 
 class FRIContext
 {
-public:
-	FRIRenderingContextDescription InstanceDescription;
-	FKeyEventBindingDelegate InputHandlerDelegate;
+protected:
 
-	FRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL ) :
-		InstanceDescription(description)
+	bool isActive;
+	FRIDynamicAllocator* dynamicAllocator;
+
+
+	FRIContext(FRIRenderingContextDescription description, EFRIRendererFramework renderFramework, FRIContext* contextToCopy = NULL) :
+		InstanceDescription(description),
+		dynamicAllocator(NULL),
+		isActive(false),
+		RenderFramework(renderFramework)
 	{
-		
+
 	}
 
 
+public:
+	FRIRenderingContextDescription InstanceDescription;
+	FKeyEventBindingDelegate InputHandlerDelegate;
+	EFRIRendererFramework RenderFramework;
+	
+
+
+	void PollCloseEvent()
+	{
+		isActive = false;
+	}
+
+	bool IsActive() const
+	{
+		return isActive;
+	}
+
+
+	FORCEINLINE FRIDynamicAllocator* GetFRIDynamic() const
+	{
+		return dynamicAllocator;
+	}
+
 	virtual void Initialize() = 0;
-
 	virtual void* GetPlatformSpecificHandle() = 0;
-
-	virtual bool HandleEvents() = 0;
-
+	virtual void HandleEvents() = 0;
 	virtual void SwapBuffers() = 0;
+
+
+
+	virtual FVector2 GetCursorPosition() = 0;
+	virtual void SetCursorPosition(FVector2 pos) = 0;
+
+	virtual IVector2 GetViewportSize() = 0;
 };

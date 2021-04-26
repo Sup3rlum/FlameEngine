@@ -1,6 +1,6 @@
 #include "GaussianBlurService.h"
 
-
+/*
 GaussianBlurService::GaussianBlurService(Context* context, bool halfRes) : RenderingServiceBase(context)
 {
 
@@ -74,4 +74,4 @@ void GaussianBlurService::ApplyFilter(FrameBuffer* frameBuffer, Texture* texture
 	frameBuffer->Unbind();
 
 	//glViewport(0, 0, 2560, 1440);
-}
+}*/

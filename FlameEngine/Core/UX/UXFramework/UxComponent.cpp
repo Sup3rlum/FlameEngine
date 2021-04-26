@@ -1,6 +1,7 @@
 #include "UxComponent.h"
 
 
+/*
 UxComponent::UxComponent() : mParent(NULL)
 {
 	mRenderState = new RenderState();
@@ -43,4 +44,4 @@ void UxComponent::Render()
 void UxComponent::Update()
 {
 
-}
+}*/

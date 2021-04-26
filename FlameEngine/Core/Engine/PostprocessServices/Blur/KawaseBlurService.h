@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "RenderingServiceBase.h"
 
 EXPORT_ENUM KawaseBlurStrength
@@ -25,3 +25,4 @@ public:
 
 };
 
+*/

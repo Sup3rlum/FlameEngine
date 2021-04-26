@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "FVector3.h"
-#include "FQuaternion.h"
-#include "FMatrix.h"
+#include "Vector.h"
+#include "Quaternion.h"
+#include "Matrix.h"
 
 EXPORT(class, FTransform)
 {
@@ -49,8 +49,20 @@ public:
 	}
 
 
+	static FTransform Interp(const FTransform& t1, const FTransform& t2, float weight)
+	{
+		return FTransform(
+			FVector3::Lerp(t1.Position, t2.Position, weight),
+			FQuaternion::Slerp(t1.Orientation, t2.Orientation, weight)
+		);
+	}
+
+
 	FORCEINLINE FMatrix4 GetMatrix() const
 	{
-		return FRotationMatrix(Orientation) * FTranslationMatrix(Position);
+		FRotationMatrix rot(Orientation);
+		FTranslationMatrix trans(Position);
+
+		return trans * rot;
 	}
 };
