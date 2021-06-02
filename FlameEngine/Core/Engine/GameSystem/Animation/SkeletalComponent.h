@@ -1,9 +1,8 @@
 #pragma once
 
-#include "Core/Common/CoreCommon.h"
-#include "Core/Math/Module.h"
 
-#include "AnimationComponent.h"
+#include "SkeletonPose.h"
+
 
 struct Joint
 {
@@ -12,27 +11,12 @@ struct Joint
 	FAnsiString Name;
 
 	FMatrix4 animatedTransform;
-
-	FMatrix4 localBindTransform;
 	FMatrix4 inverseBindTransform;
 
-
-	void CalculateInverseBind(FMatrix4 parentBindTransform)
-	{
-		FMatrix4 bindTransform = parentBindTransform * localBindTransform;
-		inverseBindTransform = FMatrix4::Inverse(bindTransform);
-
-		for (auto child : childrenJoints)
-		{
-			child->CalculateInverseBind(bindTransform);
-		}
-
-	}
-
-	Joint(uint32 index, FAnsiString name, FMatrix4 localTransform) :
+	Joint(uint32 index, FAnsiString name, FMatrix4 inverseBindTransform) :
 		ID(index),
 		Name(name),
-		localBindTransform(localTransform)
+		inverseBindTransform(inverseBindTransform)
 	{
 
 	}
@@ -55,20 +39,19 @@ struct Joint
 
 };
 
-
-struct SkeletalComponent
+struct Skeleton
 {
 	Joint* RootJoint;
 	uint32 JointCount;
 
 
-	SkeletalComponent(Joint* rootJoint, uint32 jointCount) :
+	Skeleton(Joint* rootJoint, uint32 jointCount) :
 		RootJoint(rootJoint),
 		JointCount(jointCount)
 	{}
 
 
-	SkeletalComponent(const SkeletalComponent& other) :
+	Skeleton(const Skeleton& other) :
 		RootJoint(other.RootJoint),
 		JointCount(other.JointCount)
 	{
@@ -84,27 +67,22 @@ struct SkeletalComponent
 
 
 
-	void ApplyPose(AnimationComponent& animation)
+	void ApplyPose(const SkeletonPose& pose)
 	{
-		if (animation.CurrentSequenceRef)
-		{
-			ApplyPoseToJoint(animation, RootJoint, FMatrix4(1));
-		}
+		ApplyPoseToJoint(pose, RootJoint, FMatrix4(1));
 	}
 
 
-	void ApplyPoseToJoint(AnimationComponent& animation, Joint* joint, FMatrix4 parentTransform)
+	void ApplyPoseToJoint(const SkeletonPose& pose, Joint* joint, const FMatrix4& parentTransform)
 	{
-		FMatrix4 currentLocalTransform = animation.CurrentBoneTransforms[joint->ID];
-		FMatrix4 currentTransform = parentTransform * currentLocalTransform;
-
-		joint->animatedTransform = currentTransform * joint->inverseBindTransform;
+		FMatrix4 currentTransform = pose.JointTransforms[joint->ID] * parentTransform;
 
 		for (auto j : joint->childrenJoints)
 		{
-			ApplyPoseToJoint(animation, j, currentTransform);
+			ApplyPoseToJoint(pose, j, currentTransform);
 		}
 
+		joint->animatedTransform = currentTransform * joint->inverseBindTransform;
 	}
 
 

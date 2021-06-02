@@ -139,6 +139,14 @@ EXPORT(enum class, FKeyboardKeyEvent) : int32
 };
 
 
+
+enum class FMouseButton : int32
+{
+	Left = 0x01,
+	Right = 0x02,
+	Middle = 0x04
+};
+
 struct FKeyEventArgs
 {
 	

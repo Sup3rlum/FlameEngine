@@ -7,20 +7,20 @@
 
 struct MeshComponent
 {
-	FResourceVertexBuffer* VertexBuffer;
-	FResourceIndexBuffer* IndexBuffer;
-	FResourceVertexDeclaration VertexDeclaration;
+	FRIVertexBuffer* VertexBuffer;
+	FRIIndexBuffer* IndexBuffer;
+	//FRIVertexDeclaration VertexDeclaration;
 
-	MeshComponent(FResourceVertexBuffer* vbuff, FResourceIndexBuffer* ibuff, FResourceVertexDeclaration vdecl) :
+	MeshComponent(FRIVertexBuffer* vbuff, FRIIndexBuffer* ibuff) :
 		VertexBuffer(vbuff),
-		IndexBuffer(ibuff),
-		VertexDeclaration(vdecl)
+		IndexBuffer(ibuff)
+		//VertexDeclaration(vdecl)
 	{}
 
 	MeshComponent() :
 		VertexBuffer(NULL),
-		IndexBuffer(NULL),
-		VertexDeclaration(NULL)
+		IndexBuffer(NULL)
+		//VertexDeclaration(NULL)
 	{}
 
 };

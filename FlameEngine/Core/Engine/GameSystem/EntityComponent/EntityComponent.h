@@ -4,8 +4,6 @@
 #include "Core/Common/CoreCommon.h"
 #include "Core/Framework/Algorithm/Sort.h"
 #include "Core/Framework/Algorithm/Algorithm.h"
-
-#include <iostream>
 #include <typeinfo>
 
 template<typename>
@@ -43,7 +41,8 @@ EXPORT(struct, FComponentType)
 
 	FComponentType() :
 		_TypeId(NULL),
-		_Size(NULL)
+		_Size(NULL),
+		_DecoratedName(NULL)
 	{}
 
 	uint64 SizeOf() const;
@@ -89,11 +88,10 @@ protected:
 template<typename TComponent>
 struct TComponentType : public FComponentType
 {
-	//TComponentType() : FComponentType(TypeId<TComponent>, sizeof(TComponent))
-	TComponentType() : FComponentType(typeid(TComponent).hash_code(), sizeof(TComponent), typeid(TComponent).name())
+	TComponentType() : 
+		FComponentType(typeid(TComponent).hash_code(), sizeof(TComponent), typeid(TComponent).name())
 	{
 
-		//std::cout << "CreatingType: " << typeid(TComponent).hash_code() << " : " << typeid(TComponent).name() << std::endl;
 
 	}
 };

@@ -12,9 +12,9 @@ class GLHBAOPlus : public HBAOPlus
 public:
 
 	GLHBAOPlus(FHBAOParameters params);
-	void RenderAO(FResourceTexture2D* depthTex, FResourceTexture2D* normTex, FResourceFrameBuffer* outputFBO, const FMatrix4& projection, const FMatrix4& view);
+	void RenderAO(FRITexture2D* depthTex, FRITexture2D* normTex, FRIFrameBuffer* outputFBO, const FMatrix4& projection, const FMatrix4& view);
 
-	GFSDK_SSAO_Parameters	mAoParams;
+	/*GFSDK_SSAO_Parameters	mAoParams;
 	GFSDK_SSAO_GLFunctions	mGLFunctions;
-	GFSDK_SSAO_Context_GL* mHbaoGlContext;
+	GFSDK_SSAO_Context_GL* mHbaoGlContext;*/
 };

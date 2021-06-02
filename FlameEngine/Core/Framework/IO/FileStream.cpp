@@ -8,7 +8,8 @@ IOFileStream::IOFileStream(FString path)
 
 	if (_file.fail())
 	{
-		FString str = FStringFormatter::Format("Error opening file %0", path);
+		FString str = "Error opening file "; 
+		str += path;
 
 		MessageBox(NULL, str.ToPlatformString(), L"FlameEngine", MB_OK | MB_ICONERROR);
 

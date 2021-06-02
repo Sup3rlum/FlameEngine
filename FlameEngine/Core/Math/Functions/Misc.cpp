@@ -15,3 +15,8 @@ float FMathFunc::Log4(float val)
 {
 	return log2(val) / 2.0f;
 }
+
+float FMathFunc::Sqrt(float val)
+{
+	return sqrtf(val);
+}

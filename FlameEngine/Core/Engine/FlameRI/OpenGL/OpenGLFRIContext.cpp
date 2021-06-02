@@ -92,15 +92,18 @@ void OpenGLFRIContext::Initialize()
 		PosX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
 		PosY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 	}
+	if (!win32Context)
+	{
+		win32Context = new Win32Context("Engine2", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &OpenGLFRIContext::Win32MessageHandler>(this));
+	}
 
-	win32Context = new Win32Context("Engine2", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &OpenGLFRIContext::Win32MessageHandler>(this));
+
 	isActive = true;
 
 	InitializeOpenGL();
 
 
 	win32Context->Show();
-
 
 }
 bool OpenGLFRIContext::InitializeOpenGLExtensions()
@@ -199,7 +202,6 @@ bool OpenGLFRIContext::InitializeOpenGL()
 
 
 	InitializeOpenGLStates();
-
 	InitializeOpenGLUniformExtensions();
 }
 
@@ -254,9 +256,12 @@ FVector2 OpenGLFRIContext::GetCursorPosition()
 	return FVector2(x, y);
 }
 
-IVector2 OpenGLFRIContext::GetViewportSize()
+FViewportRect OpenGLFRIContext::GetViewport()
 {
-	return IVector2(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	if (win32Context)
+		return FViewportRect(0, 0, win32Context->Width, win32Context->Height);
+	else
+		return FViewportRect(0, 0, 0, 0);
 }					
 
 

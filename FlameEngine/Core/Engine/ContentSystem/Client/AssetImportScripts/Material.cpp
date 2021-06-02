@@ -36,21 +36,31 @@ MaterialComponent FMaterialSerializer::Serialize(IOFileStream& fileStream)
 	
 	FMaterialHeader matHeader = fileStream.Read<FMaterialHeader>();
 
-
-	FResourceTextureColorDescriptor colorDescriptor(EFRITextureChannelStorage::RGBA32F, EFRITextureChannels::RGBA, EFRITexturePixelStorage::UnsignedByte);
-
 	for (int i = 0; i < matHeader.MapCount; i++)
 	{
 		FMaterialMapHeader mapHeader = fileStream.Read<FMaterialMapHeader>();
 		FArray<FRIByte> mapData(mapHeader.ByteSize);
 		fileStream.ReadArray<FRIByte>(mapData);
 
-		maps[(size_t)mapHeader.mapType] = MaterialMap(allocator->DynamicCreateTexture2D(
+
+		EFRIChannels channels = EFRIChannels::RGB;
+		switch (mapHeader.Channels)
+		{
+		case 1: channels = EFRIChannels::R; break;
+		case 2: channels = EFRIChannels::RG; break;
+		case 3: channels = EFRIChannels::RGB; break;
+		case 4: channels = EFRIChannels::RGBA; break;
+		default:
+			break;
+		}
+
+		maps[(size_t)mapHeader.mapType] = MaterialMap(allocator->CreateTexture2D(
 			mapHeader.DimX,
 			mapHeader.DimY,
 			0,
-			colorDescriptor,
-			FResourceCreationDescriptor(mapData.Begin(), mapData.ByteSize())
+			EFRITextureFormat::RGBA8UNORM,
+			FRIColorDataFormat(channels, EFRIPixelStorage::UnsignedByte),
+			FRICreationDescriptor(mapData.Begin(), mapData.ByteSize())
 		));
 	}
 

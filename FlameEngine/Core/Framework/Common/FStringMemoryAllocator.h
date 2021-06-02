@@ -14,33 +14,57 @@ struct FBaseStringMemoryAllocator
 		size_t outSize;
 		mbstowcs_s(&outSize, buffer, elemCount + 1, Src, elemCount);
 
-		memcpy(Dst, buffer, elemCount * sizeof(FChar));
-
-		free(buffer);
+		Memory::CopyCounted(Dst, buffer, elemCount);
+		Memory::Free(buffer);
 	}
 	FORCEINLINE static void Allocate(FChar* Dst, const FChar* Src, size_t elemCount)
 	{
-		memcpy(Dst, Src, elemCount * sizeof(FChar));
+		Memory::CopyCounted(Dst, Src, elemCount);
 	}
 	FORCEINLINE static void Allocate(char* Dst, const char* Src, size_t elemCount)
 	{
-		memcpy(Dst, Src, elemCount * sizeof(char));
+		Memory::CopyCounted(Dst, Src, elemCount);
 	}
 
 
+
+	FORCEINLINE static void Allocate(FChar* Dst, FChar d, size_t elemCount)
+	{
+		Dst[0] = d;
+	}
+	FORCEINLINE static void Allocate(char* Dst, char d, size_t elemCount)
+	{
+		Dst[0] = d;
+	}
+
+
+	FORCEINLINE static void Allocate(FChar* Dst, char d, size_t elemCount)
+	{
+		Dst[0] = (FChar)d;
+	}
+	FORCEINLINE static void Allocate(char* Dst, FChar d, size_t elemCount)
+	{
+		Dst[0] = (char)d;
+	}
 
 
 	// WCHAR
 	template<typename BasicType>
 	FORCEINLINE static void Allocate(FChar* Dst, BasicType d, size_t elemCount)
 	{
-		_snwprintf_s(Dst, elemCount + 1, elemCount, FBaseStringPlatformTypeConversionSpecifier<FChar>::GetSpecifier<BasicType>(), d);
+		FChar* buffer = Memory::AllocCounted<FChar>(elemCount + 1);
+		_snwprintf_s(buffer, elemCount + 1, elemCount, FBaseStringPlatformTypeConversionSpecifier<FChar>::GetSpecifier<BasicType>(), d);
+		Memory::CopyCounted(Dst, buffer, elemCount);
+		Memory::Free(buffer);
 	}
 	// CHAR
 	template<typename BasicType>
 	FORCEINLINE static void Allocate(char* Dst, BasicType d, size_t elemCount)
 	{
-		snprintf(Dst, elemCount + 1, FBaseStringPlatformTypeConversionSpecifier<char>::GetSpecifier<BasicType>(), d);
+		char* buffer = Memory::AllocCounted<char>(elemCount + 1);
+		snprintf(buffer, elemCount + 1, FBaseStringPlatformTypeConversionSpecifier<char>::GetSpecifier<BasicType>(), d);
+		Memory::CopyCounted(Dst, buffer, elemCount);
+		Memory::Free(buffer);
 	}
 
 

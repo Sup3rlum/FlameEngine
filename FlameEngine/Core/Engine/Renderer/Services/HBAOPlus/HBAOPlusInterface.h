@@ -24,8 +24,8 @@ struct FHBAOParameters
 };
 
 struct FRIContext;
-struct FResourceTexture2D;
-struct FResourceFrameBuffer;
+struct FRITexture2D;
+struct FRIFrameBuffer;
 
 
 class HBAOPlus
@@ -36,7 +36,7 @@ public:
 		params(params)
 	{}
 
-	virtual void RenderAO(FResourceTexture2D* depthTex, FResourceTexture2D* normTex, FResourceFrameBuffer* outputFBO, const FMatrix4& projection, const FMatrix4& view) = 0;
+	virtual void RenderAO(FRITexture2D* depthTex, FRITexture2D* normTex, FRIFrameBuffer* outputFBO, const FMatrix4& projection, const FMatrix4& view) = 0;
 
 
 	static HBAOPlus* Allocate(FRIContext* renderContext, FHBAOParameters params);

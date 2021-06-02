@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="resource\folder.png" />
+    <None Remove="resource\triangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlameEditorCLR\FlameEditorCLR.vcxproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resource\folder.png" />
+    <Resource Include="resource\triangle.png" />
+  </ItemGroup>
+
+</Project>

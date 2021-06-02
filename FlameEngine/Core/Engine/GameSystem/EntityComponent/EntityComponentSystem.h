@@ -6,8 +6,15 @@
 
 
 
+
+struct FEntityComponentSystemBase
+{
+	virtual void Tick() = 0;
+};
+
+
 template<typename...TComponents>
-struct FEntityComponentSystem
+struct FEntityComponentSystem : FEntityComponentSystemBase
 {
 private:
 
@@ -30,27 +37,43 @@ private:
 			{
 				TComponentIndexer<T>::index = i;
 
-				//std::cout << "Indexing Component " << typeid(T).name() << " at index: " << i << std::endl;
-
 			}
 		}
 	}
 
 	FORCEINLINE void IndexStack(FEntityMemoryStack* stack)
 	{
-
-		/*std::cout << std::endl;
-		std::cout << "Starting index, with types: " << std::endl;
-
-		for (int i = 0; i < stack->BlockArchetype.NumComponentTypes; i++)
-		{
-
-			std::cout << "Stack Component ("<< stack->BlockArchetype.ComponentTypes[i]._TypeId <<"): " << stack->BlockArchetype.ComponentTypes[i]._DecoratedName << " at index: " << i << std::endl;
-		}
-
-		std::cout << std::endl;*/
-
 		(SetComponentTypeIndex<TComponents>(stack), ...);
+	}
+
+	void Tick()
+	{
+
+		auto begin = entityWorld->EntMemory.Begin();
+		auto end = entityWorld->EntMemory.End();
+
+
+		for (auto it = begin; it != end; it++)
+		{
+			auto stack = it->Value;
+
+			if (stack->BlockArchetype.Contains(systemArchetype))
+			{
+				auto block = stack->Top;
+
+				IndexStack(stack);
+
+				while (block)
+				{
+					for (int i = 0; i < block->NumEntities; i++)
+					{
+						this->Update(block->controlArray[i], block->GetComponent<TComponents>(i, TComponentIndexer<TComponents>::index) ...);
+					}
+
+					block = block->Next;
+				}
+			}
+		}
 	}
 
 
@@ -67,6 +90,10 @@ protected:
 	{
 
 	}
+
+	virtual void Update(Entity ent, TComponents&...) = 0;
+
+	class Scene* scene;
 
 public:
 
@@ -90,8 +117,6 @@ public:
 		return *this;
 	}
 
-
-	// I like how fast it currently is, however im not sure how stable/scalable the indexing magic is
 	template<typename TLambda>
 	void ForEach(TLambda lambdaFunc)
 	{

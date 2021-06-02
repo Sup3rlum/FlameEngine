@@ -15,10 +15,9 @@ struct FGLTextureBase
 		textureHandle(handle)
 	{
 	}
-
 };
 
-struct FGLResourceTexture2D : FGLTextureBase, FResourceTexture2D
+struct FGLResourceTexture2D : FGLTextureBase, FRITexture2D
 {
 
 	GLuint internalColorFormat;
@@ -31,10 +30,10 @@ struct FGLResourceTexture2D : FGLTextureBase, FResourceTexture2D
 		GLuint internalColorFormat, 
 		GLuint channels = GL_RGBA, 
 		GLuint dataFormat = GL_FLOAT, 
-		FResourceCreationDescriptor Data = FResourceCreationDescriptor(NULL,0), 
-		FResourceTextureParameterBuffer paramBuffer = FResourceTextureParameterBuffer(FArray<FTextureParameterBufferParameter>())
+		FRICreationDescriptor Data = FRICreationDescriptor(NULL,0), 
+		FRITextureParameterBuffer paramBuffer = FRITextureParameterBuffer(FArray<FTextureParameterBufferParameter>())
 	) : 
-		FResourceTexture2D(width, height, SampleCount),
+		FRITexture2D(width, height, SampleCount),
 		FGLTextureBase(0, 0),
 		dataFormat(dataFormat),
 		internalColorFormat(internalColorFormat)
@@ -56,8 +55,14 @@ struct FGLResourceTexture2D : FGLTextureBase, FResourceTexture2D
 
 
 			glBindTexture(textureType, textureHandle);
-			glTexImage2D(textureType, 0, internalColorFormat, width, height, 0, channels, dataFormat, Data.DataArray);
-			glGenerateMipmap(textureType);
+			//glTexImage2D(textureType, 0, internalColorFormat, width, height, 0, channels, dataFormat, Data.DataArray);
+
+			glTexStorage2D(textureType, 1, internalColorFormat, width, height);
+			if (Data.DataArray)
+			{
+				glTexSubImage2D(textureType, 0, 0, 0, width, height, channels, dataFormat, Data.DataArray);
+				glGenerateMipmap(textureType);
+			}
 
 			for (int i = 0; i < paramBuffer.Data.Length(); i++)
 			{
@@ -73,11 +78,14 @@ struct FGLResourceTexture2D : FGLTextureBase, FResourceTexture2D
 		}
 	}
 
-	
+	~FGLResourceTexture2D()
+	{
+		glDeleteTextures(1, &textureHandle);
+	}
 };
 
 
-struct FGLResourceTexture3D : FResourceTexture3D
+struct FGLResourceTexture3D : FRITexture3D
 {
 	GLuint textureHandle;
 	GLuint internalColorFormat;
@@ -86,7 +94,7 @@ struct FGLResourceTexture3D : FResourceTexture3D
 };
 
 
-struct FGLResourceTextureCubeMap : FResourceTextureCubeMap
+struct FGLResourceTextureCubeMap : FRITextureCubeMap
 {
 public:
 	GLuint textureHandle;
@@ -96,7 +104,7 @@ public:
 
 };
 
-struct FGLResourceTexture2DArray : FGLTextureBase, FResourceTexture2DArray
+struct FGLResourceTexture2DArray : FGLTextureBase, FRITexture2DArray
 {
 	GLuint internalColorFormat;
 	GLuint dataFormat;
@@ -109,10 +117,10 @@ struct FGLResourceTexture2DArray : FGLTextureBase, FResourceTexture2DArray
 		GLuint internalColorFormat,
 		GLuint channels = GL_RGBA,
 		GLuint dataFormat = GL_FLOAT,
-		FResourceCreationDescriptor Data = FResourceCreationDescriptor(NULL, 0),
-		FResourceTextureParameterBuffer paramBuffer = FResourceTextureParameterBuffer(FArray<FTextureParameterBufferParameter>())
+		FRICreationDescriptor Data = FRICreationDescriptor(NULL, 0),
+		FRITextureParameterBuffer paramBuffer = FRITextureParameterBuffer(FArray<FTextureParameterBufferParameter>())
 	) :
-		FResourceTexture2DArray(width, height, NumLayers),
+		FRITexture2DArray(width, height, NumLayers),
 		FGLTextureBase(0, 0),
 		dataFormat(dataFormat),
 		internalColorFormat(internalColorFormat)
@@ -142,25 +150,29 @@ struct FGLResourceTexture2DArray : FGLTextureBase, FResourceTexture2DArray
 		glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAX_LEVEL, 1);
 
 	}
+	~FGLResourceTexture2DArray()
+	{
+		glDeleteTextures(1, &textureHandle);
+	}
 };
 
 
 
 
-struct FGLResourceVertexDeclaration : FResourceVertexDeclaration
+struct FGLResourceVertexDeclaration : FRIVertexDeclaration
 {
-	FGLResourceVertexDeclaration(FArray<FResourceVertexDeclarationComponent> DeclarationElements) : FResourceVertexDeclaration(DeclarationElements)
+	FGLResourceVertexDeclaration(FArray<FRIVertexDeclarationComponent> DeclarationElements) : FRIVertexDeclaration(DeclarationElements)
 	{
 
 	}
 };
 
-struct FGLResourceVertexBuffer : FResourceVertexBuffer
+struct FGLResourceVertexBuffer : FRIVertexBuffer
 {
 	GLuint vertexBufferHandle;
 	GLuint vertexArrayBindingHandle;
 
-	FGLResourceVertexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor Data) : FResourceVertexBuffer(Size, Usage) 
+	FGLResourceVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor Data) : FRIVertexBuffer(Size, Usage) 
 	{
 
 
@@ -171,51 +183,74 @@ struct FGLResourceVertexBuffer : FResourceVertexBuffer
 		OpenGL::GenBuffers(1, &vertexBufferHandle);
 		OpenGL::BufferData(vertexBufferHandle, GL_ARRAY_BUFFER, Data.DataArray, Data.ByteSize, GL_STATIC_DRAW);		
 	}
-};
-
-
-
-
-
-struct FGLResourceIndexBuffer : FResourceIndexBuffer
-{
-	GLuint indexBufferHandle;
-
-	FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, FResourceCreationDescriptor Data) : FResourceIndexBuffer(IndexCount, Usage)
-	//FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, uint32* DataArray) : FResourceIndexBuffer(IndexCount, Usage)
+	~FGLResourceVertexBuffer()
 	{
-
-		OpenGL::GenBuffers(1, &indexBufferHandle);
-		OpenGL::BufferData(indexBufferHandle, GL_ELEMENT_ARRAY_BUFFER, Data.DataArray, Data.ByteSize, GL_STATIC_DRAW);
+		glDeleteBuffers(1, &vertexBufferHandle);
+		glDeleteVertexArrays(1, &vertexArrayBindingHandle);
 	}
 };
 
 
 
 
-struct FGLResourceUniformBuffer : FResourceUniformBuffer
-{
-	GLuint uniformBufferHandle;
 
-	// TODO: Add support 
+struct FGLResourceIndexBuffer : FRIIndexBuffer
+{
+	GLuint indexBufferHandle;
+
+	FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, FRICreationDescriptor Data) : FRIIndexBuffer(IndexCount, Usage)
+	//FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, uint32* DataArray) : FRIIndexBuffer(IndexCount, Usage)
+	{
+
+		OpenGL::GenBuffers(1, &indexBufferHandle);
+		OpenGL::BufferData(indexBufferHandle, GL_ELEMENT_ARRAY_BUFFER, Data.DataArray, Data.ByteSize, GL_DYNAMIC_DRAW);
+	}
+
+	~FGLResourceIndexBuffer()
+	{
+		glDeleteBuffers(1, &indexBufferHandle);
+	}
 
 };
 
 
-struct FGLResourceFrameBuffer : FResourceFrameBuffer
+
+
+struct FGLResourceUniformBuffer : FRIUniformBuffer
+{
+	GLuint bufferHandle;
+
+	FGLResourceUniformBuffer(FRICreationDescriptor Data) :
+		FRIUniformBuffer(Data.ByteSize)
+	{
+		OpenGL::GenBuffers(1, &bufferHandle);
+
+		glBindBuffer(GL_UNIFORM_BUFFER, bufferHandle);
+		glBufferData(GL_UNIFORM_BUFFER, Data.ByteSize, Data.DataArray, GL_STATIC_DRAW);
+		glBindBuffer(GL_UNIFORM_BUFFER, NULL);
+	}
+
+	~FGLResourceUniformBuffer()
+	{
+		glDeleteBuffers(1, &bufferHandle);
+	}
+};
+
+
+struct FGLResourceFrameBuffer : FRIFrameBuffer
 {
 	GLuint frameBufferHandle;
 	GLuint depthBufferHandle;
 
 
 
-	FGLResourceFrameBuffer(FArray<FResourceFrameBufferTextureAttachment> textureAttachments, bool enableDepthRenderBuffer = true) :
-		FResourceFrameBuffer(0, 0),
+	FGLResourceFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true) :
+		FRIFrameBuffer(0, 0),
 		frameBufferHandle(0),
 		depthBufferHandle(0)
 	{
 
-		if (textureAttachments.Length() > 16 || textureAttachments.Length() < 1)
+		/*if (textureAttachments.Length() > 16 || textureAttachments.Length() < 1)
 		{
 			// TODO : too many attachments
 
@@ -309,12 +344,17 @@ struct FGLResourceFrameBuffer : FResourceFrameBuffer
 			glDrawBuffers(attachmentArray.Length(), attachmentArray.Begin());
 		}
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);*/
+	}
+
+	~FGLResourceFrameBuffer()
+	{
+		glDeleteFramebuffers(1, &frameBufferHandle);
 	}
 };
 
 
-struct FGLResourceRenderQuery : FResourceRenderQuery
+struct FGLResourceRenderQuery : FRIRenderQuery
 {
 	FGLResourceRenderQuery()
 	{
@@ -338,14 +378,9 @@ template<GLenum ShaderType, typename TFRIBaseShaderType>
 struct TGLResourceShaderType : public TFRIBaseShaderType, public FGLResourceShaderBase
 {
 
-	TGLResourceShaderType(FString Name, const FAnsiString& binCode) : TFRIBaseShaderType(Name)
+	TGLResourceShaderType(const FArray<byte>& binCode)
 	{
 		// The incoming bytedata is a multi-byte pure GLSL string to be compiled
-
-		const char* shaderCstr = (const char*)binCode.ToPlatformString();
-
-
-		//printf(shaderCstr);
 
 		if (!OpenGL::DrvSupportsBinaryShaderFormat())
 		{
@@ -354,9 +389,8 @@ struct TGLResourceShaderType : public TFRIBaseShaderType, public FGLResourceShad
 
 		shaderHandle = glCreateShader(ShaderType);
 
-		//glShaderBinary(1, &shaderHandle, 0, binCode.Begin(), binCode.ByteSize());
-		glShaderSource(shaderHandle, 1, &shaderCstr, NULL);
-		glCompileShader(shaderHandle);
+		glShaderBinary(1, &shaderHandle, GL_SHADER_BINARY_FORMAT_SPIR_V, binCode.Begin(), binCode.ByteSize());
+		glSpecializeShader(shaderHandle, "main", 0, 0, 0);
 
 		int32 vSuccess;
 		FStaticAnsiString<512> vInfo;
@@ -365,8 +399,6 @@ struct TGLResourceShaderType : public TFRIBaseShaderType, public FGLResourceShad
 		if (!vSuccess)
 		{
 			glGetShaderInfoLog(shaderHandle, 512, NULL, vInfo);
-			//FLAME_ERROR("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + STRING(vInfo));
-			//wprintf(FStringFormatter::Format(L"ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%0", FString(vInfo.ToPlatformString())).ToPlatformString());
 
 			printf("ERROR::SHADER::COMPILATION\n\n");
 			printf(vInfo.ToPlatformString());
@@ -377,7 +409,7 @@ struct TGLResourceShaderType : public TFRIBaseShaderType, public FGLResourceShad
 
 
 
-	virtual ~TGLResourceShaderType()
+	~TGLResourceShaderType()
 	{
 		glDeleteShader(shaderHandle);
 	}
@@ -389,21 +421,21 @@ struct TGLResourceShaderType : public TFRIBaseShaderType, public FGLResourceShad
 };
 
 
-typedef TGLResourceShaderType<GL_VERTEX_SHADER, FResourceVertexShader> FGLResourceVertexShader;
-typedef TGLResourceShaderType<GL_FRAGMENT_SHADER, FResourcePixelShader> FGLResourcePixelShader;
-typedef TGLResourceShaderType<GL_GEOMETRY_SHADER, FResourceGeometryShader> FGLResourceGeometryShader;
-typedef TGLResourceShaderType<GL_TESS_CONTROL_SHADER, FResourceHullShader> FGLResourceHullShader;
-typedef TGLResourceShaderType<GL_TESS_EVALUATION_SHADER, FResourceDomainShader> FGLResourceDomainShader;
-typedef TGLResourceShaderType<GL_COMPUTE_SHADER, FResourceComputeShader> FGLResourceComputeShader;
+typedef TGLResourceShaderType<GL_VERTEX_SHADER, FRIVertexShader> FGLResourceVertexShader;
+typedef TGLResourceShaderType<GL_FRAGMENT_SHADER, FRIPixelShader> FGLResourcePixelShader;
+typedef TGLResourceShaderType<GL_GEOMETRY_SHADER, FRIGeometryShader> FGLResourceGeometryShader;
+typedef TGLResourceShaderType<GL_TESS_CONTROL_SHADER, FRIHullShader> FGLResourceHullShader;
+typedef TGLResourceShaderType<GL_TESS_EVALUATION_SHADER, FRIDomainShader> FGLResourceDomainShader;
+typedef TGLResourceShaderType<GL_COMPUTE_SHADER, FRIComputeShader> FGLResourceComputeShader;
 
 
 
-struct FGLResourceShaderPipeline : public FResourceShaderPipeline
+struct FGLResourceShaderPipeline : public FRIShaderPipeline
 {
 	GLuint pipelineHandle;
 
 
-	FGLResourceShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor) : FResourceShaderPipeline(descriptor)
+	FGLResourceShaderPipeline(FRIShaderPipelineCreationDescriptor descriptor) : FRIShaderPipeline(descriptor)
 	{
 		pipelineHandle = glCreateProgram();
 
@@ -432,8 +464,12 @@ struct FGLResourceShaderPipeline : public FResourceShaderPipeline
 			printf(lInfo.ToPlatformString());
 		}
 	}
-	virtual ~FGLResourceShaderPipeline()
+	~FGLResourceShaderPipeline()
 	{
 		glDeleteProgram(pipelineHandle);
 	}
 };
+
+
+
+

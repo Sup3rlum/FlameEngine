@@ -7,64 +7,67 @@
 struct OpenGLFRIDynamicAllocator : FRIDynamicAllocator
 {
 public:
-	FResourceIndexBuffer*		DynamicCreateIndexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor resourceDescriptor);
-	//FResourceIndexBuffer*		DynamicCreateIndexBuffer(uint32 Size, uint32 Usage, uint32* DataArray);
-	FResourceVertexBuffer*		DynamicCreateVertexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor resourceDescriptor);
+	FRIIndexBuffer*		CreateIndexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor);
+	FRIVertexBuffer*		CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor);
 
 
-	/*FResourceVertexShader*		DynamicCreateVertexShader(const FArray<byte>& binCode);
-	FResourcePixelShader*		DynamicCreatePixelShader(const FArray<byte>& binCode);
-	FResourceGeometryShader*	DynamicCreateGeometryShader(const FArray<byte>& binCode);
-	FResourceHullShader*		DynamicCreateHullShader(const FArray<byte>& binCode);
-	FResourceDomainShader*		DynamicCreateDomainShader(const FArray<byte>& binCode);
-	FResourceComputeShader*		DynamicCreateComputeShader(const FArray<byte>& binCode);*/
-
-
-	FResourceVertexShader*		DynamicCreateVertexShader	(const FAnsiString& binCode);
-	FResourcePixelShader*		DynamicCreatePixelShader	(const FAnsiString& binCode);
-	FResourceGeometryShader*	DynamicCreateGeometryShader	(const FAnsiString& binCode);
-	FResourceHullShader*		DynamicCreateHullShader		(const FAnsiString& binCode);
-	FResourceDomainShader*		DynamicCreateDomainShader	(const FAnsiString& binCode);
-	FResourceComputeShader*		DynamicCreateComputeShader	(const FAnsiString& binCode);
+	FRIVertexShader*		CreateVertexShader(const FArray<byte>& binCode);
+	FRIPixelShader*		CreatePixelShader(const FArray<byte>& binCode);
+	FRIGeometryShader*	CreateGeometryShader(const FArray<byte>& binCode);
+	FRIHullShader*		CreateHullShader(const FArray<byte>& binCode);
+	FRIDomainShader*		CreateDomainShader(const FArray<byte>& binCode);
+	FRIComputeShader*		CreateComputeShader(const FArray<byte>& binCode);
 
 
 
-	FResourceShaderPipeline*	DynamicCreateShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor);
-								
-	FResourceTexture2D*			DynamicCreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, FResourceTextureColorDescriptor colorDescriptor, FResourceCreationDescriptor resourceDescriptor = FResourceCreationDescriptor(NULL, 0));
-	FResourceTexture3D*			DynamicCreateTexture3D(uint32 width, uint32 height, uint32 depth, FResourceCreationDescriptor resourceDescriptor);
+	FRIShaderPipeline*	CreateShaderPipeline(FRIShaderPipelineCreationDescriptor descriptor);
+	FRIShaderPipeline*	CreateShaderPipeline(const ShaderLibraryModule& shaderModule);
 
-	FResourceTexture2DArray*	DynamicCreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, FResourceTextureColorDescriptor colorDescriptor, FResourceCreationDescriptor resourceDescriptor = FResourceCreationDescriptor(NULL, 0));
-
-
-	FResourceFrameBuffer*		DynamicCreateFrameBuffer(FArray<FResourceFrameBufferTextureAttachment> textureAttachments, bool enableDepthRenderBuffer = true);
-
-	void AttachVertexDeclaration(FResourceVertexDeclaration declaration);
+	FRITexture2D*			CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
+	FRITexture3D*			CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor);
+	FRITexture2DArray*	CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
+	FRIUniformBuffer*		CreateUniformBuffer(FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
+	FRIFrameBuffer*		CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true);
+	FRIFrameBuffer*		CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer = true);
 
 
-	FArray<byte> PrecacheShader(FArray<byte> indata, EFRIResourceShaderType type);
+	FRIRasterizerState* CreateRasterizerState(EFRICullMode cullMode, EFRIFillMode fillmode);
+	FRIBlendState* CreateBlendState(EFRIAlphaBlend srcBlend, EFRIAlphaBlend dstBlend);
+
+
+
+
+	FRIVertexDeclaration* CreateVertexDeclaration(FArray<FRIVertexDeclarationComponent> components, FRIVertexShader* shaderSignature);
+	void AttachVertexDeclaration(FRIVertexBuffer* geometry, FRIVertexDeclaration* declaration);
+
+
+	void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource);
+
+	void SetRasterizerState(FRIRasterizerState* rasterizer);
+	void SetBlendState(FRIBlendState* blend);
+
+
 
 	void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height);
-	void BindFrameBuffer(FResourceFrameBuffer* frameBuffer);
+	void BindFrameBuffer(FRIFrameBuffer* frameBuffer);
 	void UnbindFrameBuffer();
 
-	void SetGeometrySource(FResourceVertexBuffer* vertexBuffer);
+	void SetGeometrySource(FRIVertexBuffer* vertexBuffer);
 	void DrawPrimitives(uint32 elementType, uint32 elementCount);
-	void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer);
+	void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer);
 
-	void SetShaderPipeline(FResourceShaderPipeline* shader);
-	void SetShaderUniformBuffer(FResourceUniformBuffer* uniformBuffer);
-	void SetShaderUniformParameter(FUniformParameter* paramater);
+	void SetShaderPipeline(FRIShaderPipeline* shader);
+	void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer);
 	void SetShaderSampler(FUniformSampler* sampler);
-	void SetTextureParameterBuffer(FResourceTexture2D* texture, FResourceTextureParameterBuffer param);
-	void SetTextureParameterBuffer(FResourceTexture2DArray* texture, FResourceTextureParameterBuffer param);
+	void SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param);
+	void SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer param);
 
-	void SetFramebufferTextureLayer(FResourceTexture2DArray* tex, uint32 layer);
+	void SetFramebufferTextureLayer(FRIFrameBuffer* tex, uint32 layer);
 
-	void AttachLayeredTexture(FResourceTexture2DArray* tex);
+	void StageResources(FRIResourceStageLambda stageLambda);
 
 
-	uint32 GetShaderUniformParameterLocation(FResourceShaderPipeline* shader, FAnsiString uniformName);
+	uint32 GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FAnsiString uniformName);
 
 
 
@@ -73,11 +76,11 @@ public:
 	void EndScene();
 	void EndFrame();
 
-	void ClearBuffer(FResourceFrameBuffer* buffer, Color color);
+	void ClearBuffer(FRIFrameBuffer* buffer, Color color);
 
 	void SetBackCull(bool back);
 
-	void FlushMipMaps(FResourceTexture2D* tex);
-	void FlushMipMaps(FResourceTexture2DArray* tex);
+	void FlushMipMaps(FRITexture2D* tex);
+	void FlushMipMaps(FRITexture2DArray* tex);
 
 };

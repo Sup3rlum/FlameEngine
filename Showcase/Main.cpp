@@ -1,20 +1,14 @@
 
-
 #include "TestGame.h"
 
-
+#include <iostream>
 
 int main()
 {
-
-	printf("Hello!\n");
-
-
-	TestGameApplication app(L"Test");
+	TestGameApplication app(L"Test", EFRIRendererFramework::DX11);
 	app.Load();
 	app.Run();
 	
-	printf("We are done\n");
 
 	return 0;
 }

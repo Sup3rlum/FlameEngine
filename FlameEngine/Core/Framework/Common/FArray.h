@@ -364,6 +364,8 @@ public:
 
 		if (size + arr.size >= capacity)
 			Resize(size + arr.size);
+		else
+			size += arr.size;
 
 		Memory::CopyCounted(ptrInternal + oldSize, arr.ptrInternal, arr.size);
 
@@ -444,7 +446,7 @@ public:
 		Memory::CopyCounted(Newbuffer, ptrInternal, l_Size);
 
 		capacity = newcapacity;
-		//delete[] ptrInternal;
+		Memory::Free(ptrInternal);
 		ptrInternal = Newbuffer;
 	}
 

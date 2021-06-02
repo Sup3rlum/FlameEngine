@@ -7,19 +7,21 @@
 #include "Core/Common/CoreCommon.h"
 
 
-struct FResourceObject
+struct FRIResourceObject
 {
 	virtual bool IsValidResource() { return false; };
+
+	virtual ~FRIResourceObject() {}
 };
 
 
-struct FResourceTexture2D : public FResourceObject
+struct FRITexture2D : public FRIResourceObject
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 SampleCount;
 
-	FResourceTexture2D(uint32 Width, uint32 Height, uint32 SampleCount) :
+	FRITexture2D(uint32 Width, uint32 Height, uint32 SampleCount) :
 		Width(Width),
 		Height(Height),
 		SampleCount(SampleCount)
@@ -27,13 +29,13 @@ struct FResourceTexture2D : public FResourceObject
 
 	}
 };
-struct FResourceTexture3D : public FResourceObject
+struct FRITexture3D : public FRIResourceObject
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 Depth;
 
-	FResourceTexture3D(uint32 Width, uint32 Height, uint32 Depth) :
+	FRITexture3D(uint32 Width, uint32 Height, uint32 Depth) :
 		Width(Width),
 		Height(Height),
 		Depth(Depth)
@@ -42,13 +44,13 @@ struct FResourceTexture3D : public FResourceObject
 	}
 };
 
-struct FResourceTextureCubeMap : public FResourceObject
+struct FRITextureCubeMap : public FRIResourceObject
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 SampleCount;
 
-	FResourceTextureCubeMap(uint32 Width, uint32 Height, uint32 SampleCount) :
+	FRITextureCubeMap(uint32 Width, uint32 Height, uint32 SampleCount) :
 		Width(Width),
 		Height(Height),
 		SampleCount(SampleCount)
@@ -56,13 +58,13 @@ struct FResourceTextureCubeMap : public FResourceObject
 
 	}
 };
-struct FResourceTexture2DArray : public FResourceObject
+struct FRITexture2DArray : public FRIResourceObject
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 NumLayers;
 
-	FResourceTexture2DArray(uint32 Width, uint32 Height, uint32 NumLayers) :
+	FRITexture2DArray(uint32 Width, uint32 Height, uint32 NumLayers) :
 		Width(Width),
 		Height(Height),
 		NumLayers(NumLayers)
@@ -74,12 +76,12 @@ struct FResourceTexture2DArray : public FResourceObject
 
 
 
-struct FResourceVertexBuffer : public FResourceObject
+struct FRIVertexBuffer : public FRIResourceObject
 {
 	uint32 Size;
 	uint32 Usage;
 
-	FResourceVertexBuffer(uint32 Size, uint32 Usage) :
+	FRIVertexBuffer(uint32 Size, uint32 Usage) :
 		Size(Size),
 		Usage(Usage)
 	{
@@ -89,12 +91,12 @@ struct FResourceVertexBuffer : public FResourceObject
 };
 
 
-struct FResourceIndexBuffer : public FResourceObject
+struct FRIIndexBuffer : public FRIResourceObject
 {
 	uint32 IndexCount;
 	uint32 Usage;
 
-	FResourceIndexBuffer(uint32 IndexCount, uint32 Usage) :
+	FRIIndexBuffer(uint32 IndexCount, uint32 Usage) :
 		IndexCount(IndexCount),
 		Usage(Usage)
 	{
@@ -105,12 +107,12 @@ struct FResourceIndexBuffer : public FResourceObject
 
 
 
-struct FResourceFrameBuffer : public FResourceObject
+struct FRIFrameBuffer : public FRIResourceObject
 {
 	uint32 Size;
 	uint32 Usage;
 
-	FResourceFrameBuffer(uint32 Size, uint32 Usage) :
+	FRIFrameBuffer(uint32 Size, uint32 Usage) :
 		Size(Size),
 		Usage(Usage)
 	{
@@ -120,61 +122,6 @@ struct FResourceFrameBuffer : public FResourceObject
 };
 
 
-struct FUniformParameter
-{
-	uint32 Location;
-	uint32 ArrayCount;
-
-	union
-	{
-		uint32 UintParam;
-		int32 IntParam;
-		float FloatParam;
-		bool BoolParam;
-
-		const float* FloatVParam;
-		const int* IntVParam;
-
-	};
-
-
-	FUniformParameter(uint32 Location, uint32 val) : Location(Location), paramType(EFRIUniformBufferParameterType::UInt32), UintParam(val), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, int32 val) : Location(Location), paramType(EFRIUniformBufferParameterType::Int32), IntParam(val), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, float val) : Location(Location), paramType(EFRIUniformBufferParameterType::Float), FloatParam(val), ArrayCount(1) {}
-
-	FUniformParameter(uint32 Location, FVector4 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector4), FloatVParam(&vec[0]), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, FVector3 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector3), FloatVParam(&vec[0]), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, FVector2 vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector2), FloatVParam(&vec[0]), ArrayCount(1) {}
-
-	FUniformParameter(uint32 Location, FMatrix4 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix4), FloatVParam(&mat[0][0]), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, FMatrix3 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix3), FloatVParam(&mat[0][0]), ArrayCount(1) {}
-	FUniformParameter(uint32 Location, FMatrix2 mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix2), FloatVParam(&mat[0][0]), ArrayCount(1) {}
-
-
-
-	FUniformParameter(uint32 Location, const FArray<FVector4>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector4), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
-	FUniformParameter(uint32 Location, const FArray<FVector3>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector3), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
-	FUniformParameter(uint32 Location, const FArray<FVector2>& vec) : Location(Location), paramType(EFRIUniformBufferParameterType::FVector2), FloatVParam(&vec[0][0]), ArrayCount(vec.Length()) {}
-									   
-	FUniformParameter(uint32 Location, const FArray<FMatrix4>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix4), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
-	FUniformParameter(uint32 Location, const FArray<FMatrix3>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix3), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
-	FUniformParameter(uint32 Location, const FArray<FMatrix2>& mat) : Location(Location), paramType(EFRIUniformBufferParameterType::FMatrix2), FloatVParam(&mat[0][0][0]), ArrayCount(mat.Length()) {}
-
-
-
-	FUniformParameter(const FUniformParameter& other) :
-		Location(other.Location),
-		paramType(other.paramType),
-		FloatVParam(other.FloatVParam)
-	{
-
-	}
-
-	EFRIUniformBufferParameterType paramType;
-private:
-	FUniformParameter();
-};
-
 
 struct FUniformSampler
 {
@@ -183,17 +130,17 @@ struct FUniformSampler
 
 	union
 	{
-		FResourceTexture2D* Param2D;
-		FResourceTexture3D* Param3D;
-		FResourceTextureCubeMap* ParamCube;
-		FResourceTexture2DArray* Param2DArray;
+		FRITexture2D* Param2D;
+		FRITexture3D* Param3D;
+		FRITextureCubeMap* ParamCube;
+		FRITexture2DArray* Param2DArray;
 	};
 
 
-	FUniformSampler(uint32 unit, FResourceTexture2D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2D), Param2D(val) {}
-	FUniformSampler(uint32 unit, FResourceTexture3D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler3D), Param3D(val) {}
-	FUniformSampler(uint32 unit, FResourceTextureCubeMap* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSamplerCube), ParamCube(val) {}
-	FUniformSampler(uint32 unit, FResourceTexture2DArray* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2DArray), Param2DArray(val) {}
+	FUniformSampler(uint32 unit, FRITexture2D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2D), Param2D(val) {}
+	FUniformSampler(uint32 unit, FRITexture3D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler3D), Param3D(val) {}
+	FUniformSampler(uint32 unit, FRITextureCubeMap* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSamplerCube), ParamCube(val) {}
+	FUniformSampler(uint32 unit, FRITexture2DArray* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2DArray), Param2DArray(val) {}
 
 private:
 	FUniformSampler();
@@ -201,17 +148,14 @@ private:
 
 
 
-struct FResourceUniformBuffer : public FResourceObject
+struct FRIUniformBuffer : public FRIResourceObject
 {
+	size_t ByteSize;
 
-	FArray<FUniformParameter> Data;
-
-
-	FResourceUniformBuffer(FArray<FUniformParameter> Data) :
-		Data(Data)
+	FRIUniformBuffer(size_t ByteSize) :
+		ByteSize(ByteSize)
 	{
 	}
-
 };
 
 struct FTextureParameterBufferParameter
@@ -233,18 +177,18 @@ private:
 };
 
 
-struct FResourceTextureParameterBuffer : public FResourceObject
+struct FRITextureParameterBuffer : public FRIResourceObject
 {
 
 
 	FArray<FTextureParameterBufferParameter> Data;
 
-	FResourceTextureParameterBuffer(const FArray<FTextureParameterBufferParameter>& Data) :
+	FRITextureParameterBuffer(const FArray<FTextureParameterBufferParameter>& Data) :
 		Data(Data)
 	{
 
 	}
-	FResourceTextureParameterBuffer(const FResourceTextureParameterBuffer& other) :
+	FRITextureParameterBuffer(const FRITextureParameterBuffer& other) :
 		Data(other.Data)
 	{
 
@@ -252,9 +196,9 @@ struct FResourceTextureParameterBuffer : public FResourceObject
 };
 
 
-struct FResourceRenderQuery : public FResourceObject
+struct FRIRenderQuery : public FRIResourceObject
 {
-	FResourceRenderQuery()
+	FRIRenderQuery()
 	{
 
 	}
@@ -269,13 +213,12 @@ struct FResourceRenderQuery : public FResourceObject
 * 
 ******************************/
 
-struct FResourceShaderBase : public FResourceObject
+struct FRIShaderBase : public FRIResourceObject
 {
+	EFRIResourceShaderType Type;
 
-	FString Name;
-
-	FResourceShaderBase(FString Name) :
-		Name(Name)
+	FRIShaderBase(EFRIResourceShaderType type) :
+		Type(type)
 	{
 
 	}
@@ -285,19 +228,19 @@ struct FResourceShaderBase : public FResourceObject
 };
 
 
-struct FResourceVertexShader : public FResourceShaderBase { FResourceVertexShader(FString Name) : FResourceShaderBase(Name) {} };
-struct FResourcePixelShader : public FResourceShaderBase { FResourcePixelShader(FString Name) : FResourceShaderBase(Name) {} };
-struct FResourceGeometryShader : public FResourceShaderBase { FResourceGeometryShader(FString Name) : FResourceShaderBase(Name) {} };
-struct FResourceHullShader : public FResourceShaderBase { FResourceHullShader(FString Name) : FResourceShaderBase(Name) {} };
-struct FResourceDomainShader : public FResourceShaderBase { FResourceDomainShader(FString Name) : FResourceShaderBase(Name) {} };
-struct FResourceComputeShader : public FResourceShaderBase { FResourceComputeShader(FString Name) : FResourceShaderBase(Name) {} };
+struct FRIVertexShader	: public FRIShaderBase { FRIVertexShader()		: FRIShaderBase(EFRIResourceShaderType::Vertex) {} };
+struct FRIPixelShader		: public FRIShaderBase { FRIPixelShader()		: FRIShaderBase(EFRIResourceShaderType::Pixel) {} };
+struct FRIGeometryShader	: public FRIShaderBase { FRIGeometryShader()	: FRIShaderBase(EFRIResourceShaderType::Geometry) {} };
+struct FRIHullShader		: public FRIShaderBase { FRIHullShader()		: FRIShaderBase(EFRIResourceShaderType::Hull) {} };
+struct FRIDomainShader	: public FRIShaderBase { FRIDomainShader()		: FRIShaderBase(EFRIResourceShaderType::Domain) {} };
+struct FRIComputeShader	: public FRIShaderBase { FRIComputeShader()		: FRIShaderBase(EFRIResourceShaderType::Compute) {} };
 
-struct FResourceShaderPipelineCreationDescriptor
+struct FRIShaderPipelineCreationDescriptor
 {
 	uint32 NumShaders;
-	FResourceShaderBase** ShaderArray;
+	FRIShaderBase** ShaderArray;
 
-	FResourceShaderPipelineCreationDescriptor(uint32 NumShaders, FResourceShaderBase** ShaderArray) :
+	FRIShaderPipelineCreationDescriptor(uint32 NumShaders, FRIShaderBase** ShaderArray) :
 		NumShaders(NumShaders),
 		ShaderArray(ShaderArray)
 	{
@@ -306,46 +249,94 @@ struct FResourceShaderPipelineCreationDescriptor
 };
 
 
-struct FResourceShaderPipeline : FResourceObject
+struct FRIShaderPipeline : FRIResourceObject
 {
-	FResourceShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor)
+	FRIShaderPipeline(FRIShaderPipelineCreationDescriptor descriptor)
 	{
 
 	}
 };
 
 
-struct FResourceArrayInterface
+struct FRIRasterizerState
+{
+	
+};
+
+struct FRIBlendState
 {
 
 };
 
 
 
-struct FResourceCreationDescriptor
+struct FRIArrayInterface
+{
+
+};
+
+
+
+struct FRICreationDescriptor
 {
 public:
-	FResourceCreationDescriptor(FResourceArrayInterface* DataArray, size_t ByteSize) :
+	FRICreationDescriptor(FRIArrayInterface* DataArray, size_t ByteSize) :
 		DataArray(DataArray),
 		ByteSize(ByteSize)
 	{
 
 	}
 	size_t ByteSize;
-	FResourceArrayInterface* DataArray;
+	FRIArrayInterface* DataArray;
 };
 
-struct FResourceVertexDeclarationComponent
+
+
+struct FRIUpdateDescriptor
 {
-	uint32 AttribNumber;
+public:
+	FRIUpdateDescriptor(FRIArrayInterface* DataArray, size_t position, size_t ByteSize) :
+		DataArray(DataArray),
+		ByteSize(ByteSize),
+		Position(position)
+	{
+
+	}
+	size_t Position;
+	size_t ByteSize;
+	FRIArrayInterface* DataArray;
+};
+
+
+struct FRIInputSemantic
+{
+	const char* SemanticName;
+	uint32 SemanticIndex;
+
+	FRIInputSemantic(const char* name) :
+		SemanticName(name),
+		SemanticIndex(0)
+	{}
+
+	FRIInputSemantic(const char* name, uint32 index) :
+		SemanticName(name),
+		SemanticIndex(index)
+	{}
+
+};
+
+
+struct FRIVertexDeclarationComponent
+{
+	FRIInputSemantic Semantic;
 	uint32 Length;
 	EFRIVertexDeclerationAttributeType Type;
 	EFRIBool Normalized;
 	uint32 Stride;
 	uint32 Offset;
 
-	FResourceVertexDeclarationComponent(uint32 attribNumber, uint32 length, EFRIVertexDeclerationAttributeType type, EFRIBool norm, uint32 stride, uint32 offset) :
-		AttribNumber(attribNumber),
+	FRIVertexDeclarationComponent(FRIInputSemantic Semantic, uint32 length, EFRIVertexDeclerationAttributeType type, EFRIBool norm, uint32 stride, uint32 offset) :
+		Semantic(Semantic),
 		Type(type),
 		Normalized(norm),
 		Stride(stride),
@@ -356,43 +347,47 @@ struct FResourceVertexDeclarationComponent
 };
 
 
-struct FResourceVertexDeclaration : FResourceObject
+struct FRIVertexDeclaration
 {
-	FArray<FResourceVertexDeclarationComponent> DeclarationElements;
+	FArray<FRIVertexDeclarationComponent> DeclarationElements;
 
-	FResourceVertexDeclaration(const FArray<FResourceVertexDeclarationComponent>& decl) :
+	FRIVertexDeclaration(const FArray<FRIVertexDeclarationComponent>& decl) :
 		DeclarationElements(decl)
 	{
 	}
 };
 
-struct FResourceFrameBufferTextureAttachment
+struct FRIFrameBufferAttachment
 {
-	union
+
+	FRITexture2D* Param2D;
+
+	FRIFrameBufferAttachment(FRITexture2D* texture) : 
+		Param2D(texture) 
 	{
-		FResourceTexture2D* Param2D;
-		FResourceTexture3D* Param3D;
-		FResourceTextureCubeMap* ParamCube;
-		FResourceTexture2DArray* Param2DArray;
-	};
-
-	EResourceFBTextureAttachmentType attachmentType;
-	EFRIUniformSamplerType textureType;
-
-
-	FResourceFrameBufferTextureAttachment(FResourceTexture2D* texture, EResourceFBTextureAttachmentType attachmentType) : Param2D(texture), attachmentType(attachmentType), textureType(EFRIUniformSamplerType::TSampler2D) {}
-	FResourceFrameBufferTextureAttachment(FResourceTexture2DArray* texture, EResourceFBTextureAttachmentType attachmentType) : Param2DArray(texture), attachmentType(attachmentType), textureType(EFRIUniformSamplerType::TSampler2DArray) {}
+	}
 };
 
 
-struct FResourceTextureColorDescriptor
+struct FRIFrameBufferArrayAttachment
 {
-	EFRITextureChannelStorage storageFormat;
-	EFRITextureChannels channelFormat;
-	EFRITexturePixelStorage pixelStorage;
+	FRITexture2DArray* Param2DArray;
 
-	FResourceTextureColorDescriptor(EFRITextureChannelStorage storageFormat, EFRITextureChannels channelFormat, EFRITexturePixelStorage pixelStorage) :
-		storageFormat(storageFormat),
+	FRIFrameBufferArrayAttachment(FRITexture2DArray* texture) : Param2DArray(texture) {}
+};
+
+
+
+
+
+struct FRIColorDataFormat
+{
+	EFRIChannels channelFormat;
+	EFRIPixelStorage pixelStorage;
+
+
+
+	FRIColorDataFormat(EFRIChannels channelFormat, EFRIPixelStorage pixelStorage) :
 		channelFormat(channelFormat),
 		pixelStorage(pixelStorage)
 	{
@@ -404,7 +399,10 @@ struct FResourceTextureColorDescriptor
 
 
 
-struct FRIByte : FResourceArrayInterface
+struct FRIByte : FRIArrayInterface
 {
 	byte _Internal;
 };
+
+
+typedef void (*FRIResourceStageLambda)();

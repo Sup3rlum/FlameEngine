@@ -8,8 +8,12 @@
 
 EXPORT(struct, FSkinnedMeshSerializer) : public TSerializerInterface<SkinnedMeshComponent>
 {
+private:
 
-	FSkinnedMeshSerializer(FRIContext * friContext) : renderContext(friContext) {}
+	FRIVertexDeclaration* vertexDeclaration;
+
+public:
+	FSkinnedMeshSerializer(FRIContext* friContext);
 
 	SkinnedMeshComponent Serialize(IOFileStream & fileStream);
 

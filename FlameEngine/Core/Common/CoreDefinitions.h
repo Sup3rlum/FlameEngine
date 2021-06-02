@@ -32,11 +32,6 @@
 
 
 
-#define STRINGIFY(A) #A
-
-#define FINLINE __forceinline
-
-
 typedef uint32_t uint32;
 typedef uint64_t uint64;
 

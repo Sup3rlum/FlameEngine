@@ -3,7 +3,7 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestGame.cpp" />
-    <ClCompile Include="TestPlayerCharacter.cpp" />
+    <ClCompile Include="TestPlayerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -20,91 +20,85 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\debug_frag.glsl">
+    <None Include="shaders\misc\debug_frag.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\debug_vert.glsl">
+    <None Include="shaders\misc\debug_vert.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\debug_view.frag">
+    <None Include="shaders\misc\debug_view.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\debug_view.vert">
+    <None Include="shaders\misc\debug_view.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\def_geom.glsl">
+    <None Include="shaders\misc\def_geom.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\frag.glsl">
+    <None Include="shaders\misc\frag.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\geom.glsl">
+    <None Include="shaders\misc\geom.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\renderbatch.frag">
+    <None Include="shaders\misc\renderbatch.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\renderbatch.vert">
+    <None Include="shaders\misc\renderbatch.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\renderbatch_string.frag">
+    <None Include="shaders\misc\renderbatch_string.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\renderbatch_string.vert">
+    <None Include="shaders\misc\renderbatch_string.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\deferred\Shadowmap.frag">
+    <None Include="shaders\misc\ssao_blur.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\deferred\Shadowmap.vert">
+    <None Include="shaders\misc\ssao_blur.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_blur.frag">
+    <None Include="shaders\misc\ssao_geom.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_blur.vert">
+    <None Include="shaders\misc\ssao_geom.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_geom.frag">
+    <None Include="shaders\misc\ssao_light.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_geom.vert">
+    <None Include="shaders\misc\ssao_light.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_light.frag">
+    <None Include="shaders\misc\vert.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_light.vert">
+    <None Include="shaders\misc\animated_model_frag.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\vert.glsl">
+    <None Include="shaders\misc\animated_model_vert.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\animated_model_frag.glsl">
+    <None Include="shaders\misc\depth_frag.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\animated_model_vert.glsl">
+    <None Include="shaders\misc\depth_vert.glsl">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\depth_frag.glsl">
+    <None Include="shaders\misc\gauss_blur.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\depth_vert.glsl">
+    <None Include="shaders\misc\ssao_final.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\gauss_blur.frag">
+    <None Include="shaders\misc\ssao_final.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_final.frag">
+    <None Include="shaders\misc\ssao2.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\ssao_final.vert">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\ssao2.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shaders\geom_preserve_blur.frag">
+    <None Include="shaders\misc\geom_preserve_blur.frag">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\ux\uxFrame.frag">
@@ -121,27 +115,41 @@
     <None Include="shaders\flamev\new.fs" />
     <None Include="shaders\scene\depthpass.frag" />
     <None Include="shaders\scene\depthpass.vert" />
-    <None Include="shaders\deferred\GBufferGen.frag" />
-    <None Include="shaders\deferred\GBufferGenSkinned.vert" />
-    <None Include="shaders\deferred\Combine.frag" />
-    <None Include="shaders\deferred\Combine.vert" />
     <None Include="shaders\basic\quad.frag" />
     <None Include="shaders\basic\quad.vert" />
     <None Include="shaders\basic\quad_array.frag" />
     <None Include="shaders\basic\quad_array.vert" />
     <None Include="shaders\atmosphere\atmosphere.frag" />
     <None Include="shaders\atmosphere\atmosphere.vert" />
-    <None Include="shaders\atmosphere\basic.frag" />
     <None Include="shaders\util\SATGen.frag" />
-    <None Include="shaders\deferred\GBufferGen.vert" />
     <None Include="animations\anim_guy.fl3d.anim" />
+    <None Include="shaders\deferred.fslib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
-    <ClInclude Include="TestPlayerCharacter.h" />
     <ClInclude Include="TestPlayerSystem.h" />
     <ClInclude Include="FirstPersonCharacterComponent.h" />
-    <ClInclude Include="shaders\atmosphere\basic.vert" />
     <ClInclude Include="shaders\util\SATGen.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\deferred\ShadowmapSkinned.vert.glsl" />
+    <CustomBuild Include="shaders\deferred\Shadowmap.vert.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\deferred\Combine.frag.glsl" />
+    <CustomBuild Include="shaders\deferred\Combine.vert.glsl" />
+    <CustomBuild Include="shaders\deferred\GBufferGen.frag.glsl" />
+    <CustomBuild Include="shaders\deferred\GBufferGen.vert.glsl" />
+    <CustomBuild Include="shaders\deferred\GBufferGenSkinned.vert.glsl" />
+    <CustomBuild Include="shaders\deferred\Shadowmap.frag.glsl">
+      <Filter>shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shaders\atmosphere\basic.frag.glsl" />
+    <CustomBuild Include="shaders\atmosphere\basic.vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\signature\dx\CombineQuad.signature.hlsl" />
+    <FxCompile Include="shaders\signature\dx\Mesh.signature.hlsl" />
+    <FxCompile Include="shaders\signature\dx\SkinnedMesh.signature.hlsl" />
   </ItemGroup>
 </Project>

@@ -12,10 +12,19 @@ class FPXScene : public PhysicsScene
 
 private:
 	physx::PxScene* sceneHandle;
+	physx::PxControllerManager* mPxControllerManager;
+
+	float StepAccumulator;
+	float StepSize;
 
 	FPXScene(physx::PxScene* pxScene) :
-		sceneHandle(pxScene)
-	{}
+		sceneHandle(pxScene),
+		StepAccumulator(0),
+		StepSize(1.0f/128.0f)
+	{
+		
+		mPxControllerManager = PxCreateControllerManager(*sceneHandle);
+	}
 	
 public:
 	void Step(float dt);

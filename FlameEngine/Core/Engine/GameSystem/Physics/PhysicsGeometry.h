@@ -9,50 +9,76 @@ enum class EPGeometryType
 	Box,
 	Sphere,
 	Capsule,
-	Plane
+	Plane,
+	TriangleMesh
 };
 
 
-
-
-
-struct BoxGeometry
+struct PhysicsGeometry
 {
+protected:
+
+	class FPXGeometryProxy;
+	friend class FPXAllocator;
+	friend class RigidBody;
+	friend class StaticRigidBody;
+	friend class CharacterBody;
+	FPXGeometryProxy* FPXGeometry;
+
+public:
+	virtual EPGeometryType GetGeometryType() const = 0;
+	virtual ~PhysicsGeometry()
+	{}
+};
+
+template<EPGeometryType TGeomType>
+struct TPhysicsGeometry : PhysicsGeometry
+{
+	EPGeometryType GetGeometryType() const
+	{
+		return TGeomType;
+	}
+};
+
+
+/* Geometry Typess */
+
+EXPORT(struct, BoxGeometry) : TPhysicsGeometry<EPGeometryType::Box>
+{
+private:
 	FVector3 HalfDim;
-
-	BoxGeometry(FVector3 halfDim) :
-		HalfDim(halfDim)
-	{
-	}
-
+public:
+	BoxGeometry(FVector3 halfDim);
 };
 
-
-struct SphereGeometry
+EXPORT(struct, SphereGeometry) : TPhysicsGeometry<EPGeometryType::Sphere>
 {
+private:
 	float Radius;
-
-	SphereGeometry(float radius) :
-		Radius(radius)
-	{
-	}
-
+public:
+	SphereGeometry(float radius);
 };
 
 
-struct CapsuleGeometry
+EXPORT(struct, CapsuleGeometry) : TPhysicsGeometry<EPGeometryType::Capsule>
 {
+private:
 	float Radius;
 	float HalfHeight;
-
-	CapsuleGeometry(float radius, float halfheight) :
-		Radius(radius),
-		HalfHeight(halfheight)
-	{
-
-	}
+public:
+	CapsuleGeometry(float radius, float halfheight);
 };
 
-struct PlaneGeometry
+EXPORT(struct, PlaneGeometry) : TPhysicsGeometry<EPGeometryType::Plane>
 {
+public:
+	PlaneGeometry();
+};
+
+
+EXPORT(struct, TriangleMeshGeometry) : public TPhysicsGeometry<EPGeometryType::TriangleMesh>
+{
+public:
+	//TriangleMeshGeometry(const TriangleMeshGeometry& other);
+
 };

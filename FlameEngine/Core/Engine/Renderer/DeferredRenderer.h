@@ -2,146 +2,113 @@
 
 #include "Core/Common/CoreCommon.h"
 #include "Core/Engine/FlameRI/FRI.h"
-#include "Common/Viewport.h"
+#include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"
 #include "Common/Geometry/VertexComponent.h"
 #include "../GameSystem/Common/Scene.h"
-#include "../GameSystem/MeshComponent.h"
-#include "../GameSystem/SkinnedMeshComponent.h"
-#include "RenderComponent.h"
+#include "RenderSystems.h"
 #include "Common/RenderUtil.h"
 
 #include "Services/HBAOPlus/HBAOPlusInterface.h"
 #include "Services/BoundingVolumeDebugService.h"
 
 #include "AtmosphereRenderer.h"
-#include "SATGenerator.h"
 
-typedef FResourceTexture2D* FResourceTexture2DRef;
-typedef FResourceTexture2DArray* FResourceTexture2DArrayRef;
+#include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
+
+typedef FRITexture2D* FRITexture2DRef;
+typedef FRITexture2DArray* FRITexture2DArrayRef;
 
 struct FSceneRenderBuffer
 {
-	FResourceTexture2DRef DepthBuffer;
-	FResourceTexture2DRef NormalBuffer;
-	FResourceTexture2DRef AlbedoBuffer;
-	FResourceTexture2DRef SpecularBuffer;
-	FResourceTexture2DRef SSAOBuffer;
+	FRITexture2DRef DepthBuffer;
+	FRITexture2DRef NormalBuffer;
+	FRITexture2DRef AlbedoBuffer;
+	FRITexture2DRef SpecularBuffer;
+	FRITexture2DRef SSAOBuffer;
 
-	FResourceTexture2DArrayRef ShadowmapCascadeArray;
+	FRITexture2DArrayRef ShadowmapCascadeArray;
 };
 
 
-struct FBaseRenderPipeline
+struct FRenderPipeline
 {
-	FResourceShaderPipeline* Handle;
-	FResourceFrameBuffer* FrameBuffer;
+	FRIShaderPipeline* Handle;
+	FRIFrameBuffer* FrameBuffer;
 };
 
 
-struct FGeometryRenderPipeline : public FBaseRenderPipeline
+struct FSkinnedShadowmapGenPipeline : public FRenderPipeline {};
+struct FShadowmapGenPipeline : public FRenderPipeline
 {
-	uint32 ViewLoc;
-	uint32 ProjLoc;
-	uint32 WorldLoc;
+	FRIUniformBuffer* CascadeCameraBuffer;
+	FViewportRect Viewport;
 };
-struct FSkinnedGeometryRenderPipeline : public FBaseRenderPipeline
+struct FCombineRenderPipeline : public FRenderPipeline
 {
-	uint32 ViewLoc;
-	uint32 ProjLoc;
-	uint32 WorldLoc;
-
-	uint32 JointBufferLoc;
-
+	FRIUniformBuffer* ConstantBuffer;
 };
-
-
-
-
-struct FCombineRenderPipeline : public FBaseRenderPipeline
-{
-	uint32 DirectionalLightsDirection;
-	uint32 DirectionalLightsColor;
-	uint32 DirectionalLightsIntensity;
-
-	FStaticArray<uint32, 5> DirectionalLightsVPMatrix;
-	FStaticArray<uint32, 5> DirectionalLightsDepth;
-
-
-	FStaticArray<uint32, 5> ColorsLoc;
-
-
-	uint32 PointPosition;
-	uint32 PointColor;
-	uint32 PointIntensity;
-	uint32 PointRadius;
-
-	uint32 InverseView;
-	uint32 InverseProj;
-
-	uint32 CamPos;
-	uint32 View;
-};
-
-
-struct FHBAORenderPipeline : public FBaseRenderPipeline
+struct FHBAORenderPipeline : public FRenderPipeline
 {
 	HBAOPlus* HbaoService;
 };
 
-struct FShadowmapGenPipeline : public FBaseRenderPipeline
-{
-	uint32 ViewLoc;
-	uint32 ProjLoc;
-	uint32 WorldLoc;
-};
 
 
 
-EXPORT(class, DeferredRenderer)
+
+
+EXPORT(class, DeferredRenderer) : public RenderModule
 {
 public:
+
 	void CreateResources(FRIContext* renderContext);
 
-	void BeginRender(FRICommandList& cmdList, Scene* sceneToRender);
+	void CreateCombineStage();
+	void CreateHBAOStage();
+
+	void CreateShadowmapStage();
+	void CreateGBufferGenStage();
+	void CreateCombineGenStage();
+
+	void BeginRender(FRICommandList & cmdList);
+	void Render(FRICommandList& cmdList);
 	void EndRender(FRICommandList & cmdList);
 
 	void GBufferGen(FRICommandList& cmdList);
 	void RenderAO(FRICommandList& cmdList);
 
-
 	void RenderCombine(FRICommandList& cmdList);
-
-
 	void DrawScreenQuad(FRICommandList& cmdList );
-	void DrawDebugQuad(FRICommandList & cmdList, FVector2 pos, FVector2 size, FResourceTexture2D * tex);
-	void DrawDebugQuadLayer(FRICommandList& cmdList, FVector2 pos, FVector2 size, FResourceTexture2DArray* tex, uint32 layer);
+
+	void AttachToScene(Scene* scene);
 
 
-	FGeometryRenderPipeline GeomGenPipeline;
-	FSkinnedGeometryRenderPipeline SkinnedGeomGenPipeline;
+	FRenderPipeline			GeomGenPipeline;
+	FRenderPipeline			SkinnedGeomGenPipeline;
 
-	FHBAORenderPipeline	HBAOGenPipeline;
-	FCombineRenderPipeline CombinePipeline;
-	FShadowmapGenPipeline ShadowmapPipeline;
+	FHBAORenderPipeline				HBAOGenPipeline;
+	FCombineRenderPipeline			CombinePipeline;
+	FShadowmapGenPipeline			ShadowmapPipeline;
+	FSkinnedShadowmapGenPipeline	SkinnedShadowmapPipeline;
 
 	FSceneRenderBuffer BufferTextures;
 
 
-	FResourceShaderPipeline* quadDrawPipeline;
-	FResourceShaderPipeline* quadDrawArrayPipeline;
-	uint32 TransformLoc;
-	uint32 ProjLoc;
+	FRIUniformBuffer* cameraMatrixBuffer;
+	FRIUniformBuffer* transformBuffer;
+	FRIUniformBuffer* jointBuffer;
 
-	uint32 TransformLocArray;
-	uint32 ProjLocArray;
-	uint32 LayerLocArray;
-	uint32 MaxLayerLocArray;
-
-	BoundingVolumeDebugService* serv;
-
-
-	FArray<FMatrix4> matrices;
 
 	AtmosphereRenderer atmosphereRenderer;
-	SATGenerator satGenerator;
+
+
+	FRIContext* renderContext;
+	FRIBlendState* blendState;
+
+	FRenderSystemGeom* Geometry;
+	FRenderSystemSkinnedGeom* SkinnedGeometry;
+	FRenderSystemSM* SMGeometry;
+	FRenderSystemSkinnedSM* SkinnedSMGeometry;
+
+	Scene* scene = NULL;
 };

@@ -27,7 +27,9 @@ struct FBaseStringPlatformTypeConversionSpecifier<char>
 	template<> static constexpr const char* GetSpecifier<float>()	{ return "%f"; }
 	template<> static constexpr const char* GetSpecifier<double>() { return "%lf"; }
 	template<> static constexpr const char* GetSpecifier<char*>() { return "%s"; }
-	template<> static constexpr const char* GetSpecifier<unsigned char*>()	{ return "%s"; }
+	template<> static constexpr const char* GetSpecifier<unsigned char*>() { return "%s"; }
+	template<> static constexpr const char* GetSpecifier<char>() { return "%c"; }
+	template<> static constexpr const char* GetSpecifier<unsigned char>()	{ return "%c"; }
 
 };
 
@@ -44,6 +46,7 @@ struct FBaseStringPlatformTypeConversionSpecifier<FChar>
 	template<> static constexpr const FChar* GetSpecifier<float>() { return L"%f"; }
 	template<> static constexpr const FChar* GetSpecifier<double>() { return L"%lf"; }
 	template<> static constexpr const FChar* GetSpecifier<FChar*>() { return L"%s"; }
+	template<> static constexpr const FChar* GetSpecifier<FChar>() { return L"%c"; }
 };
 
 

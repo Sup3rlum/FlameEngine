@@ -20,9 +20,9 @@ enum class EMaterialMap : uint32
 
 struct MaterialMap
 {
-	FResourceTexture2D* Handle;
+	FRITexture2D* Handle;
 
-	MaterialMap(FResourceTexture2D* Handle) : Handle(Handle)
+	MaterialMap(FRITexture2D* Handle) : Handle(Handle)
 	{}
 
 	MaterialMap() : Handle(NULL)

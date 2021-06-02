@@ -99,6 +99,11 @@ public:
 	}
 
 
+	FORCEINLINE GenType Trace() const
+	{
+		return value[0][0] + value[1][1] + value[2][2];
+	}
+
 };
 
 #include "TMatrix3.inl"

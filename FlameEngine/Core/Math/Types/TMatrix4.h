@@ -4,8 +4,6 @@
 #include "../Geometry/fPlane.h"
 #include "TVector4.h"
 #include "TMatrix3.h"
-#include "Quaternion.h"
-
 
 
 template<typename GenType>

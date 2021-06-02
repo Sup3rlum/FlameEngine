@@ -3,8 +3,6 @@
 
 
 #include "../PhysicsAllocator.h"
-#include "FPXShape.h"
-
 
 class FPXAllocator : public PhysicsAllocator
 {
@@ -17,12 +15,10 @@ public:
 		fpxScene(fpxsc)
 	{}
 
+	TriangleMeshGeometry CookTriangleMeshGeometry(const PhysicsTriangleMeshDesc& desc);
 
-	PhysicsShape* CreateShape(PhysicsMaterial material, BoxGeometry geometry);
-	PhysicsShape* CreateShape(PhysicsMaterial material, SphereGeometry geometry);
-	PhysicsShape* CreateShape(PhysicsMaterial material, PlaneGeometry geometry);
-	PhysicsShape* CreateShape(PhysicsMaterial material, CapsuleGeometry geometry);
+	RigidBody CreateDynamic(FTransform transform);
+	StaticRigidBody CreateStatic(FTransform transform);
+	CharacterBody CreateCharacter(FTransform transform);
 
-	DynamicPhysicsComponent CreateDynamic(FTransform transform);
-	StaticPhysicsComponent CreateStatic(FTransform transform);
 };

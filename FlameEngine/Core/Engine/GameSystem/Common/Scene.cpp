@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "SceneSystems.h"
+
 
 #include "Core/Math/Geometry/Volumes/AABB.h"
 
@@ -34,30 +36,35 @@ Scene::Scene(PhysicsSceneDescription desc) :
 
 void Scene::LoadSystems()
 {
-	FComponentType comp = TComponentType<DirectionalLightComponent>();
-
-	std::cout << comp._DecoratedName << std::endl;
-
+	RegisterSystem<DynamicPhys>();
+	RegisterSystem<AnimSystem>();
 }
-
-
 
 
 void Scene::Update()
 {
-	auto phsyst = CreateSystem<TransformComponent, DynamicPhysicsComponent>();
-	auto anim = CreateSystem<SkinnedMeshComponent, AnimationComponent>();
 
-	physicsScene->Step(1.0f / 60.0f);
+	UpdateFrameNum++;
+
+	auto timestamp = FTimeStamp::MarkCurrent();
+	FrameTimestamp = timestamp.data;
+
+	double FrameDelta = FrameTimestamp - LastFrameTimestamp;
+	FrameDelta /= (double)FTime::PlatformTickFrequency();
+
+	LastFrameTimestamp = FrameTimestamp;
+
+	physicsScene->Step((float)FrameDelta);
+
+
+	for (auto sysPtr : Systems)
+	{
+		sysPtr->Tick();
+	}
 
 
 	CameraComponent& camRef = Camera.Component<CameraComponent>();
 	DirectionalLightComponent& dirLightRef = Sun.Component<DirectionalLightComponent>();
-
-	phsyst.ForEach([&](Entity ent, TransformComponent& transform, DynamicPhysicsComponent& physComp)
-		{
-			transform.Transform = physComp.GetGlobalTransform();
-		});
 
 
 	FStaticArray<FVector3, 8> frustumCorners;
@@ -103,22 +110,18 @@ void Scene::Update()
 
 			// Create the view and projection matrices for the light's camera that envelops the user view frustum
 			dirLightRef.FrustumInfo[i].View = FViewMatrix(position, position + dirLightRef.Direction, aabbUp);
-			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.1f, aabb.LengthZ());
+			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ());
+
+			/*
+			dirLightRef.FrustumInfo[i].ViewToLight = dirLightRef.FrustumInfo[i].View * FMatrix4::Inverse(camRef.View);
+			dirLightRef.FrustumInfo[i].ViewToLight = dirLightRef.FrustumInfo[i].Projection * dirLightRef.FrustumInfo[i].ViewToLight;*/
 
 			float zFar = 300.0f;
 			float zNear = 0.1f;
 
-			dirLightRef.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i+1) / 5.0f) + zNear;
+			dirLightRef.FrustumInfo[i].Depth.r = (zFar - zNear) * ((float)(i+1) / 5.0f) + zNear;
 		}
 	}
-
-	anim.ForEach([&](Entity ent, SkinnedMeshComponent& skinnedMesh, AnimationComponent& anim)
-		{
-			anim.Step(1.0f / 60.0f);
-			skinnedMesh.Skeleton.ApplyPose(anim);
-		});
-
-
 }
 
 Scene::~Scene()

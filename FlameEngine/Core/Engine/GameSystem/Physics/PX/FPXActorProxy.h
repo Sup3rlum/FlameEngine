@@ -3,14 +3,18 @@
 
 #include "../PhysicsComponent.h"
 #include "PhysXPXCast.h"
-#include "FPXShape.h"
 
 using namespace physx;
 
-class DynamicPhysicsComponent::PhysXActorProxy : public PxRigidDynamic
+class RigidBody::PhysXActorProxy : public PxRigidDynamic
 {
 };
 
-class StaticPhysicsComponent::PhysXActorProxy : public PxRigidStatic
+class StaticRigidBody::PhysXActorProxy : public PxRigidStatic
 {
+};
+
+class CharacterBody::PhysXControllerProxy : public PxCapsuleController
+{
+
 };

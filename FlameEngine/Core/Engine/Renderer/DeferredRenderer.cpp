@@ -5,6 +5,12 @@
 #include "../ContentSystem/Client/AssetImportScripts/Material.h"
 
 
+#define UBO_SLOT_CAMERA 0
+#define UBO_SLOT_TRANSFORM 1
+#define UBO_SLOT_CASCADE_CAMERA 2
+#define UBO_SLOT_JOINTS 3
+#define UBO_SLOT_COMBINE 4
+
 
 FStaticArray<FVector3, 8> cubeCorners =
 {
@@ -21,111 +27,187 @@ FStaticArray<FVector3, 8> cubeCorners =
 };
 
 
+struct FCombineBufferStruct : FRIArrayInterface
+{
+	FMatrix4 InverseView;
+	FMatrix4 InverseProjection;
+	FVector4 Direction;
+	FVector4 Info;
+};
+
+
+struct FCameraBufferStruct
+{
+	FViewMatrix View;
+	FProjectionMatrix Projection;
+};
+struct FTransformBufferStruct
+{
+	FMatrix4 World;
+	FMatrix4 WorldInverseTranspose;
+};
+
 
 void DeferredRenderer::CreateResources(FRIContext* renderContext)
 {
 
+	this->renderContext = renderContext;
+
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
+	FShaderLibLoader shaderLibLoader(false, false);
 
 
-	FResourceTextureColorDescriptor depthDescriptor(EFRITextureChannelStorage::RG32F, EFRITextureChannels::RGBA, EFRITexturePixelStorage::Float);
-	FResourceTextureColorDescriptor bufferDescriptor(EFRITextureChannelStorage::RGBA32F, EFRITextureChannels::RGBA, EFRITexturePixelStorage::Float);
-	FResourceTextureColorDescriptor shadowDescriptor(EFRITextureChannelStorage::RG32F, EFRITextureChannels::RGBA, EFRITexturePixelStorage::Float);
+	if (renderContext->RenderFramework == EFRIRendererFramework::DX11)
+	{
+		Shaders = shaderLibLoader.LoadFromLocal("shaders/deferred_dx.fslib", renderContext);
+	}
+	else
+	{
+		Shaders = shaderLibLoader.LoadFromLocal("shaders/deferred.fslib", renderContext);
+	}
 
 
 	FArray<FTextureParameterBufferParameter> paramBuffer1;
 
-	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MinFilter, EFRITextureFilterMode::Trilinear));
-	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MagFilter, EFRITextureFilterMode::Trilinear));
-	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::AnisotropyLevel, 16.0f));
-
-
+	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MinFilter, EFRITextureFilterMode::Bilinear));
+	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MagFilter, EFRITextureFilterMode::Bilinear));
+	//paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::AnisotropyLevel, 2.0f));
 
 	/* Texture Buffer Gen */
 
-	IVector2 viewportSize = renderContext->GetViewportSize();
+	IVector2 viewportSize = renderContext->GetViewport().Size;
 
-	BufferTextures.DepthBuffer		= cmdList.GetDynamic()->DynamicCreateTexture2D(viewportSize.x, viewportSize.y, 0, depthDescriptor);
-	BufferTextures.AlbedoBuffer		= cmdList.GetDynamic()->DynamicCreateTexture2D(viewportSize.x, viewportSize.y, 0, bufferDescriptor);
-	BufferTextures.NormalBuffer		= cmdList.GetDynamic()->DynamicCreateTexture2D(viewportSize.x, viewportSize.y, 0, bufferDescriptor);
-	BufferTextures.SpecularBuffer	= cmdList.GetDynamic()->DynamicCreateTexture2D(viewportSize.x, viewportSize.y, 0, bufferDescriptor);
-	BufferTextures.SSAOBuffer		= cmdList.GetDynamic()->DynamicCreateTexture2D(viewportSize.x, viewportSize.y, 0, bufferDescriptor);
-
-
-	BufferTextures.ShadowmapCascadeArray = cmdList.GetDynamic()->DynamicCreateTexture2DArray(4096, 4096, 5, shadowDescriptor);
+	BufferTextures.DepthBuffer		= cmdList.GetDynamic()->CreateTexture2D(viewportSize.x, viewportSize.y, 0, EFRITextureFormat::R32F);
+	BufferTextures.AlbedoBuffer		= cmdList.GetDynamic()->CreateTexture2D(viewportSize.x, viewportSize.y, 0, EFRITextureFormat::RGBA8UNORM);
+	BufferTextures.NormalBuffer		= cmdList.GetDynamic()->CreateTexture2D(viewportSize.x, viewportSize.y, 0, EFRITextureFormat::RGBA8UNORM);
+	BufferTextures.SpecularBuffer	= cmdList.GetDynamic()->CreateTexture2D(viewportSize.x, viewportSize.y, 0, EFRITextureFormat::RGBA8UNORM);
+	BufferTextures.SSAOBuffer		= cmdList.GetDynamic()->CreateTexture2D(viewportSize.x, viewportSize.y, 0, EFRITextureFormat::RGBA8UNORM);
 
 
-	cmdList.SetTextureParameterBuffer(BufferTextures.DepthBuffer, FResourceTextureParameterBuffer(paramBuffer1));
-	cmdList.SetTextureParameterBuffer(BufferTextures.AlbedoBuffer, FResourceTextureParameterBuffer(paramBuffer1));
-	cmdList.SetTextureParameterBuffer(BufferTextures.NormalBuffer, FResourceTextureParameterBuffer(paramBuffer1));
-	cmdList.SetTextureParameterBuffer(BufferTextures.SpecularBuffer, FResourceTextureParameterBuffer(paramBuffer1));
-	cmdList.SetTextureParameterBuffer(BufferTextures.SSAOBuffer, FResourceTextureParameterBuffer(paramBuffer1));
-	cmdList.SetTextureParameterBuffer(BufferTextures.ShadowmapCascadeArray, FResourceTextureParameterBuffer(paramBuffer1));
+
+	ShadowmapPipeline.Viewport = FViewportRect(0, 0, 2048, 2048);
 
 
-	/* -------------------------------- Geometry Gen Pipeline */
-	
+	BufferTextures.ShadowmapCascadeArray = cmdList.GetDynamic()->CreateTexture2DArray(ShadowmapPipeline.Viewport.Height, ShadowmapPipeline.Viewport.Width, 5, EFRITextureFormat::RG32F, FRIColorDataFormat(EFRIChannels::RG, EFRIPixelStorage::Float));
 
 
-	FAnsiString vsData = IOFileStream("shaders/deferred/GBufferGen.vert").ReadAnsiFile();
-	FAnsiString psData = IOFileStream("shaders/deferred/GBufferGen.frag").ReadAnsiFile();
+	cmdList.SetTextureParameterBuffer(BufferTextures.DepthBuffer, FRITextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(BufferTextures.AlbedoBuffer, FRITextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(BufferTextures.NormalBuffer, FRITextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(BufferTextures.SpecularBuffer, FRITextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(BufferTextures.SSAOBuffer, FRITextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(BufferTextures.ShadowmapCascadeArray, FRITextureParameterBuffer(paramBuffer1));
 
-	FResourceVertexShader* vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	FResourcePixelShader* ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
+
+	/* Create Render Stage resources */
+
+	CreateGBufferGenStage();
+	CreateHBAOStage();
+	CreateShadowmapStage();
+	CreateCombineStage();
 
 
-	GeomGenPipeline.Handle = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2, 
-			new FResourceShaderBase* [2]{ vs, ps }
+	/* Create Constant buffers */
+	cameraMatrixBuffer						= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(CameraComponent)));
+	transformBuffer							= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FTransformBufferStruct)));
+	ShadowmapPipeline.CascadeCameraBuffer	= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FViewFrustumInfo) * 5));
+	jointBuffer								= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 32));
+	CombinePipeline.ConstantBuffer			= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FCombineBufferStruct)));
+
+
+	atmosphereRenderer.CreateResources(renderContext);
+
+
+
+
+	/*
+	FArray<FVertexComponent_Color> qdata =
+	{
+		FVertexComponent_Color(FVector3(-1,1,0), FVector3(0,1,0)),
+		FVertexComponent_Color(FVector3(1,1,0), FVector3(1,1,0)),
+		FVertexComponent_Color(FVector3(1,-1,0), FVector3(1,0,0)),
+		FVertexComponent_Color(FVector3(-1,-1,0), FVector3(0,0,1))
+
+	};
+
+	FArray<FIndexComponent> qedata = { 0,2,1,0,3,2 };
+
+
+
+	triangleVB = cmdList.GetDynamic()->CreateVertexBuffer(
+		4, 0, FRICreationDescriptor(
+			qdata.Begin(),
+			qdata.ByteSize()
+		));
+
+
+	auto scrQuadSignatureShader = cmdList.GetDynamic()->CreateVertexShader(rendererShaders.Modules["Triangle"].Parts[EFRIResourceShaderType::Vertex].Memory);
+
+	FArray<FRIVertexDeclarationComponent> declComp;
+
+	declComp.Add(FRIVertexDeclarationComponent("POSITION", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0));
+	declComp.Add(FRIVertexDeclarationComponent("COLOR", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12));
+
+
+	auto vd = cmdList.GetDynamic()->CreateVertexDeclaration(declComp, scrQuadSignatureShader);
+	cmdList.GetDynamic()->AttachVertexDeclaration(triangleVB, vd);
+
+	triangleIB = cmdList.GetDynamic()->CreateIndexBuffer(
+		6, 0, FRICreationDescriptor(
+			qedata.Begin(),
+			qedata.ByteSize()
 		)
 	);
 
-	GeomGenPipeline.ViewLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(GeomGenPipeline.Handle, "View");
-	GeomGenPipeline.ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(GeomGenPipeline.Handle, "Projection");
-	GeomGenPipeline.WorldLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(GeomGenPipeline.Handle, "World");
+	trianglePipe = cmdList.GetDynamic()->CreateShaderPipeline(rendererShaders.Modules["Triangle"]);*/
 
-	FArray<FResourceFrameBufferTextureAttachment> geomGenAttachments;
-	geomGenAttachments.Add(FResourceFrameBufferTextureAttachment(BufferTextures.DepthBuffer, EResourceFBTextureAttachmentType::Color));
-	geomGenAttachments.Add(FResourceFrameBufferTextureAttachment(BufferTextures.NormalBuffer, EResourceFBTextureAttachmentType::Color));
-	geomGenAttachments.Add(FResourceFrameBufferTextureAttachment(BufferTextures.AlbedoBuffer, EResourceFBTextureAttachmentType::Color));
-	geomGenAttachments.Add(FResourceFrameBufferTextureAttachment(BufferTextures.SpecularBuffer, EResourceFBTextureAttachmentType::Color));
+}
+
+/****************************************
+*			GBufferGen Stage
+*****************************************/
 
 
-	GeomGenPipeline.FrameBuffer = cmdList.GetDynamic()->DynamicCreateFrameBuffer(geomGenAttachments, true);
+
+void DeferredRenderer::CreateGBufferGenStage()
+{
+	FRICommandList cmdList(renderContext->GetFRIDynamic());
+
+	GeomGenPipeline.Handle = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["GBufferGen"]);
+
+	FArray<FRIFrameBufferAttachment> geomGenAttachments;
+	geomGenAttachments.Add(FRIFrameBufferAttachment(BufferTextures.DepthBuffer));
+	geomGenAttachments.Add(FRIFrameBufferAttachment(BufferTextures.NormalBuffer));
+	geomGenAttachments.Add(FRIFrameBufferAttachment(BufferTextures.AlbedoBuffer));
+	geomGenAttachments.Add(FRIFrameBufferAttachment(BufferTextures.SpecularBuffer));
 
 
-	/* -------------------------------- Skinned Geometry Gen Pipeline */
+	GeomGenPipeline.FrameBuffer = cmdList.GetDynamic()->CreateFrameBuffer(geomGenAttachments, true);
 
 
-	vsData = IOFileStream("shaders/deferred/GBufferGenSkinned.vert").ReadAnsiFile();
-	psData = IOFileStream("shaders/deferred/GBufferGen.frag").ReadAnsiFile();
 
-	vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
+	/* Skinned Geometry Gen Pipeline */
 
-
-	SkinnedGeomGenPipeline.Handle = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-	SkinnedGeomGenPipeline.ViewLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(SkinnedGeomGenPipeline.Handle, "View");
-	SkinnedGeomGenPipeline.ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(SkinnedGeomGenPipeline.Handle, "Projection");
-	SkinnedGeomGenPipeline.WorldLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(SkinnedGeomGenPipeline.Handle, "World");
-	SkinnedGeomGenPipeline.JointBufferLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(SkinnedGeomGenPipeline.Handle, "jointTransforms");
+	SkinnedGeomGenPipeline.Handle = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["GBufferGenSkinned"]);
+}
 
 
-	/* -------------------------------- HBAO Pipeline */
 
-	FArray<FResourceFrameBufferTextureAttachment> hbaoAttachment;
-	hbaoAttachment.Add(FResourceFrameBufferTextureAttachment(BufferTextures.SSAOBuffer, EResourceFBTextureAttachmentType::Color));
 
-	HBAOGenPipeline.FrameBuffer = cmdList.GetDynamic()->DynamicCreateFrameBuffer(hbaoAttachment, true);
+/****************************************
+*			HBAO Stage
+*****************************************/
+
+
+
+void DeferredRenderer::CreateHBAOStage()
+{
+	FRICommandList cmdList(renderContext->GetFRIDynamic());
+
+	FArray<FRIFrameBufferAttachment> hbaoAttachment;
+	hbaoAttachment.Add(FRIFrameBufferAttachment(BufferTextures.SSAOBuffer));
+
+	HBAOGenPipeline.FrameBuffer = cmdList.GetDynamic()->CreateFrameBuffer(hbaoAttachment, true);
 
 
 	FHBAOParameters hbaoParams;
@@ -146,64 +228,41 @@ void DeferredRenderer::CreateResources(FRIContext* renderContext)
 	hbaoParams.BlurSharpness = 16.0f;
 
 	HBAOGenPipeline.HbaoService = HBAOPlus::Allocate(renderContext, hbaoParams);
+}
+
+/****************************************
+*			Combine Stage
+*****************************************/
 
 
-	/* Shadowmap Pipeline */
+
+void DeferredRenderer::CreateCombineStage()
+{
+	FRICommandList cmdList(renderContext->GetFRIDynamic());
+
+	IVector2 viewportSize = renderContext->GetViewport().Size;
+
+	CombinePipeline.Handle = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Combine"]);
 
 
-
-	vsData = IOFileStream("shaders/deferred/Shadowmap.vert").ReadAnsiFile();
-	psData = IOFileStream("shaders/deferred/Shadowmap.frag").ReadAnsiFile();
-
-	vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-	ShadowmapPipeline.Handle = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-
-	FArray<FResourceFrameBufferTextureAttachment> shadowmapAttachment;
-	shadowmapAttachment.Add(FResourceFrameBufferTextureAttachment(BufferTextures.ShadowmapCascadeArray, EResourceFBTextureAttachmentType::Color));
-	ShadowmapPipeline.FrameBuffer = cmdList.GetDynamic()->DynamicCreateFrameBuffer(shadowmapAttachment, true);
-
-	ShadowmapPipeline.ViewLoc =  cmdList.GetDynamic()->GetShaderUniformParameterLocation(ShadowmapPipeline.Handle, "View");
-	ShadowmapPipeline.ProjLoc =  cmdList.GetDynamic()->GetShaderUniformParameterLocation(ShadowmapPipeline.Handle, "Projection");
-	ShadowmapPipeline.WorldLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(ShadowmapPipeline.Handle, "World");
-
-
-	/* Combine Pipeline */
-
-	vsData = IOFileStream("shaders/deferred/Combine.vert").ReadAnsiFile();
-	psData = IOFileStream("shaders/deferred/Combine.frag").ReadAnsiFile();
-
-	vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-	CombinePipeline.Handle = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-
-	FScreenQuadUtil::VertexBuffer = cmdList.GetDynamic()->DynamicCreateVertexBuffer(
-		4, 0, FResourceCreationDescriptor(
+	FScreenQuadUtil::VertexBuffer = cmdList.GetDynamic()->CreateVertexBuffer(
+		4, 0, FRICreationDescriptor(
 			FScreenQuadUtil::quadVData.Begin(),
 			FScreenQuadUtil::quadVData.ByteSize()
 		));
-	
 
-	cmdList.GetDynamic()->AttachVertexDeclaration(FScreenQuadUtil::VertexDecl);
 
-	FScreenQuadUtil::IndexBuffer = cmdList.GetDynamic()->DynamicCreateIndexBuffer(
-		6, 0, FResourceCreationDescriptor(
+	FRIVertexShader* scrQuadSignatureShader = NULL;// cmdList.GetDynamic()->CreateVertexShader(IOFileStream("shaders/signature/dx/bin/CombineQuad.signature.cso").ReadBytes());
+	if (renderContext->RenderFramework == EFRIRendererFramework::DX11)
+	{
+		scrQuadSignatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("shaders/signature/dx/bin/CombineQuad.signature.cso").ReadBytes());
+	}
+
+	FScreenQuadUtil::VertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(FScreenQuadUtil::VertexDeclComp, scrQuadSignatureShader);
+	cmdList.GetDynamic()->AttachVertexDeclaration(FScreenQuadUtil::VertexBuffer, FScreenQuadUtil::VertexDeclaration);
+
+	FScreenQuadUtil::IndexBuffer = cmdList.GetDynamic()->CreateIndexBuffer(
+		6, 0, FRICreationDescriptor(
 			FScreenQuadUtil::quadElementData.Begin(),
 			FScreenQuadUtil::quadElementData.ByteSize()
 		)
@@ -212,158 +271,111 @@ void DeferredRenderer::CreateResources(FRIContext* renderContext)
 
 	FScreenQuadUtil::ScreenSpaceMatrix = FOrthographicMatrix(0, viewportSize.x, viewportSize.y, 0, 0.0f, 5.0f);
 
+	blendState = cmdList.GetDynamic()->CreateBlendState(EFRIAlphaBlend::Src, EFRIAlphaBlend::OneMinusSrc);
+}
 
-	CombinePipeline.DirectionalLightsDirection = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "DirectionalLights[0].Direction");
-	CombinePipeline.DirectionalLightsColor = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "DirectionalLights[0].Color");
-	CombinePipeline.DirectionalLightsIntensity = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "DirectionalLights[0].Intensity");
-
-
-
-	FAnsiString name1[5] =
-	{
-		"DirectionalLights[0].Info[0].VPMatrix",
-		"DirectionalLights[0].Info[1].VPMatrix",
-		"DirectionalLights[0].Info[2].VPMatrix",
-		"DirectionalLights[0].Info[3].VPMatrix",
-		"DirectionalLights[0].Info[4].VPMatrix"
-	};
-
-
-	FAnsiString name2[5] =
-	{
-		"DirectionalLights[0].Info[0].Depth",
-		"DirectionalLights[0].Info[1].Depth",
-		"DirectionalLights[0].Info[2].Depth",
-		"DirectionalLights[0].Info[3].Depth",
-		"DirectionalLights[0].Info[4].Depth"
-	};
-
-	FAnsiString name3[5] =
-	{
-		"TestColors[0]",
-		"TestColors[1]",
-		"TestColors[2]",
-		"TestColors[3]",
-		"TestColors[4]"
-	};
-
-	for (int i = 0; i < 5; i++)
-	{
-		CombinePipeline.DirectionalLightsVPMatrix[i] = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, name1[i]);
-		CombinePipeline.DirectionalLightsDepth[i] = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, name2[i]);
-		CombinePipeline.ColorsLoc[i] = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, name3[i]);
-	}
-
-	CombinePipeline.InverseView = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "InverseView");
-	CombinePipeline.InverseProj = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "InverseProjection");
-
-
-	CombinePipeline.PointPosition = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "PointLights[0].Position");
-	CombinePipeline.PointIntensity = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "PointLights[0].Intensity");
-	CombinePipeline.PointRadius = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "PointLights[0].Radius");
-	CombinePipeline.PointColor = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "PointLights[0].Color");
-
-	CombinePipeline.CamPos = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "CameraPosition");
-	CombinePipeline.View = cmdList.GetDynamic()->GetShaderUniformParameterLocation(CombinePipeline.Handle, "View");
+/****************************************
+*			Shadowmap Stage
+*****************************************/
 
 
 
-	/* QUAD PIPELINE */
+
+void DeferredRenderer::CreateShadowmapStage()
+{
+
+	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
 
-	vsData = IOFileStream("shaders/basic/quad.vert").ReadAnsiFile();
-	psData = IOFileStream("shaders/basic/quad.frag").ReadAnsiFile();
-
-	vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-	quadDrawPipeline = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-	TransformLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawPipeline, "Transform");
-	ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawPipeline, "Projection");
+	/* Shadowmap Pipeline */
+	ShadowmapPipeline.Handle = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Shadowmap"]);
 
 
-	/* QUAD ARRAY */
+	ShadowmapPipeline.FrameBuffer = cmdList.GetDynamic()->CreateFrameBuffer(FRIFrameBufferArrayAttachment(BufferTextures.ShadowmapCascadeArray), true);
 
-	vsData = IOFileStream("shaders/basic/quad_array.vert").ReadAnsiFile();
-	psData = IOFileStream("shaders/basic/quad_array.frag").ReadAnsiFile();
-
-	vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-	quadDrawArrayPipeline = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-	TransformLocArray = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawArrayPipeline, "Transform");
-	ProjLocArray = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawArrayPipeline, "Projection");
-	LayerLocArray = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawArrayPipeline, "Layer");
-	MaxLayerLocArray = cmdList.GetDynamic()->GetShaderUniformParameterLocation(quadDrawArrayPipeline, "MaxLayers");
-
-
-
-	/* Box volume debug */
-	serv = new BoundingVolumeDebugService(cmdList);
-
-	atmosphereRenderer.CreateResources(renderContext);
-	satGenerator.CreateResources(renderContext);
-	satGenerator.SetupContext(FVector2(4096, 4096), 5);
-
-
-	for (int i = 0; i < 26; i++)
-	{
-		matrices.Add(FMatrix4(1));
-	}
+	/* Shadowmap Skinned Pipeline */
+	SkinnedShadowmapPipeline.Handle = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["ShadowmapSkinned"]);
 }
 
 
 
-void DeferredRenderer::BeginRender(FRICommandList& cmdList, Scene* sceneToRender)
+void DeferredRenderer::BeginRender(FRICommandList& cmdList)
 {
 
-	CameraComponent& camRef = sceneToRender->Camera.Component<CameraComponent>();
-	TransformComponent& tRef = sceneToRender->Camera.Component<TransformComponent>();
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_CAMERA, cameraMatrixBuffer);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_TRANSFORM, transformBuffer);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_CASCADE_CAMERA, ShadowmapPipeline.CascadeCameraBuffer);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_JOINTS, jointBuffer);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_COMBINE, CombinePipeline.ConstantBuffer);
 
+	cmdList.SetBlendState(blendState);
 
-	auto meshSystem = sceneToRender->CreateSystem<MeshComponent, MaterialComponent, TransformComponent>();
-	auto skinnedMeshSystem = sceneToRender->CreateSystem<SkinnedMeshComponent, MaterialComponent, TransformComponent>();
+}
 
-	auto shadowmapSystem = sceneToRender->CreateSystem<MeshComponent, TransformComponent>();
+void DeferredRenderer::Render(FRICommandList& cmdList)
+{
 
-
-	DirectionalLightComponent& dirLightRef = sceneToRender->Sun.Component<DirectionalLightComponent>();
+	CameraComponent& CameraRef = scene->Camera.Component<CameraComponent>();
+	FTransform& CameraPosRef = scene->Camera.Component<FTransform>();
+	DirectionalLightComponent& SunRef = scene->Sun.Component<DirectionalLightComponent>();
 
 	// Shadowmap Gen
-	
-	
-	cmdList.SetViewport(0, 0, 4096, 4096);
+	cmdList.SetViewport(ShadowmapPipeline.Viewport);
 
 	cmdList.ClearBuffer(ShadowmapPipeline.FrameBuffer, Color::White);
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			cmdList.SetFramebufferTextureLayer(BufferTextures.ShadowmapCascadeArray, i);
-
-			cmdList.ClearBuffer(NULL, Color::White);
-
-			cmdList.SetShaderPipeline(ShadowmapPipeline.Handle);
-			cmdList.SetShaderUniformParameter(FUniformParameter(ShadowmapPipeline.ViewLoc, dirLightRef.FrustumInfo[i].View));
-			cmdList.SetShaderUniformParameter(FUniformParameter(ShadowmapPipeline.ProjLoc, dirLightRef.FrustumInfo[i].Projection));
+			cmdList.SetFramebufferTextureLayer(ShadowmapPipeline.FrameBuffer, i);
+			//cmdList.ClearBuffer(NULL, Color::White);
 
 
-			shadowmapSystem.ForEach([&](Entity ent, MeshComponent& mesh, TransformComponent& transformComponent)
+			// Stage cascade camera buffer
+			cmdList.StageResources([&] 
 				{
-					cmdList.SetShaderUniformParameter(FUniformParameter(ShadowmapPipeline.WorldLoc, transformComponent.Transform.GetMatrix()));
+					FRIUpdateDescriptor dataStage(reinterpret_cast<FRIArrayInterface*>(&SunRef.FrustumInfo[i].View), 0, sizeof(CameraComponent));
+					cmdList.UniformBufferSubdata(cameraMatrixBuffer, dataStage);
+
+				});
+
+
+			/*  Static Shadowed Scene  */
+			cmdList.SetShaderPipeline(ShadowmapPipeline.Handle);
+			SMGeometry->ForEach([&](Entity ent, MeshComponent& mesh, FTransform& transformComponent)
+				{
+					cmdList.StageResources([&]
+						{
+							FTransformBufferStruct tr;
+							tr.World = transformComponent.GetMatrix();
+							tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
+							FRIUpdateDescriptor dataStage(reinterpret_cast<FRIArrayInterface*>(&tr), 0, sizeof(FTransformBufferStruct));
+
+							cmdList.UniformBufferSubdata(transformBuffer, dataStage);
+						});
+
+					cmdList.SetGeometrySource(mesh.VertexBuffer);
+					cmdList.DrawPrimitivesIndexed((uint32)EFRIPrimitiveType::Triangles, mesh.IndexBuffer->IndexCount, (uint32)EFRIIndexType::UInt32, mesh.IndexBuffer);
+
+				});
+
+
+			/*  Skinned Shadowed Scene  */
+			cmdList.SetShaderPipeline(SkinnedShadowmapPipeline.Handle);
+			SkinnedSMGeometry->ForEach([&](Entity ent, SkinnedMeshComponent& mesh, FTransform& transformComponent)
+				{
+					cmdList.StageResources([&]
+						{
+							const FArray<FMatrix4>& jointMatrices = mesh.MeshSkeleton.GetJointTransforms();
+							FTransformBufferStruct tr;
+							tr.World = transformComponent.GetMatrix();
+							tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
+							FRIUpdateDescriptor dataStage(reinterpret_cast<FRIArrayInterface*>(&tr), 0, sizeof(FTransformBufferStruct));
+							FRIUpdateDescriptor jointDataStage(reinterpret_cast<FRIArrayInterface*>(jointMatrices.Begin()), 0, jointMatrices.ByteSize());
+
+							cmdList.UniformBufferSubdata(transformBuffer, dataStage);
+							cmdList.UniformBufferSubdata(jointBuffer, jointDataStage);
+						});
+
 
 					cmdList.SetGeometrySource(mesh.VertexBuffer);
 					cmdList.DrawPrimitivesIndexed((uint32)EFRIPrimitiveType::Triangles, mesh.IndexBuffer->IndexCount, (uint32)EFRIIndexType::UInt32, mesh.IndexBuffer);
@@ -376,35 +388,50 @@ void DeferredRenderer::BeginRender(FRICommandList& cmdList, Scene* sceneToRender
 	}
 	cmdList.UnbindFrameBuffer();
 
-	//satGenerator.Render(cmdList, BufferTextures.ShadowmapCascadeArray, ShadowmapPipeline.FrameBuffer);
+	cmdList.SetViewport(renderContext->GetViewport());
 
-	cmdList.SetViewport(0, 0, 2560, 1440);
+	// Stage regular camera buffer
+	cmdList.StageResources([&]
+		{
+			FRIUpdateDescriptor camDataStage(reinterpret_cast<FRIArrayInterface*>(&CameraRef), 0, sizeof(CameraComponent));
+			cmdList.UniformBufferSubdata(cameraMatrixBuffer, camDataStage);
+		});
 
 	// Geom Gen
 
 	cmdList.ClearBuffer(GeomGenPipeline.FrameBuffer, Color::Transparent);
+	//cmdList.ClearBuffer(NULL, Color::Transparent);
 	{
 
-		// REGULAR
+		/* Static Geometry */
 
 		cmdList.SetShaderPipeline(GeomGenPipeline.Handle);
-		cmdList.SetShaderUniformParameter(FUniformParameter(GeomGenPipeline.ViewLoc, camRef.View));
-		cmdList.SetShaderUniformParameter(FUniformParameter(GeomGenPipeline.ProjLoc, camRef.Projection));
-
-
-		meshSystem.ForEach([&](Entity ent, MeshComponent& mesh, MaterialComponent& material, TransformComponent& transformComponent)
+		Geometry->ForEach([&](Entity ent, MeshComponent& mesh, MaterialComponent& material, FTransform& transformComponent)
 			{
-				cmdList.SetShaderUniformParameter(FUniformParameter(GeomGenPipeline.WorldLoc, transformComponent.Transform.GetMatrix()));
+				/* Stage DataBuffer */
+				cmdList.StageResources([&]
+					{
+						FTransformBufferStruct tr;
+						tr.World = transformComponent.GetMatrix();
+						tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
+						FRIUpdateDescriptor dataStage(reinterpret_cast<FRIArrayInterface*>(&tr), 0, sizeof(FTransformBufferStruct));
 
+						cmdList.UniformBufferSubdata(transformBuffer, dataStage);
+
+					});
+
+
+				/* Stage Samplers */
 				for (int map = 0; map < (uint32)EMaterialMap::MAX_MAPS; map++)
 				{
-					FResourceTexture2D* textureMap = material.GetMap((EMaterialMap)map).Handle;
-
+					FRITexture2D* textureMap = material.GetMap((EMaterialMap)map).Handle;
 					if (textureMap)
 					{
 						cmdList.SetShaderSampler(FUniformSampler(map, textureMap));
 					}
 				}
+
+				/* Draw */
 
 				cmdList.SetGeometrySource(mesh.VertexBuffer);
 				cmdList.DrawPrimitivesIndexed((uint32)EFRIPrimitiveType::Triangles, mesh.IndexBuffer->IndexCount, (uint32)EFRIIndexType::UInt32, mesh.IndexBuffer);
@@ -412,56 +439,53 @@ void DeferredRenderer::BeginRender(FRICommandList& cmdList, Scene* sceneToRender
 
 		);
 
-		// SKINNED
+
+
+
+		/* Skinned Models */
 
 		cmdList.SetShaderPipeline(SkinnedGeomGenPipeline.Handle);
-		cmdList.SetShaderUniformParameter(FUniformParameter(SkinnedGeomGenPipeline.ViewLoc, camRef.View));
-		cmdList.SetShaderUniformParameter(FUniformParameter(SkinnedGeomGenPipeline.ProjLoc, camRef.Projection));
-
-
-		skinnedMeshSystem.ForEach([&](Entity ent, SkinnedMeshComponent& skinnedMesh, MaterialComponent& material, TransformComponent& transformComponent)
+		SkinnedGeometry->ForEach([&](Entity ent, SkinnedMeshComponent& skinnedMesh, MaterialComponent& material, FTransform& transformComponent)
 			{
-				cmdList.SetShaderUniformParameter(FUniformParameter(SkinnedGeomGenPipeline.WorldLoc, transformComponent.Transform.GetMatrix()));
-				cmdList.SetShaderUniformParameter(FUniformParameter(SkinnedGeomGenPipeline.JointBufferLoc, skinnedMesh.Skeleton.GetJointTransforms()));
-				//cmdList.SetShaderUniformParameter(FUniformParameter(SkinnedGeomGenPipeline.JointBufferLoc, matrices));
+				/* Stage DataBuffer */
+				cmdList.StageResources([&]
+					{
+						const FArray<FMatrix4>& jointMatrices = skinnedMesh.MeshSkeleton.GetJointTransforms();
+						FTransformBufferStruct tr;
+						tr.World = transformComponent.GetMatrix();
+						tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
+						FRIUpdateDescriptor dataStage(reinterpret_cast<FRIArrayInterface*>(&tr), 0, sizeof(FTransformBufferStruct));
+						FRIUpdateDescriptor jointDataStage(reinterpret_cast<FRIArrayInterface*>(jointMatrices.Begin()), 0, jointMatrices.ByteSize());
 
+						cmdList.UniformBufferSubdata(transformBuffer, dataStage);
+						cmdList.UniformBufferSubdata(jointBuffer, jointDataStage);
+
+					});
+
+				/* Stage Samplers */
 				for (int map = 0; map < (uint32)EMaterialMap::MAX_MAPS; map++)
 				{
-					FResourceTexture2D* textureMap = material.GetMap((EMaterialMap)map).Handle;
-
+					FRITexture2D* textureMap = material.GetMap((EMaterialMap)map).Handle;
 					if (textureMap)
 					{
 						cmdList.SetShaderSampler(FUniformSampler(map, textureMap));
 					}
 				}
 
+				/* Draw */
+
 				cmdList.SetGeometrySource(skinnedMesh.VertexBuffer);
 				cmdList.DrawPrimitivesIndexed((uint32)EFRIPrimitiveType::Triangles, skinnedMesh.IndexBuffer->IndexCount, (uint32)EFRIIndexType::UInt32, skinnedMesh.IndexBuffer);
 			}
 
 		);
-
-
-
-
-
-		cmdList.FlushMipMaps(BufferTextures.DepthBuffer);
-		cmdList.FlushMipMaps(BufferTextures.AlbedoBuffer);
-		cmdList.FlushMipMaps(BufferTextures.NormalBuffer);
 	}
 	cmdList.UnbindFrameBuffer();
 
-
-	HBAOGenPipeline.HbaoService->RenderAO(BufferTextures.DepthBuffer, BufferTextures.NormalBuffer, HBAOGenPipeline.FrameBuffer, camRef.Projection, camRef.View);
-
-	
+	HBAOGenPipeline.HbaoService->RenderAO(BufferTextures.DepthBuffer, BufferTextures.NormalBuffer, HBAOGenPipeline.FrameBuffer, CameraRef.Projection, CameraRef.View);
 
 	cmdList.ClearBuffer(NULL, Color::DeepSkyBlue);
 	{
-
-		atmosphereRenderer.RenderSkySphere(cmdList, camRef, tRef);
-
-
 		cmdList.SetShaderPipeline(CombinePipeline.Handle);
 		cmdList.SetShaderSampler(FUniformSampler(0, BufferTextures.DepthBuffer));
 		cmdList.SetShaderSampler(FUniformSampler(1, BufferTextures.NormalBuffer));
@@ -471,45 +495,24 @@ void DeferredRenderer::BeginRender(FRICommandList& cmdList, Scene* sceneToRender
 		cmdList.SetShaderSampler(FUniformSampler(5, BufferTextures.SSAOBuffer));
 
 
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.DirectionalLightsDirection, FVector3::Normalize(FVector3(-1, -1, -1))));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.DirectionalLightsColor, Color::CosmicLatte));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.DirectionalLightsIntensity, 1.0f));
+		cmdList.StageResources([&]
+			{
+				FCombineBufferStruct buffer;
+				buffer.Direction.rgb = SunRef.Direction;
+				buffer.Info = FVector4(SunRef.LightColor.rgb, SunRef.Intensity);
+				buffer.InverseView = FMatrix4::Inverse(CameraRef.View);
+				buffer.InverseProjection = FMatrix4::Inverse(CameraRef.Projection);
 
-		for (int i = 0; i < 5; i++)
-		{
-			cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.DirectionalLightsVPMatrix[i], dirLightRef.FrustumInfo[i].Projection * dirLightRef.FrustumInfo[i].View));
-			cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.DirectionalLightsDepth[i], dirLightRef.FrustumInfo[i].Depth));
+				FRIUpdateDescriptor dataStage(&buffer, 0, sizeof(FCombineBufferStruct));
+				FRIUpdateDescriptor cascadeStage(reinterpret_cast<FRIArrayInterface*>(SunRef.FrustumInfo.Begin()), 0, sizeof(FViewFrustumInfo) * 5);
 
-		}
+				cmdList.UniformBufferSubdata(CombinePipeline.ConstantBuffer, dataStage);
+				cmdList.UniformBufferSubdata(ShadowmapPipeline.CascadeCameraBuffer, cascadeStage);
 
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.View, camRef.View));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.InverseView, FMatrix4::Inverse(camRef.View)));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.InverseProj, FMatrix4::Inverse(camRef.Projection)));
-
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.CamPos, tRef.Transform.Position));
-
-		/*
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.PointPosition, FVector3(0, 3, 0)));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.PointColor, Color::Red));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.PointRadius, 10.0f));
-		cmdList.SetShaderUniformParameter(FUniformParameter(CombinePipeline.PointIntensity, 2.0f));*/
+			});
 
 		DrawScreenQuad(cmdList);
-
 	}
-
-	/*DrawDebugQuad(cmdList, FVector2(1000, 0), FVector2(200, 200), BufferTextures.DepthBuffer);
-	DrawDebugQuad(cmdList, FVector2(1200, 0), FVector2(200, 200), BufferTextures.NormalBuffer);
-	DrawDebugQuad(cmdList, FVector2(1400, 0), FVector2(200, 200), BufferTextures.AlbedoBuffer);*/
-
-
-	
-	/*DrawDebugQuadLayer(cmdList, FVector2(1400, 0), FVector2(200, 200), BufferTextures.ShadowmapCascadeArray, 0);
-	DrawDebugQuadLayer(cmdList, FVector2(1600, 0), FVector2(200, 200), BufferTextures.ShadowmapCascadeArray, 1);
-	DrawDebugQuadLayer(cmdList, FVector2(1800, 0), FVector2(200, 200), BufferTextures.ShadowmapCascadeArray, 2);
-	DrawDebugQuadLayer(cmdList, FVector2(2000, 0), FVector2(200, 200), BufferTextures.ShadowmapCascadeArray, 3);
-	DrawDebugQuadLayer(cmdList, FVector2(2200, 0), FVector2(200, 200), BufferTextures.ShadowmapCascadeArray, 4);*/
-
 
 
 }
@@ -539,29 +542,17 @@ void DeferredRenderer::DrawScreenQuad(FRICommandList& cmdList)
 	cmdList.DrawPrimitivesIndexed((uint32)EFRIPrimitiveType::Triangles, 6, (uint32)EFRIIndexType::UInt32, FScreenQuadUtil::IndexBuffer);
 }
 
-void DeferredRenderer::DrawDebugQuad(FRICommandList& cmdList, FVector2 pos, FVector2 size, FResourceTexture2D* tex)
+
+void DeferredRenderer::AttachToScene(Scene* scene)
 {
+	this->scene = scene;
 
-	FMatrix4 transform = FTranslationMatrix(FVector3(pos, 0)) * FScalingMatrix(FVector3(size.x, size.y, 1)) * FTranslationMatrix(FVector3(1,1,0)) * FScalingMatrix(FVector3(0.5f, -0.5f, 1.0f));
-
-	cmdList.SetShaderPipeline(quadDrawPipeline);
-	cmdList.SetShaderSampler(FUniformSampler(0, tex));
-	cmdList.SetShaderUniformParameter(FUniformParameter(ProjLoc, FScreenQuadUtil::ScreenSpaceMatrix));
-	cmdList.SetShaderUniformParameter(FUniformParameter(TransformLoc, transform));
-	DrawScreenQuad(cmdList);
-}
+	Geometry = scene->RegisterSystem<FRenderSystemGeom>(ECSExecutionFlag::USER_TICK);
+	SkinnedGeometry = scene->RegisterSystem<FRenderSystemSkinnedGeom>(ECSExecutionFlag::USER_TICK);
 
 
-void DeferredRenderer::DrawDebugQuadLayer(FRICommandList& cmdList, FVector2 pos, FVector2 size, FResourceTexture2DArray* tex, uint32 layer)
-{
+	SMGeometry = scene->RegisterSystem<FRenderSystemSM>(ECSExecutionFlag::USER_TICK);
+	SkinnedSMGeometry = scene->RegisterSystem<FRenderSystemSkinnedSM>(ECSExecutionFlag::USER_TICK);
 
-	FMatrix4 transform = FTranslationMatrix(FVector3(pos, 0)) * FScalingMatrix(FVector3(size.x, size.y, 1)) * FTranslationMatrix(FVector3(1, 1, 0)) * FScalingMatrix(FVector3(0.5f, -0.5f, 1.0f));
 
-	cmdList.SetShaderPipeline(quadDrawArrayPipeline);
-	cmdList.SetShaderSampler(FUniformSampler(0, tex));
-	cmdList.SetShaderUniformParameter(FUniformParameter(ProjLocArray, FScreenQuadUtil::ScreenSpaceMatrix));
-	cmdList.SetShaderUniformParameter(FUniformParameter(TransformLocArray, transform));
-	cmdList.SetShaderUniformParameter(FUniformParameter(LayerLocArray, float(layer)));
-	cmdList.SetShaderUniformParameter(FUniformParameter(MaxLayerLocArray, 5.0f));
-	DrawScreenQuad(cmdList);
 }

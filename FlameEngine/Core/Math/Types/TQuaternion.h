@@ -2,7 +2,7 @@
 
 #include "Core/Common/CoreCommon.h"
 #include "TVector4.h"
-
+#include "TMatrix3.h"
 #include "../Functions/Functions.h"
 
 template<typename GenType>
@@ -65,6 +65,45 @@ public:
 	{
 	}
 
+
+	TQuaternion(const TMatrix3<GenType>& rot)
+	{
+		GenType diagonal = rot.Trace();
+
+		if (diagonal > 0) 
+		{
+			GenType w4 = (GenType)(FMathFunc::Sqrt(diagonal + GenType(1)) * GenType(2));
+			w = w4 / GenType(4);
+			x = (rot[2][1] - rot[1][2]) / w4;
+			y = (rot[0][2] - rot[2][0]) / w4;
+			z = (rot[1][0] - rot[0][1]) / w4;
+		}
+
+		else if ((rot[0][0] > rot[1][1]) && (rot[0][0] > rot[2][2])) 
+		{
+			GenType x4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[0][0] - rot[1][1] - rot[2][2]) * GenType(2));
+			w = (rot[2][1] - rot[1][2]) / x4;
+			x = x4 / GenType(4);
+			y = (rot[0][1] + rot[1][0]) / x4;
+			z = (rot[0][2] + rot[2][0]) / x4;
+		}
+		else if (rot[1][1] > rot[2][2]) 
+		{
+			GenType y4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[1][1] - rot[0][0] - rot[2][2]) * GenType(2));
+			w = (rot[0][2] - rot[2][0]) / y4;
+			x = (rot[0][1] + rot[1][0]) / y4;
+			y = y4 / GenType(4);
+			z = (rot[1][2] + rot[2][1]) / y4;
+		}
+		else
+		{
+			GenType z4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[2][2] - rot[0][0] - rot[1][1]) * GenType(2));
+			w = (rot[1][0] - rot[0][1]) / z4;
+			x = (rot[0][2] + rot[2][0]) / z4;
+			y = (rot[1][2] + rot[2][1]) / z4;
+			z = z4 / GenType(4);
+		}
+	}
 
 
 

@@ -12,23 +12,13 @@ using namespace physx;
 class FPXService : public PhysicsService
 {
 public:
-
-
 	FPXService();
 
 	PhysicsScene* CreateScene(FVector3 gravity);
-	
 
 	PxFoundation* mPxFoundation;
-
-	PxDefaultErrorCallback gErrorCallback;
-	PxDefaultAllocator gAllocator;
-
 	PxPhysics* mPxPhysics;
-
-	PxPvd* gPvd;
-	PxPvdTransport* gTransport;
-
+	PxCooking* mPxCooking;
 	PxDefaultCpuDispatcher* mPxDispatcher;
 
 

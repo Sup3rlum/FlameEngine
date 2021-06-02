@@ -30,7 +30,7 @@ EXPORT(struct, FVertexElementComponentAttribute)
 
 
 
-EXPORT(struct, FVertexComponentInterface) : public FResourceArrayInterface
+EXPORT(struct, FVertexComponentInterface) : public FRIArrayInterface
 {
 
 
@@ -132,7 +132,7 @@ EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentInt
 	}
 };
 
-EXPORT(struct, FIndexComponent) : public FResourceArrayInterface
+EXPORT(struct, FIndexComponent) : public FRIArrayInterface
 {
 	uint32 Index;
 

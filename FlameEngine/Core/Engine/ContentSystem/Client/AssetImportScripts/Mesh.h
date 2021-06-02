@@ -8,8 +8,11 @@
 
 EXPORT(struct, FMeshSerializer) : public TSerializerInterface<MeshComponent>
 {
+private:
+	FRIVertexDeclaration* vertexDeclaration;
 
-	FMeshSerializer(FRIContext* friContext) : renderContext(friContext) {}
+public:
+	FMeshSerializer(FRIContext* friContext);
 
 	MeshComponent Serialize(IOFileStream& fileStream);
 
@@ -24,3 +27,4 @@ struct FMeshFileDescriptor : public FLocalContentFileDescriptionBase
 
 
 typedef FLocalContentLoader<MeshComponent, FMeshFileDescriptor, FMeshSerializer> FMeshLoader;
+

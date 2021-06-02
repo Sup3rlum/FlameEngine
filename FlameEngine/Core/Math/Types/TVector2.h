@@ -31,9 +31,9 @@ public:
 
 
 	template<typename OtherType>
-	TVector2(const TVector2<OtherType> other) :
-		x(other.x),
-		y(other.y)
+	TVector2(const TVector2<OtherType>& other) :
+		x(static_cast<OtherType>(other.x)),
+		y(static_cast<OtherType>(other.y))
 	{
 
 	}

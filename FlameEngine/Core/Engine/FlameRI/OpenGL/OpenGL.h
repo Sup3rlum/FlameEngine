@@ -90,9 +90,9 @@ public:
 
 	static bool DrvSupportsBinaryShaderFormat()
 	{
-		GLint formats = 0;
-		glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &formats);
+		/*GLint formats = 0;
+		glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS, &formats);*/
 
-		return formats != 0;
+		return true;// formats != 0;
 	}
 };

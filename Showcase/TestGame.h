@@ -2,13 +2,13 @@
 
 #include "FlameEngine/Core/Engine/GameSystem/Game.h"
 
-#include "FirstPersonCharacterComponent.h"
+#include "TestPlayerSystem.h"
 
 
 class TestGameApplication : public GameApplication
 {
 public:
-	TestGameApplication(FString name);
+	TestGameApplication(FString name, EFRIRendererFramework renderFramework);
 
 	void Load();
 	void Dispose();
@@ -20,13 +20,17 @@ public:
 
 	void Shoot();
 
-	bool wasShooting = false;
-	bool isShooting = false;
 
 	Entity playerEntity;
 	Entity floorEntity;
 
 	Entity boneGuy;
 	//FirstPersonCharacterSystem playerSystem;
+
+	FProjectionMatrix PerspMatrix;
+
+	MaterialComponent defaultMaterial;
+	MeshComponent ballMesh;
+
 };
 

@@ -3,42 +3,44 @@
 
 
 #include "PX/FPXActorProxy.h"
+#include "PX/FPXAllocator.h"
+#include "PX/FPXService.h"
+#include "PhysicsGeometryProxy.h"
 
 
-
-void DynamicPhysicsComponent::AddForce(FVector3 force)
+void RigidBody::AddForce(FVector3 force)
 {
 	pPxActor->addForce(physx_cast(force));
 }
 
-void DynamicPhysicsComponent::AddTorque(FVector3 torque)
+void RigidBody::AddTorque(FVector3 torque)
 {
 	pPxActor->addForce(physx_cast(torque));
 }
 
-void DynamicPhysicsComponent::SetLinearVelocity(FVector3 velocity)
+void RigidBody::SetLinearVelocity(FVector3 velocity)
 {
 	pPxActor->setLinearVelocity(physx_cast(velocity));
 }
-void DynamicPhysicsComponent::SetAngularVelocity(FVector3 velocity)
+void RigidBody::SetAngularVelocity(FVector3 velocity)
 {
 	pPxActor->setAngularVelocity(physx_cast(velocity));
 
 }
 
 
-void DynamicPhysicsComponent::ClearForce()
+void RigidBody::ClearForce()
 {
 	pPxActor->clearForce();
 }
 
-void DynamicPhysicsComponent::ClearTorque()
+void RigidBody::ClearTorque()
 {
 	pPxActor->clearTorque();
 }
 
 
-void DynamicPhysicsComponent::SetPosition(FVector3 position)
+void RigidBody::SetPosition(FVector3 position)
 {
 	pPxActor->setGlobalPose(
 		PxTransform(
@@ -48,7 +50,7 @@ void DynamicPhysicsComponent::SetPosition(FVector3 position)
 	);
 }
 
-void DynamicPhysicsComponent::SetOrientation(FQuaternion orientation)
+void RigidBody::SetOrientation(FQuaternion orientation)
 {
 	pPxActor->setGlobalPose(
 		PxTransform(
@@ -59,15 +61,14 @@ void DynamicPhysicsComponent::SetOrientation(FQuaternion orientation)
 }
 
 
-void DynamicPhysicsComponent::SetGlobalTransform(FTransform transform)
+void RigidBody::SetGlobalTransform(FTransform transform)
 {
 	pPxActor->setGlobalPose(
 		physx_cast(transform)
 	);
 }
 
-
-FTransform DynamicPhysicsComponent::GetGlobalTransform() const
+FTransform RigidBody::GetGlobalTransform() const
 {
 	FVector3 pos = physx_cast(pPxActor->getGlobalPose().p);
 	FQuaternion quat = physx_cast(pPxActor->getGlobalPose().q);
@@ -75,19 +76,23 @@ FTransform DynamicPhysicsComponent::GetGlobalTransform() const
 	return FTransform(pos, quat);
 }
 
-void DynamicPhysicsComponent::AttachShape(PhysicsShape* physShape)
+
+void RigidBody::SetShape(const PhysicsShape& shape)
 {
-	pPxActor->attachShape(*(((FPXShape*)physShape)->pxShape));
+	const PhysicsMaterial& mat = shape.GetMaterial();
+
+	PxMaterial* pxMaterial = Allocator->fpxService->mPxPhysics->createMaterial(mat.StaticFriction, mat.DynamicFriction, mat.Restitution);
+	PxRigidActorExt::createExclusiveShape(*pPxActor, *shape.GetGeometry()->FPXGeometry, *pxMaterial);
 }
 
 
 
-void DynamicPhysicsComponent::SetAngularDamping(float f)
+void RigidBody::SetAngularDamping(float f)
 {
 	pPxActor->setAngularDamping(f);
 }
 
-void DynamicPhysicsComponent::SetMass(float f)
+void RigidBody::SetMass(float f)
 {
 	pPxActor->setMass(f);
 }
@@ -100,9 +105,13 @@ void DynamicPhysicsComponent::SetMass(float f)
 */
 
 
+FTransform StaticRigidBody::GetGlobalTransform() const
+{
+	return physx_cast(pPxActor->getGlobalPose());
+}
 
 
-void StaticPhysicsComponent::SetGlobalTransform(FTransform transform)
+void StaticRigidBody::SetGlobalTransform(FTransform transform)
 {
 	pPxActor->setGlobalPose(
 		physx_cast(transform)
@@ -110,13 +119,52 @@ void StaticPhysicsComponent::SetGlobalTransform(FTransform transform)
 }
 
 
-FTransform StaticPhysicsComponent::GetGlobalTransform() const
+void StaticRigidBody::SetShape(const PhysicsShape& shape)
 {
-	return physx_cast(pPxActor->getGlobalPose());
+	const PhysicsMaterial& mat = shape.GetMaterial();
+
+	PxMaterial* pxMaterial = Allocator->fpxService->mPxPhysics->createMaterial(mat.StaticFriction, mat.DynamicFriction, mat.Restitution);
+	PxRigidActorExt::createExclusiveShape(*pPxActor, *shape.GetGeometry()->FPXGeometry, *pxMaterial);
 }
 
-void StaticPhysicsComponent::AttachShape(PhysicsShape* physShape)
+
+/*
+* 
+*	Character
+* 
+*/
+
+
+
+void CharacterBody::Move(FVector3 vec)
 {
-	pPxActor->attachShape(*(((FPXShape*)physShape)->pxShape));
+	auto MoveTimestamp = FTimeStamp::MarkCurrent();
+	double MoveTimeDelta = MoveTimestamp.data - LastMoveTimestamp;
+	LastMoveTimestamp = MoveTimestamp.data;
+	MoveTimeDelta /= (double)FTime::PlatformTickFrequency();
+
+	if (MoveTimeDelta < 0.1f)
+	{
+		vec += FVector3(0, -10, 0);
+		vec *= (float)MoveTimeDelta;
+
+		pPxController->move(physx_cast(vec), 0.01f, (float)MoveTimeDelta, PxControllerFilters());
+	}
+}
+FTransform CharacterBody::GetGlobalTransform() const
+{
+	PxExtendedVec3 pos = pPxController->getFootPosition();
+	return FTransform(FVector3(pos.x, pos.y, pos.z));
 }
 
+
+bool CharacterBody::IsGrounded() const
+{
+	return true;
+
+}
+
+float CharacterBody::GetHeight() const
+{
+	return pPxController->getHeight();
+}

@@ -9,24 +9,24 @@
 
 struct SkinnedMeshComponent
 {
-	FResourceVertexBuffer* VertexBuffer;
-	FResourceIndexBuffer* IndexBuffer;
-	FResourceVertexDeclaration VertexDeclaration;
+	FRIVertexBuffer* VertexBuffer;
+	FRIIndexBuffer* IndexBuffer;
+	//FRIVertexDeclaration VertexDeclaration;
 
-	SkeletalComponent Skeleton;
+	Skeleton MeshSkeleton;
 
-	SkinnedMeshComponent(FResourceVertexBuffer* vbuff, FResourceIndexBuffer* ibuff, FResourceVertexDeclaration vdecl, SkeletalComponent Skeleton) :
+	SkinnedMeshComponent(FRIVertexBuffer* vbuff, FRIIndexBuffer* ibuff, Skeleton Skeleton) :
 		VertexBuffer(vbuff),
 		IndexBuffer(ibuff),
-		VertexDeclaration(vdecl),
-		Skeleton(Skeleton)
+		//VertexDeclaration(vdecl),
+		MeshSkeleton(Skeleton)
 	{}
 
 	SkinnedMeshComponent() :
 		VertexBuffer(NULL),
 		IndexBuffer(NULL),
-		VertexDeclaration(NULL),
-		Skeleton(NULL, 0)
+		//VertexDeclaration(NULL),
+		MeshSkeleton(NULL, 0)
 	{}
 
 };

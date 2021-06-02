@@ -57,7 +57,7 @@ public:
 
 	FString ToString()
 	{
-		return FStringFormatter::Format("{ X:%0 Y:%1 Z:%2 }", x, y, z);
+		return FString::Format("{ X:%0 Y:%1 Z:%2 }", x, y, z);
 	}
 
 	GenType Length() const
@@ -93,6 +93,7 @@ public:
 	{
 		return v / v.Length();
 	}
+
 	static TVector3 Max(const TVector3& a, const TVector3& b)
 	{
 		return TVector3(

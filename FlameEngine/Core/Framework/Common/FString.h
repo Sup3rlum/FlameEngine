@@ -50,7 +50,7 @@ public:
 
 
 template<typename TBaseChar>
-EXPORT(struct, TString) : public FArray<TBaseChar>
+struct TString : public FArray<TBaseChar>
 {
 	typedef FArray<TBaseChar> BaseType;
 	typedef TBaseChar CharType;
@@ -82,6 +82,8 @@ public:
 	TString(uint64 val) { TConstructFromType(val); }
 	TString(const FChar* val) { TConstructFromType(val); }
 	TString(const char* val) { TConstructFromType(val); }
+	TString(FChar val) { TConstructFromType(val); }
+	TString(char val) { TConstructFromType(val); }
 
 	BaseType ToCharArray() const
 	{
@@ -91,10 +93,13 @@ public:
 
 	TBaseChar* ToPlatformString() const
 	{
-		TBaseChar* allocation = Memory::AllocCounted<TBaseChar>(this->size + 1);
-		Memory::CopyCounted(allocation, this->ptrInternal, this->size);
-		allocation[this->size] = 0;
-
+		TBaseChar* allocation = NULL;
+		if (this->ptrInternal)
+		{
+			allocation = Memory::AllocCounted<TBaseChar>(this->size + 1);
+			Memory::CopyCounted(allocation, this->ptrInternal, this->size);
+			allocation[this->size] = 0;
+		}
 		return allocation;
 	}
 
@@ -132,6 +137,10 @@ public:
 	void Replace(const TString& what, const TString& withWhat) {}
 
 
+	template<typename...TArgs>
+	static TString Format(const TString& format, const TArgs& ...);
+
+
 
 	TString& operator=(const TString& str)
 	{
@@ -154,7 +163,7 @@ public:
 
 
 template<typename TBasicChar>
-EXPORT(struct, TStringFormatArg)
+struct TStringFormatArg
 {
 	enum EType { Int, UInt, Double, String, StringLiteral };
 
@@ -176,9 +185,9 @@ EXPORT(struct, TStringFormatArg)
 	TStringFormatArg(const uint64_t Value) : Type(UInt), UIntValue(Value) {}
 	TStringFormatArg(const float Value) : Type(Double), DoubleValue(Value) {}
 	TStringFormatArg(const double Value) : Type(Double), DoubleValue(Value) {}
-	TStringFormatArg(TString<TBasicChar> Value) : Type(String), StringValue(Value) {}
-	TStringFormatArg(const TBasicChar * Value) : Type(StringLiteral), StringLiteralValue(Value) {}
-	TStringFormatArg(const TStringFormatArg & RHS)
+	TStringFormatArg(const TString<TBasicChar>& Value) : Type(String), StringValue(Value) {}
+	TStringFormatArg(const TBasicChar* Value) : Type(StringLiteral), StringLiteralValue(Value) {}
+	TStringFormatArg(const TStringFormatArg& RHS)
 	{
 		Type = RHS.Type;
 		switch (Type)
@@ -211,76 +220,6 @@ using FStaticUTF32String = TStaticString<char32_t, GenSize>;
 typedef TString<char> FAnsiString;
 typedef TString<FChar> FString;
 typedef TString<char32_t> FUTF32String;
-
-
-
-template<typename TBasicChar>
-EXPORT(struct, TStringFormatter)
-{
-	typedef TString<TBasicChar> TStringType;
-	typedef TStringFormatArg<TBasicChar> TArgType;
-
-public:
-	template<typename...TArgs>
-	static TStringType Format(const TStringType& Format, const TArgs&... args)
-	{
-		FArray<TArgType> formatargs = { TArgType(args) ... };
-
-		TStringType result;
-
-		int formatReq = 0;
-
-		for (size_t i = 0; i < Format.Length(); i++)
-		{
-			if (Format[i] != FStringFormatterSpecifier<TBasicChar>::Percent())
-			{
-				result += Format[i];
-			}
-			else
-			{
-
-				int formatIndex = (Format[i++ + 1] - FStringFormatterSpecifier<TBasicChar>::Zero() /* "0" */);
-
-				if (Format[i] == FStringFormatterSpecifier<TBasicChar>::Percent())
-				{
-					result += FStringFormatterSpecifier<TBasicChar>::Percent() /* % */;
-				}
-
-				if (formatIndex >= 0 && formatIndex <= 9)
-				{
-					typename TArgType::EType debugt = formatargs[formatIndex].Type;
-
-					if (debugt == TArgType::Double)
-					{
-						result += TStringType(formatargs[formatIndex].DoubleValue);
-					}
-					if (debugt == TArgType::Int)
-					{
-						result += TStringType(formatargs[formatIndex].IntValue);
-					}
-					if (debugt == TArgType::UInt)
-					{
-						result += TStringType(formatargs[formatIndex].UIntValue);
-					}
-					if (debugt == TArgType::StringLiteral)
-					{
-						result += TStringType(formatargs[formatIndex].StringLiteralValue);
-					}
-					if (debugt == TArgType::String)
-					{
-						result += formatargs[formatIndex].StringValue;
-					}
-				}
-			}
-		}
-
-		return result;
-	}
-
-};
-
-typedef TStringFormatter<char> FAnsiStringFormatter;
-typedef TStringFormatter<FChar> FStringFormatter;
 
 
 

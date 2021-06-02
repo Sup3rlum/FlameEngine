@@ -40,3 +40,12 @@ EXPORT(struct, FHash<FString>)
         return FHashFuncImpl::MurmurHash3_x86_32(str.Begin(), str.ByteSize(), 100);
     }
 };
+
+template<>
+EXPORT(struct, FHash<FAnsiString>)
+{
+    size_t operator ()(const FAnsiString & str) const
+    {
+        return FHashFuncImpl::MurmurHash3_x86_32(str.Begin(), str.ByteSize(), 100);
+    }
+};

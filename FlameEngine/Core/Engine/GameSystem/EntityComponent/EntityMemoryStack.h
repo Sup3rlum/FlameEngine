@@ -54,11 +54,9 @@ struct FEntityMemoryStack
 		template<typename TComponent>
 		FORCEINLINE TComponent& GetComponent(uint64 column, uint64 row)
 		{
-			//std::cout << "Retrieving Component " << typeid(TComponent).name() << " at index: " << row << std::endl;
-
-
 			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
 		}
+
 
 		FORCEINLINE bool IsFull() const
 		{
@@ -103,7 +101,6 @@ struct FEntityMemoryStack
 			auto RemoveBlock = CurrentTop;
 			CurrentTop = CurrentTop->Next;
 
-			//std::cout << "Removing block: " << RemoveBlock << std::endl;
 			free(RemoveBlock);
 		}
 	}

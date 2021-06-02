@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "FlameEditor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "PATH": "D:\\Projects\\FlameEngine\\x64\\Debug"
+      },
+      "nativeDebugging": true
+    }
+  }
+}

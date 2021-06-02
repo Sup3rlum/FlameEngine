@@ -1,7 +1,14 @@
 #include "AnimationSequence.h"
 
 
+void PrintDebugMatrix2(const FMatrix4& a)
+{
 
+	for (int j = 0; j < 4; j++)
+	{
+		printf("\t{ %f %f %f %f }\n", a[j].x, a[j].y, a[j].z, a[j].w);
+	}
+}
 
 AnimationSequence FAnimSequenceSerializer::Serialize(IOFileStream& fileStream)
 {
@@ -20,14 +27,18 @@ AnimationSequence FAnimSequenceSerializer::Serialize(IOFileStream& fileStream)
 
 		keyFrame.PoseTransforms = FArray<FTransform>(numTransforms);
 
+		//printf("Frame: %f\n", keyFrame.timeStamp);
+
 		for (int i = 0; i < numTransforms; i++)
 		{
-			FTransform ft;
+			FMatrix4 tr = fileStream.Read<FMatrix4>();
 
-			ft.Position = fileStream.Read<FVector3>();
-			ft.Orientation = fileStream.Read<FQuaternion>();
+			//printf("Joint: %d\n", i);
+			//PrintDebugMatrix2(tr);
 
-			keyFrame.PoseTransforms[i] = ft;
+
+
+			keyFrame.PoseTransforms[i] = FTransform(tr);
 		}
 
 		animSeq.AddKeyFrame(keyFrame);

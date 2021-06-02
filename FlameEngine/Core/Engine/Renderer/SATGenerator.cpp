@@ -3,48 +3,38 @@
 
 void SATGenerator::CreateResources(FRIContext* renderContext)
 {
-	FRICommandList cmdList(renderContext->GetFRIDynamic());
+/*	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
 
-	FAnsiString vsData = IOFileStream("shaders/util/SATGen.vert").ReadAnsiFile();
-	FAnsiString psData = IOFileStream("shaders/util/SATGen.frag").ReadAnsiFile();
-
-	FResourceVertexShader* vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	FResourcePixelShader* ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-
-	pipeline = cmdList.GetDynamic()->DynamicCreateShaderPipeline
+	/*
+	pipeline = cmdList.GetDynamic()->CreateShaderPipeline
 	(
-		FResourceShaderPipelineCreationDescriptor(
+		FRIShaderPipelineCreationDescriptor(
 			2,
-			new FResourceShaderBase * [2]{ vs, ps }
+			new FRIShaderBase * [2]{ vs, ps }
 		)
-	);
+	);*/
 
-	/* Create Texture2DArray */
-	FResourceTextureColorDescriptor shadowDescriptor(EFRITextureChannelStorage::RG32F, EFRITextureChannels::RGBA, EFRITexturePixelStorage::Float);
-	textureRefB = cmdList.GetDynamic()->DynamicCreateTexture2DArray(4096, 4096, 5, shadowDescriptor);
+	/* Create Texture2DArray 
+	textureRefB = cmdList.GetDynamic()->CreateTexture2DArray(4096, 4096, 5, EFRITextureFormat::RG32F);
 
 
-	/* Create parameter buffer */
+	/* Create parameter buffer 
 	FArray<FTextureParameterBufferParameter> paramBuffer1;
 	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MinFilter, EFRITextureFilterMode::Trilinear));
 	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::MagFilter, EFRITextureFilterMode::Trilinear));
 	paramBuffer1.Add(FTextureParameterBufferParameter(EFRITextureParamName::AnisotropyLevel, 16.0f));
 
-	cmdList.SetTextureParameterBuffer(textureRefB, FResourceTextureParameterBuffer(paramBuffer1));
+	cmdList.SetTextureParameterBuffer(textureRefB, FRITextureParameterBuffer(paramBuffer1));
 
 
-	/* Create FBO */
+	/* Create FBO 
 
-	FArray<FResourceFrameBufferTextureAttachment> shadowmapAttachment;
-	shadowmapAttachment.Add(FResourceFrameBufferTextureAttachment(textureRefB, EResourceFBTextureAttachmentType::Color));
-	backFBO = cmdList.GetDynamic()->DynamicCreateFrameBuffer(shadowmapAttachment, true);
+	FArray<FRIFrameBufferTextureAttachment> shadowmapAttachment;
+	shadowmapAttachment.Add(FRIFrameBufferTextureAttachment(textureRefB, EResourceFBTextureAttachmentType::Color));
+	backFBO = cmdList.GetDynamic()->CreateFrameBuffer(shadowmapAttachment, true);
 
-	PassIndexLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "PassIndex");
-	DirectionLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "SumDirection");
-	LayerIndexLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "LayerIndex");
-
+	*/
 
 
 }
@@ -74,7 +64,7 @@ void SATGenerator::SwapTargets()
 
 void SATGenerator::RenderPass(FRICommandList& cmdList, FVector2 direction, float passIndex)
 {
-	cmdList.ClearBuffer(backFBO, Color::Transparent);
+	/*cmdList.ClearBuffer(backFBO, Color::Transparent);
 	{
 		cmdList.SetShaderSampler(FUniformSampler(0, textureRefA));
 
@@ -95,12 +85,12 @@ void SATGenerator::RenderPass(FRICommandList& cmdList, FVector2 direction, float
 		}
 
 	}
-	cmdList.UnbindFrameBuffer();
+	cmdList.UnbindFrameBuffer();*/
 }
 
-void SATGenerator::Render(FRICommandList& cmdList, FResourceTexture2DArray* textureArray, FResourceFrameBuffer* attachedFBO)
+void SATGenerator::Render(FRICommandList& cmdList, FRITexture2DArray* textureArray, FRIFrameBuffer* attachedFBO)
 {
-	this->textureRefA = textureArray;
+	/*this->textureRefA = textureArray;
 	this->attachedFBO = attachedFBO;
 
 
@@ -122,5 +112,5 @@ void SATGenerator::Render(FRICommandList& cmdList, FResourceTexture2DArray* text
 	}
 
 
-
+	*/
 }

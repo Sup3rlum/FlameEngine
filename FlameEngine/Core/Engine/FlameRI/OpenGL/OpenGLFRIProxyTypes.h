@@ -1,0 +1,97 @@
+#pragma once
+
+#include "OpenGL.h"
+#include "../FRIDefinitions.h"
+
+
+#define DEFINE_PROXY_ENUM(efri, gl) case efri: return gl
+
+
+FORCEINLINE GLuint EGLFormatProxyEnum(EFRITextureFormat format)
+{
+	switch (format)
+	{
+		// FLOAT
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R32F, GL_R32F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG32F, GL_RG32F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB32F, GL_RGB32F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA32F, GL_RGBA32F);
+
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R16F, GL_R16F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG16F, GL_RG16F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB16F, GL_RGB16F);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA16F, GL_RGBA16F);
+
+
+		//UNISNGED INT
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R32UI, GL_R32UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG32UI, GL_RG32UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB32UI, GL_RGB32UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA32UI, GL_RGBA32UI);
+
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R16UI, GL_R16UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG16UI, GL_RG16UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB16UI, GL_RGB16UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA16UI, GL_RGBA16UI);
+
+
+		// BYTE
+		/*DEFINE_PROXY_ENUM(EFRITextureFormat::R8UI, GL_R8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG8UI, GL_RG8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB8UI, GL_RGB8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA8UI, GL_RGBA8UI);*/
+
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R8UI, GL_R8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG8UI, GL_RG8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGB8UI, GL_RGB8UI);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA8UI, GL_RGBA8UI);
+
+		DEFINE_PROXY_ENUM(EFRITextureFormat::R8UNORM, GL_R8);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RG8UNORM, GL_RG8);
+		//DEFINE_PROXY_ENUM(EFRITextureFormat::RGB8UI, DXGI_FORMAT_R8G8B8_UINT);
+		DEFINE_PROXY_ENUM(EFRITextureFormat::RGBA8UNORM, GL_RGBA8);
+
+	default: return 0;
+	}
+	return 0;
+}
+
+
+#undef RGB
+
+FORCEINLINE GLuint EGLColorProxyEnum(EFRIChannels channels)
+{
+	switch (channels)
+	{
+		// FLOAT
+		DEFINE_PROXY_ENUM(EFRIChannels::R, GL_RED);
+		DEFINE_PROXY_ENUM(EFRIChannels::RG, GL_RG);
+		DEFINE_PROXY_ENUM(EFRIChannels::RGB, GL_RGB);
+		DEFINE_PROXY_ENUM(EFRIChannels::RGBA, GL_RGBA);
+
+
+	default: return 0;
+	}
+	return 0;
+}
+
+
+FORCEINLINE GLuint EGLPixelProxyEnum(EFRIPixelStorage pixStorage)
+{
+	switch (pixStorage)
+	{
+		// FLOAT
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::Byte,			GL_BYTE);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::UnsignedByte,	GL_UNSIGNED_BYTE);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::Short,			GL_SHORT);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::UnsignedShort,	GL_UNSIGNED_SHORT);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::Int,			GL_INT);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::UnsignedInt,	GL_UNSIGNED_INT);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::Float,			GL_FLOAT);
+		DEFINE_PROXY_ENUM(EFRIPixelStorage::Half,			GL_HALF_FLOAT);
+
+
+	default: return 0;
+	}
+	return 0;
+}

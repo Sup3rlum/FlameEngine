@@ -1,45 +1,39 @@
 #include "OpenGLFRI.h"
-
 #include "FVXLToGLSL.h"
+#include "OpenGLFRIProxyTypes.h"
 
-#include <iostream>
 
 
-typedef void (*_UniformFuncPtr)(FUniformParameter* param);
 typedef void (*_SamplerFuncPtr)(FUniformSampler* param);
 
-FStaticArray<_UniformFuncPtr, (size_t)EFRIUniformBufferParameterType::MaxUniformTypes> _FUniformFuncPtrs;
 FStaticArray<_SamplerFuncPtr, (size_t)EFRIUniformSamplerType::MaxSamplerTypes> _FSamplerFuncPtrs;
 
-#define SET_ENUM_UNIFORM_FUNC_PTR(e, f) _FUniformFuncPtrs[(size_t)EFRIUniformBufferParameterType::e]	= [](FUniformParameter* fp) { f }
 #define SET_ENUM_SAMPLER_FUNC_PTR(e, f) _FSamplerFuncPtrs[(size_t)EFRIUniformSamplerType::e]			= [](FUniformSampler* fp) { f }
 
 
-FResourceVertexBuffer* OpenGLFRIDynamicAllocator::DynamicCreateVertexBuffer(uint32 Size, uint32 Usage, FResourceCreationDescriptor resourceDescriptor)
+FRIVertexBuffer* OpenGLFRIDynamicAllocator::CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
 {
-	FGLResourceVertexBuffer* fglVertexBuffer = new FGLResourceVertexBuffer(Size, Usage, resourceDescriptor);
-
-
-	return fglVertexBuffer;
+	return new FGLResourceVertexBuffer(Size, Usage, resourceDescriptor);
 }
 
-FResourceIndexBuffer* OpenGLFRIDynamicAllocator::DynamicCreateIndexBuffer(uint32 IndexCount, uint32 Usage, FResourceCreationDescriptor resourceDescriptor)
+FRIIndexBuffer* OpenGLFRIDynamicAllocator::CreateIndexBuffer(uint32 IndexCount, uint32 Usage, FRICreationDescriptor resourceDescriptor)
 {
-	FGLResourceIndexBuffer* fglIndexBuffer = new FGLResourceIndexBuffer(IndexCount, Usage, resourceDescriptor);
-
-
-	return fglIndexBuffer;
+	return new FGLResourceIndexBuffer(IndexCount, Usage, resourceDescriptor);
 }
 
 
-FResourceTexture2D* OpenGLFRIDynamicAllocator::DynamicCreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, FResourceTextureColorDescriptor colorDescriptor, FResourceCreationDescriptor resourceDescriptor)
+FRITexture2D* OpenGLFRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor)
 {
-	FGLResourceTexture2D* fglTex2D = new FGLResourceTexture2D(width, height, sampleCount, (GLuint)colorDescriptor.storageFormat, (GLuint)colorDescriptor.channelFormat, (GLuint)colorDescriptor.pixelStorage, resourceDescriptor);
 
-	return fglTex2D;
+	GLuint gpuFormat = EGLFormatProxyEnum(textureFormat);
+	GLuint channelFormat = EGLColorProxyEnum(dataFormat.channelFormat);
+	GLuint dataPixelFormat = EGLPixelProxyEnum(dataFormat.pixelStorage);
+
+
+	return new FGLResourceTexture2D(width, height, sampleCount, gpuFormat, channelFormat, dataPixelFormat, resourceDescriptor);
 }
 
-FResourceTexture3D* OpenGLFRIDynamicAllocator::DynamicCreateTexture3D(uint32 width, uint32 height, uint32 depth, FResourceCreationDescriptor resourceDescriptor)
+FRITexture3D* OpenGLFRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor)
 {
 	//FGLResourceTexture3D* fglTex2D = new FGLResourceTexture3D(width, height, sampleCount, GL_RGBA32F, 4, GL_FLOAT, resourceDescriptor);
 	
@@ -49,100 +43,150 @@ FResourceTexture3D* OpenGLFRIDynamicAllocator::DynamicCreateTexture3D(uint32 wid
 }
 
 
-FResourceTexture2DArray* OpenGLFRIDynamicAllocator::DynamicCreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, FResourceTextureColorDescriptor colorDescriptor, FResourceCreationDescriptor resourceDescriptor)
+FRITexture2DArray* OpenGLFRIDynamicAllocator::CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor)
 {
-	return new FGLResourceTexture2DArray(width, height, numLayers, (GLuint)colorDescriptor.storageFormat, (GLuint)colorDescriptor.channelFormat, (GLuint)colorDescriptor.pixelStorage, resourceDescriptor);
+
+	GLuint gpuFormat = EGLFormatProxyEnum(textureFormat);
+	GLuint channelFormat = EGLColorProxyEnum(dataFormat.channelFormat);
+	GLuint dataPixelFormat = EGLPixelProxyEnum(dataFormat.pixelStorage);
+
+	return new FGLResourceTexture2DArray(width, height, numLayers, gpuFormat, channelFormat, dataPixelFormat, resourceDescriptor);
 }
 
 
 
 
-FResourceShaderPipeline* OpenGLFRIDynamicAllocator::DynamicCreateShaderPipeline(FResourceShaderPipelineCreationDescriptor descriptor)
+FRIShaderPipeline* OpenGLFRIDynamicAllocator::CreateShaderPipeline(FRIShaderPipelineCreationDescriptor descriptor)
 {
-	FGLResourceShaderPipeline* fglShaderPipeline = new FGLResourceShaderPipeline(descriptor);
+	return new FGLResourceShaderPipeline(descriptor);
+}
+FRIShaderPipeline* OpenGLFRIDynamicAllocator::CreateShaderPipeline(const ShaderLibraryModule& shaderModule)
+{
+	FArray<FRIShaderBase*> shaderArray;
 
-	return fglShaderPipeline;
-}
+	for (const auto& part : shaderModule.Parts)
+	{
+		FRIShaderBase* shaderResource;
 
 
-FResourceVertexShader* OpenGLFRIDynamicAllocator::DynamicCreateVertexShader(const FAnsiString& binCode)
-{
-	return new FGLResourceVertexShader("VertexShader", binCode);
-}
-FResourcePixelShader* OpenGLFRIDynamicAllocator::DynamicCreatePixelShader(const FAnsiString& binCode)
-{
-	return new FGLResourcePixelShader("PixelShader", binCode);
-}
+		switch (part.Key)
+		{
+		case EFRIResourceShaderType::Vertex: shaderResource = CreateVertexShader(part.Value.Memory); break;
+		case EFRIResourceShaderType::Pixel: shaderResource = CreatePixelShader(part.Value.Memory); break;
+		case EFRIResourceShaderType::Geometry: shaderResource = CreateGeometryShader(part.Value.Memory); break;
+		case EFRIResourceShaderType::Hull: shaderResource = CreateHullShader(part.Value.Memory); break;
+		case EFRIResourceShaderType::Domain: shaderResource = CreateDomainShader(part.Value.Memory); break;
 
-FResourceGeometryShader* OpenGLFRIDynamicAllocator::DynamicCreateGeometryShader(const FAnsiString& binCode)
-{
-	return new FGLResourceGeometryShader("GeometryShader", binCode);
-}
+		}
 
-FResourceHullShader* OpenGLFRIDynamicAllocator::DynamicCreateHullShader(const FAnsiString& binCode)
-{
-	return new FGLResourceHullShader("HullShader", binCode);
-}
-FResourceDomainShader* OpenGLFRIDynamicAllocator::DynamicCreateDomainShader(const FAnsiString& binCode)
-{
-	return new FGLResourceDomainShader("HullShader", binCode);
-}
-FResourceComputeShader* OpenGLFRIDynamicAllocator::DynamicCreateComputeShader(const FAnsiString& binCode)
-{
-	return new FGLResourceComputeShader("ComputeShader", binCode);
+		shaderArray.Add(shaderResource);
+	}
+
+	return new FGLResourceShaderPipeline(FRIShaderPipelineCreationDescriptor(shaderArray.Length(), shaderArray.Begin()));
 }
 
 
 
+FRIVertexShader* OpenGLFRIDynamicAllocator::CreateVertexShader(const FArray<byte>& binCode)
+{
+	return new FGLResourceVertexShader(binCode);
+}
+FRIPixelShader* OpenGLFRIDynamicAllocator::CreatePixelShader(const FArray<byte>& binCode)
+{
+	return new FGLResourcePixelShader(binCode);
+}
 
-FResourceFrameBuffer* OpenGLFRIDynamicAllocator::DynamicCreateFrameBuffer(FArray<FResourceFrameBufferTextureAttachment> textureAttachments, bool enableDepthRenderBuffer)
+FRIGeometryShader* OpenGLFRIDynamicAllocator::CreateGeometryShader(const FArray<byte>& binCode)
+{
+	return new FGLResourceGeometryShader(binCode);
+}
+
+FRIHullShader* OpenGLFRIDynamicAllocator::CreateHullShader(const FArray<byte>& binCode)
+{
+	return new FGLResourceHullShader(binCode);
+}
+FRIDomainShader* OpenGLFRIDynamicAllocator::CreateDomainShader(const FArray<byte>& binCode)
+{
+	return new FGLResourceDomainShader(binCode);
+}
+FRIComputeShader* OpenGLFRIDynamicAllocator::CreateComputeShader(const FArray<byte>& binCode)
+{
+	return new FGLResourceComputeShader(binCode);
+}
+
+FRIUniformBuffer* OpenGLFRIDynamicAllocator::CreateUniformBuffer(FRICreationDescriptor resource)
+{
+	return new FGLResourceUniformBuffer(resource);
+}
+
+
+FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer)
 {
 	return new FGLResourceFrameBuffer(textureAttachments, enableDepthRenderBuffer);
 }
 
 
-void OpenGLFRIDynamicAllocator::AttachVertexDeclaration(FResourceVertexDeclaration declaration)
+
+FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer)
 {
-	for (int i = 0; i < declaration.DeclarationElements.Length(); i++)
+	return NULL;// new FGLResourceFrameBuffer(textureAttachments, enableDepthRenderBuffer);
+}
+
+
+FRIVertexDeclaration* OpenGLFRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationComponent> DeclCompArray, FRIVertexShader* shaderSignature)
+{
+	return new FRIVertexDeclaration(DeclCompArray);
+}
+
+
+FRIRasterizerState* OpenGLFRIDynamicAllocator::CreateRasterizerState(EFRICullMode cullMode, EFRIFillMode fillmode)
+{
+	return NULL;
+}
+
+FRIBlendState* OpenGLFRIDynamicAllocator::CreateBlendState(EFRIAlphaBlend srcBlend, EFRIAlphaBlend dstBlend)
+{
+	return NULL;
+}
+
+
+
+void OpenGLFRIDynamicAllocator::AttachVertexDeclaration(FRIVertexBuffer* geometry, FRIVertexDeclaration* declaration)
+{
+	FGLResourceVertexBuffer* glvb = static_cast<FGLResourceVertexBuffer*>(geometry);
+	glBindVertexArray(glvb->vertexArrayBindingHandle);
+
+	for (int i = 0; i < declaration->DeclarationElements.Length(); i++)
 	{
-		if (declaration.DeclarationElements[i].Type == EFRIVertexDeclerationAttributeType::Float)
+		if (declaration->DeclarationElements[i].Type == EFRIVertexDeclerationAttributeType::Float)
 		{
 			glVertexAttribPointer
 			(
-				declaration.DeclarationElements[i].AttribNumber,
-				declaration.DeclarationElements[i].Length,
-				(int32)declaration.DeclarationElements[i].Type,
-				(GLboolean)declaration.DeclarationElements[i].Normalized,
-				declaration.DeclarationElements[i].Stride,
-				(void*)declaration.DeclarationElements[i].Offset
+				i,
+				declaration->DeclarationElements[i].Length,
+				(int32)declaration->DeclarationElements[i].Type,
+				(GLboolean)declaration->DeclarationElements[i].Normalized,
+				declaration->DeclarationElements[i].Stride,
+				(void*)declaration->DeclarationElements[i].Offset
 			);
 		}
 		else
 		{
 			glVertexAttribIPointer
 			(
-				declaration.DeclarationElements[i].AttribNumber,
-				declaration.DeclarationElements[i].Length,
-				(int32)declaration.DeclarationElements[i].Type,
-				declaration.DeclarationElements[i].Stride,
-				(void*)declaration.DeclarationElements[i].Offset
+				i,
+				declaration->DeclarationElements[i].Length,
+				(int32)declaration->DeclarationElements[i].Type,
+				declaration->DeclarationElements[i].Stride,
+				(void*)declaration->DeclarationElements[i].Offset
 			);
 		}
-		glEnableVertexAttribArray(declaration.DeclarationElements[i].AttribNumber);
+		glEnableVertexAttribArray(i);
 	}
 }
 
 
-FArray<byte> OpenGLFRIDynamicAllocator::PrecacheShader(FArray<byte> inData, EFRIResourceShaderType type)
-{
-	// TODO: Here we convert FVX shaders to GLSL so we can pass the straight to the GL driver and get the dynamic resource
-	// inData is a multi-byte string
-
-	
-	return FArray<byte>();
-}
-
-void OpenGLFRIDynamicAllocator::BindFrameBuffer(FResourceFrameBuffer* frameBuffer)
+void OpenGLFRIDynamicAllocator::BindFrameBuffer(FRIFrameBuffer* frameBuffer)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, ((FGLResourceFrameBuffer*)frameBuffer)->frameBufferHandle);
 }
@@ -163,24 +207,23 @@ void OpenGLFRIDynamicAllocator::DrawPrimitives(uint32 elementType, uint32 elemen
 	glDrawArrays(elementType, 0, elementCount);
 }
 
-void OpenGLFRIDynamicAllocator::DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer)
+void OpenGLFRIDynamicAllocator::DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer)
 {	
 	glDrawElements(elementType, indexBuffer->IndexCount, indexType, (void*)0);
 }
 
-void OpenGLFRIDynamicAllocator::SetShaderPipeline(FResourceShaderPipeline* shader)
+void OpenGLFRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 {
 	FGLResourceShaderPipeline* glshader = (FGLResourceShaderPipeline*)shader;
 
 	glUseProgram(glshader->pipelineHandle);
 }
-void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(FResourceUniformBuffer* uniformBuffer)
+void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer)
 {
+	FGLResourceUniformBuffer* glubuffer = static_cast<FGLResourceUniformBuffer*>(uniformBuffer);
 
-}
-void OpenGLFRIDynamicAllocator::SetShaderUniformParameter(FUniformParameter* parameter)
-{
-	(_FUniformFuncPtrs[(size_t)parameter->paramType])(parameter);
+	glBindBufferBase(GL_UNIFORM_BUFFER, slot, glubuffer->bufferHandle);
+
 }
 
 void OpenGLFRIDynamicAllocator::SetShaderSampler(FUniformSampler* sampler)
@@ -188,14 +231,14 @@ void OpenGLFRIDynamicAllocator::SetShaderSampler(FUniformSampler* sampler)
 	(_FSamplerFuncPtrs[(size_t)sampler->samplerType])(sampler);
 }
 
-uint32 OpenGLFRIDynamicAllocator::GetShaderUniformParameterLocation(FResourceShaderPipeline* shader, FAnsiString uniformName)
+uint32 OpenGLFRIDynamicAllocator::GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FAnsiString uniformName)
 {
 	return glGetUniformLocation(((FGLResourceShaderPipeline*)shader)->pipelineHandle, uniformName.ToPlatformString());
 }
 
 
 
-void OpenGLFRIDynamicAllocator::SetGeometrySource(FResourceVertexBuffer* vertexBuffer)
+void OpenGLFRIDynamicAllocator::SetGeometrySource(FRIVertexBuffer* vertexBuffer)
 {
 	glBindVertexArray(((FGLResourceVertexBuffer*)vertexBuffer)->vertexArrayBindingHandle);
 }
@@ -225,7 +268,7 @@ void OpenGLFRIDynamicAllocator::EndFrame()
 }
 
 
-void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FResourceTexture2D* texture, FResourceTextureParameterBuffer paramBuffer)
+void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer paramBuffer)
 {
 	FGLResourceTexture2D* tex = static_cast<FGLResourceTexture2D*>(texture);
 	glBindTexture(tex->textureType, tex->textureHandle);
@@ -246,7 +289,7 @@ void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FResourceTexture2D* te
 }
 
 
-void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FResourceTexture2DArray* texture, FResourceTextureParameterBuffer paramBuffer)
+void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer paramBuffer)
 {
 	FGLResourceTexture2DArray* tex = static_cast<FGLResourceTexture2DArray*>(texture);
 	glBindTexture(tex->textureType, tex->textureHandle);
@@ -266,25 +309,15 @@ void OpenGLFRIDynamicAllocator::SetTextureParameterBuffer(FResourceTexture2DArra
 
 }
 
-void OpenGLFRIDynamicAllocator::SetFramebufferTextureLayer(FResourceTexture2DArray* tex, uint32 layer)
+void OpenGLFRIDynamicAllocator::SetFramebufferTextureLayer(FRIFrameBuffer* tex, uint32 layer)
 {
-	glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, static_cast<FGLResourceTexture2DArray*>(tex)->textureHandle, 0, layer);
+	//glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, static_cast<FGLResourceTexture2DArray*>(tex)->textureHandle, 0, layer);
 }
 
 
 
 bool OpenGLFRIContext::InitializeOpenGLUniformExtensions()
 {
-	SET_ENUM_UNIFORM_FUNC_PTR(Float,	glUniform1f(fp->Location, fp->FloatParam););
-	SET_ENUM_UNIFORM_FUNC_PTR(Int32,	glUniform1i(fp->Location, fp->IntParam););
-	SET_ENUM_UNIFORM_FUNC_PTR(UInt32,	glUniform1ui(fp->Location, fp->UintParam););
-
-	SET_ENUM_UNIFORM_FUNC_PTR(FVector2,		glUniform2fv(fp->Location, fp->ArrayCount, fp->FloatVParam); );
-	SET_ENUM_UNIFORM_FUNC_PTR(FVector3,		glUniform3fv(fp->Location, fp->ArrayCount, fp->FloatVParam); );
-	SET_ENUM_UNIFORM_FUNC_PTR(FVector4,		glUniform4fv(fp->Location, fp->ArrayCount, fp->FloatVParam); );
-	SET_ENUM_UNIFORM_FUNC_PTR(FMatrix4,		glUniformMatrix4fv(fp->Location, fp->ArrayCount, GL_FALSE, fp->FloatVParam););
-
-	
 	SET_ENUM_SAMPLER_FUNC_PTR(TSampler2D,
 
 		glActiveTexture(GL_TEXTURE0 + fp->Unit);
@@ -316,7 +349,7 @@ bool OpenGLFRIContext::InitializeOpenGLUniformExtensions()
 	return true;
 }
 
-void OpenGLFRIDynamicAllocator::ClearBuffer(FResourceFrameBuffer* buffer, Color color)
+void OpenGLFRIDynamicAllocator::ClearBuffer(FRIFrameBuffer* buffer, Color color)
 {
 	if (buffer)
 	{
@@ -326,18 +359,6 @@ void OpenGLFRIDynamicAllocator::ClearBuffer(FResourceFrameBuffer* buffer, Color 
 	OpenGL::ClearDepth();
 	OpenGL::ClearColor(color);
 
-}
-
-void OpenGLFRIDynamicAllocator::AttachLayeredTexture(FResourceTexture2DArray* tex)
-{
-	if (tex)
-	{
-		glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<FGLResourceTexture2DArray*>(tex)->textureHandle);
-	}
-	else
-	{
-		glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
-	}
 }
 
 void OpenGLFRIDynamicAllocator::SetBackCull(bool b)
@@ -354,17 +375,41 @@ void OpenGLFRIDynamicAllocator::SetBackCull(bool b)
 
 
 
-void OpenGLFRIDynamicAllocator::FlushMipMaps(FResourceTexture2D* tex)
+void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITexture2D* tex)
 {
 	FGLResourceTexture2D* gltex = static_cast<FGLResourceTexture2D*>(tex);
 
 	glBindTexture(gltex->textureType, gltex->textureHandle);
 	glGenerateMipmap(gltex->textureType);
 }
-void OpenGLFRIDynamicAllocator::FlushMipMaps(FResourceTexture2DArray* tex)
+void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITexture2DArray* tex)
 {
 	FGLResourceTexture2DArray* gltex = static_cast<FGLResourceTexture2DArray*>(tex);
 
 	glBindTexture(gltex->textureType, gltex->textureHandle);
 	glGenerateMipmap(gltex->textureType);
+}
+
+void OpenGLFRIDynamicAllocator::UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
+{
+	FGLResourceUniformBuffer* fglubo = static_cast<FGLResourceUniformBuffer*>(buffer);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, fglubo->bufferHandle);
+	glBufferSubData(GL_UNIFORM_BUFFER, resource.Position, resource.ByteSize, resource.DataArray);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void OpenGLFRIDynamicAllocator::StageResources(FRIResourceStageLambda stageLambda)
+{
+	stageLambda();
+}
+
+void OpenGLFRIDynamicAllocator::SetRasterizerState(FRIRasterizerState* rasterizer)
+{
+
+}
+
+void OpenGLFRIDynamicAllocator::SetBlendState(FRIBlendState* blend)
+{
+
 }

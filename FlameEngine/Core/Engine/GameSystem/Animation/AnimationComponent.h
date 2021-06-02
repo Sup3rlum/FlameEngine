@@ -3,6 +3,9 @@
 
 #include "Core/Common/CoreCommon.h"
 #include "Core/Math/Module.h"
+#include "SkeletonPose.h"
+
+#include <iostream>
 
 struct AnimationKeyFrame
 {
@@ -15,7 +18,8 @@ struct AnimationKeyFrame
 	{
 	}
 
-	AnimationKeyFrame()
+	AnimationKeyFrame() :
+		timeStamp(0)
 	{
 	}
 
@@ -28,7 +32,7 @@ struct AnimationSequence
 	float Length;
 	FAnsiString Name;
 
-	AnimationSequence(FAnsiString name, float length) :
+	AnimationSequence(const FAnsiString& name, float length) :
 		Name(name),
 		Length(length)
 	{
@@ -58,7 +62,7 @@ struct AnimationComponent
 
 	float animationTime;
 
-	FArray<FMatrix4> CurrentBoneTransforms;
+	SkeletonPose CurrentAnimationPose;
 
 
 	AnimationComponent(const AnimationComponent& other) :
@@ -66,7 +70,7 @@ struct AnimationComponent
 		CurrentSequenceName(other.CurrentSequenceName),
 		CurrentSequenceRef(other.CurrentSequenceRef),
 		animationTime(other.animationTime),
-		CurrentBoneTransforms(other.CurrentBoneTransforms)
+		CurrentAnimationPose(other.CurrentAnimationPose)
 	{
 	}
 	AnimationComponent() :
@@ -91,6 +95,10 @@ struct AnimationComponent
 
 	void PlaySequence(const FAnsiString& seqName)
 	{
+
+		auto b = AnimationSequences.Begin();
+		auto e = AnimationSequences.End();
+
 		if (AnimationSequences.Contains(seqName))
 		{
 			CurrentSequenceName = seqName;
@@ -100,7 +108,8 @@ struct AnimationComponent
 		}
 		else
 		{
-			// TODO: LOG("Unknown Animation sequence")
+			std::wcout << L"Unrecognized sequence: " << seqName.ToPlatformString() << std::endl;
+
 		}
 	}
 
@@ -115,12 +124,12 @@ struct AnimationComponent
 			}
 
 
-			CurrentBoneTransforms = CalculatePoseTransforms();
+			CurrentAnimationPose.JointTransforms = CalculatePoseJointTransforms();
 
 		}
 	}
 
-	FArray<FMatrix4> CalculatePoseTransforms()
+	FArray<FMatrix4> CalculatePoseJointTransforms()
 	{
 		uint32 numTransforms = CurrentSequenceRef->KeyFrames[0].PoseTransforms.Length();
 

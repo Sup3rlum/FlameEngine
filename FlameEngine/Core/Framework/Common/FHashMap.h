@@ -12,6 +12,29 @@ public:
 
 	FKeyVal(const TKey& key, const TValue& value) : Key(key), Value(value)
 	{}
+
+	FKeyVal(const FKeyVal& kv) :
+		Key(kv.Key),
+		Value(kv.Value)
+	{}
+
+
+
+	FKeyVal& operator=(const FKeyVal& other)
+	{
+		Key = other.Key;
+		Value = other.Value;
+
+		return *this;
+	}
+
+	operator FKeyVal<const TKey, TValue>()
+	{
+		return FKeyVal<const TKey, TValue>(Key, Value);
+	}
+
+	virtual ~FKeyVal()
+	{}
 };
 
 struct FHashMapAllocator
@@ -23,108 +46,159 @@ struct FHashMapAllocator
 };
 
 
+template<typename Ty>
+struct FLinkedListNode
+{
+	typedef Ty _Type;
 
+	FLinkedListNode(const Ty& value) :
+		kv(value)
+	{
+	}
+	~FLinkedListNode()
+	{
+		if (Next)
+		{
+			delete Next;
+		}
+	}
+
+	Ty kv;
+	FLinkedListNode* Next = NULL;
+};
+
+template<typename _TKey, typename TValue>
+struct FHashMapIterator
+{
+private:
+
+	typedef FRemoveConst<_TKey> TKey;
+
+
+	typedef FKeyVal<TKey, TValue> KvType;
+	typedef FKeyVal<const TKey, TValue> ConstKvType;
+
+
+	typedef FLinkedListNode<KvType> _BucketType;
+	typedef FLinkedListNode<ConstKvType> _ConstBucketType;
+
+	typedef FArray<_BucketType*> _BucketArray;
+	typedef FArray<_ConstBucketType*> _ConstBucketArray;
+
+public:
+
+	FHashMapIterator(const _ConstBucketArray& bucketList) : FHashMapIterator(bucketList, NULL, 0)
+	{}
+
+	FHashMapIterator(const _BucketArray& bucketList) : FHashMapIterator(bucketList, NULL, 0)
+	{}
+
+	FHashMapIterator(const _BucketArray& bucketList, _BucketType* element, size_t bucketIndex) :
+		currentElement(element),
+		bucketIndex(bucketIndex),
+		bucketList(bucketList)
+	{}
+
+	FHashMapIterator(const FHashMapIterator& it) : FHashMapIterator(it.bucketList, it.currentElement, it.bucketIndex)
+	{}
+
+	FHashMapIterator& operator++(int)
+	{
+		FHashMapIterator pre = *this;
+		++(*this);
+		return pre;
+	}
+	FHashMapIterator& operator++()
+	{
+		if (currentElement == NULL)
+		{
+			if (bucketIndex >= bucketList.Length() - 1)
+			{
+				bucketIndex = bucketList.Length();
+				currentElement = NULL;
+				return *this;
+			}
+			else
+			{
+				currentElement = bucketList[++bucketIndex];
+			}
+		}
+		else
+		{
+			currentElement = currentElement->Next;
+		}
+		if (currentElement == NULL)
+		{
+			return ++(*this);
+		}
+
+		return *this;
+	}
+	FHashMapIterator& operator=(const FHashMapIterator& other)
+	{
+		currentElement = other.currentElement;
+		bucketList = other.bucketList;
+		bucketIndex = other.bucketIndex;
+
+		return *this;
+	}
+
+	KvType* operator->()
+	{
+		return &currentElement->kv;
+	}
+	KvType& operator*()
+	{
+		return (*currentElement).kv;
+	}
+	friend bool operator==(const FHashMapIterator& it1, const FHashMapIterator& it2)
+	{
+		return it1.currentElement == it2.currentElement;
+	}
+
+	friend bool operator!=(const FHashMapIterator& it1, const FHashMapIterator& it2)
+	{
+		return !(it1 == it2);
+	}
+
+	operator FHashMapIterator<const TKey, TValue>() const
+	{
+		FHashMapIterator it(bucketList);
+
+		it.currentElement = currentElement;
+		it.bucketIndex = bucketIndex;
+
+		return it;
+	}
+
+
+private:
+	_BucketArray bucketList;
+	_BucketType* currentElement;
+	size_t bucketIndex;
+};
 
 
 template<typename TKey, typename TValue, typename THasher = FHash<TKey>>
 class FHashMap
 {
-	struct FMapBucketElement : public FKeyVal<TKey, TValue>
-	{
-		FMapBucketElement(TKey key, TValue value) : FKeyVal<TKey, TValue>(key, value)
-		{}
+	typedef FKeyVal<TKey, TValue> KvType;
 
-		FMapBucketElement* Next = NULL;
-	};
+	typedef FLinkedListNode<KvType> _BucketType;
+	typedef _BucketType* _BucketTypePtr;
+	typedef const _BucketType* _ConstBucketTypePtr;
+	typedef FArray<_BucketType*> _BucketArray;
 
 public:
 
-	struct Iterator
-	{
-	public:
-		Iterator() : Iterator(NULL)
-		{}
-		Iterator(FHashMap* mapPtr) : Iterator(mapPtr, NULL, 0)
-		{}
-		Iterator(FHashMap* mapPtr, FMapBucketElement* element, size_t bucketIndex) :
-			currentElement(element),
-			bucketIndex(bucketIndex),
-			mapPtr(mapPtr)
-		{}
-		Iterator(const Iterator& it) : Iterator(it.mapPtr, it.currentElement, it.bucketIndex)
-		{}
-
-		const Iterator& operator++(int)
-		{
-			if (currentElement == NULL)
-			{
-				if (bucketIndex >= mapPtr->TableSize - 1)
-				{
-					bucketIndex = mapPtr->TableSize;
-					currentElement = NULL;
-					return *this;
-				}
-				else
-				{
-					currentElement = mapPtr->bucketList[++bucketIndex];
-				}
-			}
-			else
-			{
-				currentElement = currentElement->Next;
-			}
-
-			if (currentElement == NULL)
-			{
-				return (*this)++;
-			}
-
-			return *this;
-		}
-		const Iterator& operator=(const Iterator& other)
-		{
-			currentElement = other.currentElement;
-			mapPtr = other.mapPtr;
-			bucketIndex = other.bucketIndex;
-
-			return *this;
-		}
-
-		FORCEINLINE FKeyVal<TKey, TValue>* operator->()
-		{
-			return currentElement;
-		}
-		FORCEINLINE FKeyVal<TKey, TValue>& operator*()
-		{
-			return *currentElement;
-		}
-		friend bool operator==(const Iterator& it1, const Iterator& it2)
-		{
-			return it1.currentElement == it2.currentElement;
-		}
-
-		friend bool operator!=(const Iterator& it1, const Iterator& it2)
-		{
-			return !(it1 == it2);
-		}
-
-
-		friend class FHashMap;
-
-
-	private:
-		FHashMap* mapPtr;
-		FMapBucketElement* currentElement;
-		size_t bucketIndex;
-	};
-
-
+	typedef FHashMapIterator<TKey, TValue> Iterator;
+	typedef FHashMapIterator<const TKey, TValue> ConstIterator;
 
 
 
 	size_t TableSize;
 	size_t ElementCount;
-	FArray<FMapBucketElement*> bucketList;
+	_BucketArray bucketList;
 
 
 	FHashMap(size_t initTableSize) :
@@ -132,16 +206,70 @@ public:
 		TableSize(initTableSize)
 	{
 		bucketList.Resize(TableSize);
-		Memory::Zero(bucketList.Begin(), bucketList.ByteSize());
+		ZeroBuckets();
 
 	}
 	FHashMap() : FHashMap(20)
 	{
+	}
 
+	FHashMap(const FHashMap& other) : FHashMap(other.TableSize)
+	{
+		for (const auto& kv : other)
+		{
+			Set(kv.Key, kv.Value);
+		}
+	}
+
+	FHashMap(FHashMap&& other) noexcept :
+		bucketList(MoveRef(other.bucketList)),
+		TableSize(other.TableSize),
+		ElementCount(ElementCount)
+	{
+	}
+	FHashMap& operator=(const FHashMap& other)
+	{
+		Clear();
+
+		for (const auto& kv : other)
+		{
+			Set(kv.Key, kv.Value);
+		}
+
+		return *this;
+	}
+
+	FHashMap& operator=(FHashMap&& other) noexcept
+	{
+		bucketList = MoveRef(other.bucketList);
+		TableSize = other.TableSize;
+		ElementCount = other.ElementCount;
+
+		return *this;
+	}
+
+	const _ConstBucketTypePtr& FindBucket(const TKey& key) const
+	{
+		size_t hash = THasher{}(key);
+		size_t bucketIndex = hash % TableSize;
+
+		return bucketList[bucketIndex];
+	}
+
+	_BucketTypePtr& FindBucket(const TKey& key)
+	{
+		size_t hash = THasher{}(key);
+		size_t bucketIndex = hash % TableSize;
+
+		return bucketList[bucketIndex];
 	}
 
 
 	FHashMap& Set(const TKey& key, const TValue& value)
+	{
+		return Set(KvType(key, value));
+	}
+	FHashMap& Set(const KvType& kv)
 	{
 		float check = (float)ElementCount / (float)TableSize;
 
@@ -150,17 +278,14 @@ public:
 			Rehash();
 		}
 
-		size_t hash = THasher{}(key);
-		size_t bucketIndex = hash % TableSize;
-
-		FMapBucketElement** elemPtr = &bucketList[bucketIndex];
-		FMapBucketElement** prev = elemPtr;
+		_BucketType** elemPtr = &FindBucket(kv.Key);
+		_BucketType** prev = elemPtr;
 
 		while (*elemPtr)
 		{
-			if ((*elemPtr)->Key == key)
+			if ((*elemPtr)->kv.Key == kv.Key)
 			{
-				(*elemPtr)->Value = value;
+				(*elemPtr)->kv.Value = kv.Value;
 				return *this;
 			}
 
@@ -168,7 +293,7 @@ public:
 			elemPtr = &(*elemPtr)->Next;
 		}
 
-		*elemPtr = new FMapBucketElement(key, value);
+		*elemPtr = new _BucketType(kv);
 
 		if (prev != elemPtr)
 		{
@@ -183,51 +308,42 @@ public:
 
 	TValue& Get(const TKey& key)
 	{
-		size_t hash = THasher{}(key);
-		size_t bucketIndex = hash % TableSize;
-
-		FMapBucketElement* elemPtr = bucketList[bucketIndex];
+		_BucketType* elemPtr = FindBucket(key);
 
 		while (elemPtr)
 		{
-			if (elemPtr->Key == key)
+			if (elemPtr->kv.Key == key)
 			{
-				return elemPtr->Value;
+				return elemPtr->kv.Value;
 			}
-			
+
 			elemPtr = elemPtr->Next;
 		}
 	}
 
 	const TValue& Get(const TKey& key) const
 	{
-		size_t hash = THasher{}(key);
-		size_t bucketIndex = hash % TableSize;
+		return Get(key);
+	}
 
-		FMapBucketElement* elemPtr = bucketList[bucketIndex];
+	TValue& operator[](const TKey& key)
+	{
+		return Get(key);
+	}
 
-		while (elemPtr)
-		{
-			if (elemPtr->Key == key)
-			{
-				return elemPtr->Value;
-			}
-
-			elemPtr = elemPtr->Next;
-		}
+	const TValue& operator[](const TKey& key) const
+	{
+		return Get(key);
 	}
 
 
-	bool Contains(const TKey& key)
+	bool Contains(const TKey& key) const
 	{
-		size_t hash = THasher{}(key);
-		size_t bucketIndex = hash % TableSize;
-
-		FMapBucketElement* elemPtr = bucketList[bucketIndex];
+		const _BucketType* elemPtr = FindBucket(key);
 
 		while (elemPtr)
 		{
-			if (elemPtr->Key == key)
+			if (elemPtr->kv.Key == key)
 			{
 				return true;
 			}
@@ -245,11 +361,11 @@ public:
 
 		for (int i = 0; i < bucketList.Length(); i++)
 		{
-			FMapBucketElement* elemPtr = bucketList[i];
+			_BucketType* elemPtr = bucketList[i];
 
 			while (elemPtr)
 			{
-				keyArr.Add(elemPtr->Key);
+				keyArr.Add(elemPtr->kv.Key);
 
 				elemPtr = elemPtr->Next;
 			}
@@ -258,18 +374,18 @@ public:
 		return keyArr;
 	}
 
-	FArray<FKeyVal<TKey, TValue>> GetAllKeyValPairs()
+	FArray<KvType> GetAllKeyValPairs()
 	{
-		FArray<FKeyVal<TKey, TValue>> keyValArr;
+		FArray<KvType> keyValArr;
 
 		for (int i = 0; i < bucketList.Length(); i++)
 		{
 
-			FMapBucketElement* elemPtr = bucketList[i];
+			_BucketType* elemPtr = bucketList[i];
 
 			while (elemPtr)
 			{
-				keyValArr.Add(*elemPtr);
+				keyValArr.Add(elemPtr->kv);
 
 				elemPtr = elemPtr->Next;
 			}
@@ -280,8 +396,18 @@ public:
 
 	FHashMap& Clear()
 	{
+		for (auto bucketPtr : bucketList)
+		{
+			if (bucketPtr)
+			{
+				delete bucketPtr;
+			}
 
+			bucketPtr = NULL;
+		}
 
+		ZeroBuckets();
+		ElementCount = 0;
 
 		return *this;
 	}
@@ -289,76 +415,92 @@ public:
 
 	Iterator Begin()
 	{
-		Iterator it = End();
-
-		for (int bucketIndex = 0; bucketIndex < TableSize; bucketIndex++)
-		{
-			FMapBucketElement* elemPtr = bucketList[bucketIndex];
-
-			if (elemPtr != NULL)
-			{
-				it = Iterator(this, elemPtr, bucketIndex);
-				break;
-			}
-		}
-		return it;
+		return begin();
 	}
 
 
 	Iterator End()
 	{
-		return Iterator(this, 0, TableSize);
+		return end();
 	}
 
 
-	const Iterator begin() const
+	Iterator begin()
 	{
-		Iterator it = End();
+		Iterator it = end();
 
 		for (int bucketIndex = 0; bucketIndex < TableSize; bucketIndex++)
 		{
-			FMapBucketElement* elemPtr = bucketList[bucketIndex];
+			_BucketType* elemPtr = bucketList[bucketIndex];
 
 			if (elemPtr != NULL)
 			{
-				it = Iterator(this, elemPtr, bucketIndex);
+				it = Iterator(bucketList, elemPtr, bucketIndex);
 				break;
 			}
 		}
 		return it;
 	}
-	const Iterator end() const
+	Iterator end()
 	{
-		return Iterator(this, 0, TableSize);
+		return Iterator(bucketList, 0, TableSize);
 	}
 
 
+	/* Const Iterator */
 
-
-	FHashMap(const FHashMap& other) : FHashMap(other.TableSize)
+	ConstIterator begin() const
 	{
-		//Iterator b = other.begin();
-		//Iterator e = other.end();
+		ConstIterator it = end();
 
-
-		/*
-		for (Iterator it = b; it != e; it++)
+		for (int bucketIndex = 0; bucketIndex < TableSize; bucketIndex++)
 		{
-			Set(it->Key, it->Value);
-		}*/
+			_BucketType* elemPtr = bucketList[bucketIndex];
+
+			if (elemPtr != NULL)
+			{
+				it = ConstIterator(bucketList, elemPtr, bucketIndex);
+				break;
+			}
+		}
+		return it;
+	}
+	ConstIterator end() const
+	{
+		return ConstIterator(bucketList, 0, TableSize);
 	}
 
+
+
+
+
+
+	~FHashMap()
+	{
+		for (auto bucketPtr : bucketList)
+		{
+			if (bucketPtr)
+			{
+				delete bucketPtr;
+			}
+		}
+	}
 
 private:
 
+	void ZeroBuckets()
+	{
+		Memory::Zero(bucketList.Begin(), bucketList.ByteSize());
+	}
+
 	void Rehash()
 	{
-		FArray<FKeyVal<TKey, TValue>> collectEntries = GetAllKeyValPairs();
+		FArray<KvType> collectEntries = GetAllKeyValPairs();
 
 		ElementCount = 0;
 		TableSize *= FHashMapAllocator::RehashAllocIndex;
 		bucketList.Resize(TableSize);
-		Memory::Zero(bucketList.Begin(), bucketList.ByteSize());
+		ZeroBuckets();
 
 
 		for (int i = 0; i < collectEntries.Length(); i++)

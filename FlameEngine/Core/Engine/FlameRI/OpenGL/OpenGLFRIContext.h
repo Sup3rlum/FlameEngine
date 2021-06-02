@@ -9,13 +9,13 @@
 class OpenGLFRIContext : public FRIContext
 {
 public:
-	OpenGLFRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion glVer = FOpenGLVersion_45()) :
+	OpenGLFRIContext(FRIRenderingContextDescription description, Win32Context* wincontext = NULL, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion glVer = FOpenGLVersion_45()) :
 		FRIContext(description, EFRIRendererFramework::OpenGL, contextToCopy),
 		GLContextDrvVersion(glVer),
-		win32Context(NULL),
+		win32Context(wincontext),
 		hGLRenderingContext(NULL)
 	{
-
+		
 	}
 
 
@@ -35,7 +35,7 @@ public:
 	FVector2 GetCursorPosition();
 	void SetCursorPosition(FVector2 pos);
 
-	IVector2 GetViewportSize();
+	FViewportRect GetViewport();
 
 
 	LRESULT Win32MessageHandler(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);

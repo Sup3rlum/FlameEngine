@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ShaderLibraryLinker": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \"deferred_library.xml\""
+    }
+  }
+}

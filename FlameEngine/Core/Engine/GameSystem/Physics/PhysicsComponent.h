@@ -3,24 +3,26 @@
 
 #include "../EntityComponent/EntityComponent.h"
 #include "Core/Math/Module.h"
+#include "Core/Engine/Common/FTime.h"
 
 #include "PhysicsShape.h"
 
 
-EXPORT(struct, DynamicPhysicsComponent)
+EXPORT(struct, RigidBody)
 {
 private:
+	class FPXAllocator* Allocator;
 
 	class PhysXActorProxy;
 	PhysXActorProxy* pPxActor;
 	friend class FPXAllocator;
 
-	DynamicPhysicsComponent(PhysXActorProxy* pActor) : pPxActor(pActor) {}
+	RigidBody(PhysXActorProxy* pActor, class FPXAllocator* allocator) : pPxActor(pActor), Allocator(allocator) {}
 
 public:
 
 
-	void AttachShape(PhysicsShape* physShape);
+	void SetShape(const PhysicsShape& physShape);
 
 	void SetLinearVelocity(FVector3 velocity);
 	void SetAngularVelocity(FVector3 avelocity);
@@ -38,36 +40,60 @@ public:
 	void SetAngularDamping(float damping);
 	void SetMass(float mass);
 
+
+	void SetGlobalTransform(FTransform transform);
 	FTransform GetGlobalTransform() const;
 
 
-	void SetGlobalTransform(FTransform transform);
-	//void SetRelativeTransform(FActor& relative, FTransform transform);
+	bool IsAwake() const;
 
+};
+
+EXPORT(struct, StaticRigidBody)
+{
+private:
+	class FPXAllocator* Allocator;
+
+	class PhysXActorProxy;
+	PhysXActorProxy* pPxActor;
+	friend class FPXAllocator;
+
+	StaticRigidBody(PhysXActorProxy* pActor, class FPXAllocator* allocator) : pPxActor(pActor), Allocator(allocator) {}
+public:
+
+	void SetShape(const PhysicsShape& physShape);
+	void SetGlobalTransform(FTransform transform);
+	FTransform GetGlobalTransform() const;
 
 	bool IsAwake() const;
 	bool HasPhysics() const;
 
 };
 
-EXPORT(struct, StaticPhysicsComponent)
+
+EXPORT(struct, CharacterBody)
 {
 private:
-
-	class PhysXActorProxy;
-	PhysXActorProxy* pPxActor;
+	class FPXAllocator* Allocator;
+	class PhysXControllerProxy;
+	PhysXControllerProxy* pPxController;
 	friend class FPXAllocator;
 
-	StaticPhysicsComponent(PhysXActorProxy* pActor) : pPxActor(pActor) {}
+
+	uint64 LastMoveTimestamp = 0;
+
+	CharacterBody(PhysXControllerProxy * pController, class FPXAllocator* allocator) :
+		pPxController(pController),
+		Allocator(allocator)
+	{
+	}
 public:
 
-	void AttachShape(PhysicsShape* physShape);
+	void Move(FVector3 vec);
 	FTransform GetGlobalTransform() const;
 
+	bool IsGrounded() const;
+	float GetHeight() const;
 
-	void SetGlobalTransform(FTransform transform);
-
-	bool IsAwake() const;
-	bool HasPhysics() const;
 
 };

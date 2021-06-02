@@ -19,8 +19,6 @@ struct FMeshGeometryHeader
 	uint64 vLength;
 	uint64 elementSize;
 	uint64 iLength;
-	EFRIIndexType indexType;
-	uint32 vdeclLength;
 };
 
 
@@ -38,7 +36,8 @@ struct FJointData
 	FMatrix4 bindTransform;
 	FArray<uint32> childrenIndices;
 
-	FJointData()
+	FJointData() :
+		Id(0)	
 	{}
 
 	FJointData(const FJointData& other) :
@@ -50,15 +49,6 @@ struct FJointData
 
 };
 
-
-FORCEINLINE size_t SwitchIndexType(EFRIIndexType type)
-{
-	if (type == EFRIIndexType::UInt8) return sizeof(byte);
-	else if (type == EFRIIndexType::UInt16) return sizeof(uint16_t);
-	else if (type == EFRIIndexType::UInt32) return sizeof(uint32);
-	else return 0;
-}
-
 Joint* CreateJointSkeletonTree(FArray<FJointData>& jointData, uint32 nodeJointIndex)
 {
 	FJointData& j = jointData[nodeJointIndex];
@@ -69,43 +59,67 @@ Joint* CreateJointSkeletonTree(FArray<FJointData>& jointData, uint32 nodeJointIn
 		rootJoint->AddChildJoint(CreateJointSkeletonTree(jointData, j.childrenIndices[i]));
 	}
 
-	rootJoint->CalculateInverseBind(FMatrix4(1));
-
 	return rootJoint;
 }
 
+FSkinnedMeshSerializer::FSkinnedMeshSerializer(FRIContext* context) :
+	renderContext(context)
+{
+	FRICommandList cmdList(context->GetFRIDynamic(), true);
+
+	FRIVertexShader* signatureShader = NULL;
+	if (renderContext->RenderFramework == EFRIRendererFramework::DX11)
+	{
+		signatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("shaders/signature/dx/bin/SkinnedMesh.signature.cso").ReadBytes());
+	}
+
+	FArray<FRIVertexDeclarationComponent> DeclCompArray;
+	DeclCompArray.Add(FRIVertexDeclarationComponent("POSITION",		3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 0));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("NORMAL",			3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 12));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("TANGENT",		3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 24));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("BITANGENT",		3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 36));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("TEXCOORD",		2, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 48));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("JOINT_INDICES",	4, EFRIVertexDeclerationAttributeType::Int,	  EFRIBool::False, 88, 56));
+	DeclCompArray.Add(FRIVertexDeclarationComponent("JOINT_WEIGHTS",	4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 72));
+
+
+	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(DeclCompArray, signatureShader);
+
+	delete signatureShader;
+}
 
 
 SkinnedMeshComponent FSkinnedMeshSerializer::Serialize(IOFileStream& fileStream)
 {
 
 	FRIDynamicAllocator* allocator = renderContext->GetFRIDynamic();
-	FResourceVertexBuffer* vBuffer;
-	FResourceIndexBuffer* iBuffer;
+	FRIVertexBuffer* vBuffer;
+	FRIIndexBuffer* iBuffer;
 	uint32 vertexNumber;
 	uint32 elementNumber;
 	FArray<byte> vData;
 	FArray<byte> iData;
 	FMeshGeometryHeader geomHeader = fileStream.Read<FMeshGeometryHeader>();
-	FArray<FResourceVertexDeclarationComponent> vDecl(geomHeader.vdeclLength);
 
-	fileStream.ReadArray<FResourceVertexDeclarationComponent>(vDecl);
 
 	vData.Resize(geomHeader.vLength * geomHeader.elementSize);
-	iData.Resize(geomHeader.iLength * SwitchIndexType(geomHeader.indexType));
+	iData.Resize(geomHeader.iLength * sizeof(uint32));
 
 
 	fileStream.ReadArray<byte>(vData);
 	fileStream.ReadArray<byte>(iData);
 
-	vBuffer = allocator->DynamicCreateVertexBuffer(geomHeader.vLength, 0, FResourceCreationDescriptor((FResourceArrayInterface*)vData.Begin(), vData.ByteSize()));
-	iBuffer = allocator->DynamicCreateIndexBuffer(geomHeader.iLength, 0, FResourceCreationDescriptor((FResourceArrayInterface*)iData.Begin(), iData.ByteSize()));
+	vBuffer = allocator->CreateVertexBuffer(geomHeader.vLength, 0, FRICreationDescriptor((FRIArrayInterface*)vData.Begin(), vData.ByteSize()));
+	iBuffer = allocator->CreateIndexBuffer(geomHeader.iLength, 0, FRICreationDescriptor((FRIArrayInterface*)iData.Begin(), iData.ByteSize()));
 
-	allocator->AttachVertexDeclaration(vDecl);
+	allocator->AttachVertexDeclaration(vBuffer, vertexDeclaration);
 
 
 	FArray<FJointData> jointData;
 	FSkeletonDataHeader skelHeader = fileStream.Read<FSkeletonDataHeader>();
+
+	//printf("Inverse bind Transforms:\n");
+
 
 	for (uint32 i = 0; i < skelHeader.JointCount; i++)
 	{
@@ -115,6 +129,9 @@ SkinnedMeshComponent FSkinnedMeshSerializer::Serialize(IOFileStream& fileStream)
 		joint.Name = fileStream.ReadLengthedString<FAnsiString>();
 		joint.bindTransform = fileStream.Read<FMatrix4>();
 		
+		//printf("Joint index: %d\n", i);
+		//PrintDebugMatrix3(FMatrix4::Inverse(joint.bindTransform));
+
 		uint32 childrenCount = fileStream.Read<uint32>();
 		joint.childrenIndices = FArray<uint32>(childrenCount);
 		fileStream.ReadArray<uint32>(joint.childrenIndices);
@@ -123,7 +140,7 @@ SkinnedMeshComponent FSkinnedMeshSerializer::Serialize(IOFileStream& fileStream)
 		jointData.Add(joint);
 	}
 
-	SkeletalComponent skeleton(CreateJointSkeletonTree(jointData, skelHeader.RootJointIndex), skelHeader.JointCount);
+	Skeleton skeleton(CreateJointSkeletonTree(jointData, skelHeader.RootJointIndex), skelHeader.JointCount);
 
-	return SkinnedMeshComponent(vBuffer, iBuffer, vDecl, skeleton);
+	return SkinnedMeshComponent(vBuffer, iBuffer, skeleton);
 }

@@ -4,6 +4,7 @@
 #include "Core/Common/CoreCommon.h"
 
 #include "Core/Engine/GameSystem/KeyInputBinding.h"
+#include "Viewport.h"
 #include "FRIDynamicAllocator.h"
 
 enum class ERenderingContextPixelFormat
@@ -79,5 +80,5 @@ public:
 	virtual FVector2 GetCursorPosition() = 0;
 	virtual void SetCursorPosition(FVector2 pos) = 0;
 
-	virtual IVector2 GetViewportSize() = 0;
+	virtual FViewportRect GetViewport() = 0;
 };

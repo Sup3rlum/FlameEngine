@@ -6,19 +6,22 @@
 
 #include "Core/Engine/FlameRI/FRI.h"
 #include "Core/Framework/IO/FileStream.h"
+#include "../RenderModule.h"
 
-EXPORT(class, BoundingVolumeDebugService) 
+class BoundingVolumeDebugService : RenderModule
 {
 public:
 	BoundingVolumeDebugService(FRICommandList& cmdList);
 	void Render(FRICommandList& cmdList, const CameraComponent& cam, FVector3* Corners);
 
-	FResourceShaderPipeline* pipeline;
-	FResourceVertexBuffer* vBuffer;
+	void CreateResources(FRIContext* cmdList);
+
+	FRIShaderPipeline* pipeline;
+	FRIVertexBuffer* vBuffer;
 
 	uint32 ViewLoc;
 	uint32 ProjLoc;
 
-	FResourceVertexDeclaration vDecl;
+	FRIVertexDeclaration vDecl;
 
 };

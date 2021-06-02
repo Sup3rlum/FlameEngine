@@ -85,7 +85,7 @@ public:
 
 	FString ToString()
 	{
-		return FStringFormatter::Format("{ X:%0 Y:%1 Z:%2 W:%3 }", x, y, z, w);
+		return FString::Format("{ X:%0 Y:%1 Z:%2 W:%3 }", x, y, z, w);
 	}
 
 

@@ -4,8 +4,6 @@
 #include "EntityMemoryStack.h"
 
 
-#include <iostream>
-
 struct EntityWorld;
 
 
@@ -76,10 +74,10 @@ struct Entity
 
 		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
 		{
-
 			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
 			{
-				Memory::CopyReinterpret(&EntityId->Block->GetComponent<TComponent>(EntityId->Index, row), &component, sizeof(TComponent));
+				EntityId->Block->GetComponent<TComponent>(EntityId->Index, row) = component;
+				//Memory::CopyReinterpret(&EntityId->Block->GetComponent<TComponent>(EntityId->Index, row), &component, sizeof(TComponent));
 			}
 		}
 	}
@@ -87,8 +85,18 @@ struct Entity
 	template<typename TComponent, typename...TCreationArgs>
 	void SetComponent(const TCreationArgs& ... args)
 	{
-		SetComponent(TComponent(args...));
+		FComponentType compareType = TComponentType<TComponent>();
+
+		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
+		{
+			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
+			{
+				new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index, row)) TComponent(args...);
+			}
+		}
 	}
+
+
 
 
 	template<typename TComponent>

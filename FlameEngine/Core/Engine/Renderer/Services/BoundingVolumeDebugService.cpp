@@ -2,38 +2,26 @@
 
 
 BoundingVolumeDebugService::BoundingVolumeDebugService(FRICommandList& cmdList) :
-	vDecl(FArray<FResourceVertexDeclarationComponent>())
+	vDecl(FArray<FRIVertexDeclarationComponent>())
 {
 
-	FAnsiString vsData = IOFileStream("./shaders/debug_view.vert").ReadAnsiFile();
-	FAnsiString psData = IOFileStream("./shaders/debug_view.frag").ReadAnsiFile();
+	/*pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Debug"]);
 
-	FResourceVertexShader* vs = cmdList.GetDynamic()->DynamicCreateVertexShader(vsData);
-	FResourcePixelShader* ps = cmdList.GetDynamic()->DynamicCreatePixelShader(psData);
-
-	pipeline = cmdList.GetDynamic()->DynamicCreateShaderPipeline
-	(
-		FResourceShaderPipelineCreationDescriptor(
-			2,
-			new FResourceShaderBase * [2]{ vs, ps }
-		)
-	);
-
-	FArray<FResourceVertexDeclarationComponent> vArray =
+	FArray<FRIVertexDeclarationComponent> vArray =
 	{
-		FResourceVertexDeclarationComponent(0, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0),
-		FResourceVertexDeclarationComponent(1, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12)
+		FRIVertexDeclarationComponent(0, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0),
+		FRIVertexDeclarationComponent(1, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12)
 	};
-
-
-
+	
 	ViewLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "View");
 	ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "Projection");
 
-	vDecl.DeclarationElements = vArray;
+	vDecl.DeclarationElements = vArray;*/
 
+}
 
-	std::cout << sizeof(FVertexComponent_Color) << std::endl;
+void BoundingVolumeDebugService::CreateResources(FRIContext* cmdList)
+{
 
 }
 
@@ -82,17 +70,18 @@ void BoundingVolumeDebugService::Render(FRICommandList& cmdList, const CameraCom
 
 
 
-	vBuffer = cmdList.GetDynamic()->DynamicCreateVertexBuffer(24, 0, FResourceCreationDescriptor(vData, 24 * sizeof(FVertexComponent_Color)));
+	vBuffer = cmdList.GetDynamic()->CreateVertexBuffer(24, 0, FRICreationDescriptor(vData, 24 * sizeof(FVertexComponent_Color)));
 
-	cmdList.GetDynamic()->AttachVertexDeclaration(vDecl);
+	//cmdList.GetDynamic()->AttachVertexDeclaration(vBuffer, vDecl);
 
+	/*
 	cmdList.SetShaderPipeline(pipeline);
 
 	cmdList.SetShaderUniformParameter(FUniformParameter(ViewLoc, cam.View));
 	cmdList.SetShaderUniformParameter(FUniformParameter(ProjLoc, cam.Projection));
 
 	cmdList.SetGeometrySource(vBuffer);
-	cmdList.DrawPrimitives((uint32)EFRIPrimitiveType::Lines, 24);
+	cmdList.DrawPrimitives((uint32)EFRIPrimitiveType::Lines, 24);*/
 
 
 }

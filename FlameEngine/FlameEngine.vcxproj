@@ -107,7 +107,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Projects\_Libraries\rapidjson-master\include\;D:\Projects\_Libraries\libpng-msvc-x64.1.6.33.8807\build\native\include;D:\Projects\_Libraries\ftgl-2.1.3~rc5\src;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;D:\Projects\_Libraries\hbao\include;D:\Projects\_Libraries\freetype2\include;D:\Projects\_Libraries\glm;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\include;D:\Projects\_Libraries\glew-2.1.0\include;D:\Projects\_Libraries\openssl-1.1.1h\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Projects\_Libraries\rapidjson-master\include\;D:\Projects\_Libraries\libpng-msvc-x64.1.6.33.8807\build\native\include;D:\Projects\_Libraries\PhysX-4.1\pxshared\include;D:\Projects\_Libraries\PhysX-4.1\physx\include\extensions;D:\Projects\_Libraries\PhysX-4.1\physx\include;C:\Users\Tom\Desktop\HBAOPlus-master\include;C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.19041.0\um;D:\Projects\_Libraries\glew-2.1.0\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -176,8 +176,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Projects\FlameEngine\packages\zlib_native.1.2.11\build\native\lib\x64\Debug;D:\Projects\_Libraries\ftgl-2.1.3~rc5\msvc\build;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug;D:\Projects\_Libraries\hbao\lib\win64;D:\Projects\_Libraries\freetype2\win64;D:\Projects\_Libraries\glfw-3.3.bin.WIN64\lib-vc2019;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;glfw3.lib;freetype.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;ftgl_static_D.lib;GFSDK_SSAO_GL.win64.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\FlameEngine\packages\zlib_native.1.2.11\build\native\lib\x64\Debug;D:\Projects\_Libraries\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug;D:\Projects\_Libraries\hbao\lib\win64;C:\Program Files %28x86%29\Windows Kits\10\Lib\10.0.19041.0\um\x64;D:\Projects\_Libraries\glew-2.1.0\lib\Release\x64;D:\Projects\_Libraries\HBAOPlus-master\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;PhysX_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXCharacterKinematic_static_64.lib;zlibd.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;GFSDK_SSAO_D3D11.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -263,21 +263,27 @@
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Material.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Mesh.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\ShaderLibrary.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.h" />
-    <ClInclude Include="Core\Engine\FlameRI\DX11\DX11.h" />
-    <ClInclude Include="Core\Engine\FlameRI\DX11\DX11FRIDynamic.h" />
-    <ClInclude Include="Core\Engine\FlameRI\DX11\DX11FRI.h" />
-    <ClInclude Include="Core\Engine\FlameRI\DX11\DX11FRIContext.h" />
-    <ClInclude Include="Core\Engine\FlameRI\DX11\DX11FRIResource.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIDynamic.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRI.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIContext.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIProxyTypes.h" />
+    <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIResource.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGL.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRICommand.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContextVersion.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIDynamic.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIResource.h" />
-    <ClInclude Include="Core\Engine\GameSystem\CameraSystem\CameraSystem.h" />
+    <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIProxyTypes.h" />
+    <ClInclude Include="Core\Engine\FlameRI\ShaderLibrary\ShaderLibrary.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Animation\SkeletonPose.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Common\SceneSystems.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\ViewFrustum.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Configuration\SettingsComponent.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Configuration\ConfigurableComponent.h" />
     <ClInclude Include="Core\Engine\Common\CommandRegistry.h" />
     <ClInclude Include="Core\Common\CoreAssert.h" />
     <ClInclude Include="Core\Common\CoreBase.h" />
@@ -296,7 +302,9 @@
     <ClInclude Include="Core\Engine\GameSystem\MeshComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsGeometry.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsGeometryProxy.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsMaterial.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsMesh.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsScene.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsService.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXActorProxy.h" />
@@ -305,20 +313,21 @@
     <ClInclude Include="Core\Engine\GameSystem\SkinnedMeshComponent.h" />
     <ClInclude Include="Core\Engine\Renderer\AtmosphereRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderUtil.h" />
-    <ClInclude Include="Core\Engine\Renderer\Common\Viewport.h" />
-    <ClInclude Include="Core\Engine\Renderer\RenderComponent.h" />
+    <ClInclude Include="Core\Engine\FlameRI\Viewport.h" />
     <ClInclude Include="Core\Engine\GameSystem\Animation\SkeletalComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\EntityComponent\Entity.h" />
     <ClInclude Include="Core\Engine\GameSystem\EntityComponent\EntityComponentSystem.h" />
     <ClInclude Include="Core\Engine\GameSystem\EntityComponent\EntityMemoryStack.h" />
     <ClInclude Include="Core\Engine\GameSystem\EntityComponent\EntityComponent.h" />
-    <ClInclude Include="Core\Engine\GameSystem\TransformComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\EntityComponent\EntityWorld.h" />
     <ClInclude Include="Core\Engine\GameSystem\KeyInputBinding.h" />
     <ClInclude Include="Core\Engine\GameSystem\Scene\SceneSerializer.h" />
     <ClInclude Include="Core\Engine\GameSystem\Scene\SerializerFwd.h" />
     <ClInclude Include="Core\Engine\GameSystem\Viewport.h" />
+    <ClInclude Include="Core\Engine\Renderer\RenderModule.h" />
+    <ClInclude Include="Core\Engine\Renderer\RenderSystems.h" />
     <ClInclude Include="Core\Engine\Renderer\SATGenerator.h" />
+    <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\OpenGL\GLHBAOPlus.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\ServiceAllocator.h" />
     <ClInclude Include="Core\Framework\Algorithm\Algorithm.h" />
@@ -334,7 +343,6 @@
     <ClInclude Include="Core\Math\Geometry\Volumes\BoundingSphere.h" />
     <ClInclude Include="Core\Common\CoreCommon.h" />
     <ClInclude Include="Core\Common\CoreDefinitions.h" />
-    <ClInclude Include="Core\Engine\Renderer\RenderPass.h" />
     <ClInclude Include="Core\Framework\IO\FileStream.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
     <ClInclude Include="Core\Math\MathBase.h" />
@@ -378,7 +386,6 @@
     <ClInclude Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\LightingSystem\DirectionalLight.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\Scene.h" />
-    <ClInclude Include="Core\Engine\ShaderFramework\Library\ShaderLibrary.h" />
     <ClInclude Include="Core\Framework\Common\FArray.h" />
     <ClInclude Include="Core\Framework\Common\FString.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\OBB.h" />
@@ -388,7 +395,6 @@
     <ClInclude Include="Core\Framework\Common\FDelegate.h" />
     <ClInclude Include="Core\Engine\Common\FTime.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\PhysXFrameworkPX_Includes.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXShape.h" />
     <ClInclude Include="Core\Framework\Common\FStack.h" />
     <ClInclude Include="Core\Framework\Globals\FGlobalID.h" />
     <ClInclude Include="Core\Framework\Common\FHashMap.h" />
@@ -405,11 +411,6 @@
     <ClInclude Include="Core\Engine\Renderer\Common\RenderableObject.h" />
     <ClInclude Include="Core\Engine\GameSystem\Factories\SceneFactory.h" />
     <ClInclude Include="Platform\Windows\Win32Context.h" />
-    <ClInclude Include="System\cpu.h" />
-    <ClInclude Include="System\gpu.h" />
-    <ClInclude Include="System\os.h" />
-    <ClInclude Include="System\systeminfo.h" />
-    <ClInclude Include="System\system_memory.h" />
     <ClInclude Include="Core\UX\UXFramework\UxComponent.h" />
     <ClInclude Include="Core\UX\UXFramework\UxService.h" />
     <ClInclude Include="Core\UX\UXFramework\UxContainer.h" />
@@ -423,29 +424,37 @@
     <ClInclude Include="Core\UX\UXFramework\UxDebugViewComponent.h" />
     <ClInclude Include="Core\UX\UXFramework\UxImage.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\ViewFrustum.h" />
-    <ClInclude Include="Core\Engine\Renderer\XFFTRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Mesh.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Material.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\ShaderLibrary.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.cpp" />
-    <ClCompile Include="Core\Engine\FlameRI\DX11\DX11FRIContext.cpp" />
+    <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIContext.cpp" />
+    <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIImpl.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommand.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.cpp" />
     <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Common\SceneSystems.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityMemoryStack.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityWorld.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PhysicsComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PhysicsAllocator.h" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysicsGeometry.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PhysicsShape.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PhysicsShape.h" />
-    <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXImpl.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXAllocator.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXService.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXScene.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PX\PhysXPXCast.h" />
     <ClCompile Include="Core\Engine\Renderer\AtmosphereRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\SATGenerator.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\HBAOPlusAllocator.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\OpenGL\GLHBAOPlus.cpp" />
     <ClCompile Include="Core\Framework\Common\FHash.cpp" />
@@ -454,7 +463,6 @@
     <ClCompile Include="Core\Math\Functions\Misc.cpp" />
     <ClCompile Include="Core\Math\Functions\Trig.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\BoundingSphere.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\RenderPass.cpp" />
     <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
     <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
@@ -477,7 +485,6 @@
     <ClCompile Include="Core\Engine\GameSystem\Common\ViewFrustum.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\LightingSystem\Light.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\Scene.cpp" />
-    <ClCompile Include="Core\Engine\ShaderFramework\Library\ShaderLibrary.cpp" />
     <ClCompile Include="Core\Utility\Readers\RapidJSON\JSONDocument.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxComponent.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxService.cpp" />
@@ -492,7 +499,6 @@
     <ClCompile Include="Core\UX\UXFramework\UxDebugViewComponent.cpp" />
     <ClCompile Include="Core\UX\UXFramework\UxImage.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\ViewFrustum.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\XFFTRenderer.cpp" />
     <ClCompile Include="Core\Framework\Common\FArray.cpp" />
     <ClCompile Include="Core\Framework\Common\FString.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\OBB.cpp" />

@@ -79,9 +79,25 @@ public:
 		std::string contents((std::istreambuf_iterator<char>(_file)),
 			std::istreambuf_iterator<char>());
 
-		FAnsiString str(contents.c_str());
+		;
 
-		return str;
+		return FAnsiString(contents.c_str());
+	}
+
+
+	FArray<byte> ReadBytes()
+	{
+		std::vector<char> contents(
+			(std::istreambuf_iterator<char>(_file)),
+			(std::istreambuf_iterator<char>()));
+
+
+		return FArray<byte>(reinterpret_cast<byte*>(&contents[0]), contents.size());
+	}
+
+	~IOFileStream()
+	{
+		_file.close();
 	}
 
 private:

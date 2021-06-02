@@ -42,3 +42,66 @@ FORCEINLINE bool operator!=(const TStaticString<TBasicChar, GenSize>& str, const
 {
 	return !(str == str2);
 }
+
+
+/*
+* String formatting
+*/
+
+template<typename TChar>
+template<typename...TArgs>
+TString<TChar> TString<TChar>::Format(const TString<TChar>& format, const TArgs& ... args)
+{
+
+	typedef TString<TChar> TStringType;
+	typedef TStringFormatArg<TChar> TArgType;
+
+	FArray<TArgType> formatargs = { TArgType(args) ... };
+
+	TStringType result;
+	result.Reserve(format.Length()); // Reserve atleast the amount of characters in the format (best case, no reallactions for output string)
+
+	for (size_t i = 0; i < format.Length(); i++)
+	{
+		TStringType fmtArgString;
+
+		// Add regular characters to output
+		if (format[i] != FStringFormatterSpecifier<TChar>::Percent())
+		{
+			fmtArgString = format[i];
+		}
+		// If Percent, get argument index and add formatted arg to output
+		else
+		{
+			if (i == format.Length() - 1) // if this is the last symbol of the format, we are done 
+			{
+				return result;
+			}
+
+			int formatIndex = (format[++i] - FStringFormatterSpecifier<TChar>::Zero() /* "0" */);
+
+			// Check if this was an escape character
+			if (format[i] == FStringFormatterSpecifier<TChar>::Percent())
+			{
+				fmtArgString = FStringFormatterSpecifier<TChar>::Percent() /* % */;
+			}
+			else
+			{
+				if (formatIndex >= 0 && formatIndex <= 9)
+				{
+					typename TArgType::EType debugt = formatargs[formatIndex].Type;
+
+					if (debugt == TArgType::Double)				fmtArgString = formatargs[formatIndex].DoubleValue;
+					else if (debugt == TArgType::Int)			fmtArgString = formatargs[formatIndex].IntValue;
+					else if (debugt == TArgType::UInt)			fmtArgString = formatargs[formatIndex].UIntValue;
+					else if (debugt == TArgType::StringLiteral)	fmtArgString = formatargs[formatIndex].StringLiteralValue;
+					else if (debugt == TArgType::String)		fmtArgString = formatargs[formatIndex].StringValue;
+				}
+			}
+		}
+
+		result += fmtArgString;
+	}
+
+	return result;
+}

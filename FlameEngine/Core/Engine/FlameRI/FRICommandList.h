@@ -45,7 +45,7 @@
 														struct FRICommand##cmdName : FRICommand<FRICommand##cmdName<__VA_ARGS__>>
 
 
-#define FRICmdInit(name) FINLINE FRICommand##name
+#define FRICmdInit(name) FORCEINLINE FRICommand##name
 
 
 struct FRICommandListBase;
@@ -109,7 +109,7 @@ struct FRICommandListBase
 template<typename FCmdParam>
 struct FRICommand : FRICommandBase
 {
-	FINLINE void ExecuteCmd(FRICommandListBase& cmdList)
+	FORCEINLINE void ExecuteCmd(FRICommandListBase& cmdList)
 	{
 		FCmdParam* cmd = static_cast<FCmdParam*>(this);
 
@@ -155,9 +155,9 @@ FRegisterFRICommand(SetViewport)
 
 FRegisterFRICommand(BindFrameBuffer)
 {
-	FResourceFrameBuffer* frameBuffer;
+	FRIFrameBuffer* frameBuffer;
 
-	FRICmdInit(BindFrameBuffer)(FResourceFrameBuffer* frameBuffer) :
+	FRICmdInit(BindFrameBuffer)(FRIFrameBuffer* frameBuffer) :
 		frameBuffer(frameBuffer)
 	{
 
@@ -170,10 +170,10 @@ FRegisterFRICommand(BindFrameBuffer)
 
 FRegisterFRICommand(ClearBufferColor)
 {
-	FResourceFrameBuffer* frameBuffer;
+	FRIFrameBuffer* frameBuffer;
 	Color color;
 
-	FRICmdInit(ClearBufferColor)(FResourceFrameBuffer* frameBuffer, Color color) :
+	FRICmdInit(ClearBufferColor)(FRIFrameBuffer* frameBuffer, Color color) :
 		frameBuffer(frameBuffer),
 		color(color)
 	{
@@ -186,10 +186,10 @@ FRegisterFRICommand(ClearBufferColor)
 
 FRegisterFRICommand(ClearBuffer)
 {
-	FResourceFrameBuffer* frameBuffer;
+	FRIFrameBuffer* frameBuffer;
 	uint32 clearbit;
 
-	FRICmdInit(ClearBuffer)(FResourceFrameBuffer* frameBuffer, uint32 clearbit) :
+	FRICmdInit(ClearBuffer)(FRIFrameBuffer* frameBuffer, uint32 clearbit) :
 		frameBuffer(frameBuffer),
 		clearbit(clearbit)
 	{
@@ -307,9 +307,9 @@ FRegisterFRICommand(EndScene)
 
 FRegisterFRICommand(SetGeometrySource)
 {
-	FResourceVertexBuffer* vertexBuffer;
+	FRIVertexBuffer* vertexBuffer;
 
-	FRICmdInit(SetGeometrySource)(FResourceVertexBuffer * vertexBuffer) :
+	FRICmdInit(SetGeometrySource)(FRIVertexBuffer * vertexBuffer) :
 		vertexBuffer(vertexBuffer)
 	{
 
@@ -342,9 +342,9 @@ FRegisterFRICommand(DrawPrimitivesIndexed)
 	uint32 elementType;
 	uint32 elementCount;
 	uint32 indexType;
-	FResourceIndexBuffer* indexBuffer;
+	FRIIndexBuffer* indexBuffer;
 
-	FRICmdInit(DrawPrimitivesIndexed)(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer) :
+	FRICmdInit(DrawPrimitivesIndexed)(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer) :
 		elementType(elementType),
 		elementCount(elementCount),
 		indexType(indexType),
@@ -368,9 +368,9 @@ FRegisterFRICommand(DrawPrimitivesIndexed)
 
 FRegisterFRICommand(SetShaderPipeline)
 {
-	FResourceShaderPipeline* shaderPipelineProgram;
+	FRIShaderPipeline* shaderPipelineProgram;
 
-	FRICmdInit(SetShaderPipeline)(FResourceShaderPipeline* shader) :
+	FRICmdInit(SetShaderPipeline)(FRIShaderPipeline* shader) :
 		shaderPipelineProgram(shaderPipelineProgram)
 	{
 
@@ -382,10 +382,10 @@ FRegisterFRICommand(SetShaderPipeline)
 
 FRegisterFRICommand(SetShaderUniformBuffer)
 {
-	FResourceShaderPipeline* shader;
-	FResourceUniformBuffer* uniformBuffer;
+	FRIShaderPipeline* shader;
+	FRIUniformBuffer* uniformBuffer;
 
-	FRICmdInit(SetShaderUniformBuffer)(FResourceShaderPipeline* shader, FResourceUniformBuffer* uniformBuffer) :
+	FRICmdInit(SetShaderUniformBuffer)(FRIShaderPipeline* shader, FRIUniformBuffer* uniformBuffer) :
 		shader(shader),
 		uniformBuffer(uniformBuffer)
 	{
@@ -393,21 +393,6 @@ FRegisterFRICommand(SetShaderUniformBuffer)
 	}
 
 	void Execute(FRICommandListBase& cmdList);
-};
-
-FRegisterFRICommand(SetShaderUniformParameter)
-{
-	FResourceShaderPipeline* shader;
-	FUniformParameter uniformBuffer;
-
-	FRICmdInit(SetShaderUniformParameter)(FResourceShaderPipeline * shader, FUniformParameter uniformBuffer) :
-		shader(shader),
-		uniformBuffer(uniformBuffer)
-	{
-
-	}
-
-	void Execute(FRICommandListBase & cmdList);
 };
 
 
@@ -457,9 +442,9 @@ FRegisterFRICommand(SetTextureStorage3D)
 FRegisterFRICommandMultiTemplate(SetTextureParameterBuffer, GenResourceTexture)
 {
 	GenResourceTexture* texture;
-	FResourceTextureParameterBuffer* parameterBuffer;
+	FRITextureParameterBuffer* parameterBuffer;
 
-	FRICmdInit(SetTextureParameterBuffer)(GenResourceTexture * texture, FResourceTextureParameterBuffer parameterBuffer) :
+	FRICmdInit(SetTextureParameterBuffer)(GenResourceTexture * texture, FRITextureParameterBuffer parameterBuffer) :
 		texture(texture),
 		parameterBuffer(parameterBuffer)
 	{
@@ -544,14 +529,14 @@ public:
 	FRICommandList(bool IsImmediate = true) : IsImmediate(IsImmediate) {}
 
 
-	FORCEINLINE void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
+	FORCEINLINE void SetViewport(const FViewportRect& viewport)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->SetViewport(x, y, width, height);
+			GetDynamic()->SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetViewport)(x, y, width, height);
+		ALLOC_COMMAND(FRICommandSetViewport)(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 	}
 
 
@@ -565,7 +550,7 @@ public:
 		ALLOC_COMMAND(FRICommandDrawPrimitives)(elementType, elementCount);
 	}
 
-	FORCEINLINE void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FResourceIndexBuffer* indexBuffer)
+	FORCEINLINE void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer)
 	{
 		if (Bypass())
 		{
@@ -574,7 +559,7 @@ public:
 		}
 		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(elementType, elementCount, indexType, indexBuffer);
 	}
-	FORCEINLINE void SetShaderPipeline(FResourceShaderPipeline* shaderPipeline)
+	FORCEINLINE void SetShaderPipeline(FRIShaderPipeline* shaderPipeline)
 	{
 		if (Bypass())
 		{
@@ -583,7 +568,7 @@ public:
 		}
 		ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
 	}
-	FORCEINLINE void SetGeometrySource(FResourceVertexBuffer* vertexBuffer)
+	FORCEINLINE void SetGeometrySource(FRIVertexBuffer* vertexBuffer)
 	{
 		if (Bypass())
 		{
@@ -592,7 +577,7 @@ public:
 		}
 		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
 	}
-	FORCEINLINE void BindFrameBuffer(FResourceFrameBuffer* frameBuffer)
+	FORCEINLINE void BindFrameBuffer(FRIFrameBuffer* frameBuffer)
 	{
 		if (Bypass())
 		{
@@ -649,16 +634,17 @@ public:
 		}
 		ALLOC_COMMAND(FRICommandEndFrame)();
 	}
-	FORCEINLINE void SetShaderUniformParameter(FUniformParameter param)
+	FORCEINLINE void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* buffer)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->SetShaderUniformParameter(&param);
+			GetDynamic()->SetShaderUniformBuffer(slot, buffer);
 		}
 	}
 
 
-	FORCEINLINE void ClearBuffer(FResourceFrameBuffer* buffer, Color color)
+
+	FORCEINLINE void ClearBuffer(FRIFrameBuffer* buffer, Color color)
 	{
 		if (Bypass())
 		{
@@ -674,7 +660,7 @@ public:
 			GetDynamic()->SetShaderSampler(&param);
 		}
 	}
-	FORCEINLINE void SetTextureParameterBuffer(FResourceTexture2D* tex, FResourceTextureParameterBuffer param)
+	FORCEINLINE void SetTextureParameterBuffer(FRITexture2D* tex, FRITextureParameterBuffer param)
 	{
 		if (Bypass())
 		{
@@ -682,7 +668,7 @@ public:
 		}
 	}
 
-	FORCEINLINE void SetTextureParameterBuffer(FResourceTexture2DArray* tex, FResourceTextureParameterBuffer param)
+	FORCEINLINE void SetTextureParameterBuffer(FRITexture2DArray* tex, FRITextureParameterBuffer param)
 	{
 		if (Bypass())
 		{
@@ -690,30 +676,31 @@ public:
 		}
 	}
 
-	FORCEINLINE void SetFramebufferTextureLayer(FResourceTexture2DArray* tex, uint32 layer)
+	FORCEINLINE void SetFramebufferTextureLayer(FRIFrameBuffer* fbo, uint32 layer)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->SetFramebufferTextureLayer(tex, layer);
-		}
-	}
-	FORCEINLINE void AttachLayeredTexture(FResourceTexture2DArray* tex)
-	{
-		if (Bypass())
-		{
-			GetDynamic()->AttachLayeredTexture(tex);
+			GetDynamic()->SetFramebufferTextureLayer(fbo, layer);
 		}
 	}
 
-	FORCEINLINE void SetBackCull(bool back)
+	FORCEINLINE void SetRasterizerState(FRIRasterizerState* rasterizer)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->SetBackCull(back);
+			GetDynamic()->SetRasterizerState(rasterizer);
 		}
 	}
 
-	FORCEINLINE void FlushMipMaps(FResourceTexture2D* tex)
+	FORCEINLINE void SetBlendState(FRIBlendState* blend)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetBlendState(blend);
+		}
+	}
+
+	FORCEINLINE void FlushMipMaps(FRITexture2D* tex)
 	{
 		if (Bypass())
 		{
@@ -722,12 +709,28 @@ public:
 	}
 
 
-	FORCEINLINE void FlushMipMaps(FResourceTexture2DArray* tex)
+	FORCEINLINE void FlushMipMaps(FRITexture2DArray* tex)
 	{
 		if (Bypass())
 		{
 			GetDynamic()->FlushMipMaps(tex);
 		}
+	}
+
+	FORCEINLINE void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->UniformBufferSubdata(buffer, resource);
+		}
+	}
+
+
+
+	template<typename TLambda>
+	FORCEINLINE void StageResources(TLambda&& lambda)
+	{
+		lambda();
 	}
 };
 

@@ -1,13 +1,14 @@
 #include "Game.h"
 
 #include "Core/Engine/FlameRI/OpenGL/OpenGLFRI.h"
+#include "Core/Engine/FlameRI/DX11/D3D11FRI.h"
 
 
 #include "Physics/PX/FPXService.h"
 #include "Physics/PX/FPXAllocator.h"
 #include "Physics/PX/FPXScene.h"
 
-GameApplication::GameApplication(const FString& Name) :
+GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri, Win32Context* context) :
 	applicationName(Name),
 	FriContext(nullptr)
 {
@@ -15,15 +16,32 @@ GameApplication::GameApplication(const FString& Name) :
 
 	FRIRenderingContextDescription desc;
 
-	desc.Width = 2560;
-	desc.Height = 1440;
-	desc.IsFullscreen = false;
-	desc.SampleCount = 8;
+
+	if (context)
+	{
+		desc.Width = context->Width;
+		desc.Height = context->Height;
+		desc.IsFullscreen = false;
+		desc.SampleCount = 0;
+	}
+	else
+	{
+		desc.Width = 2560;
+		desc.Height = 1440;
+		desc.IsFullscreen = false;
+		desc.SampleCount = 0;
+	}
 
 
 
-	FriContext = new OpenGLFRIContext(desc, NULL);
-
+	if (efri == EFRIRendererFramework::OpenGL)
+	{
+		FriContext = new OpenGLFRIContext(desc, context);
+	}
+	else if (efri == EFRIRendererFramework::DX11)
+	{
+		FriContext = new D3D11FRIContext(desc, NULL);
+	}
 
 	FriContext->InputHandlerDelegate = FKeyEventBindingDelegate::Make<GameApplication, &GameApplication::InputHandlerFunc>(this);
 	FriContext->Initialize();
@@ -63,25 +81,34 @@ void GameApplication::Update()
 
 }
 
+void GameApplication::Frame()
+{
+	FRICommandList cmd(FriContext->GetFRIDynamic());
+
+	BeginRender(cmd);
+
+	currentScene->Update();
+	Update();
+
+	renderer.Render(cmd);
+
+	EndRender(cmd);
+
+	//cmd.Flush();
+
+	FriContext->SwapBuffers();
+	FriContext->HandleEvents();
+}
+
 void GameApplication::Run()
 {
+
+	renderer.AttachToScene(currentScene);
+
+
 	while (FriContext->IsActive())
 	{
-		
-		FRICommandList cmd(FriContext->GetFRIDynamic());
-
-
-		BeginRender(cmd);
-
-		currentScene->Update();
-		Update();
-
-		EndRender(cmd);
-		
-		//cmd.Flush();
-		
-		FriContext->SwapBuffers();
-		FriContext->HandleEvents();
+		Frame();
 	}
 }
 
@@ -92,7 +119,6 @@ void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyE
 		FriContext->PollCloseEvent();
 	}
 
-	auto ControlSystem = currentScene->CreateSystem<ControlComponent>();
 
 	/*
 	ControlSystem.ForEach([&](Entity ent, ControlComponent& controlRef) 
@@ -109,7 +135,8 @@ void GameApplication::BeginRender(FRICommandList& cmdList)
 {
 	cmdList.BeginFrame();
 
-	renderer.BeginRender(cmdList, currentScene);
+	renderer.BeginRender(cmdList);
+
 }
 
 void GameApplication::EndRender(FRICommandList& cmdList)
@@ -131,4 +158,9 @@ PhysicsSceneDescription GameApplication::CreatePhysicsSceneDescription()
 	pDesc.pAllocator = new FPXAllocator(fpxService, static_cast<FPXScene*>(fpxScene));
 	
 	return pDesc;
+}
+
+bool GameApplication::IsContextActive()
+{
+	return FriContext->IsActive();
 }

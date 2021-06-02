@@ -18,14 +18,13 @@ struct SpotLightComponent
 {
 	Color LightColor;
 	float Radius;
-	//Texture* Mask;
 };
 
 struct FViewFrustumInfo
 {
 	FMatrix4 View;
 	FMatrix4 Projection;
-	float Depth;
+	FVector4 Depth;
 };
 
 
@@ -38,8 +37,3 @@ struct DirectionalLightComponent
 	FVector3 Direction;
 	float Intensity;
 };
-
-
-//RegisterEntityComponent(PointLightComponent, "PointLightComponent");
-//RegisterEntityComponent(SpotLightComponent, "SpotLightComponent");
-//RegisterEntityComponent(DirectionalLightComponent, "DirectionalLightComponent");

@@ -1,7 +1,6 @@
 #pragma once
 
 
-#include <FTGL/ftgl.h>
 /*
 EXPORT(struct, UxCharacter)
 {

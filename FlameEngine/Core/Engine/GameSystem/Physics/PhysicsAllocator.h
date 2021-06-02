@@ -6,19 +6,17 @@
 #include "PhysicsShape.h"
 #include "PhysicsMaterial.h"
 #include "PhysicsComponent.h"
-
+#include "PhysicsMesh.h"
 
 
 class PhysicsAllocator
 {
 public:
-	virtual PhysicsShape* CreateShape(PhysicsMaterial material, BoxGeometry geometry) = 0;
-	virtual PhysicsShape* CreateShape(PhysicsMaterial material, SphereGeometry geometry) = 0;
-	virtual PhysicsShape* CreateShape(PhysicsMaterial material, PlaneGeometry geometry) = 0;
-	virtual PhysicsShape* CreateShape(PhysicsMaterial material, CapsuleGeometry geometry) = 0;
+	virtual TriangleMeshGeometry CookTriangleMeshGeometry(const PhysicsTriangleMeshDesc& desc) = 0;
 
+	virtual RigidBody CreateDynamic(FTransform transform) = 0;
+	virtual StaticRigidBody CreateStatic(FTransform transform) = 0;
 
-	virtual DynamicPhysicsComponent CreateDynamic(FTransform transform) = 0;
-	virtual StaticPhysicsComponent CreateStatic(FTransform transform) = 0;
+	virtual CharacterBody CreateCharacter(FTransform transform) = 0;
 
 };

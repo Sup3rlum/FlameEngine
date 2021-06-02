@@ -27,6 +27,22 @@ template<typename _Type>
 using FRemoveReference = typename _FRemoveReference<_Type>::RefRemovedType;
 
 
+template<typename _Type>
+struct _FRemoveConst
+{
+	typedef _Type ConstRemovedType;
+};
+
+template<typename _Type>
+struct _FRemoveConst<const _Type>
+{
+	typedef _Type ConstRemovedType;
+};
+
+
+
+template<typename _Type>
+using FRemoveConst = typename _FRemoveConst<_Type>::ConstRemovedType;
 
 
 

@@ -6,9 +6,10 @@
 #include "Core/Framework/Common/FStack.h"
 #include "Core/Framework/Globals/FGlobalID.h"
 #include "../EntityComponent/EntityComponentSystem.h"
+#include "../EntityComponent/Entity.h"
 
 #include "../Physics/PhysicsComponent.h"
-#include "../CameraSystem/CameraSystem.h"
+#include "../CameraSystem/CameraComponent.h"
 #include "../ControlComponent.h"
 #include "../Physics/PhysicsService.h"
 #include "../Physics/PhysicsAllocator.h"
@@ -25,11 +26,19 @@ struct PhysicsSceneDescription
 };
 
 
+enum class ECSExecutionFlag : uint32
+{
+	USER_TICK = 1,
+	MAIN_THREAD = 2
+};
+
+
 EXPORT(class,  Scene) : public IElementIdentifiable
 {
 public:
 	Scene(PhysicsSceneDescription physDesc);
 	~Scene();
+
 
 
 	template<typename... TComponents>
@@ -47,13 +56,21 @@ public:
 	}
 
 
-
-	template<typename...TComponents>
-	FEntityComponentSystem<TComponents...> CreateSystem()
+	template<typename TSystem, typename... TCreationArgs>
+	TSystem* RegisterSystem(ECSExecutionFlag execFlags = ECSExecutionFlag::MAIN_THREAD, const TCreationArgs& ... args)
 	{
-		return FEntityComponentSystem<TComponents...>(&entityWorld);
-	}
+		auto systPtr = new TSystem(args...);
 
+		systPtr->scene = this;
+		systPtr->entityWorld = &entityWorld;
+
+		if (execFlags != ECSExecutionFlag::USER_TICK)
+		{
+
+			Systems.Add(systPtr);
+		}
+		return systPtr;
+	}
 
 	FGlobalID GetID() const
 	{
@@ -62,8 +79,6 @@ public:
 
 	void LoadSystems();
 	void Update();
-
-
 	Entity Camera;
 	Entity Sun;
 
@@ -71,11 +86,19 @@ public:
 
 private:
 
+	FArray<FEntityComponentSystemBase*> Systems;
+
 	PhysicsScene* physicsScene;
 	PhysicsService* physicsService;
 
 	FGlobalID sceneID;
 	EntityWorld entityWorld;
+
+
+	uint64 UpdateFrameNum;
+	float UpdateFrameDelta;
+	uint64 LastFrameTimestamp;
+	uint64 FrameTimestamp;
 
 };
 

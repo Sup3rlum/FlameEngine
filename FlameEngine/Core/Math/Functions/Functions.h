@@ -45,6 +45,9 @@ EXPORT(struct, FMathFunc)
 
 
 
+	FORCEINLINE static float Sqrt(float);
+
+
 	// Inverses
 
 	 

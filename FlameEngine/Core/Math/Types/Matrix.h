@@ -3,6 +3,8 @@
 
 #include "TMatrix4.h"
 #include "Vector.h"
+#include "Quaternion.h"
+
 
 
 typedef TMatrix4<float> FMatrix4;
@@ -196,10 +198,10 @@ public:
 		FMatrix4 Result(1);
 		Result[0][0] = 2.0f / (right - left);
 		Result[1][1] = 2.0f / (top - bottom);
-		Result[2][2] = -2.0f / (zFar - zNear);
+		Result[2][2] = -1.0f / (zFar - zNear);
 		Result[3][0] = -(right + left) / (right - left);
 		Result[3][1] = -(top + bottom) / (top - bottom);
-		Result[3][2] = -(zFar + zNear) / (zFar - zNear);
+		Result[3][2] = (zNear) / (zFar - zNear);
 
 		*this = Result;
 	}

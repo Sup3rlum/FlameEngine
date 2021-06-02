@@ -3,28 +3,6 @@
 
 
 
-enum class EFRIUniformBufferParameterType
-{
-	Int32,
-	UInt32,
-	Float,
-	Bool,
-
-	FVector2,
-	FVector3,
-	FVector4,
-	FMatrix2,
-	FMatrix3,
-	FMatrix4,
-
-	IVector2,
-	IVector3,
-	IVector4,
-	IMatrix2,
-	IMatrix3,
-	IMatrix4,
-	MaxUniformTypes
-};
 
 enum class EFRIUniformSamplerType
 {
@@ -44,12 +22,12 @@ enum class EFRITextureParameterBufferParameterType
 
 enum class EFRIResourceShaderType
 {
-	Vertex_Shader,
-	Fragment_Shader,
-	Geometry_Shader,
-	Hull_Shader,
-	Domain_Shader,
-	Compute_Shader
+	Vertex,
+	Pixel,
+	Geometry,
+	Hull,
+	Domain,
+	Compute
 };
 
 enum class EFRIVertexDeclerationAttributeType : unsigned int
@@ -122,29 +100,83 @@ enum class EResourceFBTextureAttachmentType
 
 
 
-enum class EFRITextureChannelStorage
+enum class EFRITextureFormat
 {
-	RG16F = 0x822F,
-	RGB16F = 0x881B, 
-	RGBA16F = 0x881A,
+	R16F,
+	RG16F,
+	RGB16F,
+	RGBA16F,
 
-	RG32F = 0x8230,
-	RGB32F = 0x8815,
-	RGBA32F = 0x8814
+	R32F,
+	RG32F,
+	RGB32F,
+	RGBA32F,
+
+
+	R32UI,
+	RG32UI,
+	RGB32UI,
+	RGBA32UI,
+
+	R16UI,
+	RG16UI,
+	RGB16UI,
+	RGBA16UI,
+
+	R8UI,
+	RG8UI,
+	RGB8UI,
+	RGBA8UI,
+
+
+	R8UNORM,
+	RG8UNORM,
+	RGB8UNORM,
+	RGBA8UNORM,
+
+	DEPTH32
+
 };
 
-enum class EFRITextureChannels
+enum class EFRIChannels
 {
 	R,
-	G,
-	B,
 	RG,
-	RGB = 0x1907,
-	RGBA = 0x1908
+	RGB,
+	RGBA
 };
 
-enum class EFRITexturePixelStorage
+enum class EFRIPixelStorage
 {
-	Float = 0x1406,
-	UnsignedByte = 0x1401
+	Float,
+	Half,
+	Int,
+	Short,
+	Byte,
+	UnsignedInt,
+	UnsignedShort,
+	UnsignedByte
+};
+
+enum class EFRIFillMode
+{
+	Solid,
+	Wireframe
+};
+
+enum class EFRICullMode
+{
+	None,
+	Front,
+	Back
+};
+
+enum class EFRIAlphaBlend
+{
+	Zero,
+	One,
+	Src,
+	OneMinusSrc,
+	Dst,
+	OneMinusDst
 };
