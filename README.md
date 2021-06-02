@@ -6,12 +6,12 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 These are the current features FlameEngine has as of now:
 
-  - A scene/actor system
+  - Fast custom made Entity Component System (ECS)
   - Hybrid rendering and asset pipeline using custom models, materials and shaders.
-  - Variance Soft Shadowmap Filtering
-  - Cascading Shadowmaps
-  - HBAO+
-  - PhysX
+  - Physics based rendering (PBR)
+  - CSM+VSSM Shadowmapping
+  - HBAO+ Ambient Occlusion
+  - PhysX integration
   - GUI
 
 Some of the the upcoming features I am currently working on:
@@ -29,6 +29,7 @@ Some of the the upcoming features I am currently working on:
 
   - PhysX 4.1
   - HBAO+  4.0
+  - DirectX 11
   - OpenGL 4.0
   - glew32
   - libpng
