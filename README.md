@@ -23,7 +23,7 @@ Some of the the upcoming features I am currently working on:
 
 ## Images
 
-<img src="https://cdn.discordapp.com/attachments/717866375212826705/787178741834055684/test0.png" width="900" height="552">
+<img src="https://media.discordapp.net/attachments/848566085812879382/853407028823588874/Screenshot_4.png?width=1210&height=910" width="900" height="552">
 
 ## Dependencies
 
