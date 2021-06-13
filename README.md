@@ -12,12 +12,12 @@ These are the current features FlameEngine has as of now:
   - CSM+VSSM Shadowmapping
   - HBAO+ Ambient Occlusion
   - PhysX integration
-  - GUI
+  - HTML5 + JS GUI
+  - Dynamic Skies
+  - Particle Systems
 
 Some of the the upcoming features I am currently working on:
   - FFmpeg Media
-  - Dynamic Skies
-  - Particle Systems
   - Animation
   - Scripting
 
