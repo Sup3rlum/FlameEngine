@@ -6,13 +6,13 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 These are the current features FlameEngine has as of now:
 
-  - Fast custom made Entity Component System (ECS)
+  - Custom Made Entity Component System (ECS), entirely cache friendly and very fast
   - Hybrid rendering and asset pipeline using custom models, materials and shaders.
   - Physics based rendering (PBR)
   - CSM+VSSM Shadowmapping
   - HBAO+ Ambient Occlusion
   - PhysX integration
-  - HTML5 + JS GUI
+  - HTML5 + JS GUI (via UltraLight)
   - Dynamic Skies
   - Particle Systems
 
