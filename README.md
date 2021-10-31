@@ -29,7 +29,7 @@ Flame's game scene architecture is entirely based on the Entity Component System
 
 ### Physics
 
-Flame uses NVIDIA's PhysX API to simulate a physical environment. Currently only basic geometry, cooked triangle meshes and character controllers are supported. Much work is needed to integrate all of PhysX' features into flame. One of the more low-level challenges is to incorporate the API into the ECS by making use of custom heap allocators, which might be a challenge.
+Flame uses NVIDIA's PhysX API to simulate a physical environment. Currently only basic geometry, cooked triangle meshes and character controllers are supported. Much work is needed to integrate all of PhysX' features into flame. One of the more low-level challenges is to incorporate the API into the ECS by making use of custom heap allocators, which might actually be quite the challenge itself.
 
 ### Assets
 
