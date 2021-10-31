@@ -21,6 +21,8 @@ Flame uses a deferred renderer with a PBR Metallic/Roughness workflow. Currently
 
 There is support for dynamic atmospheric scattering, however it isn't adjusted and calibrated properly. In addition to that I will be adding lens flares and support for environment/irradiance maps once I finish working on a level/environment system.
 
+I have also developed a very flexible particle system which I have yet to use to its full potential and experiment with.
+
 ### Scene
 
 Flame's game scene architecture is entirely based on the Entity Component System (ECS) model. It uses a custom made ECS that I specifically designed with cache optimization in mind. The system was inspired by Unity's DOTS system, where entity data is tightly packed in memory buckets which are smartly allocated on the fly. Each bucket is created against an entity archetype and is represented by a chain of memory block nodes, each with the same signature. In addition, I have employed various compile time and RTTI techniques to keep the memory footprint of the system minimal, as well as to increase iteration and look up speeds of entity systems as much as possible.  
@@ -37,6 +39,17 @@ Flame currently uses its own asset system and formats for models, materials and 
 
 Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 5 based application with a hooks to the engine and a native rendering surface. Currently Interop between the engine and the editor is quite cumbersome to incorporate without a dedicated interface layer which I will work on in the future.
 
+### Planned features
+
+Currently the roadmap outlines itself as follows:
+
+- Fixing SSR
+- Improving compute integration
+- Improving atmospheric scattering shaders
+- Introducing robust environment/level management
+- Incorporating asset compilers into editor
+- Integrating more of PhysX's features
+- Trying out raytracing?
 
 ## Dependencies
 
