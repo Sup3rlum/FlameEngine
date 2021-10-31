@@ -37,7 +37,7 @@ Flame currently uses its own asset system and formats for models, materials and 
 
 ### Editor
 
-Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 5 based application with a hooks to the engine and a native rendering surface. Currently Interop between the engine and the editor is quite cumbersome to incorporate without a dedicated interface layer which I will work on in the future.
+Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 5 based application with hooks to the engine and a native rendering surface. Currently Interop between the engine and the editor is quite cumbersome to incorporate without a dedicated interface layer which I will work on in the future.
 
 ### Planned features
 
