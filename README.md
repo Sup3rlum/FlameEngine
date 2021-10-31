@@ -25,7 +25,7 @@ I have also developed a very flexible particle system which I have yet to use to
 
 ### Scene
 
-Flame's game scene architecture is entirely based on the Entity Component System (ECS) model. It uses a custom made ECS that I specifically designed with cache optimization in mind. The system was inspired by Unity's DOTS system, where entity data is tightly packed in memory buckets which are smartly allocated on the fly. Each bucket is created against an entity archetype and is represented by a chain of memory block nodes, each with the same signature. In addition, I have employed various compile time and RTTI techniques to keep the memory footprint of the system minimal, as well as to increase iteration and look up speeds of entity systems as much as possible.  
+Flame's game scene architecture is entirely based on the Entity Component System (ECS) model. It uses a custom made ECS that I specifically designed with cache optimization in mind. The system was inspired by Unity's DOTS, where entity data is tightly packed in memory buckets which are smartly allocated on the fly. Each bucket is created against an entity archetype and is represented by a chain of memory block nodes, each with the same signature. In addition, I have employed various compile time and RTTI techniques to keep the memory footprint of the system minimal, as well as to increase iteration and look up speeds of entity systems as much as possible.  
 
 ### Physics
 
