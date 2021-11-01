@@ -16,6 +16,7 @@ Flame uses a deferred renderer with a PBR Metallic/Roughness workflow. Currently
   - SMAA
   - HBAO+
   - Screen Space Reflections (Currently disabled, working on improving them performance-wise)
+  - HDR Rendering
 
 ### Environment
 
