@@ -1,22 +1,36 @@
 #include "FTime.h"
 #include <profileapi.h>
 
-FTimeStamp FTimeStamp::MarkCurrent()
+FTimeSpan FTime::GetTimestamp()
 {
-	LARGE_INTEGER t;
-	FTimeStamp timestamp;
-
-	QueryPerformanceCounter(&t);
-	timestamp.data = t.QuadPart;
-
+	FTimeSpan timestamp;
+	QueryPerformanceCounter(&timestamp.llWinData);
 	return timestamp;
 }
 
 
-FTimeType FTime::PlatformTickFrequency()
+FTimeSpan FTime::PlatformTickFrequency()
 {
-	LARGE_INTEGER t;
-	t.QuadPart = 0;
-	QueryPerformanceFrequency(&t);
-	return t.QuadPart;
+	FTimeSpan tickFrequency;
+	QueryPerformanceFrequency(&tickFrequency.llWinData);
+	return tickFrequency;
+}
+
+int64 FTimeSpan::GetPlatformTicks()
+{
+	return Data;
+}
+
+float FTimeSpan::GetSeconds()
+{
+	return (float)Data / (float)FTime::PlatformTickFrequency().Data;
+}
+
+float FTimeSpan::GetMinutes()
+{
+	return GetSeconds() / 60.0f;
+}
+float FTimeSpan::GetHours()
+{
+	return GetSeconds() / 3600.0f;
 }

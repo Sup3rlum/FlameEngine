@@ -540,25 +540,53 @@ public:
 	}
 
 
-	FORCEINLINE void DrawPrimitives(uint32 elementType, uint32 elementCount)
+	FORCEINLINE void DrawPrimitives(EFRIPrimitiveType primitiveType, uint32 vertexCount)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->DrawPrimitives(elementType, elementCount);
+			GetDynamic()->DrawPrimitives(primitiveType, vertexCount);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawPrimitives)(elementType, elementCount);
+		//ALLOC_COMMAND(FRICommandDrawPrimitives)(elementType, elementCount);
 	}
 
-	FORCEINLINE void DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer)
+	FORCEINLINE void DrawPrimitivesIndexed(EFRIPrimitiveType primitiveType, uint32 vertextCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
 	{
 		if (Bypass())
 		{
-			GetDynamic()->DrawPrimitivesIndexed(elementType, elementCount, indexType,  indexBuffer);
+			GetDynamic()->DrawPrimitivesIndexed(primitiveType, vertextCount, indexType,  indexBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(elementType, elementCount, indexType, indexBuffer);
+		//ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(elementType, elementCount, indexType, indexBuffer);
 	}
+
+
+
+
+	FORCEINLINE void DrawInstances(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->DrawInstances(primitiveType, vertexCount, instanceCount);
+			return;
+		}
+	}
+
+	FORCEINLINE void DrawInstancesIndexed(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->DrawInstancesIndexed(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
+			return;
+		}
+	}
+
+
+
+
+
+
+
 	FORCEINLINE void SetShaderPipeline(FRIShaderPipeline* shaderPipeline)
 	{
 		if (Bypass())
@@ -577,6 +605,18 @@ public:
 		}
 		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
 	}
+
+	FORCEINLINE void SetInstancedGeometrySource(FRIVertexBuffer* vertexBuffer, FRIInstanceBuffer* instanceBuffer)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->SetInstancedGeometrySource(vertexBuffer, instanceBuffer);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
+	}
+
+
 	FORCEINLINE void BindFrameBuffer(FRIFrameBuffer* frameBuffer)
 	{
 		if (Bypass())
@@ -726,11 +766,14 @@ public:
 	}
 
 
-
 	template<typename TLambda>
 	FORCEINLINE void StageResources(TLambda&& lambda)
 	{
 		lambda();
+		/*if (Bypass())
+		{
+			//GetDynamic()->StageResources(ubo, stageLambda);
+		}*/
 	}
 };
 

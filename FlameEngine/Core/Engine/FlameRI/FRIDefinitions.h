@@ -180,3 +180,18 @@ enum class EFRIAlphaBlend
 	Dst,
 	OneMinusDst
 };
+
+
+enum class EFRIAttribUsage
+{
+	PerVertex,
+	PerInstance
+};
+
+enum class EFRIAccess
+{
+	None,
+	CPURead,
+	CPUWrite,
+	CPUReadWrite
+};

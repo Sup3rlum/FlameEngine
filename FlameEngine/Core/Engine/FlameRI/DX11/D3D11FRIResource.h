@@ -24,7 +24,7 @@ struct FD3D11VertexBuffer : FRIVertexBuffer
 
 	uint32 LayoutStride;
 
-	FD3D11VertexBuffer(ID3D11Device* device, uint32 Size, uint32 Usage, FRICreationDescriptor Data) :
+	FD3D11VertexBuffer(ID3D11Device* device, uint32 Size, uint32 Usage, EFRIAccess access, FRICreationDescriptor Data) :
 		FRIVertexBuffer(Size, Usage),
 		Buffer(0),
 		InputLayout(0),
@@ -32,19 +32,46 @@ struct FD3D11VertexBuffer : FRIVertexBuffer
 	{
 
 		D3D11_BUFFER_DESC BufferDesc;
-		BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+		if (Usage == 0)
+		{
+			BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		}
+		else
+		{
+			BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		}
+
 		BufferDesc.ByteWidth = Data.ByteSize;
 		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		BufferDesc.CPUAccessFlags = 0;
+
+		if (access == EFRIAccess::None)
+		{
+			BufferDesc.CPUAccessFlags = 0;
+		}
+		else if (access == EFRIAccess::CPUWrite)
+		{
+			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		}
+
+
 		BufferDesc.MiscFlags = 0;
 
-		D3D11_SUBRESOURCE_DATA BufferData;
-		BufferData.pSysMem = Data.DataArray;
-		BufferData.SysMemPitch = 0;
-		BufferData.SysMemSlicePitch = 0;
+		if (Data.DataArray)
+		{
+			D3D11_SUBRESOURCE_DATA BufferData;
+			BufferData.pSysMem = Data.DataArray;
+			BufferData.SysMemPitch = 0;
+			BufferData.SysMemSlicePitch = 0;
 
 
-		HRESULT hr = device->CreateBuffer(&BufferDesc, &BufferData, &Buffer);
+			HRESULT hr = device->CreateBuffer(&BufferDesc, &BufferData, &Buffer);
+		}
+		else
+		{
+
+			HRESULT hr = device->CreateBuffer(&BufferDesc, nullptr, &Buffer);
+		}
 
 
 	}
@@ -78,6 +105,46 @@ struct FD3D11IndexBuffer : FRIIndexBuffer
 };
 
 
+struct FD3D11InstanceBuffer : FRIInstanceBuffer
+{
+	TComPtr<ID3D11Buffer> Buffer;
+	
+	uint32 LayoutStride;
+
+	FD3D11InstanceBuffer(ID3D11Device* device, uint32 LayoutStride, uint32 Size, FRICreationDescriptor Data) :
+		FRIInstanceBuffer(Size),
+		LayoutStride(LayoutStride)
+	{
+		D3D11_BUFFER_DESC BufferDesc;
+		BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		BufferDesc.ByteWidth = Data.ByteSize;
+		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags = 0;
+
+
+
+		if (Data.DataArray)
+		{
+			D3D11_SUBRESOURCE_DATA BufferData;
+			BufferData.pSysMem = Data.DataArray;
+			BufferData.SysMemPitch = 0;
+			BufferData.SysMemSlicePitch = 0;
+
+
+			HRESULT hr = device->CreateBuffer(&BufferDesc, &BufferData, &Buffer);
+		}
+		else
+		{
+
+			HRESULT hr = device->CreateBuffer(&BufferDesc, nullptr, &Buffer);
+		}
+
+
+
+	}
+};
+
 struct FD3D11TextureBase
 {
 	TComPtr<ID3D11Texture2D> Texture;
@@ -99,7 +166,9 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 		uint32 height,
 		uint32 sampleCount,
 		DXGI_FORMAT format,
-		FRICreationDescriptor Data = FRICreationDescriptor(NULL, 0)
+		FRICreationDescriptor Data = FRICreationDescriptor(NULL, 0),
+		bool cpuWrite = false,
+		bool bindDepth = false
 	) :
 		FRITexture2D(width, height, sampleCount),
 		FD3D11ShaderResource(0),
@@ -113,9 +182,37 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 		TextureDesc.Format = format;
 		TextureDesc.SampleDesc.Count = 1;
 		TextureDesc.SampleDesc.Quality = 0;
-		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
-		TextureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+
+
+		if (cpuWrite)
+		{
+			TextureDesc.Usage = D3D11_USAGE_DYNAMIC;
+		}
+		else
+		{
+			TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+		}
+
+		TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+		if (bindDepth)
+		{
+			TextureDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+		}
+
+
+		if (!cpuWrite && !bindDepth)
+		{
+			TextureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+		}
+
 		TextureDesc.CPUAccessFlags = 0;// D3D11_CPU_ACCESS_WRITE;
+
+		if (cpuWrite)
+		{
+			TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		}
+
 		TextureDesc.MiscFlags = 0;
 
 
@@ -142,15 +239,20 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 		SrvDesc.Texture2D.MostDetailedMip = 0;
 		SrvDesc.Texture2D.MipLevels = 1;
 
+		if (bindDepth)
+		{
+			SrvDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		}
+
 		device->CreateShaderResourceView(Texture, &SrvDesc, &ShaderResourceView);
 
 		D3D11_SAMPLER_DESC SamplerDesc;
 
-		SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 		SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		SamplerDesc.MaxAnisotropy = 1.0f;
+		SamplerDesc.MaxAnisotropy = 4.0f;
 		SamplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 		SamplerDesc.BorderColor[0] = 0;
 		SamplerDesc.BorderColor[1] = 0;
@@ -215,7 +317,7 @@ struct FD3D11Texture2DArray : FD3D11TextureBase, FD3D11ShaderResource, FRITextur
 		SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		SamplerDesc.MaxAnisotropy = 1.0f;
+		SamplerDesc.MaxAnisotropy = 4.0f;
 		SamplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 		SamplerDesc.BorderColor[0] = 0;
 		SamplerDesc.BorderColor[1] = 0;
@@ -359,6 +461,8 @@ struct FD3D11FrameBuffer : FRIFrameBuffer
 
 	uint32 NumViews;
 
+	FD3D11Texture2D* DepthTexture;
+
 	FD3D11FrameBuffer(ID3D11Device* device, FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthBuffer) : 
 		FRIFrameBuffer(0, 0),
 		NumViews(textureAttachments.Length()),
@@ -431,7 +535,22 @@ struct FD3D11FrameBuffer : FRIFrameBuffer
 	void CreateDepthBuffer(ID3D11Device* device, IVector2 Dimensions)
 	{
 
-		ID3D11Texture2D* pDepthStencil = NULL;
+
+		DepthTexture = new FD3D11Texture2D(device, Dimensions.x, Dimensions.y, 0, DXGI_FORMAT_R32_TYPELESS, FRICreationDescriptor(0, 0), false, true);
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+		ZeroMemory(&dsvDesc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+
+		dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+		dsvDesc.Flags = 0;
+		dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvDesc.Texture2D.MipSlice = 0;
+
+
+		HRESULT hr = device->CreateDepthStencilView(DepthTexture->Texture, &dsvDesc, &DepthStencilView);
+
+
+		/*ID3D11Texture2D* pDepthStencil = NULL;
 		D3D11_TEXTURE2D_DESC descDepth;
 		descDepth.Width = Dimensions.x;
 		descDepth.Height = Dimensions.y;
@@ -467,71 +586,106 @@ struct FD3D11FrameBuffer : FRIFrameBuffer
 		SrvDesc.Texture2D.MipLevels = 1;
 		SrvDesc.Texture2D.MostDetailedMip = 0;
 
-		device->CreateShaderResourceView(pDepthStencil, &SrvDesc, &DSVShaderResourceView);
+		device->CreateShaderResourceView(pDepthStencil, &SrvDesc, &DSVShaderResourceView);*/
+
+
+	}
+
+	FRITexture2D* GetDepthBuffer()
+	{
+		return DepthTexture;
 	}
 };
 
 struct FD3D11VertexDeclaration : FRIVertexDeclaration
 {
 	TComPtr<ID3D11InputLayout> InputLayout;
-	uint32 LayoutStride;
+	FArray<uint32> LayoutStrides;
 
 	FD3D11VertexDeclaration(
 		
 		ID3D11Device* device, 
-		const FArray<FRIVertexDeclarationComponent>& DeclCompArray, 
+		const FArray<FRIVertexDeclarationDesc>& DescArray, 
 		FD3D11VertexShader* shaderSignature
 	) : 
-		FRIVertexDeclaration(DeclCompArray),
-		LayoutStride(0)
+		FRIVertexDeclaration(DescArray)
 	{
-		uint32 NumLayoutElems = DeclCompArray.Length();
-		D3D11_INPUT_ELEMENT_DESC* vertexLayout = new D3D11_INPUT_ELEMENT_DESC[NumLayoutElems];
+		uint32 NumLayouts = DescArray.Length();
+		uint32 NumLayoutElems = 0;
 
-		LayoutStride = DeclCompArray[0].Stride;
+		for (int i = 0; i < NumLayouts; i++)
+		{
+			NumLayoutElems += DescArray[i].Components.Length();
+			LayoutStrides.Add(DescArray[i].Components[0].Stride);
+		}
 
+		FArray<D3D11_INPUT_ELEMENT_DESC> vertexLayout;
+
+
+		for (int layoutIndex = 0; layoutIndex < NumLayouts; layoutIndex++)
+		{
+
+			for (int i = 0; i < DescArray[layoutIndex].Components.Length(); i++)
+			{
+				const FRIVertexDeclarationComponent& Component = DescArray[layoutIndex].Components[i];
+
+				D3D11_INPUT_ELEMENT_DESC ElemDesc;
+
+				uint32 componentCount = Component.Length;
+				DXGI_FORMAT format;
+
+				switch (componentCount)
+				{
+				case 1:
+					format = DXGI_FORMAT_R32_FLOAT;
+					break;
+				case 2:
+					format = DXGI_FORMAT_R32G32_FLOAT;
+					break;
+				case 3:
+					format = DXGI_FORMAT_R32G32B32_FLOAT;
+					break;
+				case 4:
+					format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+					break;
+				default:
+					format = DXGI_FORMAT_UNKNOWN;
+					break;
+				}
+
+				if (Component.Type == EFRIVertexDeclerationAttributeType::Int)
+				{
+					format = (DXGI_FORMAT)(format + 1); // Hack for making the attribute of type int
+				}
+
+
+				ElemDesc.SemanticName = Component.Semantic.SemanticName;
+				ElemDesc.SemanticIndex = Component.Semantic.SemanticIndex;
+				ElemDesc.Format = format;
+				ElemDesc.InputSlot = DescArray[layoutIndex].InputSlot;
+				ElemDesc.AlignedByteOffset = Component.Offset;
+
+				if (Component.Usage == EFRIAttribUsage::PerVertex)
+				{
+					ElemDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+					ElemDesc.InstanceDataStepRate = 0;
+				}
+				else
+				{
+					ElemDesc.InputSlotClass = D3D11_INPUT_PER_INSTANCE_DATA;
+					ElemDesc.InstanceDataStepRate = 1;
+				}
+
+				vertexLayout.Add(ElemDesc);
+			}
+		}
 
 		for (int i = 0; i < NumLayoutElems; i++)
 		{
-
-			uint32 componentCount = DeclCompArray[i].Length;
-			DXGI_FORMAT format;
-
-			switch (componentCount)
-			{
-			case 1:
-				format = DXGI_FORMAT_R32_FLOAT;
-				break;
-			case 2:
-				format = DXGI_FORMAT_R32G32_FLOAT;
-				break;
-			case 3:
-				format = DXGI_FORMAT_R32G32B32_FLOAT;
-				break;
-			case 4:
-				format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-				break;
-			default:
-				format = DXGI_FORMAT_UNKNOWN;
-				break;
-			}
-
-			if (DeclCompArray[i].Type == EFRIVertexDeclerationAttributeType::Int)
-			{
-				format = (DXGI_FORMAT)(format + 1); // Hack for making the attribute of type int
-			}
-
-
-			vertexLayout[i].SemanticName = DeclCompArray[i].Semantic.SemanticName;
-			vertexLayout[i].SemanticIndex = 0;
-			vertexLayout[i].Format = format;
-			vertexLayout[i].InputSlot = 0;
-			vertexLayout[i].AlignedByteOffset = DeclCompArray[i].Offset;
-			vertexLayout[i].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-			vertexLayout[i].InstanceDataStepRate = 0;
+			printf("%s %d\n", vertexLayout[i].SemanticName, vertexLayout[i].SemanticIndex);
 		}
 
-		device->CreateInputLayout(vertexLayout, NumLayoutElems, shaderSignature->ByteCode.Begin(), shaderSignature->ByteCode.ByteSize(), &InputLayout);
+		device->CreateInputLayout(vertexLayout.Begin(), NumLayoutElems, shaderSignature->ByteCode.Begin(), shaderSignature->ByteCode.ByteSize(), &InputLayout);
 
 	}
 };
@@ -587,5 +741,30 @@ struct FD3D11BlendState : FRIBlendState
 		BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 		device->CreateBlendState(&BlendDesc, &BlendState);
+	}
+};
+
+
+struct FD3D11DepthStencilState : FRIDepthStencilState
+{
+	TComPtr<ID3D11DepthStencilState> DepthStencilState;
+
+	FD3D11DepthStencilState(
+		ID3D11Device* device,
+		EFRIBool DepthEnable,
+		EFRIBool StencilEnable
+
+	)
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthStencilDesc;
+		ZeroMemory(&DepthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+		DepthStencilDesc.DepthEnable = (BOOL)DepthEnable;
+		DepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		DepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+		DepthStencilDesc.StencilEnable = (BOOL)StencilEnable;
+
+		device->CreateDepthStencilState(&DepthStencilDesc, &DepthStencilState);
+
 	}
 };

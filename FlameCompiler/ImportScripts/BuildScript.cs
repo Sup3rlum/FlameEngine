@@ -101,7 +101,7 @@ namespace FlameCompiler.ImportScripts
             "Height" => MaterialMapType.Height,
             "Roughness" => MaterialMapType.Roughness,
             "Metallic" => MaterialMapType.Metallic,
-            "AmbientOcclusion" => MaterialMapType.AmbientOcclusion,
+            "AO" => MaterialMapType.AmbientOcclusion,
             _ => throw new Exception("Material Map type not recognized")
         };
 

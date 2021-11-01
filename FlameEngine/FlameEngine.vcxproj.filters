@@ -41,8 +41,6 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Services\RenderingServiceBase.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Services\UxRenderingService.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\RenderableObject.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
@@ -53,15 +51,10 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Core\Engine\GameSystem\Factories\SceneFactory.cpp" />
-    <ClCompile Include="Core\Engine\GameSystem\ParticleSystem\ParticleEngine.cpp" />
-    <ClCompile Include="Core\Engine\GameSystem\ParticleSystem\ParticleRenderer.cpp" />
     <ClCompile Include="Core\Framework\Common\FStack.cpp" />
     <ClCompile Include="Core\Framework\Globals\FGlobalID.cpp" />
     <ClCompile Include="Core\Framework\Common\FHashMap.cpp" />
     <ClCompile Include="Core\Framework\Common\FHash.cpp" />
-    <ClCompile Include="Core\Engine\GameSystem\LightingSystem\Light.cpp">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIImpl.cpp" />
     <ClCompile Include="Core\Engine\Renderer\DeferredRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.cpp">
@@ -104,6 +97,21 @@
     <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXAllocator.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\SceneSystems.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Environment\SceneLevel.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\ParticleRenderer.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\InstanceMesh.cpp" />
+    <ClCompile Include="Core\UX\UXFRISurface.cpp" />
+    <ClCompile Include="Core\UX\UXService.cpp" />
+    <ClCompile Include="Core\UX\UXRenderer.cpp" />
+    <ClCompile Include="Core\UX\UXContainer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\VXGIRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageSMAA.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageHBAO.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageGBufferGen.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageLighting.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageShadowmap.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageEnvironment.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common\CoreCommon.h" />
@@ -158,8 +166,6 @@
     </ClInclude>
     <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\HBAOPlusInterface.h" />
-    <ClInclude Include="Core\Engine\Renderer\Services\RenderingServiceBase.h" />
-    <ClInclude Include="Core\Engine\Renderer\Services\UxRenderingService.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRI.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRIContext.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRIDefinitions.h" />
@@ -182,19 +188,12 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Core\Engine\GameSystem\Factories\SceneFactory.h" />
-    <ClInclude Include="Core\Engine\GameSystem\LightingSystem\DirectionalLight.h">
-      <Filter>Scene\GameObjects\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Engine\GameSystem\ParticleSystem\ParticleEngine.h" />
-    <ClInclude Include="Core\Engine\GameSystem\ParticleSystem\ParticleRenderer.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXService.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\PhysXFrameworkPX_Includes.h" />
     <ClInclude Include="Core\Framework\Common\FStack.h" />
     <ClInclude Include="Core\Framework\Globals\FGlobalID.h" />
     <ClInclude Include="Core\Framework\Common\FHashMap.h" />
     <ClInclude Include="Core\Framework\Common\FHash.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Scene\SceneSerializer.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Scene\SerializerFwd.h" />
     <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRI.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIDynamic.h" />
@@ -263,11 +262,10 @@
     <ClInclude Include="Core\Engine\GameSystem\Animation\AnimationComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\Animation\SkeletalComponent.h" />
     <ClInclude Include="Core\Engine\GameSystem\LightingSystem\LightComponent.h" />
-    <ClInclude Include="Core\Engine\GameSystem\EntityRefComponent.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderUtil.h" />
     <ClInclude Include="Core\Engine\FlameRI\Viewport.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Mesh.h" />
-    <ClInclude Include="Core\Engine\GameSystem\MeshComponent.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Mesh.h" />
     <ClInclude Include="Core\Engine\GameSystem\Material\MaterialComponent.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Material.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsService.h" />
@@ -279,7 +277,6 @@
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXScene.h" />
     <ClInclude Include="Core\Engine\GameSystem\Material\MaterialDefinitions.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\OpenGL\GLHBAOPlus.h" />
-    <ClInclude Include="Core\Engine\Renderer\Services\ServiceAllocator.h" />
     <ClInclude Include="Core\Engine\Renderer\AtmosphereRenderer.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRI.h" />
@@ -288,7 +285,7 @@
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIResource.h" />
     <ClInclude Include="Core\Engine\Renderer\SATGenerator.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.h" />
-    <ClInclude Include="Core\Engine\GameSystem\SkinnedMeshComponent.h" />
+    <ClInclude Include="Core\Engine\GameSystem\SkinnedMesh.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.h" />
     <ClInclude Include="Core\Engine\GameSystem\Animation\SkeletonPose.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIProxyTypes.h" />
@@ -302,6 +299,23 @@
     <ClInclude Include="Core\Engine\GameSystem\Physics\PhysicsMesh.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\SceneSystems.h" />
     <ClInclude Include="Core\Engine\Renderer\RenderSystems.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\SceneLevel.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\InstanceMesh.h" />
+    <ClInclude Include="Core\Framework\Algorithm\BVH.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\ParticleSystem.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\ParticleInterface.h" />
+    <ClInclude Include="Core\Engine\Renderer\ParticleRenderer.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\InstanceMesh.h" />
+    <ClInclude Include="Core\Engine\GameSystem\CompositeMesh.h" />
+    <ClInclude Include="Core\UX\UXFRISurface.h" />
+    <ClInclude Include="Core\UX\UXRenderer.h" />
+    <ClInclude Include="Core\UX\UXService.h" />
+    <ClInclude Include="Core\UX\UXContainer.h" />
+    <ClInclude Include="Core\Engine\Renderer\VXGIRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\RenderStages.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\Definitions.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\LUT.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\BRDF.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

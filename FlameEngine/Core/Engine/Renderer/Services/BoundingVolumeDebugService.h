@@ -11,8 +11,8 @@
 class BoundingVolumeDebugService : RenderModule
 {
 public:
-	BoundingVolumeDebugService(FRICommandList& cmdList);
-	void Render(FRICommandList& cmdList, const CameraComponent& cam, FVector3* Corners);
+	BoundingVolumeDebugService();
+	void Render(FRICommandList& cmdList, FVector3* Corners);
 
 	void CreateResources(FRIContext* cmdList);
 
@@ -22,6 +22,6 @@ public:
 	uint32 ViewLoc;
 	uint32 ProjLoc;
 
-	FRIVertexDeclaration vDecl;
+	FRIVertexDeclaration* VertexDecl;
 
 };

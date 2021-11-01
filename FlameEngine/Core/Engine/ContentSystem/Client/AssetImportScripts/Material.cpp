@@ -29,10 +29,10 @@ struct FMaterialMapHeader
 
 
 
-MaterialComponent FMaterialSerializer::Serialize(IOFileStream& fileStream)
+Material TContentSerializer<Material>::Serialize(IOFileStream& fileStream)
 {
 	FRIDynamicAllocator* allocator = renderContext->GetFRIDynamic();
-	MaterialComponent::MapCollection maps;
+	Material::MapCollection maps;
 	
 	FMaterialHeader matHeader = fileStream.Read<FMaterialHeader>();
 
@@ -65,5 +65,5 @@ MaterialComponent FMaterialSerializer::Serialize(IOFileStream& fileStream)
 	}
 
 
-	return MaterialComponent(maps, renderContext);
+	return Material(maps, renderContext);
 }

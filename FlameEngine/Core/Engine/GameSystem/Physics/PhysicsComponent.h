@@ -79,8 +79,9 @@ private:
 	PhysXControllerProxy* pPxController;
 	friend class FPXAllocator;
 
-
-	uint64 LastMoveTimestamp = 0;
+	FVector3 Velocity;
+	FVector3 Gravity;
+	FTimeSpan LastMoveTimestamp = 0;
 
 	CharacterBody(PhysXControllerProxy * pController, class FPXAllocator* allocator) :
 		pPxController(pController),
@@ -89,11 +90,11 @@ private:
 	}
 public:
 
-	void Move(FVector3 vec);
+	bool HasGravity;
+
+	void Move(FVector3 Velocity);
 	FTransform GetGlobalTransform() const;
 
 	bool IsGrounded() const;
 	float GetHeight() const;
-
-
 };

@@ -5,13 +5,20 @@
 #include "Core/Engine/FlameRI/FRI.h"
 
 #include "Core/Engine/Renderer/DeferredRenderer.h"
+#include "Core/UX/UXRenderer.h"
+#include "Core/UX/UXContainer.h"
 
 
 class Win32Context;
 
+
+
 EXPORT(class,  GameApplication)
 {
 protected:
+	FGameTime gameTime;	
+	FTimeSpan LastTickTimestamp;
+
 	FRIContext* FriContext;
 
 	void InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyEvent);
@@ -19,15 +26,13 @@ protected:
 public:
 	GameApplication(const FString& name, EFRIRendererFramework framework, Win32Context* winContext);
 
-	virtual void Load();
-	virtual void Dispose();
-	virtual void Suspend();
+	virtual void Load() = 0;
+	virtual void Dispose() = 0;
+	virtual void Suspend() = 0;
 
-	virtual void Update();
+	virtual void Update(FGameTime gameTime) = 0;
 
-	virtual void Run();
-
-
+	void Run();
 	void Frame();
 
 
@@ -44,7 +49,10 @@ public:
 	Scene* currentScene;
 	FString applicationName;
 
-	DeferredRenderer renderer;
+	DeferredRenderer Renderer;
+	UXRenderer UXRenderer;
+
+
 
 };
 

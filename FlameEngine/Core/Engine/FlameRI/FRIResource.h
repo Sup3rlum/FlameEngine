@@ -105,6 +105,17 @@ struct FRIIndexBuffer : public FRIResourceObject
 
 };
 
+struct FRIInstanceBuffer : public FRIResourceObject
+{
+	uint32 Size;
+
+	FRIInstanceBuffer(uint32 Size) : 
+		Size(Size)
+	{
+
+	}
+};
+
 
 
 struct FRIFrameBuffer : public FRIResourceObject
@@ -118,6 +129,8 @@ struct FRIFrameBuffer : public FRIResourceObject
 	{
 
 	}
+
+	virtual FRITexture2D* GetDepthBuffer() = 0;
 
 };
 
@@ -268,6 +281,10 @@ struct FRIBlendState
 
 };
 
+struct FRIDepthStencilState
+{
+
+};
 
 
 struct FRIArrayInterface
@@ -280,14 +297,15 @@ struct FRIArrayInterface
 struct FRICreationDescriptor
 {
 public:
-	FRICreationDescriptor(FRIArrayInterface* DataArray, size_t ByteSize) :
+	FRICreationDescriptor(void* DataArray, size_t ByteSize) :
 		DataArray(DataArray),
 		ByteSize(ByteSize)
 	{
 
 	}
 	size_t ByteSize;
-	FRIArrayInterface* DataArray;
+	//FRIArrayInterface* DataArray;
+	void* DataArray;
 };
 
 
@@ -295,7 +313,7 @@ public:
 struct FRIUpdateDescriptor
 {
 public:
-	FRIUpdateDescriptor(FRIArrayInterface* DataArray, size_t position, size_t ByteSize) :
+	FRIUpdateDescriptor(void* DataArray, size_t position, size_t ByteSize) :
 		DataArray(DataArray),
 		ByteSize(ByteSize),
 		Position(position)
@@ -304,7 +322,8 @@ public:
 	}
 	size_t Position;
 	size_t ByteSize;
-	FRIArrayInterface* DataArray;
+	//FRIArrayInterface* DataArray;
+	void* DataArray;
 };
 
 
@@ -323,7 +342,16 @@ struct FRIInputSemantic
 		SemanticIndex(index)
 	{}
 
+	FRIInputSemantic(const FRIInputSemantic& other) :
+		SemanticName(other.SemanticName),
+		SemanticIndex(other.SemanticIndex)
+	{
+
+	}
+
 };
+
+
 
 
 struct FRIVertexDeclarationComponent
@@ -334,24 +362,66 @@ struct FRIVertexDeclarationComponent
 	EFRIBool Normalized;
 	uint32 Stride;
 	uint32 Offset;
+	EFRIAttribUsage Usage;
 
-	FRIVertexDeclarationComponent(FRIInputSemantic Semantic, uint32 length, EFRIVertexDeclerationAttributeType type, EFRIBool norm, uint32 stride, uint32 offset) :
+	FRIVertexDeclarationComponent(FRIInputSemantic Semantic, uint32 length, EFRIVertexDeclerationAttributeType type, EFRIBool norm, uint32 stride, uint32 offset, EFRIAttribUsage Usage = EFRIAttribUsage::PerVertex) :
 		Semantic(Semantic),
 		Type(type),
 		Normalized(norm),
 		Stride(stride),
 		Offset(offset),
-		Length(length)
+		Length(length),
+		Usage(Usage)
 	{
 	}
+
+	FRIVertexDeclarationComponent(const FRIVertexDeclarationComponent& other) :
+		Semantic(other.Semantic),
+		Type(other.Type),
+		Normalized(other.Normalized),
+		Stride(other.Stride),
+		Offset(other.Offset),
+		Length(other.Length),
+		Usage(other.Usage)
+	{
+
+	}
+
+};
+
+struct FRIVertexDeclarationDesc
+{
+	FArray<FRIVertexDeclarationComponent> Components;
+	uint32 InputSlot;
+
+	FRIVertexDeclarationDesc() :
+		InputSlot(0)
+	{
+
+	}
+
+	FRIVertexDeclarationDesc(const FArray<FRIVertexDeclarationComponent>& Components, uint32 InputSlot) :
+		Components(Components),
+		InputSlot(InputSlot)
+	{
+
+	}
+
+	FRIVertexDeclarationDesc(const FRIVertexDeclarationDesc& other) :
+		Components(other.Components),
+		InputSlot(other.InputSlot)
+	{
+
+	}
+
 };
 
 
 struct FRIVertexDeclaration
 {
-	FArray<FRIVertexDeclarationComponent> DeclarationElements;
+	FArray<FRIVertexDeclarationDesc> DeclarationElements;
 
-	FRIVertexDeclaration(const FArray<FRIVertexDeclarationComponent>& decl) :
+	FRIVertexDeclaration(const FArray<FRIVertexDeclarationDesc>& decl) :
 		DeclarationElements(decl)
 	{
 	}
@@ -405,4 +475,9 @@ struct FRIByte : FRIArrayInterface
 };
 
 
-typedef void (*FRIResourceStageLambda)();
+struct FRIStageMemory
+{
+	void* Data;
+};
+
+typedef void (*FRIResourceStageLambda)(FRIStageMemory);

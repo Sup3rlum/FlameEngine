@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="Combine.frag.hlsl" />
-    <FxCompile Include="Combine.vert.hlsl" />
+    <FxCompile Include="Lighting.frag.hlsl" />
+    <FxCompile Include="Lighting.vert.hlsl" />
     <FxCompile Include="GBufferGen.frag.hlsl" />
     <FxCompile Include="GBufferGen.vert.hlsl" />
     <FxCompile Include="GBufferGenSkinned.vert.hlsl" />
@@ -11,5 +11,34 @@
     <FxCompile Include="ShadowmapSkinned.vert.hlsl" />
     <FxCompile Include="Triangle.frag.hlsl" />
     <FxCompile Include="Triangle.vert.hlsl" />
+    <FxCompile Include="TestParticle.vert.hlsl" />
+    <FxCompile Include="TestParticle.frag.hlsl" />
+    <FxCompile Include="AtmosphereBasic.vert.hlsl" />
+    <FxCompile Include="AtmosphereBasic.frag.hlsl" />
+    <FxCompile Include="AtmosphereDynamic.frag.hlsl" />
+    <FxCompile Include="AtmosphereDynamic.vert.hlsl" />
+    <FxCompile Include="UX.frag.hlsl" />
+    <FxCompile Include="UX.vert.hlsl" />
+    <FxCompile Include="BBox.vert.hlsl" />
+    <FxCompile Include="BBox.frag.hlsl" />
+    <FxCompile Include="Debug.vert.hlsl" />
+    <FxCompile Include="Debug.frag.hlsl" />
+    <FxCompile Include="PostProcess.frag.hlsl" />
+    <FxCompile Include="PostProcess.vert.hlsl" />
+    <FxCompile Include="SMAABlendingWeight.vert.hlsl" />
+    <FxCompile Include="SMAABlendingWeight.frag.hlsl" />
+    <FxCompile Include="SMAAEdgeDetection.vert.hlsl" />
+    <FxCompile Include="SMAAEdgeDetection.frag.hlsl" />
+    <FxCompile Include="SMAANeighbourhoodBlend.vert.hlsl" />
+    <FxCompile Include="SMAANeighbourhoodBlend.frag.hlsl" />
+    <FxCompile Include="BoxBlur.vert.hlsl" />
+    <FxCompile Include="BoxBlur.frag.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Utilities\ACES.hlsl" />
+    <None Include="Utilities\CookTorrance.hlsl" />
+    <None Include="Utilities\Spaces.hlsl" />
+    <None Include="Utilities\SMAA.hlsl" />
+    <None Include="Utilities\FXAA.hlsl" />
   </ItemGroup>
 </Project>

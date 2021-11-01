@@ -6,6 +6,7 @@
 
 
 
+
 void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& out, float maxSplits, float splitIndex)
 {
 
@@ -24,13 +25,16 @@ void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& 
 }
 
 
-Scene::Scene(PhysicsSceneDescription desc) : 
+Scene::Scene(PhysicsSceneDescription desc, FRIContext* renderContext) : 
 	sceneID("someScene"),
 	Physics(desc.pAllocator),
 	physicsScene(desc.pScene),
-	physicsService(desc.pService)
+	physicsService(desc.pService),
+	FriContext(renderContext)
 {
 
+	uxContainer = new UXContainer(FriContext);
+	uxContainer->LoadURL("file:///welcome.html");
 }
 
 
@@ -41,20 +45,10 @@ void Scene::LoadSystems()
 }
 
 
-void Scene::Update()
+void Scene::Update(FGameTime gameTime)
 {
-
-	UpdateFrameNum++;
-
-	auto timestamp = FTimeStamp::MarkCurrent();
-	FrameTimestamp = timestamp.data;
-
-	double FrameDelta = FrameTimestamp - LastFrameTimestamp;
-	FrameDelta /= (double)FTime::PlatformTickFrequency();
-
-	LastFrameTimestamp = FrameTimestamp;
-
-	physicsScene->Step((float)FrameDelta);
+	uxContainer->Update();
+	physicsScene->Step(gameTime.DeltaTime.GetSeconds());
 
 
 	for (auto sysPtr : Systems)
@@ -62,10 +56,13 @@ void Scene::Update()
 		sysPtr->Tick();
 	}
 
+	for (auto& pSysPtr : ParticleSystems)
+	{
+		pSysPtr.Key->Tick(gameTime.DeltaTime.GetSeconds());
+	}
 
 	CameraComponent& camRef = Camera.Component<CameraComponent>();
-	DirectionalLightComponent& dirLightRef = Sun.Component<DirectionalLightComponent>();
-
+	DirectionalLight& dirLightRef = Sun.Component<DirectionalLight>();
 
 	FStaticArray<FVector3, 8> frustumCorners;
 	FStaticArray<FVector3, 8> frustumSplitCorners;
@@ -75,10 +72,10 @@ void Scene::Update()
 		camRef.GetFrustumCorners(frustumCorners);
 
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < SM_CASCADES; i++)
 		{
 
-			SplitFrustum(frustumCorners, frustumSplitCorners, 5, i);
+			SplitFrustum(frustumCorners, frustumSplitCorners, SM_CASCADES, i);
 
 
 			FViewMatrix viewMatrix(FVector3(0), dirLightRef.Direction, FVector3(0, 1, 0));
@@ -119,7 +116,7 @@ void Scene::Update()
 			float zFar = 300.0f;
 			float zNear = 0.1f;
 
-			dirLightRef.FrustumInfo[i].Depth.r = (zFar - zNear) * ((float)(i+1) / 5.0f) + zNear;
+			dirLightRef.FrustumInfo[i].Depth.r = (zFar - zNear) * ((float)(i+1) / (float)SM_CASCADES) + zNear;
 		}
 	}
 }

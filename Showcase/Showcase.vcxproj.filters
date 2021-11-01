@@ -4,6 +4,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestPlayerSystem.cpp" />
+    <ClCompile Include="TestParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -124,12 +125,14 @@
     <None Include="shaders\util\SATGen.frag" />
     <None Include="animations\anim_guy.fl3d.anim" />
     <None Include="shaders\deferred.fslib" />
+    <None Include="assets\welcome.html" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestPlayerSystem.h" />
     <ClInclude Include="FirstPersonCharacterComponent.h" />
     <ClInclude Include="shaders\util\SATGen.vert" />
+    <ClInclude Include="TestParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\deferred\ShadowmapSkinned.vert.glsl" />

@@ -2,40 +2,58 @@
 
 #include "Core/Common/CoreCommon.h"
 
-typedef long long FTimeType;
 
-
-EXPORT(struct, FTimeContainer)
+EXPORT(struct, FTimeSpan)
 {
-public:
-
-	FTimeType data;
-
-	bool operator<(FTimeContainer & other)
+private:
+	union
 	{
-		return data < other.data;
-	}
-	bool operator>(FTimeContainer& other)
-	{
-		return data > other.data;
-	}
-};
+		int64 Data;
+		LARGE_INTEGER llWinData;
+	};
 
-
-
-EXPORT(struct, FTimeStamp) : public FTimeContainer
-{
 public:
+	FTimeSpan() : FTimeSpan(0)
+	{
 
-	static FTimeStamp MarkCurrent();
+	}
+	FTimeSpan(int64 data) :
+		Data(data)
+	{
+
+	}
+
+	int64 GetPlatformTicks();
+	float GetSeconds();
+	float GetHours();
+	float GetMinutes();
+
+
+	friend FTimeSpan operator-(const FTimeSpan& t1, const FTimeSpan& t2)
+	{
+		return FTimeSpan(t1.Data - t2.Data);
+	}
+	friend FTimeSpan operator+(const FTimeSpan& t1, const FTimeSpan& t2)
+	{
+		return FTimeSpan(t1.Data + t2.Data);
+	}
+
+	friend class FTime;
 };
-
 
 EXPORT(class, FTime)
 {
 public:
-	static FTimeType PlatformTickFrequency();
+	static FTimeSpan PlatformTickFrequency();
+	static FTimeSpan GetTimestamp();
 
 
 };
 
+struct FGameTime
+{
+	FTimeSpan DeltaTime;
+	FTimeSpan TotalTime;
+	int64 TotalTicks;
+
+};

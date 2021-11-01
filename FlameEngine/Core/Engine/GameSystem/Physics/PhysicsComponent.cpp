@@ -138,19 +138,20 @@ void StaticRigidBody::SetShape(const PhysicsShape& shape)
 
 void CharacterBody::Move(FVector3 vec)
 {
-	auto MoveTimestamp = FTimeStamp::MarkCurrent();
-	double MoveTimeDelta = MoveTimestamp.data - LastMoveTimestamp;
-	LastMoveTimestamp = MoveTimestamp.data;
-	MoveTimeDelta /= (double)FTime::PlatformTickFrequency();
+	auto MoveTimestamp = FTime::GetTimestamp();
+	auto MoveTimeDelta = (MoveTimestamp - LastMoveTimestamp).GetSeconds();
+	LastMoveTimestamp = MoveTimestamp;
 
 	if (MoveTimeDelta < 0.1f)
 	{
 		vec += FVector3(0, -10, 0);
-		vec *= (float)MoveTimeDelta;
+		vec *= MoveTimeDelta;
 
-		pPxController->move(physx_cast(vec), 0.01f, (float)MoveTimeDelta, PxControllerFilters());
+		pPxController->move(physx_cast(vec), 0.01f, MoveTimeDelta, PxControllerFilters());
 	}
 }
+
+
 FTransform CharacterBody::GetGlobalTransform() const
 {
 	PxExtendedVec3 pos = pPxController->getFootPosition();

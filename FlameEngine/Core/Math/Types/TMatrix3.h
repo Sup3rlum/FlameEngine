@@ -35,8 +35,8 @@ public:
 	} {}
 
 	TMatrix3(
-		const RowType& v2,
 		const RowType& v1,
+		const RowType& v2,
 		const RowType& v3) :
 		value
 	{

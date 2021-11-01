@@ -30,22 +30,27 @@ struct MaterialMap
 
 };
 
-struct MaterialComponent
+struct Material
 {
 	typedef FStaticArray<MaterialMap, (size_t)EMaterialMap::MAX_MAPS> MapCollection;
 
 	FRIContext* FriContext;
 	MapCollection Maps;
-	//FMatrix2 Transform;
 
+	Color EmissiveColor;
+	float EmissiveIntensity;
 
-	MaterialComponent() :
+	Material() :
 		FriContext(NULL)
 	{
 		Memory::Zero(Maps.Begin(), Maps.ByteSize());
 	}
 
-	MaterialComponent(const MapCollection& maps, FRIContext* renderContext) : Maps(maps), FriContext(renderContext)
+	Material(const MapCollection& maps, FRIContext* renderContext) : 
+		Maps(maps), 
+		FriContext(renderContext), 
+		EmissiveColor(Color::Black),
+		EmissiveIntensity(0.0f)
 	{
 	}
 

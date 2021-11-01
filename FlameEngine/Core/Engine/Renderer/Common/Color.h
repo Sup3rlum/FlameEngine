@@ -5,7 +5,7 @@
 
 
 
-EXPORT(struct, Color) : FVector4
+EXPORT(struct, Color) : public FVector4
 {
 public:
 	Color(byte r, byte g, byte b);

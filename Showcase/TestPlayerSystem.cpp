@@ -1,5 +1,7 @@
 #include "TestPlayerSystem.h"
 
+#include "TestGame.h";
+
 
 void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, CameraComponent& cam, FirstPersonCharacterComponent& fp, ControlComponent& control, CharacterBody& phys)
 {
@@ -7,6 +9,29 @@ void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, Camera
 	{
 		fp.isCursorLocked = !fp.isCursorLocked;
 	}
+
+	if (control.IsKeyDown(FKeyboardKeys::X))
+	{
+		game->Renderer.isDebug = !game->Renderer.isDebug;
+	}
+
+
+
+	if (control.IsKeyDown(FKeyboardKeys::M) && !wasMDown)
+	{
+		
+		auto lightng = static_cast<DRStageLighting*>(game->Renderer.RenderStages[3]);
+		lightng->Atmosphere->Enabled = !lightng->Atmosphere->Enabled;
+	}
+
+	wasMDown = control.IsKeyDown(FKeyboardKeys::M);
+
+
+	if (control.IsKeyDown(FKeyboardKeys::K))
+	{
+		game->currentScene->uxContainer->LoadURL("file:///welcome.html");
+	}
+
 
 	FVector3 moveVector = 0;
 	FVector3 forward = fp.LookDirection;
@@ -57,7 +82,7 @@ void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, Camera
 	{
 		if (isShooting)
 		{
-			//Shoot();
+			game->Shoot();
 		}
 	}
 

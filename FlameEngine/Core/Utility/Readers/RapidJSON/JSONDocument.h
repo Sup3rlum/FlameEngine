@@ -3,6 +3,7 @@
 #include "Core/Common/CoreCommon.h"
 #include "Core/Framework/IO/FileStream.h"
 
+/*
 #include "rapidjson/document.h"
 
 EXPORT(class, JSONDocument)
@@ -34,4 +35,4 @@ public:
 private:
 	rapidjson::Document d;
 
-};
+};*/

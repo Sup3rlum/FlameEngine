@@ -75,7 +75,7 @@ bool D3D11FRIContext::InitializeDX()
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-	swapChainDesc.BufferCount = 1;
+	swapChainDesc.BufferCount = 2;
 	swapChainDesc.BufferDesc.Width = clientWidth;
 	swapChainDesc.BufferDesc.Height = clientHeight;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -84,13 +84,13 @@ bool D3D11FRIContext::InitializeDX()
 	swapChainDesc.OutputWindow = win32Context->hWindow;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc.Windowed = TRUE;
 
 
 	UINT createDeviceFlags = 0;
 #if _DEBUG
-	createDeviceFlags = D3D11_CREATE_DEVICE_DEBUG;
+	//createDeviceFlags = D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
 	// These are the feature levels that we will accept.

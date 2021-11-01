@@ -5,7 +5,7 @@
 #include "Core/Framework/IO/FileStream.h"
 
 
-const uint32 ZEROOFFSET[] = { 0 };
+const uint32 ZEROOFFSET[] = { 0,0,0,0,0 };
 
 
 D3D11_FILL_MODE FRID3DFillModeEnums[2]
@@ -43,9 +43,16 @@ FRIIndexBuffer* D3D11FRIDynamicAllocator::CreateIndexBuffer(uint32 Size, uint32 
 }
 FRIVertexBuffer* D3D11FRIDynamicAllocator::CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
 {
-	return new FD3D11VertexBuffer(D3DFRI->Device, Size, Usage, resourceDescriptor);
+
+	EFRIAccess access = Usage == 0 ? EFRIAccess::None : EFRIAccess::CPUWrite;
+
+	return new FD3D11VertexBuffer(D3DFRI->Device, Size, Usage, access, resourceDescriptor);
 }
 
+FRIInstanceBuffer* D3D11FRIDynamicAllocator::CreateInstanceBuffer(uint32 Size, uint32 LayoutStride, FRICreationDescriptor resourceDescriptor)
+{
+	return new FD3D11InstanceBuffer(D3DFRI->Device, LayoutStride, Size, resourceDescriptor);
+}
 
 
 FRIVertexShader* D3D11FRIDynamicAllocator::CreateVertexShader(const FArray<byte>& binCode)
@@ -107,10 +114,10 @@ FRIShaderPipeline* D3D11FRIDynamicAllocator::CreateShaderPipeline(const ShaderLi
 	return new FD3D11ShaderPipeline(FRIShaderPipelineCreationDescriptor(shaderArray.Length(), shaderArray.Begin()), typesArray);
 }
 
-FRITexture2D* D3D11FRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor)
+FRITexture2D* D3D11FRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor, bool cpuWrite)
 {
 	DXGI_FORMAT gpuformat = EDX11FormatProxyEnum(format);
-	return new FD3D11Texture2D(D3DFRI->Device, width, height, sampleCount, gpuformat, resourceDescriptor);
+	return new FD3D11Texture2D(D3DFRI->Device, width, height, sampleCount, gpuformat, resourceDescriptor, cpuWrite);
 }
 FRITexture3D* D3D11FRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor)
 {
@@ -142,7 +149,7 @@ FRIFrameBuffer* D3D11FRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayA
 
 
 
-FRIVertexDeclaration* D3D11FRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationComponent> DeclCompArray, FRIVertexShader* signatureShader)
+FRIVertexDeclaration* D3D11FRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclCompArray, FRIVertexShader* signatureShader)
 {
 	return new FD3D11VertexDeclaration(D3DFRI->Device, DeclCompArray, static_cast<FD3D11VertexShader*>(signatureShader));
 }
@@ -153,7 +160,7 @@ void D3D11FRIDynamicAllocator::AttachVertexDeclaration(FRIVertexBuffer* geometry
 	auto fdxGeometry = static_cast<FD3D11VertexBuffer*>(geometry);
 
 	fdxGeometry->InputLayout = fdxVertexDeclaration->InputLayout;
-	fdxGeometry->LayoutStride = fdxVertexDeclaration->LayoutStride;
+	fdxGeometry->LayoutStride = fdxVertexDeclaration->LayoutStrides[0];
 }
 
 FRIRasterizerState* D3D11FRIDynamicAllocator::CreateRasterizerState(EFRICullMode cullMode, EFRIFillMode fillmode)
@@ -165,7 +172,10 @@ FRIBlendState* D3D11FRIDynamicAllocator::CreateBlendState(EFRIAlphaBlend srcBlen
 {
 	return new FD3D11BlendState(D3DFRI->Device, FRID3DBlendEnums[(uint32)srcBlend], FRID3DBlendEnums[(uint32)dstBlend]);
 }
-
+FRIDepthStencilState* D3D11FRIDynamicAllocator::CreateDepthStencilState(EFRIBool depth, EFRIBool stencil)
+{
+	return new FD3D11DepthStencilState(D3DFRI->Device, depth, stencil);
+}
 
 
 void D3D11FRIDynamicAllocator::SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
@@ -239,23 +249,71 @@ void D3D11FRIDynamicAllocator::SetGeometrySource(FRIVertexBuffer* vertexBuffer)
 
 	D3DFRI->DeviceContext->IASetInputLayout(VertexBuffer->InputLayout);
 	D3DFRI->DeviceContext->IASetVertexBuffers(0, 1, &(VertexBuffer->Buffer), &(VertexBuffer->LayoutStride), ZEROOFFSET);
+}
 
-}
-void D3D11FRIDynamicAllocator::DrawPrimitives(uint32 elementType, uint32 elementCount)
+void D3D11FRIDynamicAllocator::SetInstancedGeometrySource(FRIVertexBuffer* vertexBuffer, FRIInstanceBuffer* instanceBuffer)
 {
-	D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	D3DFRI->DeviceContext->Draw(elementCount, 0);
+	FD3D11VertexBuffer* VertexBuffer = static_cast<FD3D11VertexBuffer*>(vertexBuffer);
+	FD3D11InstanceBuffer* InstanceBuffer = static_cast<FD3D11InstanceBuffer*>(instanceBuffer);
+
+
+	ID3D11Buffer*	Buffers[2] = { VertexBuffer->Buffer,		InstanceBuffer->Buffer };
+	uint32			Strides[2] = { VertexBuffer->LayoutStride,	InstanceBuffer->LayoutStride };
+	
+
+	D3DFRI->DeviceContext->IASetInputLayout(VertexBuffer->InputLayout);
+	D3DFRI->DeviceContext->IASetVertexBuffers(0, 2, Buffers, Strides, ZEROOFFSET);
 }
-void D3D11FRIDynamicAllocator::DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer)
+
+
+
+
+void D3D11FRIDynamicAllocator::DrawPrimitives(EFRIPrimitiveType primitveType, uint32 vertexCount)
+{
+
+
+	if (primitveType == EFRIPrimitiveType::Lines)
+	{
+
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	}
+	else
+	{
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	}
+
+	D3DFRI->DeviceContext->Draw(vertexCount, 0);
+}
+void D3D11FRIDynamicAllocator::DrawPrimitivesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
 {
 	FD3D11IndexBuffer* IndexBuffer = static_cast<FD3D11IndexBuffer*>(indexBuffer);
 
 	D3DFRI->DeviceContext->IASetIndexBuffer(IndexBuffer->Buffer, DXGI_FORMAT_R32_UINT, 0);
 	D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	D3DFRI->DeviceContext->DrawIndexed(IndexBuffer->IndexCount, 0, 0);
+	D3DFRI->DeviceContext->DrawIndexed(vertexCount, 0, 0);
 
 }
+
+
+
+void D3D11FRIDynamicAllocator::DrawInstances(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount)
+{
+	D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	D3DFRI->DeviceContext->DrawInstanced(vertexCount, instanceCount, 0, 0);
+}
+void D3D11FRIDynamicAllocator::DrawInstancesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
+{
+	FD3D11IndexBuffer* IndexBuffer = static_cast<FD3D11IndexBuffer*>(indexBuffer);
+
+	D3DFRI->DeviceContext->IASetIndexBuffer(IndexBuffer->Buffer, DXGI_FORMAT_R32_UINT, 0);
+	D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	D3DFRI->DeviceContext->DrawIndexedInstanced(vertexCount, instanceCount, 0, 0, 0);
+
+}
+
+
 
 void D3D11FRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 {
@@ -343,11 +401,6 @@ void D3D11FRIDynamicAllocator::EndFrame()
 
 
 
-void D3D11FRIDynamicAllocator::SetBackCull(bool back)
-
-{
-
-}
 
 void D3D11FRIDynamicAllocator::FlushMipMaps(FRITexture2D* tex)
 {
@@ -373,9 +426,63 @@ void D3D11FRIDynamicAllocator::UniformBufferSubdata(FRIUniformBuffer* uniformBuf
 
 }
 
-void D3D11FRIDynamicAllocator::StageResources(FRIResourceStageLambda stageLambda)
+void D3D11FRIDynamicAllocator::InstanceBufferSubdata(FRIInstanceBuffer* uniformBuffer, FRIUpdateDescriptor resource)
 {
-	stageLambda();
+	FD3D11InstanceBuffer* fdxInstanceBuffer = static_cast<FD3D11InstanceBuffer*>(uniformBuffer);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	D3DFRI->DeviceContext->Map(fdxInstanceBuffer->Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy(mappedResource.pData, resource.DataArray, resource.ByteSize);
+	D3DFRI->DeviceContext->Unmap(fdxInstanceBuffer->Buffer, 0);
+
+}
+
+void D3D11FRIDynamicAllocator::Texture2DSubdata(FRITexture2D* texture, FRIUpdateDescriptor resource)
+{
+	FD3D11Texture2D* fdxTexture2D = static_cast<FD3D11Texture2D*>(texture);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	D3DFRI->DeviceContext->Map(fdxTexture2D->Texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy(mappedResource.pData, resource.DataArray, resource.ByteSize);
+	D3DFRI->DeviceContext->Unmap(fdxTexture2D->Texture, 0);
+
+}
+
+void D3D11FRIDynamicAllocator::VertexBufferSubdata(FRIVertexBuffer* buffer, FRIUpdateDescriptor resource)
+{
+	FD3D11VertexBuffer* fdxVertexBuffer= static_cast<FD3D11VertexBuffer*>(buffer);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	D3DFRI->DeviceContext->Map(fdxVertexBuffer->Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy(mappedResource.pData, resource.DataArray, resource.ByteSize);
+	D3DFRI->DeviceContext->Unmap(fdxVertexBuffer->Buffer, 0);
+
+}
+
+
+
+
+
+void D3D11FRIDynamicAllocator::StageResources(FRIUniformBuffer* uniformBuffer, FRIResourceStageLambda stageLambda)
+{
+
+	FD3D11UniformBuffer* fdxUniformBuffer = static_cast<FD3D11UniformBuffer*>(uniformBuffer);
+	FRIStageMemory memory;
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	D3DFRI->DeviceContext->Map(fdxUniformBuffer->Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memory.Data = mappedResource.pData;
+	stageLambda(memory);
+	D3DFRI->DeviceContext->Unmap(fdxUniformBuffer->Buffer, 0);
+
 }
 
 void D3D11FRIDynamicAllocator::SetRasterizerState(FRIRasterizerState* rasterizer)
@@ -387,3 +494,16 @@ void D3D11FRIDynamicAllocator::SetBlendState(FRIBlendState* blend)
 	D3DFRI->DeviceContext->OMSetBlendState(static_cast<FD3D11BlendState*>(blend)->BlendState, 0, 0xffffffff);
 }
 
+void D3D11FRIDynamicAllocator::SetDepthStencilState(FRIDepthStencilState* depth)
+{
+	D3DFRI->DeviceContext->OMSetDepthStencilState(static_cast<FD3D11DepthStencilState*>(depth)->DepthStencilState, 1);
+}
+
+void D3D11FRIDynamicAllocator::CopyTexture(FRITexture2D* source, FRITexture2D* dest)
+{
+
+	auto fdxSourceTex = static_cast<FD3D11Texture2D*>(source);
+	auto fdxDestTex = static_cast<FD3D11Texture2D*>(dest);
+
+	D3DFRI->DeviceContext->CopyResource(fdxDestTex->Texture, fdxSourceTex->Texture);
+}

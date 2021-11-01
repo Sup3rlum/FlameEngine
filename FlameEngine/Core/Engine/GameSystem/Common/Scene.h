@@ -7,6 +7,7 @@
 #include "Core/Framework/Globals/FGlobalID.h"
 #include "../EntityComponent/EntityComponentSystem.h"
 #include "../EntityComponent/Entity.h"
+#include "../Environment/ParticleSystem.h"
 
 #include "../Physics/PhysicsComponent.h"
 #include "../CameraSystem/CameraComponent.h"
@@ -14,8 +15,11 @@
 #include "../Physics/PhysicsService.h"
 #include "../Physics/PhysicsAllocator.h"
 #include "../LightingSystem/LightComponent.h"
-#include "../SkinnedMeshComponent.h"
+#include "../SkinnedMesh.h"
 #include "../Animation/AnimationComponent.h"
+#include "../../Renderer/ParticleRenderer.h"
+
+#include "Core/UX/UXContainer.h"
 
 struct PhysicsSceneDescription
 {
@@ -36,7 +40,7 @@ enum class ECSExecutionFlag : uint32
 EXPORT(class,  Scene) : public IElementIdentifiable
 {
 public:
-	Scene(PhysicsSceneDescription physDesc);
+	Scene(PhysicsSceneDescription physDesc, FRIContext* renderContext);
 	~Scene();
 
 
@@ -66,11 +70,16 @@ public:
 
 		if (execFlags != ECSExecutionFlag::USER_TICK)
 		{
-
 			Systems.Add(systPtr);
 		}
 		return systPtr;
 	}
+
+	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer)
+	{
+		ParticleSystems.Add(FKeyVal<ParticleSystemBase*, ParticleRenderer*>(particleSystem, particleRenderer));
+	}
+
 
 	FGlobalID GetID() const
 	{
@@ -78,27 +87,27 @@ public:
 	}
 
 	void LoadSystems();
-	void Update();
+	void Update(FGameTime gameTime);
+
 	Entity Camera;
 	Entity Sun;
 
 	PhysicsAllocator* Physics;
+	FArray<FKeyVal<ParticleSystemBase*, ParticleRenderer*>> ParticleSystems;
+
+	UXContainer* uxContainer;
+
+	PointLight pointLights[4];
 
 private:
 
 	FArray<FEntityComponentSystemBase*> Systems;
-
 	PhysicsScene* physicsScene;
 	PhysicsService* physicsService;
 
+	FRIContext* FriContext;
+
 	FGlobalID sceneID;
 	EntityWorld entityWorld;
-
-
-	uint64 UpdateFrameNum;
-	float UpdateFrameDelta;
-	uint64 LastFrameTimestamp;
-	uint64 FrameTimestamp;
-
 };
 

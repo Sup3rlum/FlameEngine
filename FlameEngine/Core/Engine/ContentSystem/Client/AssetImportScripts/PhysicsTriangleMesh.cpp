@@ -22,9 +22,8 @@ struct FMeshGeometryHeader
 };
 
 
-PhysicsTriangleMeshDesc FPhysTriangleMeshSerializer::Serialize(IOFileStream& fileStream)
+PhysicsTriangleMeshDesc TContentSerializer<PhysicsTriangleMeshDesc>::Serialize(IOFileStream& fileStream)
 {
-
 
 	uint32 vertexNumber;
 	uint32 elementNumber;

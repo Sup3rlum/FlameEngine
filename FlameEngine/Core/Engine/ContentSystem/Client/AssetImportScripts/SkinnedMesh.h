@@ -3,21 +3,21 @@
 
 #include "../LocalContentService.h"
 
-#include "Core/Engine/GameSystem/SkinnedMeshComponent.h" 
+#include "Core/Engine/GameSystem/SkinnedMesh.h" 
 #include "Core/Engine/FlameRI/FRI.h"
 
-EXPORT(struct, FSkinnedMeshSerializer) : public TSerializerInterface<SkinnedMeshComponent>
+template<>
+EXPORT(struct, TContentSerializer<SkinnedMesh>)
 {
 private:
 
 	FRIVertexDeclaration* vertexDeclaration;
+	FRIContext* renderContext;
 
 public:
-	FSkinnedMeshSerializer(FRIContext* friContext);
+	TContentSerializer(FRIContext* friContext);
 
-	SkinnedMeshComponent Serialize(IOFileStream & fileStream);
-
-	FRIContext* renderContext;
+	SkinnedMesh Serialize(IOFileStream& fileStream);
 };
 
 
@@ -26,5 +26,3 @@ struct FSkinnedMeshFileDescriptor : public FLocalContentFileDescriptionBase
 	FSkinnedMeshFileDescriptor() : FLocalContentFileDescriptionBase("FL3D", ELocalContentFileStorage::BINARY) {}
 };
 
-
-typedef FLocalContentLoader <SkinnedMeshComponent, FSkinnedMeshFileDescriptor, FSkinnedMeshSerializer> FSkinnedMeshLoader;

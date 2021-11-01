@@ -1,0 +1,52 @@
+<html>
+<head>
+<style type="text/css">
+body {
+  background: #00000000;
+  margin: 0;
+  line-height: 1.4;
+}
+
+#content {
+  width: 200px;
+  height: auto;
+  font-family: Arial;
+  font-size: 10pt;
+  font-weight: 700;
+  color: lime;
+  padding: 5px 5px;
+  position:absolute;
+  background: #000000A1;
+  border-radius: 10px;
+  margin: 10px 10px;
+  padding: 10px 10px;
+}
+
+</style>
+<script>
+	function SetFPS(fps, atmos, x, y, z)
+	{
+
+		let elem = document.getElementById('content');
+
+        elem.innerHTML = "FlameEngine v2.04 <br>FPS: " + fps;
+
+		if (atmos)
+		{
+            elem.innerHTML += "<br>Atmosphere: ON";
+		}
+		else
+		{
+            elem.innerHTML += "<br>Atmosphere: OFF";
+        }
+
+        elem.innerHTML += "<br>X: " + x + " Y: +" + y + " Z: " + z;
+
+	}
+</script>
+</head>
+<body>
+	<div id="content"/>
+ </body>
+</html>
+ 

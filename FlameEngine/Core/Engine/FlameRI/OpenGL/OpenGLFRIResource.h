@@ -161,7 +161,7 @@ struct FGLResourceTexture2DArray : FGLTextureBase, FRITexture2DArray
 
 struct FGLResourceVertexDeclaration : FRIVertexDeclaration
 {
-	FGLResourceVertexDeclaration(FArray<FRIVertexDeclarationComponent> DeclarationElements) : FRIVertexDeclaration(DeclarationElements)
+	FGLResourceVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclarationElements) : FRIVertexDeclaration(DeclarationElements)
 	{
 
 	}
@@ -199,7 +199,6 @@ struct FGLResourceIndexBuffer : FRIIndexBuffer
 	GLuint indexBufferHandle;
 
 	FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, FRICreationDescriptor Data) : FRIIndexBuffer(IndexCount, Usage)
-	//FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, uint32* DataArray) : FRIIndexBuffer(IndexCount, Usage)
 	{
 
 		OpenGL::GenBuffers(1, &indexBufferHandle);
@@ -345,6 +344,12 @@ struct FGLResourceFrameBuffer : FRIFrameBuffer
 		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);*/
+	}
+
+
+	FRITexture2D* GetDepthBuffer()
+	{
+		return 0;
 	}
 
 	~FGLResourceFrameBuffer()

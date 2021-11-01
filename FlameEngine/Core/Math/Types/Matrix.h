@@ -198,10 +198,10 @@ public:
 		FMatrix4 Result(1);
 		Result[0][0] = 2.0f / (right - left);
 		Result[1][1] = 2.0f / (top - bottom);
-		Result[2][2] = -1.0f / (zFar - zNear);
-		Result[3][0] = -(right + left) / (right - left);
-		Result[3][1] = -(top + bottom) / (top - bottom);
-		Result[3][2] = (zNear) / (zFar - zNear);
+		Result[2][2] = 1.0f / (zNear - zFar);
+		Result[3][0] = (left + right) / (left - right);
+		Result[3][1] = (top + bottom) / (bottom - top);
+		Result[3][2] = zNear / (zFar - zNear);
 
 		*this = Result;
 	}

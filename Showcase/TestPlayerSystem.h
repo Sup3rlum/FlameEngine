@@ -4,12 +4,14 @@
 
 #include "FirstPersonCharacterComponent.h"
 
+class TestGameApplication;
+
 class TestPlayerSystem : public FEntityComponentSystem<FTransform, CameraComponent, FirstPersonCharacterComponent, ControlComponent, CharacterBody>
 {
 public:
 
 
-	TestPlayerSystem(FRIContext* FriContext) : FriContext(FriContext)
+	TestPlayerSystem(FRIContext* FriContext, TestGameApplication* game) : FriContext(FriContext), game(game)
 	{}
 
 	void Update(Entity ent, FTransform& transformComponent, CameraComponent& cam, FirstPersonCharacterComponent& fp, ControlComponent& control, CharacterBody& phys);
@@ -18,5 +20,9 @@ public:
 
 	bool wasShooting = false;
 	bool isShooting = false;
+
+	bool wasMDown;
+
+	TestGameApplication* game;
 
 };

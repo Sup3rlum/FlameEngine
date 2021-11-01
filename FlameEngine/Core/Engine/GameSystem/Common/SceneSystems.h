@@ -9,7 +9,7 @@ struct DynamicPhys : public FEntityComponentSystem<FTransform, RigidBody>
 };
 
 
-struct AnimSystem : public FEntityComponentSystem<SkinnedMeshComponent, AnimationComponent>
+struct AnimSystem : public FEntityComponentSystem<SkinnedMesh, AnimationComponent>
 {
-	void Update(Entity, SkinnedMeshComponent&, AnimationComponent&);
+	void Update(Entity, SkinnedMesh&, AnimationComponent&);
 };

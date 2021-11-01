@@ -10,7 +10,7 @@ void PrintDebugMatrix2(const FMatrix4& a)
 	}
 }
 
-AnimationSequence FAnimSequenceSerializer::Serialize(IOFileStream& fileStream)
+AnimationSequence TContentSerializer<AnimationSequence>::Serialize(IOFileStream& fileStream)
 {
 	FAnsiString sequenceName = fileStream.ReadLengthedString<FAnsiString>();
 	float sequenceLength = fileStream.Read<float>();

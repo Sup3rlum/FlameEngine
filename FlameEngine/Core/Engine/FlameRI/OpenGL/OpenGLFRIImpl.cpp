@@ -22,7 +22,13 @@ FRIIndexBuffer* OpenGLFRIDynamicAllocator::CreateIndexBuffer(uint32 IndexCount, 
 }
 
 
-FRITexture2D* OpenGLFRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor)
+FRIInstanceBuffer* OpenGLFRIDynamicAllocator::CreateInstanceBuffer(uint32 Size, uint32 LayoutStride, FRICreationDescriptor resourceDescriptor)
+{
+	return NULL;
+}
+
+
+FRITexture2D* OpenGLFRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor, bool cpuWrite)
 {
 
 	GLuint gpuFormat = EGLFormatProxyEnum(textureFormat);
@@ -133,7 +139,7 @@ FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArray
 }
 
 
-FRIVertexDeclaration* OpenGLFRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationComponent> DeclCompArray, FRIVertexShader* shaderSignature)
+FRIVertexDeclaration* OpenGLFRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclCompArray, FRIVertexShader* shaderSignature)
 {
 	return new FRIVertexDeclaration(DeclCompArray);
 }
@@ -150,9 +156,16 @@ FRIBlendState* OpenGLFRIDynamicAllocator::CreateBlendState(EFRIAlphaBlend srcBle
 }
 
 
+FRIDepthStencilState* OpenGLFRIDynamicAllocator::CreateDepthStencilState(EFRIBool depth, EFRIBool stencil)
+{
+	return NULL;
+}
+
+
 
 void OpenGLFRIDynamicAllocator::AttachVertexDeclaration(FRIVertexBuffer* geometry, FRIVertexDeclaration* declaration)
 {
+	/*
 	FGLResourceVertexBuffer* glvb = static_cast<FGLResourceVertexBuffer*>(geometry);
 	glBindVertexArray(glvb->vertexArrayBindingHandle);
 
@@ -182,7 +195,7 @@ void OpenGLFRIDynamicAllocator::AttachVertexDeclaration(FRIVertexBuffer* geometr
 			);
 		}
 		glEnableVertexAttribArray(i);
-	}
+	}*/
 }
 
 
@@ -202,15 +215,30 @@ void OpenGLFRIDynamicAllocator::SetViewport(uint32 x, uint32 y, uint32 width, ui
 {
 	glViewport(x, y, width, height);
 }
-void OpenGLFRIDynamicAllocator::DrawPrimitives(uint32 elementType, uint32 elementCount)
+void OpenGLFRIDynamicAllocator::DrawPrimitives(EFRIPrimitiveType primitveType, uint32 vertexCount)
 {
-	glDrawArrays(elementType, 0, elementCount);
+	glDrawArrays((uint32)primitveType, 0, vertexCount);
 }
 
-void OpenGLFRIDynamicAllocator::DrawPrimitivesIndexed(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer)
+void OpenGLFRIDynamicAllocator::DrawPrimitivesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
 {	
-	glDrawElements(elementType, indexBuffer->IndexCount, indexType, (void*)0);
+	glDrawElements((uint32)primitveType, vertexCount, (uint32)indexType, (void*)0);
 }
+
+
+void OpenGLFRIDynamicAllocator::DrawInstances(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount)
+{
+
+}
+
+void OpenGLFRIDynamicAllocator::DrawInstancesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
+{
+
+}
+
+
+
+
 
 void OpenGLFRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 {
@@ -241,6 +269,12 @@ uint32 OpenGLFRIDynamicAllocator::GetShaderUniformParameterLocation(FRIShaderPip
 void OpenGLFRIDynamicAllocator::SetGeometrySource(FRIVertexBuffer* vertexBuffer)
 {
 	glBindVertexArray(((FGLResourceVertexBuffer*)vertexBuffer)->vertexArrayBindingHandle);
+}
+
+
+void OpenGLFRIDynamicAllocator::SetInstancedGeometrySource(FRIVertexBuffer* vertexBuffer, FRIInstanceBuffer* instanceBuffer)
+{
+
 }
 
 
@@ -399,9 +433,16 @@ void OpenGLFRIDynamicAllocator::UniformBufferSubdata(FRIUniformBuffer* buffer, F
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-void OpenGLFRIDynamicAllocator::StageResources(FRIResourceStageLambda stageLambda)
+void OpenGLFRIDynamicAllocator::InstanceBufferSubdata(FRIInstanceBuffer* buffer, FRIUpdateDescriptor resource)
 {
-	stageLambda();
+
+}
+
+
+
+void OpenGLFRIDynamicAllocator::StageResources(FRIUniformBuffer* ubo, FRIResourceStageLambda stageLambda)
+{
+
 }
 
 void OpenGLFRIDynamicAllocator::SetRasterizerState(FRIRasterizerState* rasterizer)
@@ -411,5 +452,24 @@ void OpenGLFRIDynamicAllocator::SetRasterizerState(FRIRasterizerState* rasterize
 
 void OpenGLFRIDynamicAllocator::SetBlendState(FRIBlendState* blend)
 {
+
+}
+void OpenGLFRIDynamicAllocator::SetDepthStencilState(FRIDepthStencilState* depth)
+{
+
+}
+
+void OpenGLFRIDynamicAllocator::Texture2DSubdata(FRITexture2D* texture, FRIUpdateDescriptor resource)
+{
+
+}
+void OpenGLFRIDynamicAllocator::VertexBufferSubdata(FRIVertexBuffer* texture, FRIUpdateDescriptor resource)
+{
+
+}
+
+void OpenGLFRIDynamicAllocator::CopyTexture(FRITexture2D* source, FRITexture2D* dest)
+{
+
 
 }

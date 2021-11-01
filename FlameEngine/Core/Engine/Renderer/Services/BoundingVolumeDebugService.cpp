@@ -1,31 +1,44 @@
 #include "BoundingVolumeDebugService.h"
 
+#include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
 
-BoundingVolumeDebugService::BoundingVolumeDebugService(FRICommandList& cmdList) :
-	vDecl(FArray<FRIVertexDeclarationComponent>())
+BoundingVolumeDebugService::BoundingVolumeDebugService()
+
 {
 
-	/*pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Debug"]);
 
-	FArray<FRIVertexDeclarationComponent> vArray =
-	{
-		FRIVertexDeclarationComponent(0, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0),
-		FRIVertexDeclarationComponent(1, 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12)
-	};
+
+}
+
+void BoundingVolumeDebugService::CreateResources(FRIContext* context)
+{
+	FRICommandList cmdList(context->GetFRIDynamic());
+
+	Shaders = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/bbox_dx.fslib", context);
+
+	pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Debug"]);
+
 	
-	ViewLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "View");
-	ProjLoc = cmdList.GetDynamic()->GetShaderUniformParameterLocation(pipeline, "Projection");
+	vBuffer = cmdList.GetDynamic()->CreateVertexBuffer(24, 1, FRICreationDescriptor(0, 24 * sizeof(FVertexComponent_Color)));
 
-	vDecl.DeclarationElements = vArray;*/
 
+	FRIVertexDeclarationDesc vBufferDecl;
+	vBufferDecl.InputSlot = 0;
+	vBufferDecl.Components.Add(FRIVertexDeclarationComponent("POSITION", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 0));
+	vBufferDecl.Components.Add(FRIVertexDeclarationComponent("COLOR", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 24, 12));
+
+	FArray<FRIVertexDeclarationDesc> VTemp;
+	VTemp.Add(vBufferDecl);
+
+	FRIVertexShader* signatureShader = cmdList.GetDynamic()->CreateVertexShader(Shaders.Modules["Debug"].Parts[EFRIResourceShaderType::Vertex].Memory);
+
+	VertexDecl = cmdList.GetDynamic()->CreateVertexDeclaration(VTemp, signatureShader);
+	cmdList.GetDynamic()->AttachVertexDeclaration(vBuffer, VertexDecl);
+
+	delete signatureShader;
 }
 
-void BoundingVolumeDebugService::CreateResources(FRIContext* cmdList)
-{
-
-}
-
-void BoundingVolumeDebugService::Render(FRICommandList& cmdList, const CameraComponent& cam, FVector3* corners)
+void BoundingVolumeDebugService::Render(FRICommandList& cmdList, FVector3* corners)
 {
 	FVertexComponent_Color vData[24] = 
 	{
@@ -69,19 +82,14 @@ void BoundingVolumeDebugService::Render(FRICommandList& cmdList, const CameraCom
 	};
 
 
+	cmdList.GetDynamic()->VertexBufferSubdata(vBuffer, FRIUpdateDescriptor(vData, 0, sizeof(FVertexComponent_Color) * 24));
 
-	vBuffer = cmdList.GetDynamic()->CreateVertexBuffer(24, 0, FRICreationDescriptor(vData, 24 * sizeof(FVertexComponent_Color)));
-
-	//cmdList.GetDynamic()->AttachVertexDeclaration(vBuffer, vDecl);
-
-	/*
+	
 	cmdList.SetShaderPipeline(pipeline);
 
-	cmdList.SetShaderUniformParameter(FUniformParameter(ViewLoc, cam.View));
-	cmdList.SetShaderUniformParameter(FUniformParameter(ProjLoc, cam.Projection));
 
 	cmdList.SetGeometrySource(vBuffer);
-	cmdList.DrawPrimitives((uint32)EFRIPrimitiveType::Lines, 24);*/
+	cmdList.DrawPrimitives(EFRIPrimitiveType::Lines, 24);
 
 
 }

@@ -46,10 +46,10 @@ GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri
 	FriContext->InputHandlerDelegate = FKeyEventBindingDelegate::Make<GameApplication, &GameApplication::InputHandlerFunc>(this);
 	FriContext->Initialize();
 	
+	Renderer.CreateResources(FriContext);
+	UXRenderer.LoadResources(FriContext);
 
-	renderer.CreateResources(FriContext);
-
-	currentScene = new Scene(CreatePhysicsSceneDescription());
+	currentScene = new Scene(CreatePhysicsSceneDescription(), FriContext);
 	currentScene->LoadSystems();
 
 }
@@ -59,23 +59,7 @@ GameApplication::~GameApplication()
 }
 
 
-void GameApplication::Load()
-{
-
-}
-
-
-void GameApplication::Suspend()
-{
-
-}
-
-void GameApplication::Dispose()
-{
-
-}
-
-void GameApplication::Update()
+void GameApplication::Update(FGameTime gameTime)
 {
 
 
@@ -83,14 +67,27 @@ void GameApplication::Update()
 
 void GameApplication::Frame()
 {
+
+	auto TimeStamp = FTime::GetTimestamp();
+	gameTime.TotalTicks++;
+	gameTime.DeltaTime = TimeStamp - LastTickTimestamp;
+	LastTickTimestamp = TimeStamp;
+
+
 	FRICommandList cmd(FriContext->GetFRIDynamic());
 
 	BeginRender(cmd);
 
-	currentScene->Update();
-	Update();
 
-	renderer.Render(cmd);
+	currentScene->Update(gameTime);
+	Update(gameTime);
+
+
+	Renderer.Render(cmd);
+	if (currentScene->uxContainer)
+	{
+		UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
+	}
 
 	EndRender(cmd);
 
@@ -98,12 +95,12 @@ void GameApplication::Frame()
 
 	FriContext->SwapBuffers();
 	FriContext->HandleEvents();
+
 }
 
 void GameApplication::Run()
 {
-
-	renderer.AttachToScene(currentScene);
+	Renderer.AttachToScene(currentScene);
 
 
 	while (FriContext->IsActive())
@@ -134,15 +131,13 @@ void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyE
 void GameApplication::BeginRender(FRICommandList& cmdList)
 {
 	cmdList.BeginFrame();
-
-	renderer.BeginRender(cmdList);
+	Renderer.BeginRender(cmdList);
 
 }
 
 void GameApplication::EndRender(FRICommandList& cmdList)
 {
-	renderer.EndRender(cmdList);
-
+	Renderer.EndRender(cmdList);
 	cmdList.EndFrame();
 }
 

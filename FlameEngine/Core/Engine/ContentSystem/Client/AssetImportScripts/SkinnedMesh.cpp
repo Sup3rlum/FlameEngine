@@ -62,7 +62,7 @@ Joint* CreateJointSkeletonTree(FArray<FJointData>& jointData, uint32 nodeJointIn
 	return rootJoint;
 }
 
-FSkinnedMeshSerializer::FSkinnedMeshSerializer(FRIContext* context) :
+TContentSerializer<SkinnedMesh>::TContentSerializer(FRIContext* context) :
 	renderContext(context)
 {
 	FRICommandList cmdList(context->GetFRIDynamic(), true);
@@ -82,14 +82,16 @@ FSkinnedMeshSerializer::FSkinnedMeshSerializer(FRIContext* context) :
 	DeclCompArray.Add(FRIVertexDeclarationComponent("JOINT_INDICES",	4, EFRIVertexDeclerationAttributeType::Int,	  EFRIBool::False, 88, 56));
 	DeclCompArray.Add(FRIVertexDeclarationComponent("JOINT_WEIGHTS",	4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 88, 72));
 
+	FArray<FRIVertexDeclarationDesc> VLayouts;
+	VLayouts.Add(FRIVertexDeclarationDesc(DeclCompArray, 0));
 
-	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(DeclCompArray, signatureShader);
+	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(VLayouts, signatureShader);
 
 	delete signatureShader;
 }
 
 
-SkinnedMeshComponent FSkinnedMeshSerializer::Serialize(IOFileStream& fileStream)
+SkinnedMesh TContentSerializer<SkinnedMesh>::Serialize(IOFileStream& fileStream)
 {
 
 	FRIDynamicAllocator* allocator = renderContext->GetFRIDynamic();
@@ -142,5 +144,5 @@ SkinnedMeshComponent FSkinnedMeshSerializer::Serialize(IOFileStream& fileStream)
 
 	Skeleton skeleton(CreateJointSkeletonTree(jointData, skelHeader.RootJointIndex), skelHeader.JointCount);
 
-	return SkinnedMeshComponent(vBuffer, iBuffer, skeleton);
+	return SkinnedMesh(vBuffer, iBuffer, skeleton);
 }

@@ -30,35 +30,20 @@ struct FLocalContentFileDescriptionBase
 
 
 template<typename TComponentType>
-struct TSerializerInterface
+struct TContentSerializer;
+
+
+
+
+struct FLocalContent
 {
-	virtual TComponentType Serialize(IOFileStream& fileStream) = 0;
-};
-
-
-
-
-
-
-template<typename TComponentType, typename TDescriptor, typename TSerializer>
-struct FLocalContentLoader
-{
-	bool LoadAsync = false;
-	bool ValidateChecksum = true;
-
-
-public:
-	FLocalContentLoader(bool LoadAsync, bool ValidateChecksum) : LoadAsync(LoadAsync), ValidateChecksum(ValidateChecksum)
+	template<typename TComponent, typename...TArgs>
+	static TComponent LoadFromLocal(FString filepath, TArgs... targs)
 	{
-	}
+		//TDescriptor descriptor;
 
-	template<typename...TArgs>
-	TComponentType LoadFromLocal(FString filepath, TArgs... targs)
-	{
-		TDescriptor descriptor;
-
-		if (descriptor.FileStorage == ELocalContentFileStorage::BINARY)
-		{
+		/*if (descriptor.FileStorage == ELocalContentFileStorage::BINARY)
+		{*/
 
 			IOFileStream fileStream(filepath);
 
@@ -71,15 +56,13 @@ public:
 			fileStream.ReadArray(fileVersion);
 			fileStream.ReadArray(fileChecksum);
 
-			if (fileSignature != descriptor.Signature)
+			/*if (fileSignature != descriptor.Signature)
 			{
 				// TODO: Not matching signature
-			}
+			}*/
 
-			return TSerializer(targs...).Serialize(fileStream);
+			return TContentSerializer<TComponent>(targs...).Serialize(fileStream);
 
-		}
-
+		//}
 	}
 };
-

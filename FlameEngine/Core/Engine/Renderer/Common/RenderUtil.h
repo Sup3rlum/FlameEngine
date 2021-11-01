@@ -7,7 +7,7 @@
 
 
 
-struct FScreenQuadUtil
+struct FRenderUtil
 {
 	
 #define GLX
@@ -49,6 +49,13 @@ struct FScreenQuadUtil
 
 
 	inline static FOrthographicMatrix ScreenSpaceMatrix;
+
+	static void DrawScreenQuad(FRICommandList& cmdList)
+	{
+		cmdList.SetGeometrySource(VertexBuffer);
+		cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, 6, EFRIIndexType::UInt32, IndexBuffer);
+	}
+
 
 };
 

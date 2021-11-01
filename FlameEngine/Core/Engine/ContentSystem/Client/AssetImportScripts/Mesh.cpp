@@ -21,7 +21,7 @@ struct FMeshGeometryHeader
 	uint64 iLength;
 };
 
-FMeshSerializer::FMeshSerializer(FRIContext* context) 
+TContentSerializer<Mesh>::TContentSerializer(FRIContext* context)
 	: renderContext(context) 
 {
 	FRICommandList cmdList(context->GetFRIDynamic(), true);
@@ -39,12 +39,16 @@ FMeshSerializer::FMeshSerializer(FRIContext* context)
 	DeclCompArray.Add(FRIVertexDeclarationComponent("BITANGENT", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 36));
 	DeclCompArray.Add(FRIVertexDeclarationComponent("TEXCOORD", 2, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 48));
 
-	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(DeclCompArray, signatureShader);
+
+	FArray<FRIVertexDeclarationDesc> LayoutDesc;
+	LayoutDesc.Add(FRIVertexDeclarationDesc(DeclCompArray, 0));
+
+	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(LayoutDesc, signatureShader);
 
 	delete signatureShader;
 }
 
-MeshComponent FMeshSerializer::Serialize(IOFileStream& fileStream)
+Mesh TContentSerializer<Mesh>::Serialize(IOFileStream& fileStream)
 {
 
 	FRIDynamicAllocator* allocator = renderContext->GetFRIDynamic();
@@ -68,14 +72,5 @@ MeshComponent FMeshSerializer::Serialize(IOFileStream& fileStream)
 	allocator->AttachVertexDeclaration(vBuffer, vertexDeclaration);
 
 
-	/*printf("Mesh VData:\n");
-
-	for (int i = 0; i < geomHeader.vLength; i++)
-	{
-		float* arr = reinterpret_cast<float*>(&vData[i*geomHeader.elementSize]);
-
-		printf("texCoord: %f, %f\n", arr[12], arr[13]);
-	}*/
-
-	return MeshComponent(vBuffer, iBuffer);
+	return Mesh(vBuffer, iBuffer);
 }

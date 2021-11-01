@@ -22,11 +22,11 @@ IMPL_CMD(SetGeometrySource)
 }
 IMPL_CMD(DrawPrimitives)
 {
-	ALLOCATOR->DrawPrimitives(elementType, elementCount);
+	//ALLOCATOR->DrawPrimitives(elementType, elementCount);
 }
 IMPL_CMD(DrawPrimitivesIndexed)
 {
-	ALLOCATOR->DrawPrimitivesIndexed(elementType, elementCount, indexType, indexBuffer);
+	//ALLOCATOR->DrawPrimitivesIndexed(elementType, elementCount, indexType, indexBuffer);
 }
 IMPL_CMD(SetShaderPipeline)
 {

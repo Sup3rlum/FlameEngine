@@ -15,6 +15,10 @@ struct PSInput
 	float4 Position : SV_Position;
 	float2 TexCoord : TEXCOORD0;
     float3 Normal : NORMAL0;
+    float3 Tangent : TANGENT0;
+    float3 Bitangent : BITANGENT0;
+    float4 ViewPosition : VIEWPOS0;
+	
 };
 
 
@@ -41,15 +45,19 @@ PSInput main(VSInput input)
 	
     float3x3 normalMatrix = mul((float3x3) View, (float3x3)WorldInverseTranspose);
 	
-   /* float3 fNormal = mul(normalMatrix, input.Normal);
+    /*float3 fNormal = mul(normalMatrix, input.Normal);
     float3 fTangent = mul(normalMatrix, input.Tangent);
     float3 fBitangent = mul(normalMatrix, input.Bitangent);
     output.TBN = float3x3(fTangent, fBitangent, fNormal);*/
 	
-    output.Normal = mul(normalMatrix, input.Normal);
+    output.Normal = mul(normalMatrix, normalize(input.Normal));
+    output.Tangent = mul(normalMatrix, normalize(input.Tangent));
+    output.Bitangent = mul(normalMatrix, normalize(input.Bitangent));
+
 	
     float4 worldPos = mul(World, float4(input.Position, 1.0f));
     float4 viewPos = mul(View, worldPos);
+    output.ViewPosition = viewPos;
     output.Position = mul(Projection, viewPos);
 	
 	return output;

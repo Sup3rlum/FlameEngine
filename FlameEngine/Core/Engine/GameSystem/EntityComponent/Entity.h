@@ -65,10 +65,9 @@ struct Entity
 
 		(*refCount)++;
 	}
-
-
+	
 	template<typename TComponent>
-	void SetComponent(const TComponent& component)
+	int Find()
 	{
 		FComponentType compareType = TComponentType<TComponent>();
 
@@ -76,24 +75,23 @@ struct Entity
 		{
 			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
 			{
-				EntityId->Block->GetComponent<TComponent>(EntityId->Index, row) = component;
-				//Memory::CopyReinterpret(&EntityId->Block->GetComponent<TComponent>(EntityId->Index, row), &component, sizeof(TComponent));
+				return row;
 			}
 		}
+
+		return -1;
+	}
+
+	template<typename TComponent>
+	void SetComponent(const TComponent& component)
+	{
+		EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>()) = component;
 	}
 
 	template<typename TComponent, typename...TCreationArgs>
 	void SetComponent(const TCreationArgs& ... args)
 	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index, row)) TComponent(args...);
-			}
-		}
+		new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>())) TComponent(args...);
 	}
 
 
@@ -102,48 +100,20 @@ struct Entity
 	template<typename TComponent>
 	TComponent& Component()
 	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				return EntityId->Block->GetComponent<TComponent>(EntityId->Index, row);
-			}
-		}
-
+		return EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>());
 	}
 
 
 	template<typename TComponent>
 	const TComponent& Component() const
 	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				return EntityId->Block->GetComponent<TComponent>(EntityId->Index, row);
-			}
-		}
-
+		return EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>());
 	}
 
 	template<typename TComponent>
 	bool HasComponent() const
 	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return Find<TComponent>() != -1;
 	}
 
 	template<typename TComponent>
@@ -224,8 +194,6 @@ struct Entity
 		delete refCount;
 
 	}
-
-
 
 
 	friend class EntityManager;
