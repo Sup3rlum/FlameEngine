@@ -46,13 +46,13 @@ Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 
 
 Currently the roadmap outlines itself as follows:
 
+- Adding translucent object forward pass during rendering
 - Fixing SSR
 - Improving compute integration
 - Improving atmospheric scattering shaders
 - Introducing robust environment/level management
 - Incorporating asset compilers into editor
 - Integrating more of PhysX's features
-- Trying out raytracing?
 
 ## Dependencies
 
