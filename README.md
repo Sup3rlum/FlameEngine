@@ -3,6 +3,8 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 ## Images
 
+Renders of a few materials
+
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501784221995079/Screenshot_3.png" width="900" height="432">
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
 
@@ -16,7 +18,7 @@ Flame uses a deferred renderer with a PBR Metallic/Roughness workflow. Currently
   - SMAA
   - HBAO+
   - Screen Space Reflections (Currently disabled, working on improving them performance-wise)
-  - HDR Rendering
+  - HDR Rendering with ACES filimc tonemapping curves
 
 ### Environment
 
