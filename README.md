@@ -63,7 +63,7 @@ Currently the roadmap outlines itself as follows:
   - glew32
   - libpng
   - OpenSSL
-  - C# 8 (Corresponding Roslyn version for x-Platform compilation)
+  - C# 8
   - .NET Core 3.1
   - ImageSharp
 
