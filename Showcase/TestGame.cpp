@@ -8,6 +8,7 @@
 #include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/AnimationSequence.h"
 #include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/PhysicsTriangleMesh.h"
 #include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/InstanceMesh.h"
+#include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/Level.h"
 
 TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework framework) : GameApplication(appName, framework, NULL)
 {
@@ -32,7 +33,7 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 
 	currentScene->Sun = currentScene->CreateEntity<DirectionalLight>("Sun");
 	currentScene->Sun.Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(-0.5, -1, 0));
-	currentScene->Sun.Component<DirectionalLight>().Intensity = 10.0f;
+	currentScene->Sun.Component<DirectionalLight>().Intensity = 5.0f;
 
 
 
@@ -70,7 +71,7 @@ void TestGameApplication::Shoot()
 	static int count = 0;
 	count++;
 
-	count %= 9;
+	count %= 10;
 
 
 	Material** maps = new Material*[]
@@ -83,7 +84,8 @@ void TestGameApplication::Shoot()
 		&brickMaterial,
 		&perfPlasticMaterial,
 		&riverMaterial,
-		&metalMaterial
+		&metalMaterial,
+		&grassMaterial
 	};
 
 	Entity ball = currentScene->CreateEntity<Mesh, Material, FTransform, RigidBody>("ball");
@@ -156,9 +158,12 @@ void TestGameApplication::Load()
 	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 3), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 48, EFRIAttribUsage::PerInstance));
 	instanceDecl.Add(FRIVertexDeclarationComponent("INSTANCE_COLOR",				      4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 64, EFRIAttribUsage::PerInstance));
 
-	InstanceMesh instancedBallMesh = FLocalContent::LoadFromLocal<InstanceMesh>("models/sphere.fl3d", FriContext, vertexDecl, instanceDecl, psysLib.Modules["Test"].Parts[EFRIResourceShaderType::Vertex]);
-	ParticleRenderer* testParticleRenderer = new ParticleRenderer(FriContext, psysLib.Modules["Test"], instancedBallMesh);
+	Material smokeMap = FLocalContent::LoadFromLocal<Material>("materials/smoke.flmt", FriContext);
+	InstanceMesh instancedBallMesh = FLocalContent::LoadFromLocal<InstanceMesh>("models/quad.fl3d", FriContext, vertexDecl, instanceDecl, psysLib.Modules["Test"].Parts[EFRIResourceShaderType::Vertex]);
+	ParticleRenderer* testParticleRenderer = new ParticleRenderer(FriContext, psysLib.Modules["Test"]);
 
+	testParticleRenderer->SetInstanceMesh(instancedBallMesh);
+	testParticleRenderer->Samplers.Add(FUniformSampler(0, smokeMap.GetMap(EMaterialMap::Diffuse).Handle));
 
 	//currentScene->RegisterParticleSystem(testParticleSystem, testParticleRenderer);
 
@@ -169,10 +174,9 @@ void TestGameApplication::Load()
 	defaultMaterial = FLocalContent::LoadFromLocal<Material>("materials/default2.flmt", FriContext);
 	brickMaterial = FLocalContent::LoadFromLocal<Material>("materials/brick_material.flmt", FriContext);
 	cartoonMaterial = FLocalContent::LoadFromLocal<Material>("materials/toy_box.flmt", FriContext);
-	chairMaterial = FLocalContent::LoadFromLocal<Material>("materials/chair.flmt", FriContext);
 	rustedMaterial = FLocalContent::LoadFromLocal<Material>("materials/rusted_iron.flmt", FriContext);
 	caveMaterial = FLocalContent::LoadFromLocal<Material>("materials/cave.flmt", FriContext);
-	grassMaterial = FLocalContent::LoadFromLocal<Material>("materials/grass.flmt", FriContext);
+	grassMaterial = FLocalContent::LoadFromLocal<Material>("materials/glass.flmt", FriContext);
 	riverMaterial = FLocalContent::LoadFromLocal<Material>("materials/river_rock.flmt", FriContext);
 	metalMaterial = FLocalContent::LoadFromLocal<Material>("materials/metal_wall.flmt", FriContext);
 	stuccoMaterial = FLocalContent::LoadFromLocal<Material>("materials/stucco.flmt", FriContext);
@@ -188,21 +192,25 @@ void TestGameApplication::Load()
 	//tileMaterial.EmissiveIntensity = 1.0f;
 
 
+	grassMaterial.HasTransluscent = true;
 
-	floorEntity = currentScene->CreateEntity<Mesh, Material, FTransform, StaticRigidBody>("ground");
+
+	floorEntity = currentScene->CreateEntity<FTransform, StaticRigidBody>("ground");
 
 
-	floorEntity.SetComponent<Mesh>(FLocalContent::LoadFromLocal<Mesh>("models/new_ground.fl3d", FriContext));
-	floorEntity.SetComponent<Material>(defaultMaterial);
+	//floorEntity.SetComponent<Mesh>(FLocalContent::LoadFromLocal<Mesh>("models/new_ground.fl3d", FriContext));
+	//floorEntity.SetComponent<Material>(defaultMaterial);
 
-	floorEntity.Component<Material>().SetWrapMode(EMaterialWrap::Repeat);
-	floorEntity.Component<Material>().SetFilterMode(EMaterialFilter::Trilinear);
+	//floorEntity.Component<Material>().SetWrapMode(EMaterialWrap::Repeat);
+	//floorEntity.Component<Material>().SetFilterMode(EMaterialFilter::Trilinear);
 
 	floorEntity.SetComponent<FTransform>(FTransform());
 	floorEntity.SetComponent<StaticRigidBody>(currentScene->Physics->CreateStatic(FTransform()));
 
 	floorEntity.Component<StaticRigidBody>().SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), currentScene->Physics->CookTriangleMeshGeometry(FLocalContent::LoadFromLocal<PhysicsTriangleMeshDesc>("models/new_ground.fl3d"))));
 
+
+	currentScene->SceneLevel = FLocalContent::LoadFromLocal<Level>("maps/simple.flen", FriContext, currentScene);
 
 
 	/*boneGuy = currentScene->CreateEntity<SkinnedMesh, Material, FTransform, AnimationComponent>("boneguy");
@@ -230,24 +238,24 @@ void TestGameApplication::Load()
 
 
 
-	currentScene->pointLights[0].Position = FVector4(4, 3, 10, 1);
+	currentScene->pointLights[0].Position = FVector4(9, 3, -40, 1);
 	currentScene->pointLights[0].LightColor = Color::Red;
-	currentScene->pointLights[0].Intensity = 0;
+	currentScene->pointLights[0].Intensity = 20;
 	currentScene->pointLights[0].Radius = 1;
 
-	currentScene->pointLights[1].Position = FVector4(4, 3, 2, 1);
+	currentScene->pointLights[1].Position = FVector4(9, 3, -4, 1);
 	currentScene->pointLights[1].LightColor = Color::Green;
-	currentScene->pointLights[1].Intensity = 0;
+	currentScene->pointLights[1].Intensity = 20;
 	currentScene->pointLights[1].Radius = 1;
 
-	currentScene->pointLights[2].Position = FVector4(4, 3, -2, 1);
+	currentScene->pointLights[2].Position = FVector4(14, 3, 15, 1);
 	currentScene->pointLights[2].LightColor = Color::Blue;
-	currentScene->pointLights[2].Intensity = 0;
+	currentScene->pointLights[2].Intensity = 20;
 	currentScene->pointLights[2].Radius = 1;
 
-	currentScene->pointLights[3].Position = FVector4(4, 3, -10, 1);
+	currentScene->pointLights[3].Position = FVector4(9, 3, -20, 1);
 	currentScene->pointLights[3].LightColor = Color::White;
-	currentScene->pointLights[3].Intensity = 0;
+	currentScene->pointLights[3].Intensity = 10;
 	currentScene->pointLights[3].Radius = 1;
 
 }

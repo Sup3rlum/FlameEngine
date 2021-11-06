@@ -2,6 +2,7 @@
 
 #include "Core/Common/CoreCommon.h"
 #include "../../Types/Vector.h"
+#include "../FRay.h"
 
 EXPORT(class, AABB)
 {
@@ -20,15 +21,13 @@ public:
 	FORCEINLINE float LengthZ() const;
 
 	FORCEINLINE FVector3 Center() const;
-
 	FORCEINLINE float Volume() const;
 
 	void GetCorners(FStaticArray<FVector3, 8>& out);
 
 	static AABB FromPointArray(const FArray<FVector3>&points);
-
-
-
 	void SetDegenerate();
+
+	bool RayCast(FRay ray);
 };
 

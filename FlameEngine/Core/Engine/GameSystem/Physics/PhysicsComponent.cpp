@@ -144,7 +144,7 @@ void CharacterBody::Move(FVector3 vec)
 
 	if (MoveTimeDelta < 0.1f)
 	{
-		vec += FVector3(0, -10, 0);
+		vec += FVector3(0, -15, 0);
 		vec *= MoveTimeDelta;
 
 		pPxController->move(physx_cast(vec), 0.01f, MoveTimeDelta, PxControllerFilters());

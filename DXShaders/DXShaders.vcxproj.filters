@@ -9,8 +9,6 @@
     <FxCompile Include="Shadowmap.frag.hlsl" />
     <FxCompile Include="Shadowmap.vert.hlsl" />
     <FxCompile Include="ShadowmapSkinned.vert.hlsl" />
-    <FxCompile Include="Triangle.frag.hlsl" />
-    <FxCompile Include="Triangle.vert.hlsl" />
     <FxCompile Include="TestParticle.vert.hlsl" />
     <FxCompile Include="TestParticle.frag.hlsl" />
     <FxCompile Include="AtmosphereBasic.vert.hlsl" />
@@ -33,6 +31,10 @@
     <FxCompile Include="SMAANeighbourhoodBlend.frag.hlsl" />
     <FxCompile Include="BoxBlur.vert.hlsl" />
     <FxCompile Include="BoxBlur.frag.hlsl" />
+    <FxCompile Include="Transluscent.frag.hlsl" />
+    <FxCompile Include="Transluscent.vert.hlsl" />
+    <FxCompile Include="TransluscentCombine.vert.hlsl" />
+    <FxCompile Include="TransluscentCombine.frag.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Utilities\ACES.hlsl" />

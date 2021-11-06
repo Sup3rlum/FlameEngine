@@ -76,6 +76,7 @@ void DeferredRenderer::CreateResources(FRIContext* renderContext)
 	RenderStages.Add(new DRStageShadowmap());
 	RenderStages.Add(new DRStageGBuffer());
 	RenderStages.Add(new DRStageAOGen());
+	RenderStages.Add(new DRStageTransluscency());
 	RenderStages.Add(new DRStageLighting());
 	RenderStages.Add(new DRStageSMAA());
 	RenderStages.Add(new DRStagePostProcess());

@@ -47,6 +47,9 @@ cbuffer CameraConstantBuffer : register(b0)
 };
 
 
+static float maxPOMDistance = 100;
+
+
 /*
 cbuffer CombineBuffer : register(b4)
 {
@@ -71,7 +74,7 @@ float3 PackNormal(float3 n)
 
 float3 CalculateNormalMap(PSInput input, float2 texCoords )
 {
-    float3 BumpMapNormal = NormalMap.Sample(DiffuseSampler, texCoords).xyz;
+    float3 BumpMapNormal = NormalMap.Sample(NormalSampler, texCoords).xyz;
     BumpMapNormal = 2.0 * BumpMapNormal - float3(1.0f, 1.0f, 1.0f);
     float3 NewNormal;
 
@@ -87,12 +90,6 @@ float3 CalculateNormalMap(PSInput input, float2 texCoords )
 #define parallaxBias 0.0
 #define PARALLAX_RAYMARCHING_STEPS 10.0
 
-/*
-float2 ParallaxRaymarch(float texCoords, float3 viewDir)
-{
-    
-}*/
-
 
 float GetParallaxHeight(float2 uv)
 {
@@ -100,9 +97,7 @@ float GetParallaxHeight(float2 uv)
 }
 
 
-
-
-float2 ParallaxMapping(float2 texCoords, float3 viewDir)
+float2 ParallaxMapping(float2 texCoords, float3 viewDir, float fade)
 {
 
     
@@ -110,6 +105,8 @@ float2 ParallaxMapping(float2 texCoords, float3 viewDir)
     const float minLayers = 0.0;
     const float maxLayers = 32.0;
     float numLayers = lerp(maxLayers, minLayers, max(dot(float3(0.0, 0.0, 1.0), viewDir), 0.0));
+    numLayers = lerp(numLayers, minLayers, fade);
+
     float layerDepth = 1.0 / numLayers;
     float currentLayerDepth = 0.0;
     float2 P = heightScale * viewDir.xy / (viewDir.z + parallaxBias);
@@ -138,6 +135,7 @@ float2 ParallaxMapping(float2 texCoords, float3 viewDir)
     return finalTexCoords;
 }
 
+// Disabled for now
 float ShadowCalc(float2 texCoord, float3 lightDir)
 {
     if (lightDir.z >= 0.0)
@@ -195,7 +193,9 @@ PSOutput main(PSInput input)
     
     float3 lightDir = GetTangentLightDir(input);
     float3 viewDir = GetTangentViewDir(input); 
-    float2 pomTexCoords = ParallaxMapping(input.TexCoord, normalize(viewDir));
+    
+    float pomFadeFactor = clamp(length(input.ViewPosition.xyz) / maxPOMDistance, 0, 1);
+    float2 pomTexCoords = ParallaxMapping(input.TexCoord, normalize(viewDir), pomFadeFactor);
     float shadow = ShadowCalc(pomTexCoords, normalize(lightDir));
     
     output.Normal = float4(PackNormal(CalculateNormalMap(input, pomTexCoords)), 1.0f);
@@ -207,6 +207,7 @@ PSOutput main(PSInput input)
     output.RoughnessMetallic = float4(1, 1, 1, 1);
     output.RoughnessMetallic.r = RoughnessMap.Sample(RoughnessSampler, pomTexCoords);
     output.RoughnessMetallic.g = MetallicMap.Sample(MetallicSampler, pomTexCoords);
+    output.RoughnessMetallic.b = AOMap.Sample(AOSampler, pomTexCoords).r;
     
     output.Emission = Emission;
     

@@ -23,6 +23,11 @@ public:
 
 	bool wasMDown;
 
+
+	bool wasSpaceDown = false;
+
 	TestGameApplication* game;
+
+	float UpVelocity = 0;
 
 };

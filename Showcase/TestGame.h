@@ -34,7 +34,6 @@ public:
 
 	Material defaultMaterial;
 	Material brickMaterial;
-	Material chairMaterial;
 	Material rustedMaterial;
 	Material caveMaterial;
 	Material grassMaterial;

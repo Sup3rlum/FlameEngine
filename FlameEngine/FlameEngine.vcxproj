@@ -264,6 +264,7 @@
     <ClInclude Include="Core\Common\TypeTraits.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\InstanceMesh.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Material.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Mesh.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.h" />
@@ -316,7 +317,7 @@
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXActorProxy.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXAllocator.h" />
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXScene.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Environment\SceneLevel.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Environment\Level.h" />
     <ClInclude Include="Core\Engine\GameSystem\SkinnedMesh.h" />
     <ClInclude Include="Core\Engine\Renderer\AtmosphereRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderUtil.h" />
@@ -438,6 +439,7 @@
   <ItemGroup>
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\InstanceMesh.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Mesh.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Material.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.cpp" />
@@ -450,7 +452,7 @@
     <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.cpp" />
-    <ClCompile Include="Core\Engine\GameSystem\Environment\SceneLevel.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Environment\Level.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\SceneSystems.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityMemoryStack.cpp" />
@@ -472,6 +474,7 @@
     <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageShadowmap.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageSMAA.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageTranslucency.cpp" />
     <ClCompile Include="Core\Engine\Renderer\ParticleRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\SATGenerator.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.cpp" />
@@ -493,7 +496,6 @@
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.cpp" />
     <ClCompile Include="Core\Logging\LoggerService.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\AABB.cpp" />
-    <ClCompile Include="Core\Math\Geometry\FRay.cpp" />
     <ClCompile Include="Core\Math\Geometry\FPlane.cpp" />
     <ClCompile Include="Core\Math\Utilities\BezierCurve.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Game.cpp" />

@@ -11,22 +11,22 @@
 namespace FlameEditorCLR
 {
 
-	EditorApplication::EditorApplication(Win32Context* editorContext) : GameApplication("Flame Editor (64-bit)", EFRIRendererFramework::OpenGL, editorContext)
+	EditorApplication::EditorApplication(Win32Context* editorContext) : GameApplication("Flame Editor (64-bit)", EFRIRendererFramework::DX11, editorContext)
 	{
-		currentScene->Camera = currentScene->CreateEntity<TransformComponent, CameraComponent, FirstPersonComponent, ControlComponent>("player");
+		currentScene->Camera = currentScene->CreateEntity<FTransform, CameraComponent, FirstPersonComponent, ControlComponent>("player");
 
 
 		float aspectRatio = FriContext->GetViewport().AspectRatio();
 
 		currentScene->Camera.SetComponent(CameraComponent(FViewMatrix(FVector3(5, 5, 5), FVector3(0, 0, 0), FVector3(0, 1, 0)), FPerspectiveMatrix(PI / 4, aspectRatio, 0.1f, 300.0f)));
-		currentScene->Camera.Component<TransformComponent>().Transform.Position = FVector3(5, 5, 5);
-		currentScene->Camera.Component<TransformComponent>().Transform.Orientation = FQuaternion::Identity();
+		currentScene->Camera.Component<FTransform>().Position = FVector3(5, 5, 5);
+		currentScene->Camera.Component<FTransform>().Orientation = FQuaternion::Identity();
 
 		currentScene->Camera.Component<FirstPersonComponent>().yaw = 2.3;
 		currentScene->Camera.Component<FirstPersonComponent>().flySpeed = 100.0;
 
 
-		currentScene->Sun = currentScene->CreateEntity<DirectionalLightComponent>("Sun");
+		currentScene->Sun = currentScene->CreateEntity<DirectionalLight>("Sun");
 		currentScene->Sun.Component<DirectionalLightComponent>().Direction = FVector3::Normalize(FVector3(-1, -1, -1));
 		currentScene->Sun.Component<DirectionalLightComponent>().Intensity = 1.0f;
 	}

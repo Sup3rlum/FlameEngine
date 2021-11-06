@@ -40,8 +40,20 @@ struct Material
 	Color EmissiveColor;
 	float EmissiveIntensity;
 
+	bool HasAOMap;
+	bool HasPOMEnabled;
+	bool HasNormalMap;
+	bool HasEmissive;
+	bool HasTransluscent;
+
 	Material() :
-		FriContext(NULL)
+		FriContext(NULL),
+		HasEmissive(false),
+		HasTransluscent(false),
+		HasNormalMap(false),
+		HasPOMEnabled(false),
+		HasAOMap(false)
+
 	{
 		Memory::Zero(Maps.Begin(), Maps.ByteSize());
 	}
@@ -50,7 +62,12 @@ struct Material
 		Maps(maps), 
 		FriContext(renderContext), 
 		EmissiveColor(Color::Black),
-		EmissiveIntensity(0.0f)
+		EmissiveIntensity(0.0f),
+		HasEmissive(false),
+		HasTransluscent(false),
+		HasNormalMap(false),
+		HasPOMEnabled(false),
+		HasAOMap(false)
 	{
 	}
 

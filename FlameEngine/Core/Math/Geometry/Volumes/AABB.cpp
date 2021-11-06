@@ -87,3 +87,42 @@ AABB AABB::FromPointArray(const FArray<FVector3>& points)
 	}
 	return aabb;
 }
+
+bool AABB::RayCast(FRay ray)
+{
+
+	FVector3 DirFrac(
+		1.0f / ray.Direction.x,
+		1.0f / ray.Direction.y,
+		1.0f / ray.Direction.z
+	);
+
+	// lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
+	// r.org is origin of ray
+	float t1 = (minPoint.x - ray.Origin.x) * DirFrac.x;
+	float t2 = (maxPoint.x - ray.Origin.x) * DirFrac.x;
+	float t3 = (minPoint.y - ray.Origin.y) * DirFrac.y;
+	float t4 = (maxPoint.y - ray.Origin.y) * DirFrac.y;
+	float t5 = (minPoint.z - ray.Origin.z) * DirFrac.z;
+	float t6 = (maxPoint.z - ray.Origin.z) * DirFrac.z;
+
+	float tmin = fmaxf(fmaxf(fminf(t1, t2), fminf(t3, t4)), fminf(t5, t6));
+	float tmax = fmin(fminf(fmaxf(t1, t2), fmaxf(t3, t4)), fmaxf(t5, t6));
+
+	// if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
+	if (tmax < 0)
+	{
+		//t = tmax;
+		return false;
+	}
+
+	// if tmin > tmax, ray doesn't intersect AABB
+	if (tmin > tmax)
+	{
+		//t = tmax;
+		return false;
+	}
+
+	//t = tmin;
+	return true;
+}

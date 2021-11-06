@@ -26,7 +26,7 @@ void DRStageShadowmap::CreateResources(ShaderLibrary& Shaders, FRIContext* rende
 
 	BlendState = cmdList.GetDynamic()->CreateBlendState(EFRIAlphaBlend::Src, EFRIAlphaBlend::OneMinusSrc);
 	DepthStencilState = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::True, EFRIBool::False);
-	RasterizerState = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::Front, EFRIFillMode::Solid);
+	RasterizerState = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::None, EFRIFillMode::Solid);
 }
 void DRStageShadowmap::RecreateResources(ShaderLibrary& Shaders, FRIContext* context, FRIContext* previousContext)
 {
@@ -68,13 +68,27 @@ void DRStageShadowmap::SubmitPass(FRICommandList& cmdList, Scene* scene)
 			cmdList.StageResources([&]
 				{
 					FRIUpdateDescriptor dataStage(&SunRef.FrustumInfo[i].View, 0, sizeof(CameraComponent));
+
+					FTransformBufferStruct tr;
+					tr.World = FMatrix4::Identity();
+					tr.WorldInverseTranspose = FMatrix4::Identity();
+					FRIUpdateDescriptor dataStage2(&tr, 0, sizeof(FTransformBufferStruct));
+
+					cmdList.UniformBufferSubdata(TransformBuffer, dataStage2);
 					cmdList.UniformBufferSubdata(CameraMatrixBuffer, dataStage);
 
 				});
-
-
 			/*  Static Shadowed Scene  */
 			cmdList.SetShaderPipeline(Shader);
+
+
+			for (auto& geom : scene->SceneLevel.LevelGeometry.Leafs)
+			{
+				cmdList.SetGeometrySource(geom->VertexBuffer);
+				cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, geom->IndexBuffer->IndexCount, EFRIIndexType::UInt32, geom->IndexBuffer);
+			}
+
+
 			SMGeometry->ForEach([&](Entity ent, Mesh& mesh, FTransform& transformComponent)
 				{
 					cmdList.StageResources([&]

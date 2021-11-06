@@ -99,8 +99,47 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 		/* Static Geometry */
 
 		cmdList.SetShaderPipeline(GShader);
+
+
+		for (auto& geom : scene->SceneLevel.LevelGeometry.Leafs)
+		{
+
+			/* Stage Samplers */
+			for (int map = 0; map < (uint32)EMaterialMap::MAX_MAPS; map++)
+			{
+				FRITexture2D* textureMap = geom->Material.GetMap((EMaterialMap)map).Handle;
+				if (textureMap)
+				{
+					cmdList.SetShaderSampler(FUniformSampler(map, textureMap));
+				}
+			}
+
+			cmdList.StageResources([&]
+				{
+					FVector4 Emission(geom->Material.EmissiveColor.rgb, geom->Material.EmissiveIntensity);
+					FRIUpdateDescriptor dataStage(&Emission, 0, sizeof(FVector4));
+
+					FTransformBufferStruct tr;
+					tr.World = FMatrix4::Identity();
+					tr.WorldInverseTranspose = FMatrix4::Identity();
+					FRIUpdateDescriptor dataStage2(&tr, 0, sizeof(FTransformBufferStruct));
+
+					cmdList.UniformBufferSubdata(TransformBuffer, dataStage2);
+					cmdList.UniformBufferSubdata(EmissionPropertiesBuffer, dataStage);
+
+				});
+
+			cmdList.SetGeometrySource(geom->VertexBuffer);
+			cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, geom->IndexBuffer->IndexCount, EFRIIndexType::UInt32, geom->IndexBuffer);
+		}
+
+
 		Geometry->ForEach([&](Entity ent, Mesh& mesh, Material& material, FTransform& transformComponent)
 			{
+
+				if (material.HasTransluscent)
+					return;
+
 				/* Stage DataBuffer */
 				cmdList.StageResources([&]
 					{
@@ -148,6 +187,9 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 		cmdList.SetShaderPipeline(GSkinnedShader);
 		SkinnedGeometry->ForEach([&](Entity ent, SkinnedMesh& skinnedMesh, Material& material, FTransform& transformComponent)
 			{
+				if (material.HasTransluscent)
+					return;
+
 				/* Stage DataBuffer */
 				cmdList.StageResources([&]
 					{
@@ -192,10 +234,6 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 		);
 
-		for (auto& pSystemPair : scene->ParticleSystems)
-		{
-			pSystemPair.Value->RenderSystem(cmdList, pSystemPair.Key);
-		}
 
 	}
 	cmdList.UnbindFrameBuffer();

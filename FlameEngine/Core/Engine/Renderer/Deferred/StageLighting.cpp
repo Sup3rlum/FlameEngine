@@ -16,7 +16,6 @@ struct FCombineBufferStruct : FRIArrayInterface
 };
 
 
-
 void DRStageLighting::CreateResources(ShaderLibrary& Shaders, FRIContext* renderContext)
 {
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
@@ -35,6 +34,7 @@ void DRStageLighting::CreateResources(ShaderLibrary& Shaders, FRIContext* render
 
 	FrameBuffer = cmdList.GetDynamic()->CreateFrameBuffer({ FRIFrameBufferAttachment(LitTexture) }, false);
 	LightingShader = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Lighting"]);
+	TransluscencyCombineShader = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["TransluscentCombine"]);
 
 	BlendState = cmdList.GetDynamic()->CreateBlendState(EFRIAlphaBlend::Src, EFRIAlphaBlend::OneMinusSrc);
 	RasterizerState = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::Front, EFRIFillMode::Solid);
@@ -81,6 +81,7 @@ void DRStageLighting::Prepare(FRICommandList& cmdList, RStageInterface& input)
 	cmdList.SetShaderSampler(FUniformSampler(6, static_cast<FRITexture2D*>(input.Buffer[RS_SLOT_EMISSIVE])));
 	cmdList.SetShaderSampler(FUniformSampler(4, static_cast<FRITexture2DArray*>(input.Buffer[RS_SLOT_SHADOWMAP])));
 	cmdList.SetShaderSampler(FUniformSampler(7, BRDFLut));
+	cmdList.SetShaderSampler(FUniformSampler(8, input.GetResource<FRITexture2D>(RS_SLOT_TRANSLUSCENCY)));
 }
 void DRStageLighting::SubmitPass(FRICommandList& cmdList, Scene* scene)
 {
@@ -121,6 +122,10 @@ void DRStageLighting::SubmitPass(FRICommandList& cmdList, Scene* scene)
 			});
 
 		FRenderUtil::DrawScreenQuad(cmdList);
+
+		cmdList.SetShaderPipeline(TransluscencyCombineShader);
+		FRenderUtil::DrawScreenQuad(cmdList);
+
 	}
 	cmdList.UnbindFrameBuffer();
 }

@@ -19,6 +19,8 @@ struct PSInput
     float4 Position : SV_Position;
     float4 Color : COLOR0;
     float3 Normal : NORMAL0;
+    float2 TexCoord : TEXCOORD0;
+    
 };
 
 
@@ -43,6 +45,7 @@ PSInput main(VSInput input)
     output.Position = mul(Projection, viewPos);
     output.Color = input.InstanceColor;
     output.Normal = mul(normalMatrix, input.Normal);
+    output.TexCoord = input.TexCoord;
     
 	return output;
 }

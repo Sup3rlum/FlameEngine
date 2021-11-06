@@ -19,6 +19,7 @@
 #include "../Animation/AnimationComponent.h"
 #include "../../Renderer/ParticleRenderer.h"
 
+#include "../Environment/Level.h"
 #include "Core/UX/UXContainer.h"
 
 struct PhysicsSceneDescription
@@ -91,6 +92,7 @@ public:
 
 	Entity Camera;
 	Entity Sun;
+	Level SceneLevel;
 
 	PhysicsAllocator* Physics;
 	FArray<FKeyVal<ParticleSystemBase*, ParticleRenderer*>> ParticleSystems;

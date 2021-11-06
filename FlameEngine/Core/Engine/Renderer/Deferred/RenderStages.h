@@ -13,6 +13,7 @@
 #define UBO_SLOT_COMBINE 4
 #define UBO_SLOT_EMISSION 5
 #define UBO_SLOT_POINT_LIGHT 6
+#define UBO_SLOT_DIR_LIGHT 7
 
 #define RS_SLOT_DEPTH 0
 #define RS_SLOT_NORMAL 1
@@ -24,7 +25,8 @@
 #define RS_SLOT_LIT_SCENE 7
 #define RS_SLOT_ENVIRONMENT 8
 #define RS_SLOT_AA 9
-#define RS_SLOT_FINAL 10
+#define RS_SLOT_TRANSLUSCENCY 10
+#define RS_SLOT_FINAL 11
 
 
 
@@ -145,6 +147,7 @@ class DRStageLighting : public FRenderStage
 {
 public:
 	FRIShaderPipeline* LightingShader;
+	FRIShaderPipeline* TransluscencyCombineShader;
 
 	FRIFrameBuffer* FrameBuffer;
 	FRITexture2D* LitTexture;
@@ -253,6 +256,33 @@ public:
 
 
 	DRStageEnvironment() : FRenderStage("Environment") {}
+
+	void CreateResources(ShaderLibrary& library, FRIContext* context);
+	void RecreateResources(ShaderLibrary& library, FRIContext* context, FRIContext* previousContext = NULL);
+
+
+	void Prepare(FRICommandList& cmdList, RStageInterface& input);
+	void SubmitPass(FRICommandList& cmdList, Scene* scene);
+	void Finish(FRICommandList& cmdList, RStageInterface& output);
+
+};
+
+
+
+class DRStageTransluscency : public FRenderStage
+{
+public:
+
+
+	FRIFrameBuffer* FrameBuffer;
+	FRITexture2D* Output;
+
+
+	FRIShaderPipeline* ObjectPipeline;
+	FRIUniformBuffer* TransformBuffer;
+	FRIUniformBuffer* DirLightBuffer;
+
+	DRStageTransluscency() : FRenderStage("Transluscency") {}
 
 	void CreateResources(ShaderLibrary& library, FRIContext* context);
 	void RecreateResources(ShaderLibrary& library, FRIContext* context, FRIContext* previousContext = NULL);

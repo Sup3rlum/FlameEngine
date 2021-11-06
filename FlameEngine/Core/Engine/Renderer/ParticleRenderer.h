@@ -10,9 +10,12 @@ EXPORT(class, ParticleRenderer)
 {
 public:
 
-	ParticleRenderer(FRIContext* FriContext, const ShaderLibraryModule& libraryModule, InstanceMesh mesh);
+	ParticleRenderer(FRIContext* FriContext, const ShaderLibraryModule& libraryModule);
 
 	void RenderSystem(FRICommandList& cmdList, ParticleSystemBase* system);
+	void SetInstanceMesh(InstanceMesh mesh);
+	void Prepare(FRICommandList& cmdList);
+
 
 	FRIVertexBuffer* VertexBuffer;
 	FRIIndexBuffer* IndexBuffer;
@@ -20,4 +23,14 @@ public:
 	FRIShaderPipeline* ShaderPipeline;
 
 	FRIContext* FriContext;
+
+	FRIRasterizerState* RasterizerState;
+	FRIDepthStencilState* DepthStencilState;
+	FRIBlendState* BlendState;
+
+	FArray<FUniformSampler> Samplers;
+
+
+
+
 };

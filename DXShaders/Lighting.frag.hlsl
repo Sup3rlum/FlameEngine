@@ -838,6 +838,7 @@ float4 main(PSInput input) : SV_Target0
     float3 Albedo = packedAlbedoOpacity.rgb;
     float Roughness = packedRoughnessMetallic.r;
     float Metallic = packedRoughnessMetallic.g;
+    float MaterialAO = packedRoughnessMetallic.b;
     float Opacity = packedAlbedoOpacity.a;
     float4 Emissive = gEmissive.Sample(EmissiveSampler, input.TexCoord);
     float AmbientOcclusion = gHbao.Sample(HbaoSampler, input.TexCoord);
@@ -881,7 +882,7 @@ float4 main(PSInput input) : SV_Target0
     float2 brdf = gBRDF_LUT.Sample(BRDFSampler, float2(max(dot(Normal, ViewDir), 0.0), 1.0-Roughness)).rg;
     float3 specular = prefilteredColor * (F * brdf.x + brdf.y) * ssrCoords.b;
 
-    float3 Ambient = 1.0 * (kD * Albedo + specular) * AmbientOcclusion;
+    float3 Ambient = 1.0 * (kD * Albedo + specular) * AmbientOcclusion * MaterialAO;
     
     /*-------------------------*/
     

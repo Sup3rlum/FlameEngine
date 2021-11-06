@@ -3,6 +3,8 @@
 #include "TestGame.h";
 
 
+float playerSpeed = 10.0f;
+
 void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, CameraComponent& cam, FirstPersonCharacterComponent& fp, ControlComponent& control, CharacterBody& phys)
 {
 	if (control.IsKeyDown(FKeyboardKeys::Z))
@@ -20,7 +22,7 @@ void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, Camera
 	if (control.IsKeyDown(FKeyboardKeys::M) && !wasMDown)
 	{
 		
-		auto lightng = static_cast<DRStageLighting*>(game->Renderer.RenderStages[3]);
+		auto lightng = static_cast<DRStageLighting*>(game->Renderer.RenderStages[4]);
 		lightng->Atmosphere->Enabled = !lightng->Atmosphere->Enabled;
 	}
 
@@ -40,30 +42,34 @@ void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, Camera
 
 	if (control.IsKeyDown(FKeyboardKeys::A))
 	{
-		moveVector -= FVector3::Normalize(fp.Right) * 20.0f;
+		moveVector -= FVector3::Normalize(fp.Right) * playerSpeed;
 	}
 	if (control.IsKeyDown(FKeyboardKeys::D))
 	{
 
-		moveVector += FVector3::Normalize(fp.Right) * 20.0f;
+		moveVector += FVector3::Normalize(fp.Right) * playerSpeed;
 	}
 
 	if (control.IsKeyDown(FKeyboardKeys::W))
 	{
 
-		moveVector += FVector3::Normalize(forward) * 20.0f;
+		moveVector += FVector3::Normalize(forward) * playerSpeed;
 	}
 
 	if (control.IsKeyDown(FKeyboardKeys::S))
 	{
 
-		moveVector -= FVector3::Normalize(forward) * 20.0f;
+		moveVector -= FVector3::Normalize(forward) * playerSpeed;
 	}
 
-	if (control.IsKeyDown(FKeyboardKeys::Space))
+	if (control.IsKeyDown(FKeyboardKeys::Space) && !wasSpaceDown)
 	{
-		moveVector += FVector3(0, 19, 0);
+		UpVelocity = 30.0f;
 	}
+	wasSpaceDown = control.IsKeyDown(FKeyboardKeys::Space);
+
+	moveVector += FVector3(0, UpVelocity, 0);
+	UpVelocity = fmaxf(UpVelocity - 0.3f, 0);
 
 	phys.Move(moveVector);
 	transformComponent = phys.GetGlobalTransform();

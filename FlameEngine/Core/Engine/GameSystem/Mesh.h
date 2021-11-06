@@ -10,8 +10,6 @@ struct Mesh
 	FRIIndexBuffer* IndexBuffer;
 
 
-
-
 	Mesh(FRIVertexBuffer* vbuff, FRIIndexBuffer* ibuff) :
 		VertexBuffer(vbuff),
 		IndexBuffer(ibuff)
