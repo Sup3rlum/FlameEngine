@@ -3,8 +3,10 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 ## Images
 
-<img src="https://cdn.discordapp.com/attachments/649214971590213653/904501784221995079/Screenshot_3.png" width="900" height="452">
-<img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="522">
+Renders of a few materials
+
+<img src="https://cdn.discordapp.com/attachments/649214971590213653/904501784221995079/Screenshot_3.png" width="900" height="432">
+<img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
 
 ## Features
 
@@ -16,6 +18,7 @@ Flame uses a deferred renderer with a PBR Metallic/Roughness workflow. Currently
   - SMAA
   - HBAO+
   - Screen Space Reflections (Currently disabled, working on improving them performance-wise)
+  - HDR Rendering with ACES filimc tonemapping curves
 
 ### Environment
 
@@ -43,13 +46,13 @@ Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 
 
 Currently the roadmap outlines itself as follows:
 
+- Adding translucent object forward pass during rendering
 - Fixing SSR
 - Improving compute integration
 - Improving atmospheric scattering shaders
 - Introducing robust environment/level management
 - Incorporating asset compilers into editor
 - Integrating more of PhysX's features
-- Trying out raytracing?
 
 ## Dependencies
 
@@ -60,7 +63,7 @@ Currently the roadmap outlines itself as follows:
   - glew32
   - libpng
   - OpenSSL
-  - C# 8 (Corresponding Roslyn version for x-Platform compilation)
+  - C# 8
   - .NET Core 3.1
   - ImageSharp
 
