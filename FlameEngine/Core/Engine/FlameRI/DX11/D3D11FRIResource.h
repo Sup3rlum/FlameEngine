@@ -159,6 +159,22 @@ struct FD3D11TextureBase
 	{}
 };
 
+
+struct FD3D11TextureBase3D
+{
+	TComPtr<ID3D11Texture3D> Texture;
+	TComPtr<ID3D11SamplerState> Sampler;
+	DXGI_FORMAT Format;
+
+	FD3D11TextureBase3D(DXGI_FORMAT format) :
+		Format(format)
+	{}
+
+	virtual ~FD3D11TextureBase3D()
+	{}
+};
+
+
 struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 {
 	FD3D11Texture2D(ID3D11Device* device, 
@@ -178,19 +194,30 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 		D3D11_TEXTURE2D_DESC TextureDesc;
 		TextureDesc.Width = width;
 		TextureDesc.Height = height;
-		TextureDesc.MipLevels = TextureDesc.ArraySize = 1;
+		TextureDesc.MipLevels = 1;
+		/*if (!bindDepth)
+			TextureDesc.MipLevels = (int)FMathFunc::Log2(fmaxf(width, height)) + 1;*/
+		TextureDesc.ArraySize = 1;
 		TextureDesc.Format = format;
 		TextureDesc.SampleDesc.Count = 1;
 		TextureDesc.SampleDesc.Quality = 0;
-
+		TextureDesc.MiscFlags = 0;
+		TextureDesc.CPUAccessFlags = 0;
 
 		if (cpuWrite)
 		{
 			TextureDesc.Usage = D3D11_USAGE_DYNAMIC;
+			TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			TextureDesc.MipLevels = 1;
 		}
 		else
 		{
 			TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+
+			/*if (!bindDepth)
+			{
+				TextureDesc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS;
+			}*/
 		}
 
 		TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
@@ -206,14 +233,8 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 			TextureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
 		}
 
-		TextureDesc.CPUAccessFlags = 0;// D3D11_CPU_ACCESS_WRITE;
+		// D3D11_CPU_ACCESS_WRITE;
 
-		if (cpuWrite)
-		{
-			TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		}
-
-		TextureDesc.MiscFlags = 0;
 
 
 		if (Data.DataArray)
@@ -237,7 +258,8 @@ struct FD3D11Texture2D : FD3D11TextureBase, FD3D11ShaderResource, FRITexture2D
 		SrvDesc.Format = format;
 		SrvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		SrvDesc.Texture2D.MostDetailedMip = 0;
-		SrvDesc.Texture2D.MipLevels = 1;
+		SrvDesc.Texture2D.MipLevels = -1;
+
 
 		if (bindDepth)
 		{
@@ -285,7 +307,7 @@ struct FD3D11Texture2DArray : FD3D11TextureBase, FD3D11ShaderResource, FRITextur
 		D3D11_TEXTURE2D_DESC TextureDesc;
 		TextureDesc.Width = width;
 		TextureDesc.Height = height;
-		TextureDesc.MipLevels = 1;
+		TextureDesc.MipLevels = 1;// (int)FMathFunc::Log2(fmaxf(width, height)) + 1;
 		TextureDesc.ArraySize = NumLayers;
 		TextureDesc.Format = format;
 		TextureDesc.SampleDesc.Count = 1;
@@ -293,7 +315,7 @@ struct FD3D11Texture2DArray : FD3D11TextureBase, FD3D11ShaderResource, FRITextur
 		TextureDesc.Usage = D3D11_USAGE_DEFAULT;
 		TextureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		TextureDesc.CPUAccessFlags = 0;
-		TextureDesc.MiscFlags = 0;
+		TextureDesc.MiscFlags = 0;// D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
 		HRESULT hr = device->CreateTexture2D(&TextureDesc, NULL, &Texture);
 
@@ -305,7 +327,7 @@ struct FD3D11Texture2DArray : FD3D11TextureBase, FD3D11ShaderResource, FRITextur
 		SrvDesc.Texture2DArray.MostDetailedMip = 0;
 		SrvDesc.Texture2DArray.ArraySize = NumLayers;
 		SrvDesc.Texture2DArray.FirstArraySlice = 0;
-		SrvDesc.Texture2DArray.MipLevels = 1;
+		SrvDesc.Texture2DArray.MipLevels = -1;
 
 		hr = device->CreateShaderResourceView(Texture, &SrvDesc, &ShaderResourceView);
 
@@ -332,6 +354,124 @@ struct FD3D11Texture2DArray : FD3D11TextureBase, FD3D11ShaderResource, FRITextur
 
 	}
 };
+
+
+struct FD3D11Texture3D : FD3D11TextureBase3D, FD3D11ShaderResource, FRITexture3D
+{
+
+	TComPtr<ID3D11UnorderedAccessView> UAV;
+
+	FD3D11Texture3D(ID3D11Device* device,
+		uint32 width,
+		uint32 height,
+		uint32 depth,
+		DXGI_FORMAT format,
+		FRICreationDescriptor Data = FRICreationDescriptor(NULL, 0),
+		bool cpuWrite = false,
+		bool bindDepth = false,
+		bool rtv = true
+	) :
+		FRITexture3D(width, height, depth),
+		FD3D11ShaderResource(0),
+		FD3D11TextureBase3D(format)
+	{
+
+		D3D11_TEXTURE3D_DESC TextureDesc;
+		ZeroMemory(&TextureDesc, sizeof(TextureDesc));
+		TextureDesc.Width = width;
+		TextureDesc.Height = height;
+		TextureDesc.Depth = depth;
+		TextureDesc.MipLevels = (int)FMathFunc::Log2(fmaxf(fmaxf(width, height), depth)) + 1;
+		TextureDesc.Format = format;
+
+
+		if (cpuWrite)
+			TextureDesc.Usage = D3D11_USAGE_DYNAMIC;
+		else
+			TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+
+		TextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+
+		//if (bindDepth)
+			//TextureDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+
+
+		if (!cpuWrite && !bindDepth)
+			TextureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+
+		TextureDesc.CPUAccessFlags = 0;// D3D11_CPU_ACCESS_WRITE;
+
+		///if (cpuWrite)
+			//TextureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+
+		//if (rtv)
+			TextureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
+
+
+		if (Data.DataArray)
+		{
+			D3D11_SUBRESOURCE_DATA TextureData;
+			TextureData.pSysMem = Data.DataArray;
+			TextureData.SysMemPitch = Data.ByteSize / height;
+			TextureData.SysMemSlicePitch = 0;
+
+			device->CreateTexture3D(&TextureDesc, &TextureData, &Texture);
+		}
+		else
+		{
+			device->CreateTexture3D(&TextureDesc, nullptr, &Texture);
+
+		}
+
+
+
+		D3D11_UNORDERED_ACCESS_VIEW_DESC descView;
+		memset(&descView, 0, sizeof(descView));
+		descView.Format = DXGI_FORMAT_UNKNOWN;
+		descView.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
+		descView.Texture3D.MipSlice = 0;
+		descView.Texture3D.WSize = depth;
+
+		device->CreateUnorderedAccessView(Texture, &descView, &UAV);
+
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC SrvDesc;
+
+		SrvDesc.Format = format;
+		SrvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
+		SrvDesc.Texture3D.MostDetailedMip = 0;
+		SrvDesc.Texture3D.MipLevels = -1;
+
+		if (bindDepth)
+		{
+			SrvDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		}
+
+		device->CreateShaderResourceView(Texture, &SrvDesc, &ShaderResourceView);
+
+		D3D11_SAMPLER_DESC SamplerDesc;
+
+		SamplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		SamplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		SamplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		SamplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		SamplerDesc.MaxAnisotropy = 8.0f;
+		SamplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		SamplerDesc.BorderColor[0] = 0;
+		SamplerDesc.BorderColor[1] = 0;
+		SamplerDesc.BorderColor[2] = 0;
+		SamplerDesc.BorderColor[3] = 0;
+		SamplerDesc.MinLOD = 0;
+		SamplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+		SamplerDesc.MipLODBias = 0;
+
+		device->CreateSamplerState(&SamplerDesc, &Sampler);
+	}
+
+};
+
 
 struct FD3D11UniformBuffer : FRIUniformBuffer
 {
@@ -422,6 +562,19 @@ struct FD3D11GeometryShader : FRIGeometryShader, TD3D11ShaderBase<ID3D11Geometry
 	}
 };
 
+struct FD3D11ComputeShader : FRIComputeShader, TD3D11ShaderBase<ID3D11ComputeShader>
+{
+	FD3D11ComputeShader(ID3D11Device* device, const FArray<byte>& binCode)
+	{
+		device->CreateComputeShader(binCode.Begin(), binCode.ByteSize(), NULL, &Shader);
+	}
+	uint32 GetResource() const
+	{
+		return 0;
+	}
+};
+
+
 struct FD3D11ShaderPipeline : FRIShaderPipeline
 {
 	ID3D11VertexShader* vertexShader;
@@ -448,6 +601,7 @@ struct FD3D11ShaderPipeline : FRIShaderPipeline
 			case EFRIResourceShaderType::Vertex: vertexShader = static_cast<FD3D11VertexShader*>(descriptor.ShaderArray[i])->Shader; break;
 			case EFRIResourceShaderType::Pixel: pixelShader = static_cast<FD3D11PixelShader*>(descriptor.ShaderArray[i])->Shader; break;
 			case EFRIResourceShaderType::Geometry: geometryShader = static_cast<FD3D11GeometryShader*>(descriptor.ShaderArray[i])->Shader; break;
+			case EFRIResourceShaderType::Compute: computeShader = static_cast<FD3D11ComputeShader*>(descriptor.ShaderArray[i])->Shader; break;
 			}
 		}
 	}

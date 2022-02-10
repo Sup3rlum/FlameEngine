@@ -54,14 +54,17 @@ Material TContentSerializer<Material>::Serialize(IOFileStream& fileStream)
 			break;
 		}
 
-		maps[(size_t)mapHeader.mapType] = MaterialMap(allocator->CreateTexture2D(
+		auto friTex = allocator->CreateTexture2D(
 			mapHeader.DimX,
 			mapHeader.DimY,
 			0,
 			EFRITextureFormat::RGBA8UNORM,
 			FRIColorDataFormat(channels, EFRIPixelStorage::UnsignedByte),
 			FRICreationDescriptor(mapData.Begin(), mapData.ByteSize())
-		));
+		);
+
+		maps[(size_t)mapHeader.mapType] = MaterialMap(friTex);
+		//allocator->FlushMipMaps(friTex);
 	}
 
 

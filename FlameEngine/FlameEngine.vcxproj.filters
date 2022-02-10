@@ -39,7 +39,7 @@
     <ClCompile Include="Core\Engine\Renderer\Common\Color.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\DebugRenderer.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Common\RenderableObject.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
@@ -84,7 +84,6 @@
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.cpp" />
     <ClCompile Include="Core\Engine\Renderer\AtmosphereRenderer.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIContext.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\SATGenerator.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIImpl.cpp" />
@@ -103,8 +102,8 @@
     <ClCompile Include="Core\UX\UXService.cpp" />
     <ClCompile Include="Core\UX\UXRenderer.cpp" />
     <ClCompile Include="Core\UX\UXContainer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\VXGIRenderer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageSMAA.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\VXGI\VXGIRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageHBAO.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageGBufferGen.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageLighting.cpp" />
@@ -113,6 +112,8 @@
     <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageTranslucency.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageVXGI.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\RenderModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common\CoreCommon.h" />
@@ -165,7 +166,7 @@
     <ClInclude Include="Core\Engine\Renderer\Common\Color.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Core\Engine\Renderer\DebugRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\HBAOPlusInterface.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRI.h" />
     <ClInclude Include="Core\Engine\FlameRI\FRIContext.h" />
@@ -284,7 +285,6 @@
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIContext.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIDynamic.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIResource.h" />
-    <ClInclude Include="Core\Engine\Renderer\SATGenerator.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\AnimationSequence.h" />
     <ClInclude Include="Core\Engine\GameSystem\SkinnedMesh.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.h" />
@@ -312,12 +312,15 @@
     <ClInclude Include="Core\UX\UXRenderer.h" />
     <ClInclude Include="Core\UX\UXService.h" />
     <ClInclude Include="Core\UX\UXContainer.h" />
-    <ClInclude Include="Core\Engine\Renderer\VXGIRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\VXGI\VXGIRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\RenderStages.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\Definitions.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\LUT.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\BRDF.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.h" />
+    <ClInclude Include="Core\Engine\PCI\PCI.h" />
+    <ClInclude Include="Core\Engine\Renderer\VXGI\Buffers.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

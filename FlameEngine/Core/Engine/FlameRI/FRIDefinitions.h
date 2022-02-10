@@ -1,7 +1,7 @@
 #pragma once
 
 
-
+typedef unsigned int uint32;
 
 
 enum class EFRIUniformSamplerType
@@ -38,6 +38,7 @@ enum class EFRIVertexDeclerationAttributeType : unsigned int
 
 enum class EFRIPrimitiveType
 {
+	Points,
 	Lines = 0x0001,
 	Triangles = 0x0004
 };
@@ -53,6 +54,26 @@ enum class EFRIBool : unsigned int
 {
 	False = 0,
 	True = 1
+};
+
+struct FRIBool
+{
+private:
+	uint32 Value;
+public:
+	FRIBool() : Value(0) {}
+	FRIBool(const FRIBool& other) : Value(other.Value) {}
+	FRIBool(const EFRIBool& other) : Value((uint32)other) {}
+	FRIBool(uint32 Value) : 
+		Value(Value)
+	{}
+
+
+	operator bool()
+	{
+		return (bool)Value;
+	}
+
 };
 
 enum class EFRITextureWrapMode

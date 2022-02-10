@@ -36,7 +36,6 @@ public:
 		LevelGeometry(other.LevelGeometry)
 	{}
 
-
 	Level& operator=(const Level& other)
 	{
 		LevelGeometry = other.LevelGeometry;

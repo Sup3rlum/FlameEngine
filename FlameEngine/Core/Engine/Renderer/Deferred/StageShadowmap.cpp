@@ -13,8 +13,8 @@ void DRStageShadowmap::CreateResources(ShaderLibrary& Shaders, FRIContext* rende
 	SkinnedShader	= cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["ShadowmapSkinned"]);
 
 
-	Viewport = FViewportRect(0, 0, 2048, 2048);
-	Output = cmdList.GetDynamic()->CreateTexture2DArray(Viewport.Height, Viewport.Width, SM_CASCADES, EFRITextureFormat::RG32F, FRIColorDataFormat(EFRIChannels::RG, EFRIPixelStorage::Float));
+	Viewport = FViewportRect(0, 0, 4096, 4096);
+	Output = cmdList.GetDynamic()->CreateTexture2DArray(Viewport.Width, Viewport.Height, SM_CASCADES, EFRITextureFormat::RG32F, FRIColorDataFormat(EFRIChannels::RG, EFRIPixelStorage::Float));
 
 	ShadowmapFrameBuffer = cmdList.GetDynamic()->CreateFrameBuffer(FRIFrameBufferArrayAttachment(Output), true);
 
@@ -65,19 +65,19 @@ void DRStageShadowmap::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 
 			// Stage cascade camera buffer
-			cmdList.StageResources([&]
+			cmdList.StageResourcesLambda(CameraMatrixBuffer, [&](FRIMemoryMap& stageMem)
 				{
-					FRIUpdateDescriptor dataStage(&SunRef.FrustumInfo[i].View, 0, sizeof(CameraComponent));
+					stageMem.Load(&SunRef.FrustumInfo[i].View, sizeof(CameraComponent));
+				});
 
-					FTransformBufferStruct tr;
-					tr.World = FMatrix4::Identity();
-					tr.WorldInverseTranspose = FMatrix4::Identity();
-					FRIUpdateDescriptor dataStage2(&tr, 0, sizeof(FTransformBufferStruct));
-
-					cmdList.UniformBufferSubdata(TransformBuffer, dataStage2);
-					cmdList.UniformBufferSubdata(CameraMatrixBuffer, dataStage);
+			cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
+				{
+					stageMem.Load(FMatrix4::Identity());
+					stageMem.Load(FMatrix4::Identity());
 
 				});
+
+
 			/*  Static Shadowed Scene  */
 			cmdList.SetShaderPipeline(Shader);
 
@@ -91,14 +91,13 @@ void DRStageShadowmap::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 			SMGeometry->ForEach([&](Entity ent, Mesh& mesh, FTransform& transformComponent)
 				{
-					cmdList.StageResources([&]
+					cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
 						{
-							FTransformBufferStruct tr;
-							tr.World = transformComponent.GetMatrix();
-							tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
-							FRIUpdateDescriptor dataStage(&tr, 0, sizeof(FTransformBufferStruct));
+							FMatrix4 tmpWorld = transformComponent.GetMatrix();
 
-							cmdList.UniformBufferSubdata(TransformBuffer, dataStage);
+							stageMem.Load(tmpWorld);
+							stageMem.Load(FMatrix4::Inverse(FMatrix4::Transpose(tmpWorld)));
+
 						});
 
 					cmdList.SetGeometrySource(mesh.VertexBuffer);
@@ -111,19 +110,21 @@ void DRStageShadowmap::SubmitPass(FRICommandList& cmdList, Scene* scene)
 			cmdList.SetShaderPipeline(SkinnedShader);
 			SkinnedSMGeometry->ForEach([&](Entity ent, SkinnedMesh& mesh, FTransform& transformComponent)
 				{
-					cmdList.StageResources([&]
+					cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
 						{
-							const FArray<FMatrix4>& jointMatrices = mesh.MeshSkeleton.GetJointTransforms();
-							FTransformBufferStruct tr;
-							tr.World = transformComponent.GetMatrix();
-							tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
-							FRIUpdateDescriptor dataStage(&tr, 0, sizeof(FTransformBufferStruct));
-							FRIUpdateDescriptor jointDataStage(jointMatrices.Begin(), 0, jointMatrices.ByteSize());
+							FMatrix4 tmpWorld = transformComponent.GetMatrix();
 
-							cmdList.UniformBufferSubdata(TransformBuffer, dataStage);
-							cmdList.UniformBufferSubdata(JointBuffer, jointDataStage);
+							stageMem.Load(tmpWorld);
+							stageMem.Load(FMatrix4::Inverse(FMatrix4::Transpose(tmpWorld)));
+
 						});
 
+					cmdList.StageResourcesLambda(JointBuffer, [&](FRIMemoryMap& stageMem)
+						{
+							const FArray<FMatrix4>& jointMatrices = mesh.MeshSkeleton.GetJointTransforms();
+							stageMem.Load(jointMatrices.Begin(), jointMatrices.ByteSize());
+
+						});
 
 					cmdList.SetGeometrySource(mesh.VertexBuffer);
 					cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, mesh.IndexBuffer->IndexCount, EFRIIndexType::UInt32, mesh.IndexBuffer);
@@ -138,7 +139,7 @@ void DRStageShadowmap::SubmitPass(FRICommandList& cmdList, Scene* scene)
 		}
 
 
-		//cmdList.FlushMipMaps(BufferTextures.ShadowmapCascadeArray);
+		//cmdList.FlushMipMaps(Output);
 	}
 	cmdList.UnbindFrameBuffer();
 }

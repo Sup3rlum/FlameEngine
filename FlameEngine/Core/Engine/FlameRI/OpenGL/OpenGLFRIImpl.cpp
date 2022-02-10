@@ -39,7 +39,7 @@ FRITexture2D* OpenGLFRIDynamicAllocator::CreateTexture2D(uint32 width, uint32 he
 	return new FGLResourceTexture2D(width, height, sampleCount, gpuFormat, channelFormat, dataPixelFormat, resourceDescriptor);
 }
 
-FRITexture3D* OpenGLFRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor)
+FRITexture3D* OpenGLFRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 height, uint32 depth, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor, bool cpuWrite, bool render)
 {
 	//FGLResourceTexture3D* fglTex2D = new FGLResourceTexture3D(width, height, sampleCount, GL_RGBA32F, 4, GL_FLOAT, resourceDescriptor);
 	
@@ -423,6 +423,13 @@ void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITexture2DArray* tex)
 	glBindTexture(gltex->textureType, gltex->textureHandle);
 	glGenerateMipmap(gltex->textureType);
 }
+void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITexture3D* tex)
+{
+	/*FGLResourceTexture2DArray* gltex = static_cast<FGLResourceTexture2DArray*>(tex);
+
+	glBindTexture(gltex->textureType, gltex->textureHandle);
+	glGenerateMipmap(gltex->textureType);*/
+}
 
 void OpenGLFRIDynamicAllocator::UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
 {
@@ -440,7 +447,7 @@ void OpenGLFRIDynamicAllocator::InstanceBufferSubdata(FRIInstanceBuffer* buffer,
 
 
 
-void OpenGLFRIDynamicAllocator::StageResources(FRIUniformBuffer* ubo, FRIResourceStageLambda stageLambda)
+void OpenGLFRIDynamicAllocator::StageResources(FRIUniformBuffer* ubo, FRIMemoryStageDelegate stageLambda)
 {
 
 }
@@ -463,6 +470,10 @@ void OpenGLFRIDynamicAllocator::Texture2DSubdata(FRITexture2D* texture, FRIUpdat
 {
 
 }
+void OpenGLFRIDynamicAllocator::Texture3DSubdata(FRITexture3D* texture, FRIUpdateDescriptor resource)
+{
+
+}
 void OpenGLFRIDynamicAllocator::VertexBufferSubdata(FRIVertexBuffer* texture, FRIUpdateDescriptor resource)
 {
 
@@ -471,5 +482,18 @@ void OpenGLFRIDynamicAllocator::VertexBufferSubdata(FRIVertexBuffer* texture, FR
 void OpenGLFRIDynamicAllocator::CopyTexture(FRITexture2D* source, FRITexture2D* dest)
 {
 
+}
+
+void OpenGLFRIDynamicAllocator::SetUAV(uint32 slot, FRITexture3D* tex)
+{
+}
+
+void OpenGLFRIDynamicAllocator::ClearBufferAndSetUAVs(FRIFrameBuffer* buffer, Color color, FRITexture3D** uavs, uint32 slots)
+{
+
+}
+
+void OpenGLFRIDynamicAllocator::DispatchCompute(uint32 x, uint32 y, uint32 z)
+{
 
 }

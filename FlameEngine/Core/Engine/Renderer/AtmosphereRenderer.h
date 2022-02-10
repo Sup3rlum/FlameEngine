@@ -61,7 +61,7 @@ struct AtmospherePresets
 	inline static AtmosphereDescription Saturn = AtmosphereDescription(FVector3(3.45e-7, 8.07e-7, 1.97e-6), 21e-6, 0.22);
 };
 
-class AtmosphereRenderer : RenderModule
+class AtmosphereRenderer : public RenderModule
 {
 public:
 

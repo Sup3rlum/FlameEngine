@@ -1,0 +1,96 @@
+
+
+
+Texture3D<unorm float4> VoxelMipsSource[6] : register(t0);
+RWTexture3D<unorm float4> VoxelMips[6] : register(u0);
+
+
+static int3 anisoOffsets[] =
+{
+    int3(1, 1, 1),
+	int3(1, 1, 0),
+	int3(1, 0, 1),
+	int3(1, 0, 0),
+	int3(0, 1, 1),
+	int3(0, 1, 0),
+	int3(0, 0, 1),
+	int3(0, 0, 0)
+};
+
+void FetchTexels(int3 pos, int dir, inout float4 val[8])
+{
+    for (int i = 0; i < 8; i++)
+    {
+        val[i] = VoxelMipsSource[dir].Load(int4(pos + anisoOffsets[i], 0));
+    }
+}
+
+void StoreFiltering(RWTexture3D<unorm float4> Grid, int3 gridPos, float4 value)
+{
+    Grid[gridPos] = value;
+}
+
+
+[numthreads(8, 8, 8)]
+void main(uint3 DTid : SV_DispatchThreadID)
+{
+
+    int3 writePos = int3(DTid);
+    int3 sourcePos = writePos * 2;
+	// fetch values
+    float4 values[8];
+	// x -
+    FetchTexels(sourcePos, 0, values);
+    StoreFiltering(VoxelMips[0], writePos,
+	(
+		values[0] + values[4] * (1 - values[0].a) +
+		values[1] + values[5] * (1 - values[1].a) +
+		values[2] + values[6] * (1 - values[2].a) +
+		values[3] + values[7] * (1 - values[3].a)) * 0.25f
+	);
+	// x +
+    FetchTexels(sourcePos, 1, values);
+    StoreFiltering(VoxelMips[1], writePos,
+	(
+		values[4] + values[0] * (1 - values[4].a) +
+    	values[5] + values[1] * (1 - values[5].a) +
+    	values[6] + values[2] * (1 - values[6].a) +
+    	values[7] + values[3] * (1 - values[7].a)) * 0.25f
+    );
+	// y -	
+    FetchTexels(sourcePos, 2, values);
+    StoreFiltering(VoxelMips[2], writePos,
+	(
+		values[0] + values[2] * (1 - values[0].a) +
+    	values[1] + values[3] * (1 - values[1].a) +
+    	values[5] + values[7] * (1 - values[5].a) +
+    	values[4] + values[6] * (1 - values[4].a)) * 0.25f
+    );
+	// y +
+    FetchTexels(sourcePos, 3, values);
+    StoreFiltering(VoxelMips[3], writePos,
+	(
+		values[2] + values[0] * (1 - values[2].a) +
+    	values[3] + values[1] * (1 - values[3].a) +
+    	values[7] + values[5] * (1 - values[7].a) +
+    	values[6] + values[4] * (1 - values[6].a)) * 0.25f
+    );
+	// z -
+    FetchTexels(sourcePos, 4, values);
+    StoreFiltering(VoxelMips[4], writePos,
+	(
+		values[0] + values[1] * (1 - values[0].a) +
+    	values[2] + values[3] * (1 - values[2].a) +
+    	values[4] + values[5] * (1 - values[4].a) +
+    	values[6] + values[7] * (1 - values[6].a)) * 0.25f
+    );
+	// z +
+    FetchTexels(sourcePos, 5, values);
+    StoreFiltering(VoxelMips[5], writePos,
+	(
+		values[1] + values[0] * (1 - values[1].a) +
+    	values[3] + values[2] * (1 - values[3].a) +
+    	values[5] + values[4] * (1 - values[5].a) +
+    	values[7] + values[6] * (1 - values[7].a)) * 0.25f
+    );
+}

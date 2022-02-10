@@ -150,6 +150,34 @@ public:
 
 	}
 
+	int32 Count()
+	{
+		int32 entityCount = 0;
+
+		auto begin = entityWorld->EntMemory.Begin();
+		auto end = entityWorld->EntMemory.End();
+
+
+		for (auto it = begin; it != end; it++)
+		{
+			auto stack = it->Value;
+
+			if (stack->BlockArchetype.Contains(systemArchetype))
+			{
+				auto block = stack->Top;
+				while (block)
+				{
+					entityCount += block->NumEntities;
+
+					block = block->Next;
+				}
+			}
+
+		}
+
+		return entityCount;
+	}
+
 	FEntityArchetype systemArchetype;
 	EntityWorld* entityWorld;
 

@@ -38,38 +38,38 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -171,7 +171,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
       <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -319,6 +319,7 @@
     <ClInclude Include="Core\Engine\GameSystem\Physics\PX\FPXScene.h" />
     <ClInclude Include="Core\Engine\GameSystem\Environment\Level.h" />
     <ClInclude Include="Core\Engine\GameSystem\SkinnedMesh.h" />
+    <ClInclude Include="Core\Engine\PCI\PCI.h" />
     <ClInclude Include="Core\Engine\Renderer\AtmosphereRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\RenderUtil.h" />
     <ClInclude Include="Core\Engine\FlameRI\Viewport.h" />
@@ -334,13 +335,14 @@
     <ClInclude Include="Core\Engine\Renderer\Deferred\Definitions.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\RenderStages.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\LUT.h" />
+    <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.h" />
     <ClInclude Include="Core\Engine\Renderer\ParticleRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\RenderModule.h" />
     <ClInclude Include="Core\Engine\Renderer\RenderSystems.h" />
-    <ClInclude Include="Core\Engine\Renderer\SATGenerator.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\OpenGL\GLHBAOPlus.h" />
-    <ClInclude Include="Core\Engine\Renderer\VXGIRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\VXGI\VXGIRenderer.h" />
+    <ClInclude Include="Core\Engine\Renderer\VXGI\Buffers.h" />
     <ClInclude Include="Core\Framework\Algorithm\Algorithm.h" />
     <ClInclude Include="Core\Framework\Algorithm\BVH.h" />
     <ClInclude Include="Core\Framework\Algorithm\Sort.h" />
@@ -356,7 +358,7 @@
     <ClInclude Include="Core\Common\CoreCommon.h" />
     <ClInclude Include="Core\Common\CoreDefinitions.h" />
     <ClInclude Include="Core\Framework\IO\FileStream.h" />
-    <ClInclude Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.h" />
+    <ClInclude Include="Core\Engine\Renderer\DebugRenderer.h" />
     <ClInclude Include="Core\Math\MathBase.h" />
     <ClInclude Include="Core\Math\MathFwdDef.h" />
     <ClInclude Include="Core\Math\SIMD\simddef.h" />
@@ -473,14 +475,15 @@
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageHBAO.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageShadowmap.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageSMAA.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageTranslucency.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\Deferred\StageVXGI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\ParticleRenderer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\SATGenerator.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\RenderModule.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\HBAOPlusAllocator.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\OpenGL\GLHBAOPlus.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\VXGIRenderer.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\VXGI\VXGIRenderer.cpp" />
     <ClCompile Include="Core\Framework\Common\FHash.cpp" />
     <ClCompile Include="Core\Framework\Common\FStringEncoder.cpp" />
     <ClCompile Include="Core\Math\Export\Platform.cpp" />
@@ -488,7 +491,7 @@
     <ClCompile Include="Core\Math\Functions\Trig.cpp" />
     <ClCompile Include="Core\Math\Geometry\Volumes\BoundingSphere.cpp" />
     <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Services\BoundingVolumeDebugService.cpp" />
+    <ClCompile Include="Core\Engine\Renderer\DebugRenderer.cpp" />
     <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
     <ClCompile Include="Core\Framework\Common\FObject.cpp" />
     <ClCompile Include="Core\Engine\Renderer\DeferredRenderer.cpp" />

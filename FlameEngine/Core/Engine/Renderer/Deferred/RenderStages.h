@@ -11,9 +11,12 @@
 #define UBO_SLOT_CASCADE_CAMERA 2
 #define UBO_SLOT_JOINTS 3
 #define UBO_SLOT_COMBINE 4
-#define UBO_SLOT_EMISSION 5
-#define UBO_SLOT_POINT_LIGHT 6
-#define UBO_SLOT_DIR_LIGHT 7
+#define UBO_SLOT_MATERIAL 5
+#define UBO_SLOT_DLIGHT_DATA 6
+#define UBO_SLOT_PLIGHT_DATA 7
+#define UBO_SLOT_SLIGHT_DATA 8
+#define UBO_SLOT_VXGI 10
+
 
 #define RS_SLOT_DEPTH 0
 #define RS_SLOT_NORMAL 1
@@ -27,6 +30,8 @@
 #define RS_SLOT_AA 9
 #define RS_SLOT_TRANSLUSCENCY 10
 #define RS_SLOT_FINAL 11
+#define RS_SLOT_RADIANCE 12
+#define RS_SLOT_VOXEL_ANISO 13
 
 
 
@@ -36,8 +41,79 @@ struct FTransformBufferStruct
 	FMatrix4 WorldInverseTranspose;
 };
 
+struct FMaterialBufferStruct
+{
+	FVector4 Emissive;
+	uint32 HasNormalMap;
+	uint32 HasPOMEnabled;
+	uint32 HasAOMap;
+	uint32 HasEmissive;
+	uint32 HasTransluscent;
+};
 
 
+class DRStageVXGI : public FRenderStage
+{
+
+	FRIShaderPipeline* voxelizePipeline;
+	FRIShaderPipeline* lightCompute;
+	FRIShaderPipeline* propagationCompute;
+	FRIShaderPipeline* flushCompute;
+	FRIShaderPipeline* anisoCompute;
+
+	FRIUniformBuffer* CameraMatrixBuffer;
+	FRIUniformBuffer* TransformBuffer;
+	FRIUniformBuffer* MaterialBuffer;
+	FRIUniformBuffer* VXGIBuffer;
+	FRIUniformBuffer* PointLightBuffer;
+	FRIUniformBuffer* DirLightBuffer;
+
+	FRITexture3D* voxelAlbedo;
+	FRITexture3D* voxelNormal;
+	FRITexture3D* voxelEmission;
+	FRITexture3D* voxelRadiance;
+	FRITexture3D* voxelFirstBounce;
+
+	FRITexture3D* DirectionalVolumes[6];
+
+	FRIFrameBuffer* framebuffer;
+	FRITexture2D* outputTex;
+
+	FRIDepthStencilState* DepthStencilState;
+	FRIRasterizerState* RasterizerState;
+	FRIBlendState* BlendState;
+
+	FMatrix4 voxelizeProjection;
+	FViewportRect VoxelizeViewport;
+	FViewportRect OriginalViewport;
+
+	FRIDepthStencilState* FinalDepth;
+
+
+
+public:
+	bool NeedsUpdate = true;
+	bool getFirstBounce = false;
+
+	DRStageVXGI() : FRenderStage("VXGI")
+	{}
+
+	void CreateResources(ShaderLibrary& library, FRIContext* context);
+	void RecreateResources(ShaderLibrary& library, FRIContext* context, FRIContext* previousContext = NULL);
+
+	void Prepare(FRICommandList& cmdList, RStageInterface& prev);
+	void SubmitPass(FRICommandList& cmdList, Scene* scene);
+	void Finish(FRICommandList& cmdList, RStageInterface& rso);
+
+
+	void GenerateMipMaps(FRICommandList& cmdList, FRITexture3D* voxelmap);
+	void FlushVolumes(FRICommandList& cmdList);
+
+	void InjectRadiance(FRICommandList& cmdList, Scene* scene);
+	void InjectFirstBounce(FRICommandList& cmdList);
+
+	void Voxelize(FRICommandList& cmdList, Scene* scene);
+};
 
 class DRStageGBuffer : public FRenderStage
 {
@@ -54,6 +130,9 @@ class DRStageGBuffer : public FRenderStage
 	FRITexture2DRef MetallicRoughness;
 	FRITexture2DRef Emissive;
 
+	FRITexture3D* voxelAlbedo;
+	FRITexture3D* voxelNormal;
+	FRITexture3D* voxelEmission;
 
 	FRenderSystemGeom* Geometry;
 	FRenderSystemSkinnedGeom* SkinnedGeometry;
@@ -62,7 +141,7 @@ class DRStageGBuffer : public FRenderStage
 	FRIUniformBuffer* TransformBuffer;
 	FRIUniformBuffer* JointBuffer;
 	FRIUniformBuffer* CameraMatrixBuffer;
-	FRIUniformBuffer* EmissionPropertiesBuffer;
+	FRIUniformBuffer* MaterialBuffer;
 
 public:
 	DRStageGBuffer() : FRenderStage("GBufferGen")
@@ -155,8 +234,13 @@ public:
 
 
 	FRIUniformBuffer* CascadeCameraBuffer;
-	FRIUniformBuffer* LightingConstantBuffer;
+	FRIUniformBuffer* DeferredConstantBuffer;
+
+	FRIUniformBuffer* DirectionalLightBuffer;
 	FRIUniformBuffer* PointLightBuffer;
+	FRIUniformBuffer* SpotLightBuffer;
+
+	FRIUniformBuffer* VXGIBuffer;
 
 	FRIBlendState* BlendState;
 	FRIRasterizerState* RasterizerState;
@@ -174,6 +258,9 @@ public:
 	void Prepare(FRICommandList& cmdList, RStageInterface& input);
 	void SubmitPass(FRICommandList& cmdList, Scene* scene);
 	void Finish(FRICommandList& cmdList, RStageInterface& output);
+
+	void StageLightData(FRICommandList& cmdList, Scene* scene);
+
 };
 
 

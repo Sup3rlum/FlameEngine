@@ -154,5 +154,6 @@
     <FxCompile Include="shaders\signature\dx\CombineQuad.signature.hlsl" />
     <FxCompile Include="shaders\signature\dx\Mesh.signature.hlsl" />
     <FxCompile Include="shaders\signature\dx\SkinnedMesh.signature.hlsl" />
+    <FxCompile Include="shaders\signature\dx\Visualize.signature.hlsl" />
   </ItemGroup>
 </Project>

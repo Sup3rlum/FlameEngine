@@ -29,7 +29,7 @@ public:
 	virtual FRIShaderPipeline* CreateShaderPipeline(const ShaderLibraryModule& shaderModule) = 0;
 
 	virtual FRITexture2D* CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false) = 0;
-	virtual FRITexture3D* CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor) = 0;
+	virtual FRITexture3D* CreateTexture3D(uint32 width, uint32 height, uint32 depth, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false, bool render = true) = 0;
 	
 	virtual FRITexture2DArray* CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0)) = 0;
 	virtual FRIFrameBuffer* CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true) = 0;
@@ -46,6 +46,7 @@ public:
 	virtual void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource) = 0;
 	virtual void InstanceBufferSubdata(FRIInstanceBuffer* buffer, FRIUpdateDescriptor resource) = 0;
 	virtual void Texture2DSubdata(FRITexture2D* texture, FRIUpdateDescriptor resource) = 0;
+	virtual void Texture3DSubdata(FRITexture3D* texture, FRIUpdateDescriptor resource) = 0;
 	virtual void VertexBufferSubdata(FRIVertexBuffer* buffer, FRIUpdateDescriptor resource) = 0;
 
 	virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height) = 0;
@@ -70,11 +71,13 @@ public:
 
 	virtual void SetFramebufferTextureLayer(FRIFrameBuffer* frameBuffer, uint32 layer) = 0;
 
-	virtual void StageResources(FRIUniformBuffer* ubo, FRIResourceStageLambda stageLambda) = 0;
+	virtual void StageResources(FRIUniformBuffer* ubo, FRIMemoryStageDelegate stageLambda) = 0;
 
 	virtual void SetRasterizerState(FRIRasterizerState* rasterizer) = 0;
 	virtual void SetBlendState(FRIBlendState* blend) = 0;
 	virtual void SetDepthStencilState(FRIDepthStencilState* depth) = 0;
+
+	virtual void SetUAV(uint32 slot, FRITexture3D* tex) = 0;
 
 	virtual void BeginScene() = 0;
 	virtual void BeginFrame() = 0;
@@ -82,10 +85,14 @@ public:
 	virtual void EndFrame() = 0;
 
 	virtual void ClearBuffer(FRIFrameBuffer* buffer, Color color) = 0;
+	virtual void ClearBufferAndSetUAVs(FRIFrameBuffer* buffer, Color color, FRITexture3D** uavs, uint32 slots) = 0;
 
 	virtual void FlushMipMaps(FRITexture2D* tex) = 0;
 	virtual void FlushMipMaps(FRITexture2DArray* tex) = 0;
+	virtual void FlushMipMaps(FRITexture3D* tex) = 0;
 
 	virtual void CopyTexture(FRITexture2D* source, FRITexture2D* dest) = 0;
+
+	virtual void DispatchCompute(uint32 xThreads, uint32 yThreads, uint32 zThreads) = 0;
 
 };

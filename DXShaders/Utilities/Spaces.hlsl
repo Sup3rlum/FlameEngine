@@ -1,7 +1,7 @@
 
 float LinearizeDepth(float d, float zNear, float zFar)
 {
-    return 2 * zNear * zFar / (zFar + zNear + d * (zNear - zFar));
+    return 2 * zNear * zFar / (zFar + zNear + d * (zFar - zNear));
 }
 
 void swap(inout float a, inout float b)

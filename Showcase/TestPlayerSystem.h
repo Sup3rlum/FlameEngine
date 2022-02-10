@@ -22,6 +22,7 @@ public:
 	bool isShooting = false;
 
 	bool wasMDown;
+	bool wasNDown;
 
 
 	bool wasSpaceDown = false;

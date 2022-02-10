@@ -37,7 +37,7 @@ public:
 	FRIShaderPipeline* CreateShaderPipeline(const ShaderLibraryModule& shaderModule);
 
 	FRITexture2D* CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false);
-	FRITexture3D* CreateTexture3D(uint32 width, uint32 height, uint32 depth, FRICreationDescriptor resourceDescriptor);
+	FRITexture3D* CreateTexture3D(uint32 width, uint32 height, uint32 depth, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false, bool render = true);
 	FRITexture2DArray* CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
 	FRIUniformBuffer* CreateUniformBuffer(FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
 	FRIFrameBuffer* CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true);
@@ -54,6 +54,7 @@ public:
 	void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource);
 	void InstanceBufferSubdata(FRIInstanceBuffer* buffer, FRIUpdateDescriptor resource);
 	void Texture2DSubdata(FRITexture2D* texture, FRIUpdateDescriptor resource);
+	void Texture3DSubdata(FRITexture3D* texture, FRIUpdateDescriptor resource);
 	void VertexBufferSubdata(FRIVertexBuffer* buffer, FRIUpdateDescriptor resource);
 
 
@@ -83,8 +84,8 @@ public:
 
 	void SetFramebufferTextureLayer(FRIFrameBuffer* tex, uint32 layer);
 
-	void StageResources(FRIUniformBuffer* ubo, FRIResourceStageLambda stageLambda);
-
+	void StageResources(FRIUniformBuffer* ubo, FRIMemoryStageDelegate stageLambda);
+	void SetUAV(uint32 slot, FRITexture3D* tex);
 
 	void BeginScene();
 	void BeginFrame();
@@ -92,12 +93,14 @@ public:
 	void EndFrame();
 
 	void ClearBuffer(FRIFrameBuffer* buffer, Color color);
+	void ClearBufferAndSetUAVs(FRIFrameBuffer* buffer, Color color, FRITexture3D** uavs, uint32 slots);
 
 	void FlushMipMaps(FRITexture2D* tex);
 	void FlushMipMaps(FRITexture2DArray* tex);
+	void FlushMipMaps(FRITexture3D* tex);
 
 	void CopyTexture(FRITexture2D* source, FRITexture2D* dest);
 
-
+	void DispatchCompute(uint32 xThreads, uint32 yThreads, uint32 zThreads);
 
 };

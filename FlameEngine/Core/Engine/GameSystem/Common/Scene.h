@@ -82,6 +82,14 @@ public:
 	}
 
 
+	AABB GetAABB() const
+	{
+		if (SceneLevel.LevelGeometry.Root)
+			return SceneLevel.LevelGeometry.Root->BoundingBox;
+
+		return AABB(0, 0);
+	}
+
 	FGlobalID GetID() const
 	{
 		return sceneID;
@@ -98,8 +106,6 @@ public:
 	FArray<FKeyVal<ParticleSystemBase*, ParticleRenderer*>> ParticleSystems;
 
 	UXContainer* uxContainer;
-
-	PointLight pointLights[4];
 
 private:
 

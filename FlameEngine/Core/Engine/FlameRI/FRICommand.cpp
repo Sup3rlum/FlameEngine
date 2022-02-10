@@ -22,11 +22,11 @@ IMPL_CMD(SetGeometrySource)
 }
 IMPL_CMD(DrawPrimitives)
 {
-	//ALLOCATOR->DrawPrimitives(elementType, elementCount);
+	ALLOCATOR->DrawPrimitives(primitiveType, vertexCount);
 }
 IMPL_CMD(DrawPrimitivesIndexed)
 {
-	//ALLOCATOR->DrawPrimitivesIndexed(elementType, elementCount, indexType, indexBuffer);
+	ALLOCATOR->DrawPrimitivesIndexed(primitiveType, indexCount, indexType, indexBuffer);
 }
 IMPL_CMD(SetShaderPipeline)
 {
@@ -41,4 +41,23 @@ IMPL_CMD(BeginFrame)
 IMPL_CMD(EndFrame)
 {
 	ALLOCATOR->EndFrame();
+}
+
+IMPL_CMD(ClearBuffer)
+{
+	ALLOCATOR->ClearBuffer(frameBuffer, clearcolor);
+}
+
+IMPL_CMD(DrawInstancesIndexed)
+{
+	ALLOCATOR->DrawInstancesIndexed(primitiveType, indexCount, instanceCount, indexType, indexBuffer);
+}
+
+IMPL_CMD(SetShaderUniformBuffer)
+{
+	ALLOCATOR->SetShaderUniformBuffer(slot, uniformBuffer);
+}
+IMPL_CMD(UnbindFrameBuffer)
+{
+	ALLOCATOR->UnbindFrameBuffer();
 }

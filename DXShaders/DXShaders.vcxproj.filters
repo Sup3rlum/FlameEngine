@@ -35,6 +35,19 @@
     <FxCompile Include="Transluscent.vert.hlsl" />
     <FxCompile Include="TransluscentCombine.vert.hlsl" />
     <FxCompile Include="TransluscentCombine.frag.hlsl" />
+    <FxCompile Include="VXGI\VoxelizationGen.vert.hlsl" />
+    <FxCompile Include="VXGI\VoxelizationGen.geom.hlsl" />
+    <FxCompile Include="VXGI\VoxelizationGen.frag.hlsl" />
+    <FxCompile Include="VXGI\VoxelLighting.comp.hlsl" />
+    <FxCompile Include="VXGI\VXGIFinal.vert.hlsl" />
+    <FxCompile Include="VXGI\VXGIFinal.frag.hlsl" />
+    <FxCompile Include="VXGI\VoxelFlush.comp.hlsl" />
+    <FxCompile Include="VXGI\VoxelPropagation.comp.hlsl" />
+    <FxCompile Include="VXGI\AnisotropicCreate.comp.hlsl" />
+    <FxCompile Include="VXGI\AnisotropicIntegrate.comp.hlsl" />
+    <FxCompile Include="VXGI\VisualizeVoxels.vert.hlsl" />
+    <FxCompile Include="VXGI\VisualizeVoxels.frag.hlsl" />
+    <FxCompile Include="VXGI\VisualizeVoxels.geom.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Utilities\ACES.hlsl" />
@@ -42,5 +55,8 @@
     <None Include="Utilities\Spaces.hlsl" />
     <None Include="Utilities\SMAA.hlsl" />
     <None Include="Utilities\FXAA.hlsl" />
+    <None Include="Utilities\Packing.hlsl" />
+    <None Include="VXGI\VXGIBuffers.hlsl" />
+    <None Include="Utilities\LightData.hlsl" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include "TestGame.h";
 
 
-float playerSpeed = 10.0f;
+float playerSpeed = 20.0f;
 
 void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, CameraComponent& cam, FirstPersonCharacterComponent& fp, ControlComponent& control, CharacterBody& phys)
 {
@@ -12,21 +12,32 @@ void TestPlayerSystem::Update(Entity ent, FTransform& transformComponent, Camera
 		fp.isCursorLocked = !fp.isCursorLocked;
 	}
 
-	if (control.IsKeyDown(FKeyboardKeys::X))
+	/*if (control.IsKeyDown(FKeyboardKeys::X))
 	{
 		game->Renderer.isDebug = !game->Renderer.isDebug;
-	}
+	}*/
 
 
 
 	if (control.IsKeyDown(FKeyboardKeys::M) && !wasMDown)
 	{
-		
-		auto lightng = static_cast<DRStageLighting*>(game->Renderer.RenderStages[4]);
-		lightng->Atmosphere->Enabled = !lightng->Atmosphere->Enabled;
+		this->game->Renderer.vxgiRenderer.LightBounces++;
+		this->game->Renderer.vxgiRenderer.NeedsUpdate = true;
+
+
+		/*auto lightng = static_cast<DRStageVXGI*>(game->Renderer.RenderStages[0]);
+		lightng->getFirstBounce = !lightng->getFirstBounce;
+		lightng->NeedsUpdate = true;*/
+	}
+	if (control.IsKeyDown(FKeyboardKeys::N) && !wasNDown)
+	{
+
+		this->game->Renderer.vxgiRenderer.LightBounces--;
+		this->game->Renderer.vxgiRenderer.NeedsUpdate = true;
 	}
 
 	wasMDown = control.IsKeyDown(FKeyboardKeys::M);
+	wasNDown = control.IsKeyDown(FKeyboardKeys::N);
 
 
 	if (control.IsKeyDown(FKeyboardKeys::K))

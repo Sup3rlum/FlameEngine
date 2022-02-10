@@ -34,18 +34,8 @@ public:
 
 	Material defaultMaterial;
 	Material brickMaterial;
-	Material rustedMaterial;
-	Material caveMaterial;
-	Material grassMaterial;
-	Material riverMaterial;
-	Material metalMaterial;
-	Material stuccoMaterial;
-	Material graniteMaterial;
-	Material tileMaterial;
-	Material perfMetalMaterial;
-	Material perfPlasticMaterial;
-	Material cartoonMaterial;
-	Material cliffMaterial;
+	Material riverRockMaterial;
+
 	Mesh ballMesh;
 };
 

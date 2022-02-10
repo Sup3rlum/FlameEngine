@@ -30,6 +30,30 @@ struct MaterialMap
 
 };
 
+struct MaterialProperties
+{
+	FVector3 EmissiveColor;
+	float EmissiveIntensity;
+
+	FRIBool HasNormalMap;
+	FRIBool HasPOMEnabled;
+	FRIBool HasAOMap;
+	FRIBool HasEmissive;
+	FRIBool HasTransluscent;
+
+
+	MaterialProperties()
+	{
+		EmissiveColor = 0;
+		EmissiveIntensity = 0;
+		HasNormalMap = EFRIBool::False;
+		HasPOMEnabled = EFRIBool::False;
+		HasAOMap = EFRIBool::False;
+		HasEmissive = EFRIBool::False;
+		HasTransluscent = EFRIBool::False;
+	}
+};
+
 struct Material
 {
 	typedef FStaticArray<MaterialMap, (size_t)EMaterialMap::MAX_MAPS> MapCollection;
@@ -37,39 +61,32 @@ struct Material
 	FRIContext* FriContext;
 	MapCollection Maps;
 
-	Color EmissiveColor;
-	float EmissiveIntensity;
-
-	bool HasAOMap;
-	bool HasPOMEnabled;
-	bool HasNormalMap;
-	bool HasEmissive;
-	bool HasTransluscent;
+	MaterialProperties Properties;
 
 	Material() :
-		FriContext(NULL),
-		HasEmissive(false),
-		HasTransluscent(false),
-		HasNormalMap(false),
-		HasPOMEnabled(false),
-		HasAOMap(false)
+		FriContext(NULL)
 
 	{
 		Memory::Zero(Maps.Begin(), Maps.ByteSize());
+
 	}
 
 	Material(const MapCollection& maps, FRIContext* renderContext) : 
 		Maps(maps), 
-		FriContext(renderContext), 
-		EmissiveColor(Color::Black),
-		EmissiveIntensity(0.0f),
-		HasEmissive(false),
-		HasTransluscent(false),
-		HasNormalMap(false),
-		HasPOMEnabled(false),
-		HasAOMap(false)
+		FriContext(renderContext)
 	{
+
 	}
+
+	void StageMemory(FRIMemoryMap& memory) const
+	{
+		memory.Load(Properties);
+	}
+	inline static size_t GetStageMemorySize()
+	{
+		return sizeof(float) * 12;
+	}
+
 
 	void SetMap(EMaterialMap mapName, MaterialMap map)
 	{

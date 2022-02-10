@@ -16,10 +16,6 @@ void DRStageTransluscency::CreateResources(ShaderLibrary& library, FRIContext* r
 
 	// Create GBuffer Textures
 	IVector2 viewportSize = renderContext->GetViewport().Size;
-	for (auto& keyval : library.Modules)
-	{
-		printf("%s", keyval.Key.ToPlatformString());
-	}
 
 	ObjectPipeline = cmdList.GetDynamic()->CreateShaderPipeline(library.Modules["Transluscent"]);
 
@@ -48,7 +44,7 @@ void DRStageTransluscency::Prepare(FRICommandList& cmdList, RStageInterface& inp
 
 
 	cmdList.SetShaderUniformBuffer(UBO_SLOT_TRANSFORM, TransformBuffer);
-	cmdList.SetShaderUniformBuffer(UBO_SLOT_DIR_LIGHT, DirLightBuffer);
+	//cmdList.SetShaderUniformBuffer(UBO_SLOT_DIR_LIGHT, DirLightBuffer);
 
 
 	cmdList.ClearBuffer(FrameBuffer, Color::Transparent);
@@ -64,15 +60,11 @@ void DRStageTransluscency::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 
 	/* Stage DataBuffer */
-	cmdList.StageResources([&]
+	cmdList.StageResourcesLambda(DirLightBuffer, [&] (FRIMemoryMap& stageMemory)
 		{
-
-			FDirLightInfo dl;
-			dl.Direction.rgb = SunRef.Direction;
-			dl.Info = FVector4(FVector3(1), SunRef.Intensity);
-
-			FRIUpdateDescriptor dataStage(&dl, 0, sizeof(FDirLightInfo));
-			cmdList.UniformBufferSubdata(DirLightBuffer, dataStage);
+			stageMemory.Load(SunRef.Direction);
+			stageMemory.Load(SunRef.Color.rgb);
+			stageMemory.Load(SunRef.Intensity);
 
 		});
 
@@ -81,18 +73,16 @@ void DRStageTransluscency::SubmitPass(FRICommandList& cmdList, Scene* scene)
 	Geometry->ForEach([&](Entity ent, Mesh& mesh, Material& material, FTransform& transformComponent)
 		{
 
-			if (!material.HasTransluscent)
+			if (!material.Properties.HasTransluscent)
 				return;
 
 			/* Stage DataBuffer */
-			cmdList.StageResources([&]
+			cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
 				{
-					FTransformBufferStruct tr;
-					tr.World = transformComponent.GetMatrix();
-					tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
+					FMatrix4 tmpWorld = transformComponent.GetMatrix();
 
-					FRIUpdateDescriptor dataStage(&tr, 0, sizeof(FTransformBufferStruct));
-					cmdList.UniformBufferSubdata(TransformBuffer, dataStage);
+					stageMem.Load(tmpWorld);
+					stageMem.Load(FMatrix4::Inverse(FMatrix4::Transpose(tmpWorld)));
 
 				});
 

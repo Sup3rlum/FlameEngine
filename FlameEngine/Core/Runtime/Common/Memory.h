@@ -46,6 +46,11 @@ public:
 		memcpy(dst, source, byteSize);
 	}
 	template <typename T>
+	FORCEINLINE static void Copy(T* dst, const T* source, size_t byteSize)
+	{
+		memcpy(dst, source, byteSize);
+	}
+	template <typename T>
 	FORCEINLINE static void CopyCounted(T* dst, T* source, size_t elemCount)
 	{
 		memcpy(dst, source, sizeof(T) * elemCount);

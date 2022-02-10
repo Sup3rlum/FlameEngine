@@ -34,18 +34,23 @@ SamplerState MetallicSampler : register(s4);
 SamplerState AOSampler : register(s5);
 
 
-cbuffer EmissionPropertiesBuffer : register(b5)
-{
-    float4 Emission;
-    float4 CameraPos;
-}
-
 cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
 };
 
+
+cbuffer MaterialPropertiesBuffer : register(b5)
+{
+    float4 Emissive;
+    
+    uint HasNormalMap;
+    uint HasPOMEnabled;
+    uint HasAOMap;
+    uint HasEmissive;
+    uint HasTransluscent;
+}
 
 static float maxPOMDistance = 100;
 
@@ -188,28 +193,40 @@ PSOutput main(PSInput input)
     PSOutput output;
     
     
-    
-
-    
     float3 lightDir = GetTangentLightDir(input);
     float3 viewDir = GetTangentViewDir(input); 
+   
+    float2 texCoords = input.TexCoord; 
+    if (HasPOMEnabled)
+    {  
+        float pomFadeFactor = clamp(length(input.ViewPosition.xyz) / maxPOMDistance, 0, 1);
+        float2 texCoords = ParallaxMapping(input.TexCoord, normalize(viewDir), pomFadeFactor);
+   // float shadow = ShadowCalc(texCoords, normalize(lightDir));
+    }
+       
+    if (HasNormalMap)
+    {
+        output.Normal = float4(PackNormal(CalculateNormalMap(input, texCoords)), 1.0f);
+    }
+    else
+    {
+        output.Normal = float4(PackNormal(input.Normal), 1.0f);
+    }
     
-    float pomFadeFactor = clamp(length(input.ViewPosition.xyz) / maxPOMDistance, 0, 1);
-    float2 pomTexCoords = ParallaxMapping(input.TexCoord, normalize(viewDir), pomFadeFactor);
-    float shadow = ShadowCalc(pomTexCoords, normalize(lightDir));
     
-    output.Normal = float4(PackNormal(CalculateNormalMap(input, pomTexCoords)), 1.0f);
-    output.Albedo = DiffuseMap.Sample(DiffuseSampler, pomTexCoords);
-    
-    output.Albedo.rgb *= lerp(0.3, 1, AOMap.Sample(AOSampler, pomTexCoords).r);
-    
+    output.Albedo = DiffuseMap.Sample(DiffuseSampler, texCoords); 
+    if (HasAOMap)
+    {
+        output.Albedo.rgb *= lerp(0.3, 1, AOMap.Sample(AOSampler, texCoords).r);
+    }
     
     output.RoughnessMetallic = float4(1, 1, 1, 1);
-    output.RoughnessMetallic.r = RoughnessMap.Sample(RoughnessSampler, pomTexCoords);
-    output.RoughnessMetallic.g = MetallicMap.Sample(MetallicSampler, pomTexCoords);
-    output.RoughnessMetallic.b = AOMap.Sample(AOSampler, pomTexCoords).r;
+    output.RoughnessMetallic.r = RoughnessMap.Sample(RoughnessSampler, texCoords);
+    output.RoughnessMetallic.g = MetallicMap.Sample(MetallicSampler, texCoords);
+    output.RoughnessMetallic.b = AOMap.Sample(AOSampler, texCoords).r;
     
-    output.Emission = Emission;
+    output.Emission = Emissive;
+   
     
     return output;
 }

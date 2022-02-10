@@ -141,12 +141,12 @@ public:
 		Result[0][1] = u.x;
 		Result[1][1] = u.y;
 		Result[2][1] = u.z;
-		Result[0][2] = -f.x;
-		Result[1][2] = -f.y;
-		Result[2][2] = -f.z;
+		Result[0][2] = f.x;
+		Result[1][2] = f.y;
+		Result[2][2] = f.z;
 		Result[3][0] = -FVector3::Dot(s, eyePos);
 		Result[3][1] = -FVector3::Dot(u, eyePos);
-		Result[3][2] = FVector3::Dot(f, eyePos);
+		Result[3][2] = -FVector3::Dot(f, eyePos);
 
 		*this = Result;
 	}
@@ -179,8 +179,8 @@ public:
 		FMatrix4 Result(0);
 		Result[0][0] = 1.0f / (aspect * tanHalfFovy);
 		Result[1][1] = 1.0f / (tanHalfFovy);
-		Result[2][2] = -(zFar + zNear) / (zFar - zNear);
-		Result[2][3] = -1.0f;
+		Result[2][2] = (zFar + zNear) / (zFar - zNear);
+		Result[2][3] = 1.0f;
 		Result[3][2] = -(2.0f * zFar * zNear) / (zFar - zNear);
 		*this = Result;
 	}
@@ -198,10 +198,10 @@ public:
 		FMatrix4 Result(1);
 		Result[0][0] = 2.0f / (right - left);
 		Result[1][1] = 2.0f / (top - bottom);
-		Result[2][2] = 1.0f / (zNear - zFar);
+		Result[2][2] = 1.0f / (zFar - zNear);
 		Result[3][0] = (left + right) / (left - right);
 		Result[3][1] = (top + bottom) / (bottom - top);
-		Result[3][2] = zNear / (zFar - zNear);
+		Result[3][2] = zNear / (zNear - zFar);
 
 		*this = Result;
 	}

@@ -7,6 +7,9 @@
 
 
 
+float cascadeBias = 35.0f;
+
+
 void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& out, float maxSplits, float splitIndex)
 {
 
@@ -94,8 +97,8 @@ void Scene::Update(FGameTime gameTime)
 				aabb.Enclose(p);
 			}
 
-			// Get the position of the camera as being in the middle of the +Z plane of the AABB and turning into global space
-			FVector3 position = toGlobalSpace * (aabb.Center() + FVector3(0, 0, aabb.LengthZ() / 2.0f));
+			// Get the position of the camera as being in the middle of the -Z plane of the AABB, add bias, and then turn it into global space
+			FVector3 position = toGlobalSpace * (aabb.Center() - FVector3(0, 0, aabb.LengthZ() / 2.0f + cascadeBias));
 
 
 			float halfLengthX = aabb.LengthX() / 2.0f;
@@ -105,18 +108,17 @@ void Scene::Update(FGameTime gameTime)
 			//Get the up component required to reorient the AABB into global space
 			FVector3 aabbUp = toGlobalSpace * FVector3(0, 1, 0);
 
+
+
+
 			// Create the view and projection matrices for the light's camera that envelops the user view frustum
 			dirLightRef.FrustumInfo[i].View = FViewMatrix(position, position + dirLightRef.Direction, aabbUp);
-			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ());
-
-			/*
-			dirLightRef.FrustumInfo[i].ViewToLight = dirLightRef.FrustumInfo[i].View * FMatrix4::Inverse(camRef.View);
-			dirLightRef.FrustumInfo[i].ViewToLight = dirLightRef.FrustumInfo[i].Projection * dirLightRef.FrustumInfo[i].ViewToLight;*/
+			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
 
 			float zFar = 300.0f;
 			float zNear = 0.1f;
 
-			dirLightRef.FrustumInfo[i].Depth.r = (zFar - zNear) * ((float)(i+1) / (float)SM_CASCADES) + zNear;
+			dirLightRef.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i+1) / (float)SM_CASCADES) + zNear;
 		}
 	}
 }

@@ -46,12 +46,17 @@ void DRStageGBuffer::CreateResources(ShaderLibrary& Shaders, FRIContext* renderC
 	GSkinnedShader	= cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["GBufferGenSkinned"]);
 
 
+	voxelAlbedo = cmdList.GetDynamic()->CreateTexture3D(256, 256, 256, EFRITextureFormat::RGBA8UNORM);
+	voxelNormal = cmdList.GetDynamic()->CreateTexture3D(256, 256, 256, EFRITextureFormat::RGBA8UNORM);
+	voxelEmission = cmdList.GetDynamic()->CreateTexture3D(256, 256, 256, EFRITextureFormat::RGBA8UNORM);
+
+
 	TransformBuffer = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FTransformBufferStruct)));
 
 	CameraMatrixBuffer	= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(CameraComponent)));
 	TransformBuffer		= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FTransformBufferStruct)));
 	JointBuffer			= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 32));
-	EmissionPropertiesBuffer			= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FVector4)));
+	MaterialBuffer			= cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMaterialBufferStruct)));
 
 	BlendState = cmdList.GetDynamic()->CreateBlendState(EFRIAlphaBlend::Src, EFRIAlphaBlend::OneMinusSrc);
 	DepthStencilState = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::True, EFRIBool::False);
@@ -73,7 +78,7 @@ void DRStageGBuffer::Prepare(FRICommandList& cmdList, RStageInterface& input)
 	cmdList.SetShaderUniformBuffer(UBO_SLOT_CAMERA, CameraMatrixBuffer);
 	cmdList.SetShaderUniformBuffer(UBO_SLOT_TRANSFORM, TransformBuffer);
 	cmdList.SetShaderUniformBuffer(UBO_SLOT_JOINTS, JointBuffer);
-	cmdList.SetShaderUniformBuffer(UBO_SLOT_EMISSION, EmissionPropertiesBuffer);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_MATERIAL, MaterialBuffer);
 
 }
 void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
@@ -84,16 +89,14 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 	CameraComponent& CameraRef = scene->Camera.Component<CameraComponent>();
 
-	cmdList.StageResources([&]
+	cmdList.StageResourcesLambda(CameraMatrixBuffer, [&](FRIMemoryMap& stageMem)
 		{
-			FRIUpdateDescriptor camDataStage(&CameraRef, 0, sizeof(CameraComponent));
-			cmdList.UniformBufferSubdata(CameraMatrixBuffer, camDataStage);
+			stageMem.Load(CameraRef);
 		});
 
 
 	cmdList.SetViewport(Viewport);
-	cmdList.ClearBuffer(FrameBuffer, Color::Transparent);
-	//cmdList.ClearBuffer(NULL, Color::Transparent);
+	cmdList.GetDynamic()->ClearBufferAndSetUAVs(FrameBuffer, Color::Transparent, new FRITexture3D* [] {voxelAlbedo, voxelNormal, voxelEmission}, 3);
 	{
 
 		/* Static Geometry */
@@ -114,19 +117,14 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 				}
 			}
 
-			cmdList.StageResources([&]
+			cmdList.StageResourcesLambda(MaterialBuffer, [&](FRIMemoryMap& stageMem)
 				{
-					FVector4 Emission(geom->Material.EmissiveColor.rgb, geom->Material.EmissiveIntensity);
-					FRIUpdateDescriptor dataStage(&Emission, 0, sizeof(FVector4));
-
-					FTransformBufferStruct tr;
-					tr.World = FMatrix4::Identity();
-					tr.WorldInverseTranspose = FMatrix4::Identity();
-					FRIUpdateDescriptor dataStage2(&tr, 0, sizeof(FTransformBufferStruct));
-
-					cmdList.UniformBufferSubdata(TransformBuffer, dataStage2);
-					cmdList.UniformBufferSubdata(EmissionPropertiesBuffer, dataStage);
-
+					geom->Material.StageMemory(stageMem);
+				});
+			cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
+				{
+					stageMem.Load(FMatrix4::Identity());
+					stageMem.Load(FMatrix4::Identity());
 				});
 
 			cmdList.SetGeometrySource(geom->VertexBuffer);
@@ -137,18 +135,16 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 		Geometry->ForEach([&](Entity ent, Mesh& mesh, Material& material, FTransform& transformComponent)
 			{
 
-				if (material.HasTransluscent)
+				if (material.Properties.HasTransluscent)
 					return;
 
 				/* Stage DataBuffer */
-				cmdList.StageResources([&]
+				cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
 					{
-						FTransformBufferStruct tr;
-						tr.World = transformComponent.GetMatrix();
-						tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
-						FRIUpdateDescriptor dataStage(&tr, 0, sizeof(FTransformBufferStruct));
+						FMatrix4 tmpWorld = transformComponent.GetMatrix();
 
-						cmdList.UniformBufferSubdata(TransformBuffer, dataStage);
+						stageMem.Load(tmpWorld);
+						stageMem.Load(FMatrix4::Inverse(FMatrix4::Transpose(tmpWorld)));
 
 					});
 
@@ -164,13 +160,9 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 				}
 
 				/* Stage emission properties */
-				cmdList.StageResources([&]
+				cmdList.StageResourcesLambda(MaterialBuffer, [&](FRIMemoryMap& stageMem)
 					{
-						FVector4 Emission(material.EmissiveColor.rgb, material.EmissiveIntensity);
-						FRIUpdateDescriptor dataStage(&Emission, 0, sizeof(FVector4));
-
-						cmdList.UniformBufferSubdata(EmissionPropertiesBuffer, dataStage);
-
+						material.StageMemory(stageMem);
 					});
 
 				/* Draw */
@@ -187,21 +179,22 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 		cmdList.SetShaderPipeline(GSkinnedShader);
 		SkinnedGeometry->ForEach([&](Entity ent, SkinnedMesh& skinnedMesh, Material& material, FTransform& transformComponent)
 			{
-				if (material.HasTransluscent)
+				if (material.Properties.HasTransluscent)
 					return;
 
 				/* Stage DataBuffer */
-				cmdList.StageResources([&]
+				cmdList.StageResourcesLambda(TransformBuffer, [&](FRIMemoryMap& stageMem)
+					{
+						FMatrix4 tmpWorld = transformComponent.GetMatrix();
+
+						stageMem.Load(tmpWorld);
+						stageMem.Load(FMatrix4::Inverse(FMatrix4::Transpose(tmpWorld)));
+
+					});
+				cmdList.StageResourcesLambda(JointBuffer, [&](FRIMemoryMap& stageMem)
 					{
 						const FArray<FMatrix4>& jointMatrices = skinnedMesh.MeshSkeleton.GetJointTransforms();
-						FTransformBufferStruct tr;
-						tr.World = transformComponent.GetMatrix();
-						tr.WorldInverseTranspose = FMatrix4::Inverse(FMatrix4::Transpose(tr.World));
-						FRIUpdateDescriptor dataStage(&tr, 0, sizeof(FTransformBufferStruct));
-						FRIUpdateDescriptor jointDataStage(jointMatrices.Begin(), 0, jointMatrices.ByteSize());
-
-						cmdList.UniformBufferSubdata(TransformBuffer, dataStage);
-						cmdList.UniformBufferSubdata(JointBuffer, jointDataStage);
+						stageMem.Load(jointMatrices.Begin(), jointMatrices.ByteSize());
 
 					});
 
@@ -217,13 +210,9 @@ void DRStageGBuffer::SubmitPass(FRICommandList& cmdList, Scene* scene)
 
 
 				/* Stage emission properties */
-				cmdList.StageResources([&]
+				cmdList.StageResourcesLambda(MaterialBuffer, [&](FRIMemoryMap& stageMem)
 					{
-						FVector4 Emission(material.EmissiveColor.rgb, material.EmissiveIntensity);
-						FRIUpdateDescriptor dataStage(&Emission, 0, sizeof(FVector4));
-
-						cmdList.UniformBufferSubdata(EmissionPropertiesBuffer, dataStage);
-
+						material.StageMemory(stageMem);
 					});
 
 				/* Draw */

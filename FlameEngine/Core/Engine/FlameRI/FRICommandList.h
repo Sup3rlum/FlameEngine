@@ -167,6 +167,17 @@ FRegisterFRICommand(BindFrameBuffer)
 
 };
 
+FRegisterFRICommand(UnbindFrameBuffer)
+{
+	FRICmdInit(UnbindFrameBuffer)()
+	{
+
+	}
+
+	void Execute(FRICommandListBase & cmdList);
+
+};
+
 
 FRegisterFRICommand(ClearBufferColor)
 {
@@ -187,11 +198,11 @@ FRegisterFRICommand(ClearBufferColor)
 FRegisterFRICommand(ClearBuffer)
 {
 	FRIFrameBuffer* frameBuffer;
-	uint32 clearbit;
+	Color clearcolor;
 
-	FRICmdInit(ClearBuffer)(FRIFrameBuffer* frameBuffer, uint32 clearbit) :
+	FRICmdInit(ClearBuffer)(FRIFrameBuffer* frameBuffer, Color clearcolor) :
 		frameBuffer(frameBuffer),
-		clearbit(clearbit)
+		clearcolor(clearcolor)
 	{
 
 	}
@@ -322,12 +333,12 @@ FRegisterFRICommand(SetGeometrySource)
 
 FRegisterFRICommand(DrawPrimitives)
 {
-	uint32 elementType;
-	uint32 elementCount;
+	EFRIPrimitiveType primitiveType;
+	uint32 vertexCount;
 
-	FRICmdInit(DrawPrimitives)(uint32 elementType, uint32 elementCount) :
-		elementType(elementType),
-		elementCount(elementCount)
+	FRICmdInit(DrawPrimitives)(EFRIPrimitiveType primitiveType, uint32 vertexCount) :
+		primitiveType(primitiveType),
+		vertexCount(vertexCount)
 	{
 		
 	}
@@ -339,14 +350,14 @@ FRegisterFRICommand(DrawPrimitives)
 FRegisterFRICommand(DrawPrimitivesIndexed)
 {
 
-	uint32 elementType;
-	uint32 elementCount;
-	uint32 indexType;
+	EFRIPrimitiveType primitiveType;
+	uint32 indexCount;
+	EFRIIndexType indexType;
 	FRIIndexBuffer* indexBuffer;
 
-	FRICmdInit(DrawPrimitivesIndexed)(uint32 elementType, uint32 elementCount, uint32 indexType, FRIIndexBuffer* indexBuffer) :
-		elementType(elementType),
-		elementCount(elementCount),
+	FRICmdInit(DrawPrimitivesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer) :
+		primitiveType(primitiveType),
+		indexCount(indexCount),
 		indexType(indexType),
 		indexBuffer(indexBuffer)
 	{
@@ -356,6 +367,50 @@ FRegisterFRICommand(DrawPrimitivesIndexed)
 	void Execute(FRICommandListBase& cmdList);
 
 };
+
+
+
+FRegisterFRICommand(DrawInstances)
+{
+	EFRIPrimitiveType primitiveType;
+	uint32 vertexCount;
+	uint32 instanceCount;
+
+	FRICmdInit(DrawInstances)(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount) :
+		primitiveType(primitiveType),
+		vertexCount(vertexCount),
+		instanceCount(instanceCount)
+	{
+
+	}
+
+	void Execute(FRICommandListBase & cmdList);
+
+};
+
+FRegisterFRICommand(DrawInstancesIndexed)
+{
+
+	EFRIPrimitiveType primitiveType;
+	uint32 indexCount;
+	uint32 instanceCount;
+	EFRIIndexType indexType;
+	FRIIndexBuffer* indexBuffer;
+
+	FRICmdInit(DrawInstancesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer * indexBuffer) :
+		primitiveType(primitiveType),
+		indexCount(indexCount),
+		instanceCount(instanceCount),
+		indexType(indexType),
+		indexBuffer(indexBuffer)
+	{
+
+	}
+
+	void Execute(FRICommandListBase & cmdList);
+
+};
+
 
 
 /*
@@ -382,11 +437,11 @@ FRegisterFRICommand(SetShaderPipeline)
 
 FRegisterFRICommand(SetShaderUniformBuffer)
 {
-	FRIShaderPipeline* shader;
+	uint32 slot;
 	FRIUniformBuffer* uniformBuffer;
 
-	FRICmdInit(SetShaderUniformBuffer)(FRIShaderPipeline* shader, FRIUniformBuffer* uniformBuffer) :
-		shader(shader),
+	FRICmdInit(SetShaderUniformBuffer)(uint32 slot, FRIUniformBuffer* uniformBuffer) :
+		slot(slot),
 		uniformBuffer(uniformBuffer)
 	{
 
@@ -547,7 +602,7 @@ public:
 			GetDynamic()->DrawPrimitives(primitiveType, vertexCount);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawPrimitives)(elementType, elementCount);
+		ALLOC_COMMAND(FRICommandDrawPrimitives)(primitiveType, vertexCount);
 	}
 
 	FORCEINLINE void DrawPrimitivesIndexed(EFRIPrimitiveType primitiveType, uint32 vertextCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
@@ -557,7 +612,7 @@ public:
 			GetDynamic()->DrawPrimitivesIndexed(primitiveType, vertextCount, indexType,  indexBuffer);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(elementType, elementCount, indexType, indexBuffer);
+		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(primitiveType, vertextCount, indexType, indexBuffer);
 	}
 
 
@@ -570,6 +625,7 @@ public:
 			GetDynamic()->DrawInstances(primitiveType, vertexCount, instanceCount);
 			return;
 		}
+		ALLOC_COMMAND(FRICommandDrawInstances)(primitiveType, vertexCount, instanceCount);
 	}
 
 	FORCEINLINE void DrawInstancesIndexed(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
@@ -579,6 +635,7 @@ public:
 			GetDynamic()->DrawInstancesIndexed(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
 			return;
 		}
+		ALLOC_COMMAND(FRICommandDrawInstancesIndexed)(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
 	}
 
 
@@ -635,6 +692,7 @@ public:
 			GetDynamic()->UnbindFrameBuffer();
 			return;
 		}
+		ALLOC_COMMAND(FRICommandUnbindFrameBuffer)();
 	}
 
 
@@ -679,7 +737,9 @@ public:
 		if (Bypass())
 		{
 			GetDynamic()->SetShaderUniformBuffer(slot, buffer);
+			return;
 		}
+		ALLOC_COMMAND(FRICommandSetShaderUniformBuffer)(slot, buffer);
 	}
 
 
@@ -689,7 +749,9 @@ public:
 		if (Bypass())
 		{
 			GetDynamic()->ClearBuffer(buffer, color);
+			return;
 		}
+		ALLOC_COMMAND(FRICommandClearBuffer)(buffer, color);
 	}
 	
 
@@ -757,6 +819,15 @@ public:
 		}
 	}
 
+
+	FORCEINLINE void FlushMipMaps(FRITexture3D* tex)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->FlushMipMaps(tex);
+		}
+	}
+
 	FORCEINLINE void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
 	{
 		if (Bypass())
@@ -767,13 +838,23 @@ public:
 
 
 	template<typename TLambda>
-	FORCEINLINE void StageResources(TLambda&& lambda)
+	FORCEINLINE void StageResourcesLambda(FRIUniformBuffer* ubo, TLambda&& lambda)
 	{
-		lambda();
-		/*if (Bypass())
+		if (Bypass())
 		{
-			//GetDynamic()->StageResources(ubo, stageLambda);
-		}*/
+			GetDynamic()->StageResources(ubo, FRIMemoryStageDelegate::Make(lambda));
+		}
+	}
+
+	template<typename TStageableResource>
+	FORCEINLINE void StageResource(FRIUniformBuffer* ubo, const TStageableResource& resource)
+	{
+		if (Bypass())
+		{
+			GetDynamic()->StageResources(ubo, FRIMemoryStageDelegate::Make([&](FRIMemoryMap& mem) {
+				resource.StageMemory(mem);
+				}));
+		}
 	}
 };
 

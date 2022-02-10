@@ -19,9 +19,6 @@ float4 main(PSInput input) : SV_TARGET
     float4 Color = gFrame.Sample(FrameSampler, input.TexCoord);
     
     Color.rgb = ACESFilm(Color.rgb);
-    //Color.rgb = LinearToSRGB(Color.rgb);
-    
-    
     
     return Color;
 }

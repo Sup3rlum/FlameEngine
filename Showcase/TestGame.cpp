@@ -27,21 +27,28 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 	playerEntity.Component<FirstPersonCharacterComponent>().yaw = 2.3;
 	playerEntity.Component<FirstPersonCharacterComponent>().flySpeed = 100.0;
 
-	playerEntity.SetComponent<CharacterBody>(currentScene->Physics->CreateCharacter(FVector3(0, 20, 0)));
+	playerEntity.SetComponent<CharacterBody>(currentScene->Physics->CreateCharacter(FVector3(0, 30, 0)));
 
 
 
 	currentScene->Sun = currentScene->CreateEntity<DirectionalLight>("Sun");
-	currentScene->Sun.Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(-0.5, -1, 0));
+	currentScene->Sun.Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(-1, -2.5f, -1));
+	currentScene->Sun.Component<DirectionalLight>().Color = Color::White;
 	currentScene->Sun.Component<DirectionalLight>().Intensity = 5.0f;
 
 
 
-	this->Renderer.atmosphereRenderer.Atmosphere = AtmospherePresets::Earth;
-	this->Renderer.atmosphereRenderer.Scale = AtmosphereScale(8000,1200,0.99);
+
+	/*this->Renderer.atmosphereRenderer.Atmosphere = AtmospherePresets::Earth;
+	this->Renderer.atmosphereRenderer.Scale = AtmosphereScale(8000,1200,0.99);*/
 
 	/*this->Renderer.properties.AmbienceFactor = 0.1f;
 	this->Renderer.properties.Exposure = 0.3f;*/
+
+
+	FMatrix4 persp = FPerspectiveMatrix(PI / 4.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+
+	int a =5;
 
 }
 
@@ -53,7 +60,7 @@ void TestGameApplication::Update(FGameTime gameTime)
 
 	if (gameTime.TotalTicks % 100 == 0)
 	{
-		FAnsiString fpsString = FAnsiString::Format("SetFPS('%0', %1, %2, %3, %4)", 1 / gameTime.DeltaTime.GetSeconds(), (int)Renderer.atmosphereRenderer.Enabled, posVec.x, posVec.y, posVec.z);
+		FAnsiString fpsString = FAnsiString::Format("SetFPS('%0', %1, %2, %3, %4)", 1 / gameTime.DeltaTime.GetSeconds(), 0, posVec.x, posVec.y, posVec.z);
 		currentScene->uxContainer->ExecuteScript(fpsString);
 	}
 
@@ -73,25 +80,10 @@ void TestGameApplication::Shoot()
 
 	count %= 10;
 
-
-	Material** maps = new Material*[]
-	{
-		&stuccoMaterial,
-		&rustedMaterial,
-		&tileMaterial,
-		&graniteMaterial,
-		&cliffMaterial,
-		&brickMaterial,
-		&perfPlasticMaterial,
-		&riverMaterial,
-		&metalMaterial,
-		&grassMaterial
-	};
-
 	Entity ball = currentScene->CreateEntity<Mesh, Material, FTransform, RigidBody>("ball");
 
 	ball.SetComponent<Mesh>(ballMesh);
-	ball.SetComponent<Material>(*maps[count]);
+	ball.SetComponent<Material>(riverRockMaterial);
 
 	ball.SetComponent<FTransform>(playerEntity.Component<FTransform>());
 	ball.SetComponent<RigidBody>(currentScene->Physics->CreateDynamic(ball.Component<FTransform>()));
@@ -173,26 +165,9 @@ void TestGameApplication::Load()
 
 	defaultMaterial = FLocalContent::LoadFromLocal<Material>("materials/default2.flmt", FriContext);
 	brickMaterial = FLocalContent::LoadFromLocal<Material>("materials/brick_material.flmt", FriContext);
-	cartoonMaterial = FLocalContent::LoadFromLocal<Material>("materials/toy_box.flmt", FriContext);
-	rustedMaterial = FLocalContent::LoadFromLocal<Material>("materials/rusted_iron.flmt", FriContext);
-	caveMaterial = FLocalContent::LoadFromLocal<Material>("materials/cave.flmt", FriContext);
-	grassMaterial = FLocalContent::LoadFromLocal<Material>("materials/glass.flmt", FriContext);
-	riverMaterial = FLocalContent::LoadFromLocal<Material>("materials/river_rock.flmt", FriContext);
-	metalMaterial = FLocalContent::LoadFromLocal<Material>("materials/metal_wall.flmt", FriContext);
-	stuccoMaterial = FLocalContent::LoadFromLocal<Material>("materials/stucco.flmt", FriContext);
-	graniteMaterial = FLocalContent::LoadFromLocal<Material>("materials/granite.flmt", FriContext);
-	tileMaterial = FLocalContent::LoadFromLocal<Material>("materials/tile.flmt", FriContext);
-	perfPlasticMaterial = FLocalContent::LoadFromLocal<Material>("materials/basalt.flmt", FriContext);
-	perfMetalMaterial = FLocalContent::LoadFromLocal<Material>("materials/container.flmt", FriContext);
-	cliffMaterial = FLocalContent::LoadFromLocal<Material>("materials/cliff.flmt", FriContext);
+	riverRockMaterial = FLocalContent::LoadFromLocal<Material>("materials/river_rock.flmt", FriContext);
 
 
-
-	//tileMaterial.EmissiveColor = Color::Green;
-	//tileMaterial.EmissiveIntensity = 1.0f;
-
-
-	grassMaterial.HasTransluscent = true;
 
 
 	floorEntity = currentScene->CreateEntity<FTransform, StaticRigidBody>("ground");
@@ -204,13 +179,13 @@ void TestGameApplication::Load()
 	//floorEntity.Component<Material>().SetWrapMode(EMaterialWrap::Repeat);
 	//floorEntity.Component<Material>().SetFilterMode(EMaterialFilter::Trilinear);
 
-	floorEntity.SetComponent<FTransform>(FTransform());
-	floorEntity.SetComponent<StaticRigidBody>(currentScene->Physics->CreateStatic(FTransform()));
+	//floorEntity.SetComponent<FTransform>(FTransform());
+	//floorEntity.SetComponent<StaticRigidBody>(currentScene->Physics->CreateStatic(FTransform()));
 
-	floorEntity.Component<StaticRigidBody>().SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), currentScene->Physics->CookTriangleMeshGeometry(FLocalContent::LoadFromLocal<PhysicsTriangleMeshDesc>("models/new_ground.fl3d"))));
+	//floorEntity.Component<StaticRigidBody>().SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), currentScene->Physics->CookTriangleMeshGeometry(FLocalContent::LoadFromLocal<PhysicsTriangleMeshDesc>("models/new_ground.fl3d"))));
 
 
-	currentScene->SceneLevel = FLocalContent::LoadFromLocal<Level>("maps/simple.flen", FriContext, currentScene);
+	currentScene->SceneLevel = FLocalContent::LoadFromLocal<Level>("maps/sponza.flen", FriContext, currentScene);
 
 
 	/*boneGuy = currentScene->CreateEntity<SkinnedMesh, Material, FTransform, AnimationComponent>("boneguy");
@@ -238,25 +213,32 @@ void TestGameApplication::Load()
 
 
 
-	currentScene->pointLights[0].Position = FVector4(9, 3, -40, 1);
-	currentScene->pointLights[0].LightColor = Color::Red;
-	currentScene->pointLights[0].Intensity = 20;
-	currentScene->pointLights[0].Radius = 1;
+	/*Entity redLight = currentScene->CreateEntity<PointLight>("RedLight");
+	redLight.Component<PointLight>().Position = FVector3(0, 3, 0);
+	redLight.Component<PointLight>().Color = Color::Red;
+	redLight.Component<PointLight>().Intensity = 10;
+	redLight.Component<PointLight>().Radius = 5;
 
-	currentScene->pointLights[1].Position = FVector4(9, 3, -4, 1);
-	currentScene->pointLights[1].LightColor = Color::Green;
-	currentScene->pointLights[1].Intensity = 20;
-	currentScene->pointLights[1].Radius = 1;
-
-	currentScene->pointLights[2].Position = FVector4(14, 3, 15, 1);
-	currentScene->pointLights[2].LightColor = Color::Blue;
-	currentScene->pointLights[2].Intensity = 20;
-	currentScene->pointLights[2].Radius = 1;
-
-	currentScene->pointLights[3].Position = FVector4(9, 3, -20, 1);
-	currentScene->pointLights[3].LightColor = Color::White;
-	currentScene->pointLights[3].Intensity = 10;
-	currentScene->pointLights[3].Radius = 1;
+	Entity greenLight = currentScene->CreateEntity<PointLight>("GreenLight");
+	greenLight.Component<PointLight>().Position = FVector3(0, 3, 0);
+	greenLight.Component<PointLight>().Color = Color::Green;
+	greenLight.Component<PointLight>().Intensity = 10;
+	greenLight.Component<PointLight>().Radius = 5;
+	
+	Entity blueLight = currentScene->CreateEntity<PointLight>("BlueLight");
+	blueLight.Component<PointLight>().Position = FVector3(0, 10, 0);
+	blueLight.Component<PointLight>().Color = Color::Blue;
+	blueLight.Component<PointLight>().Intensity = 20;
+	blueLight.Component<PointLight>().Radius = 5;*/
+	/*
+	Entity whiteLight = currentScene->CreateEntity<SpotLight>("WhiteLight");
+	whiteLight.Component<SpotLight>().Position = FVector3(1, 7, 0);
+	whiteLight.Component<SpotLight>().Direction = FVector3::Normalize(FVector3(-1, -0.5, -1));
+	whiteLight.Component<SpotLight>().Color = Color::White;
+	whiteLight.Component<SpotLight>().Intensity = 0;
+	whiteLight.Component<SpotLight>().Radius = 10;
+	whiteLight.Component<SpotLight>().ApertureSize = 0.5;
+	whiteLight.Component<SpotLight>().ApertureSharpness = 4;*/
 
 }
 

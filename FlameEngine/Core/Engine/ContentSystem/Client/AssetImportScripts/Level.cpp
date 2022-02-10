@@ -76,8 +76,9 @@ Level TContentSerializer<Level>::Serialize(IOFileStream& fileStream)
 	}
 
 
-	uint32 NumSGBrushes = fileStream.Read<uint32>();
+	level.LevelGeometry.Root = new IBVHNode<2, StaticGeometry>();
 
+	uint32 NumSGBrushes = fileStream.Read<uint32>();
 	for (int i = 0; i < NumSGBrushes; i++)
 	{
 
@@ -97,6 +98,13 @@ Level TContentSerializer<Level>::Serialize(IOFileStream& fileStream)
 		triangleMeshDesc.VertexData = vData;
 		triangleMeshDesc.IndexData = iData;
 
+		for (int i = 0; i < vData.Length(); i += geomHeader.elementSize)
+		{
+			FVector3 vec = *(FVector3*)(&vData[i]);
+
+			level.LevelGeometry.Root->BoundingBox.Enclose(vec);
+		}
+
 
 		auto brush = new StaticGeometry(scene->Physics->CreateStatic(FTransform()));
 		brush->PhysicsBody.SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), scene->Physics->CookTriangleMeshGeometry(triangleMeshDesc)));
@@ -109,6 +117,8 @@ Level TContentSerializer<Level>::Serialize(IOFileStream& fileStream)
 
 		level.LevelGeometry.Leafs.Add(brush);
 	}
+
+
 
 	return level;
 }

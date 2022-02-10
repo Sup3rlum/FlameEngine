@@ -22,9 +22,9 @@ void DRStageAOGen::CreateResources(ShaderLibrary& Shaders, FRIContext* renderCon
 
 	FHBAOParameters hbaoParams;
 
-	hbaoParams.Radius = 1.0f;
-	hbaoParams.Bias = 0.3f;
-	hbaoParams.NearAO = 4.0f;
+	hbaoParams.Radius = 2.0f;
+	hbaoParams.Bias = 0.1f;
+	hbaoParams.NearAO = 2.0f;
 	hbaoParams.FarAO = 1.5f;
 
 	hbaoParams.BackgroundAOEnable = false;

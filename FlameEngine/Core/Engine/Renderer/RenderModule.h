@@ -6,18 +6,23 @@
 #include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"
 #include "../GameSystem/Common/Scene.h"
 
-struct RenderModule
+EXPORT(struct, RenderModule)
 {
 	virtual void CreateResources(FRIContext* renderContext) = 0;
 	virtual void RecreateResources(FRIContext* context, FRIContext* previousContext = NULL) = 0;
 
+	void AttachToScene(Scene * scene);
+
 	ShaderLibrary Shaders;
+	Scene* scene;
+
+	FArray<RenderModule*> RenderModules;
 };
 
 
 struct RStageInterface
 {
-	FStaticArray<FRIResourceObject*, 16> Buffer;
+	FStaticArray<FRIResourceObject*, 24> Buffer;
 
 	template<typename TFRIResourceType>
 	TFRIResourceType* GetResource(uint64 index)
