@@ -131,6 +131,28 @@ public:
 
 		return occurances;
 	}
+
+
+	FArray<TString> Split(TBaseChar delimiter)
+	{
+		FArray<TString> splits;
+		TString tStr;
+		for (auto tChar : *this)
+		{
+			if (tChar == delimiter)
+			{
+				splits.Add(tStr);
+				tStr = TString();
+				continue;
+			}
+
+			tStr.Add(tChar);
+		}
+
+		splits.Add(tStr);
+		return splits;
+	}
+
 	//int FindFirst(const TString& fstring, const TString& what);
 
 	// TODO : Implement

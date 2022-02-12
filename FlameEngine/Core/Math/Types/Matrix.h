@@ -30,7 +30,7 @@ typedef TMatrix2<TCmplx<float>> CMatrix2;
 
 
 
-EXPORT(class, FScalingMatrix) : public FMatrix4
+class FScalingMatrix : public FMatrix4
 {
 public:
 
@@ -55,7 +55,7 @@ public:
 };
 
 
-EXPORT(class, FTranslationMatrix) : public FMatrix4
+class FTranslationMatrix : public FMatrix4
 {
 public:
 	FTranslationMatrix(float x, float y, float z) :
@@ -72,7 +72,7 @@ public:
 	{}
 };
 
-EXPORT(class, FRotationMatrix) : public FMatrix4
+class FRotationMatrix : public FMatrix4
 {
 public:
 	FRotationMatrix(float rotx, float roty, float rotz)
@@ -119,13 +119,13 @@ public:
 };
 
 
-EXPORT(class, FReflectionMatrix) : public FMatrix4
+class FReflectionMatrix : public FMatrix4
 {
 
 };
 
 
-EXPORT(class, FViewMatrix) : public FMatrix4
+class FViewMatrix : public FMatrix4
 {
 public:
 	FViewMatrix(const FVector3& eyePos, const FVector3& eyeTarget, const FVector3& camUp)
@@ -158,7 +158,7 @@ public:
 
 
 
-EXPORT(class, FProjectionMatrix) : public FMatrix4
+class FProjectionMatrix : public FMatrix4
 {
 public:
 
@@ -167,7 +167,7 @@ public:
 };
 
 
-EXPORT(class, FPerspectiveMatrix) : public FProjectionMatrix
+class FPerspectiveMatrix : public FProjectionMatrix
 {
 public:
 	FPerspectiveMatrix(float fovy, float aspect, float zNear, float zFar)
@@ -190,7 +190,7 @@ public:
 	FPerspectiveMatrix() : FProjectionMatrix() {}
 };
 
-EXPORT(class, FOrthographicMatrix) : public FProjectionMatrix
+class FOrthographicMatrix : public FProjectionMatrix
 {
 public:
 	FOrthographicMatrix(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -212,7 +212,7 @@ public:
 };
 
 
-EXPORT(class, FBasisMatrix) : public FMatrix4
+class FBasisMatrix : public FMatrix4
 {
 public:
 	FBasisMatrix(FVector3 b1, FVector3 b2, FVector3 b3) :
@@ -229,7 +229,7 @@ public:
 };
 
 
-EXPORT(class, FOrthonormalBasisMatrix) : public FBasisMatrix
+class FOrthonormalBasisMatrix : public FBasisMatrix
 {
 public:
 	FOrthonormalBasisMatrix(FVector3 a, FVector3 b) :
@@ -243,7 +243,7 @@ public:
 	}
 };
 
-FORCEINLINE FLAME_API FVector3 operator*(const FRotationMatrix& rotation, const FVector3& vec)
+FORCEINLINE FVector3 operator*(const FRotationMatrix& rotation, const FVector3& vec)
 {
 	return (rotation * FVector4(vec, 1.0f)).xyz;
 }

@@ -6,82 +6,46 @@
 #include "Core/Framework/Algorithm/Algorithm.h"
 #include <typeinfo>
 
-template<typename>
-constexpr uint32 DummyOne() { return 1; }
 
+template<typename ...TArgs>
+constexpr size_t SumSizes()
+{
+	return (sizeof(TArgs) + ...);
+}
 
-
-#define RegisterEntityComponent(componentClass, componentNameString, ...)						\
-	template<typename TComponent>																\
-	struct ComponentRegistrationDefinition;														\
-																								\
-	template<>																					\
-	struct ComponentRegistrationDefinition<componentClass>										\
-	{																							\
-		static const FEntityComponentRegistryEntry<componentClass>& registration;				\
-	};																							\
-	const FEntityComponentRegistryEntry<componentClass>&										\
-			ComponentRegistrationDefinition<componentClass>::registration						\
-			= FEntityComponentRegistryEntry<componentClass>::Create(componentNameString);		\
-																								\
-																								\
-
-
+#define ENTITY_STAGE(...)					\
+constexpr static size_t GetStageMemorySize()	\
+{											\
+	return SumSizes<__VA_ARGS__>();			\
+};											\
 
 
 EXPORT(struct, FComponentType)
 {
-	//typedef void (*_InternalId)();
 	typedef size_t _InternalId;
-
 	_InternalId _TypeId;
-	uint64 _Size;
 
 	const char* _DecoratedName;
 
-	FComponentType() :
-		_TypeId(NULL),
-		_Size(NULL),
-		_DecoratedName(NULL)
-	{}
-
+	FComponentType();
 	uint64 SizeOf() const;
 
-
-	friend static bool operator==(const FComponentType& left, const FComponentType& right)
+	friend static bool operator==(const FComponentType & left, const FComponentType & right)
 	{
 		return left._TypeId == right._TypeId;
 	}
-	friend static bool operator!=(const FComponentType& left, const FComponentType& right)
+	friend static bool operator!=(const FComponentType & left, const FComponentType & right)
 	{
 		return !(left == right);
 	}
 
 
-	FComponentType(const FComponentType& other) :
-		_TypeId(other._TypeId),
-		_Size(other._Size),
-		_DecoratedName(other._DecoratedName)
-	{
-
-	}
-
-	FComponentType& operator=(const FComponentType& other)
-	{
-		_TypeId = other._TypeId;
-		_Size = other._Size;
-		_DecoratedName = other._DecoratedName;
-
-		return *this;
-	}
+	FComponentType(const FComponentType & other);
+	FComponentType& operator=(const FComponentType & other);
 
 protected:
-	FComponentType(_InternalId id, uint64 size, const char* name) :
-		_TypeId(id),
-		_Size(size),
-		_DecoratedName(name)
-	{}
-
+	uint64 _Size;
+	FComponentType(_InternalId id, uint64 size, const char* name);
 	friend class FEntityArchetype;
 };
 
@@ -91,13 +55,11 @@ struct TComponentType : public FComponentType
 	TComponentType() : 
 		FComponentType(typeid(TComponent).hash_code(), sizeof(TComponent), typeid(TComponent).name())
 	{
-
-
 	}
 };
 
 
-struct FEntityArchetype
+EXPORT(struct, FEntityArchetype)
 {
 	template<typename TComponent>
 	struct FComponentIndexer
@@ -109,16 +71,6 @@ struct FEntityArchetype
 	uint32 NumComponentTypes;
 	uint32 MemColumnSize;
 	uint32 MemAlignment;
-
-	FEntityArchetype(const FEntityArchetype& archetypeCopy) :
-		NumComponentTypes(archetypeCopy.NumComponentTypes),
-		MemColumnSize(archetypeCopy.MemColumnSize),
-		MemAlignment(archetypeCopy.MemAlignment)
-	{
-		ComponentTypes = new FComponentType[NumComponentTypes];
-		Memory::CopyCounted(ComponentTypes, archetypeCopy.ComponentTypes, NumComponentTypes);
-	}
-
 
 	template<typename TComponent>
 	FEntityArchetype& AddComponent()
@@ -145,12 +97,6 @@ struct FEntityArchetype
 		return *this;
 	}
 
-
-	bool Contains(const FEntityArchetype& type)
-	{
-		return Algorithm::SortedIsSubsetOf(type.ComponentTypes, ComponentTypes, type.NumComponentTypes, NumComponentTypes, [](FComponentType& comp) -> FComponentType::_InternalId& { return comp._TypeId; });
-	}
-
 	friend static bool operator==(const FEntityArchetype& left, const FEntityArchetype& right)
 	{
 		if (left.NumComponentTypes != right.NumComponentTypes)
@@ -164,17 +110,13 @@ struct FEntityArchetype
 
 		return true;
 	}
-	~FEntityArchetype()
-	{
-		delete ComponentTypes;
-	}
+
+	bool Contains(const FEntityArchetype& type);
+
+	FEntityArchetype(const FEntityArchetype& archetypeCopy);
+	~FEntityArchetype();
 protected:
-	FEntityArchetype(uint32 numComponents, FComponentType* cds, uint32 columnByteSize, uint32 columnAlignment) :
-		NumComponentTypes(numComponents),
-		ComponentTypes(cds),
-		MemColumnSize(columnByteSize),
-		MemAlignment(columnAlignment)
-	{}
+	FEntityArchetype(uint32 numComponents, FComponentType* cds, uint32 columnByteSize, uint32 columnAlignment);
 	FEntityArchetype() = delete;
 
 };
@@ -196,10 +138,9 @@ struct TEntityArchetype : public FEntityArchetype
 	TEntityArchetype() :
 		FEntityArchetype(0, NULL, (sizeof(TComponentArgs) + ...), _Flame_CExpr_MulAlignof<TComponentArgs...>())
 	{
-		// Compile time elemnt counting
 		constexpr uint32 componentNum = sizeof...(TComponentArgs);// (DummyOne<TComponentArgs>() + ...);
 
-		// Create an array of the component dype descriptions and sort it by ID
+		// Create an array of the component type descriptions and sort it by ID
 		FComponentType* compTypes = new FComponentType[]{ TComponentType<TComponentArgs>() ... };
 
 		Sort::Insertion(compTypes, componentNum, [](FComponentType& componentType) -> typename FComponentType::_InternalId&
@@ -213,8 +154,6 @@ struct TEntityArchetype : public FEntityArchetype
 };
 
 
-
-
 struct FComponentTypeHasher
 {
 	size_t operator ()(const FComponentType& comp) const
@@ -222,46 +161,3 @@ struct FComponentTypeHasher
 		return (size_t)comp._TypeId;
 	}
 };
-
-
-/*
-typedef FHashMap<FString, FComponentType> ComponentNameRegistry;
-//typedef FHashMap<FComponentType, FArray<FComponentType>, FComponentTypeHasher> ComponentRequirementRegistry;
-
-
-FORCEINLINE ComponentNameRegistry& GetComponentNameRegistry()
-{
-	static ComponentNameRegistry nameReg;
-	return nameReg;
-}
-
-
-/*FORCEINLINE ComponentRequirementRegistry& GetComponentRequirementRegistry()
-{
-	static ComponentRequirementRegistry reqReg;
-	return reqReg;
-}
-
-
-
-
-template<typename Type>
-struct FEntityComponentRegistryEntry
-{
-public:
-	//template<typename...TReqArgs>
-	static FEntityComponentRegistryEntry<Type>& Create(FString name)
-	{
-		static FEntityComponentRegistryEntry<Type> instance(name);
-		return instance;
-	}
-
-private:
-	FEntityComponentRegistryEntry(FString name)// , const FArray<FComponentType>& requirementArray)
-	{
-		FComponentType compType = TComponentType<Type>();
-		GetComponentNameRegistry().Set(name, compType);
-		//GetComponentRequirementRegistry().Set(compType, requirementArray);
-
-	}
-};*/

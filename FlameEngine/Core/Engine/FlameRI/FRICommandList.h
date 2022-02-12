@@ -63,12 +63,12 @@ struct FRICommandBase
 
 struct FRICommandListBase
 {
-
-
-
-
-	void Flush();
-
+	FRICommandListBase() :
+		First(0),
+		CommandLink(0),
+		NumCommands(0),
+		FriDynamic(0)
+	{}
 
 	FORCEINLINE void* AllocCommand(int32 AllocSize, int32 Alignment)
 	{
@@ -89,9 +89,7 @@ struct FRICommandListBase
 	{
 		return FriDynamic;
 	}
-
-
-
+	void Flush();
 
 	FMemoryStack MemoryStack;
 	FRICommandBase* First;

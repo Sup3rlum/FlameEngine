@@ -14,7 +14,7 @@ public:
 
 
 template<typename TType>
-EXPORT(struct, FHash)
+struct FHash
 {
     size_t operator ()(const TType& typePtr) const
     {
@@ -23,7 +23,7 @@ EXPORT(struct, FHash)
 };
 
 template<typename TType>
-EXPORT(struct, FHash<TType*>)
+struct FHash<TType*>
 {
     size_t operator ()(TType* typePtr) const
     {
@@ -33,7 +33,7 @@ EXPORT(struct, FHash<TType*>)
 
 
 template<>
-EXPORT(struct, FHash<FString>)
+struct FHash<FString>
 {
     size_t operator ()(const FString& str) const
     {
@@ -42,7 +42,7 @@ EXPORT(struct, FHash<FString>)
 };
 
 template<>
-EXPORT(struct, FHash<FAnsiString>)
+struct FHash<FAnsiString>
 {
     size_t operator ()(const FAnsiString & str) const
     {

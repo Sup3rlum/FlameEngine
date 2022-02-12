@@ -7,7 +7,7 @@
 
 
 template<typename TUserType>
-EXPORT(struct, FUniquePointer) : public NonCopyable
+struct FUniquePointer : public NonCopyable
 {
 public:
 
@@ -80,7 +80,7 @@ private:
 
 
 template<typename TUserType>
-EXPORT(struct, FSharedPointer)
+struct FSharedPointer
 {
 
 public:

@@ -45,7 +45,6 @@ public:
 	~Scene();
 
 
-
 	template<typename... TComponents>
 	Entity CreateEntity(TComponents... args)
 	{
@@ -76,24 +75,10 @@ public:
 		return systPtr;
 	}
 
-	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer)
-	{
-		ParticleSystems.Add(FKeyVal<ParticleSystemBase*, ParticleRenderer*>(particleSystem, particleRenderer));
-	}
+	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer);
 
-
-	AABB GetAABB() const
-	{
-		if (SceneLevel.LevelGeometry.Root)
-			return SceneLevel.LevelGeometry.Root->BoundingBox;
-
-		return AABB(0, 0);
-	}
-
-	FGlobalID GetID() const
-	{
-		return sceneID;
-	}
+	AABB GetAABB() const;
+	FGlobalID GetID() const;
 
 	void LoadSystems();
 	void Update(FGameTime gameTime);

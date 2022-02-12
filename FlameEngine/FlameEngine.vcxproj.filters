@@ -114,6 +114,10 @@
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\StageVXGI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\RenderModule.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\EntityComponent\Entity.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Animation\AnimationComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\ControlComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Configuration\ConfigComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common\CoreCommon.h" />
@@ -247,7 +251,7 @@
     <ClInclude Include="Core\Math\MathFwdDef.h" />
     <ClInclude Include="Core\Engine\GameSystem\Viewport.h" />
     <ClInclude Include="Core\Math\MathBase.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Configuration\ConfigurableComponent.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Configuration\ConfigComponent.h" />
     <ClInclude Include="Core\Utility\Readers\INI\INIReader.h" />
     <ClInclude Include="Core\Utility\Readers\RapidJSON\JSONDocument.h" />
     <ClInclude Include="Environment\EngineEnvironment.h" />
@@ -321,6 +325,7 @@
     <ClInclude Include="Core\Engine\PCI\PCI.h" />
     <ClInclude Include="Core\Engine\Renderer\VXGI\Buffers.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.h" />
+    <ClInclude Include="Core\Framework\Serialization\JSON.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

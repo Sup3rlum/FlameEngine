@@ -48,8 +48,6 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 
 	FMatrix4 persp = FPerspectiveMatrix(PI / 4.0f, 16.0f / 9.0f, 0.1f, 100.0f);
 
-	int a =5;
-
 }
 
 
@@ -132,7 +130,6 @@ void TestGameApplication::Load()
 
 	/* Test Particle System renderer */
 
-
 	ShaderLibrary psysLib = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/testParticle_dx.fslib", FriContext);
 
 
@@ -150,8 +147,12 @@ void TestGameApplication::Load()
 	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 3), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 48, EFRIAttribUsage::PerInstance));
 	instanceDecl.Add(FRIVertexDeclarationComponent("INSTANCE_COLOR",				      4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 64, EFRIAttribUsage::PerInstance));
 
+
+
+
 	Material smokeMap = FLocalContent::LoadFromLocal<Material>("materials/smoke.flmt", FriContext);
 	InstanceMesh instancedBallMesh = FLocalContent::LoadFromLocal<InstanceMesh>("models/quad.fl3d", FriContext, vertexDecl, instanceDecl, psysLib.Modules["Test"].Parts[EFRIResourceShaderType::Vertex]);
+
 	ParticleRenderer* testParticleRenderer = new ParticleRenderer(FriContext, psysLib.Modules["Test"]);
 
 	testParticleRenderer->SetInstanceMesh(instancedBallMesh);

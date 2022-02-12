@@ -100,8 +100,6 @@ public:
 		_file.close();
 	}
 
-private:
 	std::ifstream _file;
-
 };
 

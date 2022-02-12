@@ -48,10 +48,8 @@ private:
 
 	void Tick()
 	{
-
 		auto begin = entityWorld->EntMemory.Begin();
 		auto end = entityWorld->EntMemory.End();
-
 
 		for (auto it = begin; it != end; it++)
 		{
@@ -80,13 +78,15 @@ private:
 protected:
 	FEntityComponentSystem(EntityWorld* entityWorld) :
 		systemArchetype(TEntityArchetype<TComponents...>()),
-		entityWorld(entityWorld)
+		entityWorld(entityWorld),
+		scene(NULL)
 	{
 	}
 
 	FEntityComponentSystem() :
+		systemArchetype(TEntityArchetype<TComponents...>()),
 		entityWorld(NULL),
-		systemArchetype(TEntityArchetype<TComponents...>())
+		scene(NULL)
 	{
 
 	}

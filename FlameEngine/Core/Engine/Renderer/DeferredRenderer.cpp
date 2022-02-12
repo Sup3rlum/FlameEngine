@@ -536,18 +536,18 @@ void DeferredRenderer::StageLightData(FRICommandList& cmdList)
 	cmdList.SetShaderPipeline(Shaders.Lighting);
 	cmdList.StageResourcesLambda(UBuffers.LightingConstants, [&](FRIMemoryMap& stageMemory)
 		{
-			stageMemory.Load(CameraRef.View);
-			stageMemory.Load(CameraRef.Projection);
-			stageMemory.Load(inverseView);
-			stageMemory.Load(inverseProjection);
-			stageMemory.Load(inverseView[3]);
-			stageMemory.Load(0.1f);
-			stageMemory.Load(300.0f);
+			stageMemory << CameraRef.View;
+			stageMemory << CameraRef.Projection;
+			stageMemory << inverseView;
+			stageMemory << inverseProjection;
+			stageMemory << inverseView[3];
+			stageMemory << 0.1f;
+			stageMemory << 300.0f;
 
 
-			stageMemory.Load((float)DLightNum);
-			stageMemory.Load((float)PLightNum);
-			stageMemory.Load((float)SLightNum);
+			stageMemory << (float)DLightNum;
+			stageMemory << (float)PLightNum;
+			stageMemory << (float)SLightNum;
 
 
 		});
@@ -560,9 +560,9 @@ void DeferredRenderer::StageLightData(FRICommandList& cmdList)
 			{
 				//FMatrix4 toLight = SunRef.FrustumInfo[i].View * SunRef.FrustumInfo[i].Projection;
 
-				stageMem.Load(SunRef.FrustumInfo[i].View);
-				stageMem.Load(SunRef.FrustumInfo[i].Projection);
-				stageMem.Load(FVector4(SunRef.FrustumInfo[i].Depth));
+				stageMem << SunRef.FrustumInfo[i].View;
+				stageMem << SunRef.FrustumInfo[i].Projection;
+				stageMem << FVector4(SunRef.FrustumInfo[i].Depth);
 			}
 		});
 

@@ -154,7 +154,7 @@ struct FUniformSampler
 	FUniformSampler(uint32 unit, FRITexture3D* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler3D), Param3D(val) {}
 	FUniformSampler(uint32 unit, FRITextureCubeMap* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSamplerCube), ParamCube(val) {}
 	FUniformSampler(uint32 unit, FRITexture2DArray* val) : Unit(unit), samplerType(EFRIUniformSamplerType::TSampler2DArray), Param2DArray(val) {}
-	FUniformSampler(uint32 unit) : Unit(unit), Param2D(NULL) {  }
+	FUniformSampler(uint32 unit) : Unit(unit), Param2D(NULL), samplerType(EFRIUniformSamplerType::MaxSamplerTypes) {  }
 
 private:
 	FUniformSampler();
@@ -464,9 +464,7 @@ struct FRIColorDataFormat
 
 	}
 
-
 };
-
 
 
 struct FRIByte : FRIArrayInterface
@@ -493,16 +491,14 @@ struct FRIMemoryMap
 		Load((const void*)&value, sizeof(Type));
 	}
 
+	template<typename Type>
+	FRIMemoryMap& operator<<(const Type& type)
+	{
+		Load(type);
 
+		return *this;
+	}
 
 };
-
-
-struct IFRIStageableResource
-{
-	virtual void StageMemory(FRIMemoryMap& stagememory) const = 0;
-	virtual size_t GetStageMemorySize() const = 0;
-};
-
 
 typedef FDelegate<void(FRIMemoryMap&)> FRIMemoryStageDelegate;

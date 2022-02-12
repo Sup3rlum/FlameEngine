@@ -71,9 +71,7 @@ void Scene::Update(FGameTime gameTime)
 	FStaticArray<FVector3, 8> frustumSplitCorners;
 	{
 		// Create an orthonormal basis describing the light's local coordinate system
-
 		camRef.GetFrustumCorners(frustumCorners);
-
 
 		for (int i = 0; i < SM_CASCADES; i++)
 		{
@@ -109,8 +107,6 @@ void Scene::Update(FGameTime gameTime)
 			FVector3 aabbUp = toGlobalSpace * FVector3(0, 1, 0);
 
 
-
-
 			// Create the view and projection matrices for the light's camera that envelops the user view frustum
 			dirLightRef.FrustumInfo[i].View = FViewMatrix(position, position + dirLightRef.Direction, aabbUp);
 			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
@@ -122,6 +118,26 @@ void Scene::Update(FGameTime gameTime)
 		}
 	}
 }
+
+void Scene::RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer)
+{
+	ParticleSystems.Add(FKeyVal<ParticleSystemBase*, ParticleRenderer*>(particleSystem, particleRenderer));
+}
+
+
+AABB Scene::GetAABB() const
+{
+	if (SceneLevel.LevelGeometry.Root)
+		return SceneLevel.LevelGeometry.Root->BoundingBox;
+
+	return AABB(0, 0);
+}
+
+FGlobalID Scene::GetID() const
+{
+	return sceneID;
+}
+
 
 Scene::~Scene()
 {

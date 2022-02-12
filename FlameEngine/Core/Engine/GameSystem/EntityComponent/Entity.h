@@ -7,7 +7,7 @@
 struct EntityWorld;
 
 
-struct GEntityId
+struct GEntityID
 {
 	union
 	{
@@ -16,56 +16,13 @@ struct GEntityId
 		struct { void* HighPtr, * LowPtr; };
 	};
 
-	bool IsValid()
-	{
-		return HighPtr != nullptr;
-	}
-
-	~GEntityId()
-	{
-		Low = 0;
-		High = 0;
-	}
-
+	bool IsValid();
 };
 
 
-struct Entity
+EXPORT(struct, Entity)
 {
 
-
-	Entity(Entity&& other) noexcept :
-		EntityId(other.EntityId),
-		refCount(other.refCount),
-		name(MoveRef(other.name))
-	{
-	}
-	Entity(const Entity& other)
-	{
-		EntityId = other.EntityId;
-		refCount = other.refCount;
-		name = other.name;
-
-		(*refCount)++;
-	}
-
-	Entity& operator=(Entity&& other) noexcept
-	{
-		EntityId = other.EntityId;
-		refCount = other.refCount;
-		name = MoveRef(other.name);
-
-		return *this;
-	}
-	void operator=(const Entity& other)
-	{
-		EntityId = other.EntityId;
-		refCount = other.refCount;
-		name = other.name;
-
-		(*refCount)++;
-	}
-	
 	template<typename TComponent>
 	int Find()
 	{
@@ -89,12 +46,10 @@ struct Entity
 	}
 
 	template<typename TComponent, typename...TCreationArgs>
-	void SetComponent(const TCreationArgs& ... args)
+	void InitComponent(const TCreationArgs& ... args)
 	{
 		new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>())) TComponent(args...);
 	}
-
-
 
 
 	template<typename TComponent>
@@ -125,82 +80,30 @@ struct Entity
 		}
 	}
 
-	FORCEINLINE FEntityArchetype GetArchetype() const
-	{
-		return EntityId->Block->Parent->BlockArchetype;
-	}
+	FORCEINLINE FEntityArchetype GetArchetype() const;
+	uint32 GetRefCount() const;
 
+	FString Name() const;
+	bool IsValid() const;
 
-	void Delete()
-	{
-		if (EntityId)
-		{
-			EntityId->Block->Parent->FreeEntity(*EntityId);
-		}
-	}
+	Entity();
+	Entity(GEntityID* eid, const FString& name);
+	Entity(Entity&& other) noexcept;
+	Entity(const Entity& other);
+	Entity& operator=(Entity&& other) noexcept;
+	void operator=(const Entity& other);
 
-	uint32 GetRefCount() const
-	{
-		return *refCount;
-	}
+	~Entity();
 
-
-	~Entity()
-	{
-		if (refCount)
-		{
-			(*refCount)--;
-
-			if (*refCount == 0)
-			{
-				Invalidate();
-			}
-		}
-	}
-
-	FString Name() const
-	{
-		return name;
-	}
-
-	bool IsValid() const
-	{
-		bool idIsvalid = EntityId->IsValid();
-
-		return EntityId != nullptr && refCount != nullptr && *refCount > 0 && idIsvalid;
-	}
-
-	Entity() :
-		EntityId(NULL),
-		refCount(0),
-		name("")
-	{
-	}
-
-//private:
-
-	Entity(GEntityId* eid, const FString& name) :
-		EntityId(eid),
-		refCount(new uint32(1)),
-		name(name)
-	{
-	}
-
-
-
-	void Invalidate()
-	{
-		delete EntityId;
-		delete refCount;
-
-	}
-
+private:
+	void Invalidate();
+	void Delete();
 
 	friend class EntityManager;
 	friend class FEntityMemoryStack;
 	friend class Scene;
 
-	GEntityId* EntityId;
+	GEntityID* EntityId;
 	FString name;
 	uint32* refCount;
 

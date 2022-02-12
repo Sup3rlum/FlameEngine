@@ -4,10 +4,10 @@
 #include "Core/Common/CoreCommon.h"
 
 
-template<typename T> struct TVector2;
-template<typename T> struct TVector3;
-template<typename T> struct TVector4;
+template<typename Type> class TVector2;
+template<typename Type> class TVector3;
+template<typename Type> class TVector4;
 
-template<typename T> struct TVector2;
-template<typename T> struct TMatrix3;
-template<typename T> struct TMatrix4;
+template<typename Type> class TVector2;
+template<typename Type> class TMatrix3;
+template<typename Type> class TMatrix4;

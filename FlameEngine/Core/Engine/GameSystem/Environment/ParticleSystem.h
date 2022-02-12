@@ -207,9 +207,7 @@ class ParticleSystem : public ParticleSystemBase
 				EmitterAccum[i] += dt;
 				if (EmitterAccum[i] >= EmitFreq)
 				{
-
 					EmitterAccum[i] -= EmitFreq;
-
 
 					// Emit new particle
 

@@ -1,22 +1,38 @@
 #include "Entity.h"
 
 
+FEntityMemoryStack::FEntityMemoryStack(FEntityArchetype archetype, uint32 initialCapacity) :
+	BlockArchetype(archetype),
+	Top(NULL)
+{
+	AllocBlock(initialCapacity);
+
+	Offsets = new uint64[archetype.NumComponentTypes];
+	uint64 total = 0;
+
+	for (int i = 0; i < archetype.NumComponentTypes; i++)
+	{
+		Offsets[i] = total;
+		total += archetype.ComponentTypes[i].SizeOf();
+	}
+
+}
+
+
 Entity FEntityMemoryStack::AllocEntity(const FString& name)
 {
-
 	if (Top->IsFull())
 	{
 		AllocBlock(FEntityMemoryAllocator::BlockCapacityDefault);
 	}
 
 
-	new (&Top->controlArray[Top->NumEntities]) Entity(new GEntityId{ Top, Top->NumEntities }, name);
-
+	new (&Top->controlArray[Top->NumEntities]) Entity(new GEntityID{ Top, Top->NumEntities }, name);
 
 	return Top->controlArray[Top->NumEntities++];
 }
 
-void FEntityMemoryStack::FreeEntity(GEntityId entityId)
+void FEntityMemoryStack::FreeEntity(GEntityID entityId)
 {
 	memcpy(entityId.Block->GetColumn(entityId.Index), Top->GetColumn(--(Top->NumEntities)), BlockArchetype.MemColumnSize);
 
@@ -46,4 +62,18 @@ void FEntityMemoryStack::AllocBlock(uint32 blockCapacity)
 	Top->SetDataPtr(Alignment);
 	Top->controlArray = new Entity[blockCapacity];
 
+}
+
+
+void FEntityMemoryStack::Flush()
+{
+	auto CurrentTop = Top;
+
+	while (CurrentTop)
+	{
+		auto RemoveBlock = CurrentTop;
+		CurrentTop = CurrentTop->Next;
+
+		free(RemoveBlock);
+	}
 }

@@ -171,7 +171,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
       <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -288,7 +288,7 @@
     <ClInclude Include="Core\Engine\GameSystem\Common\SceneSystems.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\ViewFrustum.h" />
     <ClInclude Include="Core\Engine\GameSystem\CompositeMesh.h" />
-    <ClInclude Include="Core\Engine\GameSystem\Configuration\ConfigurableComponent.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Configuration\ConfigComponent.h" />
     <ClInclude Include="Core\Engine\Common\CommandRegistry.h" />
     <ClInclude Include="Core\Common\CoreAssert.h" />
     <ClInclude Include="Core\Common\CoreBase.h" />
@@ -352,6 +352,7 @@
     <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
     <ClInclude Include="Core\Framework\Common\FStringConversionTraits.h" />
     <ClInclude Include="Core\Framework\Common\FStringMemoryAllocator.h" />
+    <ClInclude Include="Core\Framework\Serialization\JSON.h" />
     <ClInclude Include="Core\Math\Calc\VectorField.h" />
     <ClInclude Include="Core\Math\Functions\Functions.h" />
     <ClInclude Include="Core\Math\Geometry\Volumes\BoundingSphere.h" />
@@ -453,7 +454,11 @@
     <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIContext.cpp" />
     <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Animation\AnimationComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Configuration\ConfigComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\ControlComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\EntityComponent\Entity.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Environment\Level.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Common\SceneSystems.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\EntityComponent.cpp" />

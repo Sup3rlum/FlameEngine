@@ -30,14 +30,11 @@ struct DirectionalLight
 
 	void StageMemory(FRIMemoryMap& memory)
 	{
-		memory.Load(FVector4(Direction, 0));			// Pad to 16 bytes
-		memory.Load(FVector4(Color.rgb, Intensity));	// Pad to 16 bytes
+		memory << FVector4(Direction, 0);			// Pad to 16 bytes
+		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
 	}
 
-	static size_t GetStageMemorySize()
-	{
-		return 8 * sizeof(float);
-	}
+	ENTITY_STAGE(FVector4, FVector4)
 };
 
 
@@ -50,16 +47,13 @@ struct PointLight
 
 	void StageMemory(FRIMemoryMap& memory)
 	{
-		memory.Load(FVector4(Position, 1));				// Pad to 16 bytes
-		memory.Load(FVector4(Color.rgb, Intensity));	// Pad to 16 bytes
-		memory.Load(Radius);	
+		memory << FVector4(Position, 1.0f);				// Pad to 16 bytes
+		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
+		memory << Radius;	
 
 	}
 
-	static size_t GetStageMemorySize()
-	{
-		return 9 * sizeof(float);
-	}
+	ENTITY_STAGE(FVector4, FVector4, float)
 };
 
 
@@ -75,17 +69,14 @@ struct SpotLight
 
 	void StageMemory(FRIMemoryMap& memory)
 	{
-		memory.Load(FVector4(Position, 1));				// Pad to 16 bytes
-		memory.Load(FVector4(Direction, 0));			// Pad to 16 bytes
-		memory.Load(FVector4(Color.rgb, Intensity));	// Pad to 16 bytes
-		memory.Load(Radius);
-		memory.Load(ApertureSize);
-		memory.Load(ApertureSharpness);
+		memory << FVector4(Position, 1);				// Pad to 16 bytes
+		memory << FVector4(Direction, 0);			// Pad to 16 bytes
+		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
+		memory << Radius;
+		memory << ApertureSize;
+		memory << ApertureSharpness;
 
 	}
 
-	static size_t GetStageMemorySize()
-	{
-		return 15 * sizeof(float);
-	}
+	ENTITY_STAGE(FVector4, FVector4, float, float, float)
 };

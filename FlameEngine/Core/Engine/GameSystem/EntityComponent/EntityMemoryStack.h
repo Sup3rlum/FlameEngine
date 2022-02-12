@@ -14,10 +14,8 @@ public:
 };
 
 
-
-struct GEntityId;
+struct GEntityID;
 struct Entity;
-
 
 
 struct FEntityMemoryStack
@@ -57,56 +55,22 @@ struct FEntityMemoryStack
 			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
 		}
 
-
 		FORCEINLINE bool IsFull() const
 		{
 			return NumEntities == Columns;
 		}
 	};
 
-
-
 	FEntityArchetype BlockArchetype;
 	FEntityMemoryBlock* Top;
 	uint64* Offsets;
 
-
-	FEntityMemoryStack(FEntityArchetype archetype, uint32 initialCapacity) :
-		BlockArchetype(archetype),
-		Top(NULL)
-	{
-		AllocBlock(initialCapacity);
-
-		Offsets = new uint64[archetype.NumComponentTypes];
-		uint64 total = 0;
-
-		for (int i = 0; i < archetype.NumComponentTypes; i++)
-		{
-			Offsets[i] = total;
-			total += archetype.ComponentTypes[i]._Size;
-		}
-
-	}
-
+	FEntityMemoryStack(FEntityArchetype archetype, uint32 initialCapacity);
 	Entity AllocEntity(const FString&);
-	void FreeEntity(GEntityId);
+	void FreeEntity(GEntityID entity);
 	void AllocBlock(uint32 blockCapacity);
 
-	void Flush()
-	{
-		auto CurrentTop = Top;
-
-		while (CurrentTop)
-		{
-			auto RemoveBlock = CurrentTop;
-			CurrentTop = CurrentTop->Next;
-
-			free(RemoveBlock);
-		}
-	}
-
-
-
+	void Flush();
 
 	~FEntityMemoryStack()
 	{
