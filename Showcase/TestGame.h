@@ -2,9 +2,8 @@
 
 #include "FlameEngine/Core/Engine/GameSystem/Game.h"
 
-#include "TestPlayerSystem.h"
 #include "TestParticleSystem.h"
-
+#include "FlameEngine/Core/Engine/GameSystem/Behaviour.h"
 
 class TestGameApplication : public GameApplication
 {
@@ -16,6 +15,8 @@ public:
 	void Suspend();
 	void Update(FGameTime gameTime);
 
+
+	void CreateParticleSystem();
 
 	void Shoot();
 

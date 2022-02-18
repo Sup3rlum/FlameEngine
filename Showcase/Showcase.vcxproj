@@ -233,111 +233,110 @@ echo</Command>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestParticleSystem.cpp" />
-    <ClCompile Include="TestPlayerSystem.cpp" />
-    <None Include="animations\anim_guy.fl3d.anim" />
-    <None Include="assets\welcome.html" />
-    <None Include="shaders\atmosphere\atmosphere.vert">
+    <ClCompile Include="TestPlayerScript.cpp" />
+    <None Include="Assets\Animations\anim_guy.fl3d.anim" />
+    <None Include="Assets\welcome.html" />
+    <None Include="Assets\Shaders\atmosphere\atmosphere.vert">
       <FileType>Document</FileType>
     </None>
     <ClCompile Include="TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\deferred.fslib" />
-    <None Include="shaders\misc\animated_model_frag.glsl" />
-    <None Include="shaders\misc\animated_model_vert.glsl" />
-    <None Include="shaders\atmosphere\atmosphere.frag">
+    <None Include="Assets\Shaders\deferred.fslib" />
+    <None Include="Assets\Shaders\misc\animated_model_frag.glsl" />
+    <None Include="Assets\Shaders\misc\animated_model_vert.glsl" />
+    <None Include="Assets\Shaders\atmosphere\atmosphere.frag">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </None>
-    <CustomBuild Include="shaders\atmosphere\basic.frag.glsl">
+    <CustomBuild Include="Assets\Shaders\atmosphere\basic.frag.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <None Include="shaders\basic\quad.frag" />
-    <None Include="shaders\basic\quad.vert" />
-    <None Include="shaders\basic\quad_array.frag" />
-    <None Include="shaders\basic\quad_array.vert" />
-    <CustomBuild Include="shaders\deferred\GBufferGen.frag.glsl">
+    <None Include="Assets\Shaders\basic\quad.frag" />
+    <None Include="Assets\Shaders\basic\quad.vert" />
+    <None Include="Assets\Shaders\basic\quad_array.frag" />
+    <None Include="Assets\Shaders\basic\quad_array.vert" />
+    <CustomBuild Include="Assets\Shaders\deferred\GBufferGen.frag.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="shaders\deferred\GBufferGen.vert.glsl">
+    <CustomBuild Include="Assets\Shaders\deferred\GBufferGen.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="shaders\deferred\GBufferGenSkinned.vert.glsl">
+    <CustomBuild Include="Assets\Shaders\deferred\GBufferGenSkinned.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <None Include="shaders\blur\kawase_blur.frag" />
-    <None Include="shaders\misc\debug_frag.glsl" />
-    <None Include="shaders\misc\debug_vert.glsl" />
-    <None Include="shaders\misc\debug_view.frag" />
-    <None Include="shaders\misc\debug_view.vert" />
-    <CustomBuild Include="shaders\deferred\ShadowmapSkinned.vert.glsl">
+    <None Include="Assets\Shaders\blur\kawase_blur.frag" />
+    <None Include="Assets\Shaders\misc\debug_frag.glsl" />
+    <None Include="Assets\Shaders\misc\debug_vert.glsl" />
+    <None Include="Assets\Shaders\misc\debug_view.frag" />
+    <None Include="Assets\Shaders\misc\debug_view.vert" />
+    <CustomBuild Include="Assets\Shaders\deferred\ShadowmapSkinned.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <None Include="shaders\misc\def_geom.glsl" />
-    <None Include="shaders\misc\depth_frag.glsl" />
-    <None Include="shaders\misc\depth_vert.glsl" />
-    <None Include="shaders\flamev\geomgen.fvx" />
-    <None Include="shaders\flamev\new.fs" />
-    <None Include="shaders\misc\frag.glsl" />
-    <None Include="shaders\misc\gauss_blur.frag" />
-    <None Include="shaders\misc\geom.glsl" />
-    <None Include="shaders\misc\geom_preserve_blur.frag" />
-    <CustomBuild Include="shaders\deferred\Combine.frag.glsl">
+    <None Include="Assets\Shaders\misc\def_geom.glsl" />
+    <None Include="Assets\Shaders\misc\depth_frag.glsl" />
+    <None Include="Assets\Shaders\misc\depth_vert.glsl" />
+    <None Include="Assets\Shaders\flamev\geomgen.fvx" />
+    <None Include="Assets\Shaders\flamev\new.fs" />
+    <None Include="Assets\Shaders\misc\frag.glsl" />
+    <None Include="Assets\Shaders\misc\gauss_blur.frag" />
+    <None Include="Assets\Shaders\misc\geom.glsl" />
+    <None Include="Assets\Shaders\misc\geom_preserve_blur.frag" />
+    <CustomBuild Include="Assets\Shaders\deferred\Combine.frag.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="shaders\deferred\Combine.vert.glsl">
+    <CustomBuild Include="Assets\Shaders\deferred\Combine.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <None Include="shaders\misc\renderbatch.frag" />
-    <None Include="shaders\misc\renderbatch.vert" />
-    <None Include="shaders\misc\renderbatch_string.frag" />
-    <None Include="shaders\misc\renderbatch_string.vert" />
-    <None Include="shaders\scene\depthpass.frag" />
-    <None Include="shaders\scene\depthpass.vert" />
-    <None Include="shaders\scene\lights.glsl" />
-    <CustomBuild Include="shaders\deferred\Shadowmap.frag.glsl">
+    <None Include="Assets\Shaders\misc\renderbatch.frag" />
+    <None Include="Assets\Shaders\misc\renderbatch.vert" />
+    <None Include="Assets\Shaders\misc\renderbatch_string.frag" />
+    <None Include="Assets\Shaders\misc\renderbatch_string.vert" />
+    <None Include="Assets\Shaders\scene\depthpass.frag" />
+    <None Include="Assets\Shaders\scene\depthpass.vert" />
+    <None Include="Assets\Shaders\scene\lights.glsl" />
+    <CustomBuild Include="Assets\Shaders\deferred\Shadowmap.frag.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="shaders\deferred\Shadowmap.vert.glsl">
+    <CustomBuild Include="Assets\Shaders\deferred\Shadowmap.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <None Include="shaders\misc\ssao2.frag" />
-    <None Include="shaders\misc\ssao_blur.frag" />
-    <None Include="shaders\misc\ssao_blur.vert" />
-    <None Include="shaders\misc\ssao_final.frag" />
-    <None Include="shaders\misc\ssao_final.vert" />
-    <None Include="shaders\misc\ssao_geom.frag" />
-    <None Include="shaders\misc\ssao_geom.vert" />
-    <None Include="shaders\misc\ssao_light.frag" />
-    <None Include="shaders\misc\ssao_light.vert" />
-    <None Include="shaders\util\SATGen.frag" />
-    <None Include="shaders\ux\uxFrame.frag" />
-    <None Include="shaders\ux\uxFrame.vert" />
-    <None Include="shaders\misc\vert.glsl" />
+    <None Include="Assets\Shaders\misc\ssao2.frag" />
+    <None Include="Assets\Shaders\misc\ssao_blur.frag" />
+    <None Include="Assets\Shaders\misc\ssao_blur.vert" />
+    <None Include="Assets\Shaders\misc\ssao_final.frag" />
+    <None Include="Assets\Shaders\misc\ssao_final.vert" />
+    <None Include="Assets\Shaders\misc\ssao_geom.frag" />
+    <None Include="Assets\Shaders\misc\ssao_geom.vert" />
+    <None Include="Assets\Shaders\misc\ssao_light.frag" />
+    <None Include="Assets\Shaders\misc\ssao_light.vert" />
+    <None Include="Assets\Shaders\util\SATGen.frag" />
+    <None Include="Assets\Shaders\ux\uxFrame.frag" />
+    <None Include="Assets\Shaders\ux\uxFrame.vert" />
+    <None Include="Assets\Shaders\misc\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FirstPersonCharacterComponent.h" />
-    <CustomBuild Include="shaders\atmosphere\basic.vert.glsl">
+    <ClInclude Include="TestPlayerScript.h" />
+    <CustomBuild Include="Assets\Shaders\atmosphere\basic.vert.glsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <ClInclude Include="shaders\util\SATGen.vert" />
+    <ClInclude Include="Assets\Shaders\util\SATGen.vert" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestParticleSystem.h" />
-    <ClInclude Include="TestPlayerSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders\signature\dx\CombineQuad.signature.hlsl">
+    <FxCompile Include="Assets\Shaders\signature\dx\CombineQuad.signature.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="shaders\signature\dx\Mesh.signature.hlsl">
+    <FxCompile Include="Assets\Shaders\signature\dx\Mesh.signature.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="shaders\signature\dx\SkinnedMesh.signature.hlsl">
+    <FxCompile Include="Assets\Shaders\signature\dx\SkinnedMesh.signature.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="shaders\signature\dx\Visualize.signature.hlsl">
+    <FxCompile Include="Assets\Shaders\signature\dx\Visualize.signature.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">Vertex</ShaderType>

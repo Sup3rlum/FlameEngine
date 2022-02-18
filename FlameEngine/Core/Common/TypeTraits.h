@@ -39,10 +39,21 @@ struct _FRemoveConst<const _Type>
 	typedef _Type ConstRemovedType;
 };
 
-
-
 template<typename _Type>
 using FRemoveConst = typename _FRemoveConst<_Type>::ConstRemovedType;
+
+
+// Enable If
+
+template<bool _bBool, typename _Type = void>
+struct _FEnableIf {};
+
+template<typename _Type>
+struct _FEnableIf<true, _Type> { typedef _Type type; };
+
+
+template<bool _bBool, typename _Type = void>
+using FEnableIf = typename _FEnableIf<_bBool, _Type>::type;
 
 
 

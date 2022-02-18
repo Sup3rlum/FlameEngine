@@ -497,13 +497,11 @@ float4 main(PSInput input) : SV_Target0
         directRadiance += CalcSpotLight(SpotLights[k], Position.xyz, Normal, ViewDir, Albedo, Roughness, Metallic, Fresnel0);
     }
     
-  
-  
     /*--- VXGI ---*/
     
     float4 wsPosition = mul(InverseView, Position);  
     float3 wsNormal = mul(transpose((float3x3) View), Normal);
-    float4 vxgi = CalculateIndirectLighting(wsPosition.xyz, wsNormal, Albedo, float4(Albedo, 1-Roughness), true);
+    float4 vxgi = float4(0, 0, 0, 1);// CalculateIndirectLighting(wsPosition.xyz, wsNormal, Albedo, float4(Albedo, 1 - Roughness), true);
     
     float3 vxgiAmbient = vxgi.rgb;
     float vxgiAO = vxgi.a;

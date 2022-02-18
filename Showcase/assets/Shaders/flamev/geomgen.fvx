@@ -1,0 +1,74 @@
+[Pipeline "GeometryGen"]
+{
+	_Globals_
+	{
+		sampler2D Texture;
+		sampler2D SomeTexture;
+		
+		mat4 View;
+		mat4 Projection;
+		mat4 World;
+	}
+
+	Entry
+	[	
+		=> vec3 Position =>
+		=> vec3 Coords =>
+	]
+	Vertex
+	{
+
+
+		float someVariable = 4.0f;
+		
+		
+		Main()
+		{
+		
+		
+			sharedMatrix = mat3(someVariable) + Position;
+			sharedVec = vec2(2 * someVariable) + Coords;
+			sharedOtherVec = vec3(someVariable - 1) - Coords.xxy;
+		}
+
+	}
+	/Vertex
+	[
+		=> mat3 sharedMatrix 	=> 
+		=> vec3 sharedVec 		=>
+		=> vec2 sharedOtherVec 	=>
+	]
+	Geometry
+	{
+		
+		float anotherVariable = 112.911f;
+		
+		float CallAmbulance(float number)
+		{
+			return number * 3f; 
+		}
+		
+
+		Main()
+		{
+			
+		}
+
+	}
+	/Geometry
+	[
+		=> vec4 sharedVec4 	=> 
+	]
+	Fragment
+	{
+		Main()
+		{
+			
+		}
+	}
+	/Fragment
+	[
+		=> vec3 outputColor =>
+	]
+	Exit
+}

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../LocalContentService.h"
+#include "../AssetManager.h"
 
 #include "Core/Engine/FlameRI/FRI.h"
 #include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"

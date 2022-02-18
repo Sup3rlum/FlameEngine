@@ -7,10 +7,9 @@
 #include "Core/Engine/Renderer/DeferredRenderer.h"
 #include "Core/UX/UXRenderer.h"
 #include "Core/UX/UXContainer.h"
-
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 
 class Win32Context;
-
 
 
 EXPORT(class,  GameApplication)
@@ -35,9 +34,7 @@ public:
 	void Run();
 	void Frame();
 
-
 	PhysicsSceneDescription CreatePhysicsSceneDescription();
-
 
 	void BeginRender(FRICommandList& cmdList);
 	void EndRender(FRICommandList& cmdList);
@@ -51,8 +48,7 @@ public:
 
 	DeferredRenderer Renderer;
 	UXRenderer UXRenderer;
-
-
-
+	
+	FAssetManager Content;
 };
 

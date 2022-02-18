@@ -1,6 +1,7 @@
 #include "DebugRenderer.h"
 
 #include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 
 DebugRenderer::DebugRenderer()
 
@@ -14,7 +15,10 @@ void DebugRenderer::CreateResources(FRIContext* context)
 {
 	FRICommandList cmdList(context->GetFRIDynamic());
 
-	Shaders = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/bbox_dx.fslib", context);
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+
+	Shaders = Content.Load<ShaderLibrary>("Shaders/bbox_dx.fslib", context);
 
 	pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["Debug"]);
 

@@ -1,6 +1,7 @@
 #include "SMAA.h"
 
 #include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 #include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
 
 
@@ -10,7 +11,9 @@ void SMAA::CreateResources(FRIContext* renderContext)
 {
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
-	ShaderLibrary Shaders = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/smaa_dx.fslib", renderContext);
+	FAssetManager Content;
+	Content.Connect("./Assets/");	
+	ShaderLibrary Shaders = Content.Load<ShaderLibrary>("Shaders/smaa_dx.fslib", renderContext);
 
 
 	// Create textures

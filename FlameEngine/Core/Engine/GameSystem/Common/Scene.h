@@ -21,6 +21,7 @@
 
 #include "../Environment/Level.h"
 #include "Core/UX/UXContainer.h"
+#include "../Behaviour.h"
 
 struct PhysicsSceneDescription
 {
@@ -45,34 +46,46 @@ public:
 	~Scene();
 
 
+	/*
 	template<typename... TComponents>
-	Entity CreateEntity(TComponents... args)
+	Entity CreateEntity(const FString& name, TComponents... args)
 	{
-		Entity e = CreateEntity<TComponents...>();
+		Entity e = CreateEntity<TComponents...>(name);
 		(e.SetComponent(args), ...);
 		return e;
-	}
+	}*/
 
 	template<typename... TComponents>
 	Entity CreateEntity(const FString& name)
 	{
-		return entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
-	}
+		Entity entity = entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
 
+		//(entity.InitComponent<TComponents>(), ...);
+
+		if (entity.HasComponent<Behaviour>())
+			entity.Component<Behaviour>().pEntity = entity; 
+
+		return entity;// entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
+	}
 
 	template<typename TSystem, typename... TCreationArgs>
 	TSystem* RegisterSystem(ECSExecutionFlag execFlags = ECSExecutionFlag::MAIN_THREAD, const TCreationArgs& ... args)
 	{
-		auto systPtr = new TSystem(args...);
-
-		systPtr->scene = this;
-		systPtr->entityWorld = &entityWorld;
+		auto pSystem = new TSystem(args...);
+		pSystem->scene = this;
 
 		if (execFlags != ECSExecutionFlag::USER_TICK)
 		{
-			Systems.Add(systPtr);
+			Systems.Add(pSystem);
 		}
-		return systPtr;
+		return pSystem;
+	}
+
+	template<typename... TComponents>
+	FEntityComponentSystem<TComponents...>* System()
+	{
+		auto pSystem = new FEntityComponentSystem<TComponents...>(this);
+		return pSystem;
 	}
 
 	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer);
@@ -82,6 +95,7 @@ public:
 
 	void LoadSystems();
 	void Update(FGameTime gameTime);
+	void UpdateDirectionalLights();
 
 	Entity Camera;
 	Entity Sun;
@@ -102,5 +116,8 @@ private:
 
 	FGlobalID sceneID;
 	EntityWorld entityWorld;
+	
+	template<typename ...TComponents>
+	friend class FEntityComponentSystem;
 };
 

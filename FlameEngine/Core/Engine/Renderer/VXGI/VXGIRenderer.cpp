@@ -2,6 +2,7 @@
 
 
 #include "Core/Framework/IO/FileStream.h"
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 #include "../../ContentSystem/Client/AssetImportScripts/Material.h"
 #include "Buffers.h"
 
@@ -44,8 +45,9 @@ void VXGIRenderer::CreateResources(FRIContext* renderContext)
 
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
-
-	Shaders = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/vxgi.fslib", renderContext);
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+	Shaders = Content.Load<ShaderLibrary>("Shaders/vxgi.fslib", renderContext);
 
 	IVector2 viewportSize = renderContext->GetViewport().Size;
 

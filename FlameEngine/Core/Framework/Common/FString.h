@@ -7,14 +7,9 @@
 
 
 
-
-
-
-
 /*
 *  Defines an immutable, stack allocated string
 */
-
 
 template<typename TBasicChar, size_t GenSize>
 struct TStaticString: public FStaticArray<TBasicChar, GenSize>
@@ -22,7 +17,6 @@ struct TStaticString: public FStaticArray<TBasicChar, GenSize>
 public:
 	TStaticString()
 	{
-
 	}
 
 
@@ -33,8 +27,6 @@ public:
 		FBaseStringMemoryAllocator::Allocate(this->dataInternal, val, min(tsize, GenSize));
 		this->dataInternal[tsize] = 0;
 	}
-
-
 
 	size_t GetStrLen() const
 	{
@@ -47,7 +39,9 @@ public:
 	}
 };
 
-
+/*
+*  Defines an dynamic string
+*/
 
 template<typename TBaseChar>
 struct TString : public FArray<TBaseChar>
@@ -137,7 +131,7 @@ public:
 	{
 		FArray<TString> splits;
 		TString tStr;
-		for (auto tChar : *this)
+		for (auto& tChar : *this)
 		{
 			if (tChar == delimiter)
 			{
@@ -184,49 +178,7 @@ public:
 };
 
 
-template<typename TBasicChar>
-struct TStringFormatArg
-{
-	enum EType { Int, UInt, Double, String, StringLiteral };
 
-	EType Type;
-
-	union
-	{
-		int64_t IntValue;
-		uint64_t UIntValue;
-		double DoubleValue;
-		const TBasicChar* StringLiteralValue;
-	};
-
-	TString<TBasicChar> StringValue;
-
-	TStringFormatArg(const int32_t Value) : Type(Int), IntValue(Value) {}
-	TStringFormatArg(const uint32_t Value) : Type(UInt), UIntValue(Value) {}
-	TStringFormatArg(const int64_t Value) : Type(Int), IntValue(Value) {}
-	TStringFormatArg(const uint64_t Value) : Type(UInt), UIntValue(Value) {}
-	TStringFormatArg(const float Value) : Type(Double), DoubleValue(Value) {}
-	TStringFormatArg(const double Value) : Type(Double), DoubleValue(Value) {}
-	TStringFormatArg(const TString<TBasicChar>& Value) : Type(String), StringValue(Value) {}
-	TStringFormatArg(const TBasicChar* Value) : Type(StringLiteral), StringLiteralValue(Value) {}
-	TStringFormatArg(const TStringFormatArg& RHS)
-	{
-		Type = RHS.Type;
-		switch (Type)
-		{
-		case Int: 				IntValue = RHS.IntValue; break;
-		case UInt: 				UIntValue = RHS.UIntValue; break;
-		case Double: 			IntValue = RHS.IntValue; break;
-		case String: 			StringValue = RHS.StringValue; break;
-		case StringLiteral: 	StringLiteralValue = RHS.StringLiteralValue; break;
-		}
-	}
-
-
-private:
-
-	TStringFormatArg();
-};
 
 
 template<size_t GenSize>

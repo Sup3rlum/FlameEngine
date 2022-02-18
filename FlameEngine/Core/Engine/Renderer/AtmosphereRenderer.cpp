@@ -1,5 +1,5 @@
 #include "AtmosphereRenderer.h"
-
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 
 
 
@@ -24,8 +24,11 @@ void AtmosphereRenderer::CreateResources(FRIContext* renderContext)
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
 
-	Shaders = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/atmosphere_dx.fslib", renderContext);
-	renderSphere = FLocalContent::LoadFromLocal<Mesh>("models/cube.fl3d", renderContext);
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+
+	Shaders = Content.Load<ShaderLibrary>("Shaders/atmosphere_dx.fslib", renderContext);
+	renderSphere = Content.Load<Mesh>("Models/cube.fl3d", renderContext);
 
 
 	pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["AtmosphereDynamic"]);

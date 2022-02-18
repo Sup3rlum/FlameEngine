@@ -2,6 +2,7 @@
 
 
 #include "Scene.h"
+#include "../Behaviour.h"
 
 struct DynamicPhys : public FEntityComponentSystem<FTransform, RigidBody>
 {
@@ -13,3 +14,9 @@ struct AnimSystem : public FEntityComponentSystem<SkinnedMesh, AnimationComponen
 {
 	void Update(Entity, SkinnedMesh&, AnimationComponent&);
 };
+
+struct BehaviourSystem : public FEntityComponentSystem<Behaviour>
+{
+	void Update(Entity, Behaviour&);
+};
+

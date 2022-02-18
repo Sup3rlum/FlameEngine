@@ -9,9 +9,16 @@ void AnimSystem::Update(Entity ent, SkinnedMesh& mesh, AnimationComponent& anim)
 {
 	anim.Step(1.0f / 10.0f);
 
-
 	if (anim.CurrentSequenceRef)
 	{
 		mesh.MeshSkeleton.ApplyPose(anim.CurrentAnimationPose);
+	}
+}
+
+void BehaviourSystem::Update(Entity ent, Behaviour& behaviour)
+{
+	if (behaviour.pScript)
+	{
+		behaviour.pScript->Update();
 	}
 }

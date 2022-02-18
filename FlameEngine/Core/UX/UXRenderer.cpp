@@ -1,5 +1,6 @@
 #include "UXRenderer.h"
 
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 #include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
 
 void UXRenderer::LoadResources(FRIContext* renderContext)
@@ -7,7 +8,9 @@ void UXRenderer::LoadResources(FRIContext* renderContext)
 	FriContext = renderContext;
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
-	ShaderLibrary lib = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/ux_dx.fslib", FriContext);
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+	auto lib  = Content.Load<ShaderLibrary>("Shaders/ux_dx.fslib", renderContext);
 
 	shader = cmdList.GetDynamic()->CreateShaderPipeline(lib.Modules["UX"]);
 	DepthStencilState = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::False, EFRIBool::False);

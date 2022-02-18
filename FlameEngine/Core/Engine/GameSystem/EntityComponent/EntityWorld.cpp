@@ -18,11 +18,8 @@ void EntityWorld::AllocArchetype(const FEntityArchetype& archetype)
 
 EntityWorld::~EntityWorld()
 {
-	auto start = EntMemory.Begin();
-	auto end = EntMemory.End();
-
-	for (auto it = start; it != end; it++)
+	for (auto& [archType, stack] : EntMemory)
 	{
-		delete it->Value;
+		delete stack;
 	}
 }

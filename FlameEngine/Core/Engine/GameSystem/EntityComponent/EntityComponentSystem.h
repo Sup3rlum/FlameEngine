@@ -6,11 +6,13 @@
 
 
 
+class Scene;
 
 struct FEntityComponentSystemBase
 {
 	virtual void Tick() = 0;
 };
+
 
 
 template<typename...TComponents>
@@ -36,7 +38,6 @@ private:
 			if (cmp == stack->BlockArchetype.ComponentTypes[i])
 			{
 				TComponentIndexer<T>::index = i;
-
 			}
 		}
 	}
@@ -48,26 +49,19 @@ private:
 
 	void Tick()
 	{
-		auto begin = entityWorld->EntMemory.Begin();
-		auto end = entityWorld->EntMemory.End();
-
-		for (auto it = begin; it != end; it++)
+		for (auto& [archType, stack] : scene->entityWorld.EntMemory)
 		{
-			auto stack = it->Value;
-
 			if (stack->BlockArchetype.Contains(systemArchetype))
 			{
-				auto block = stack->Top;
-
 				IndexStack(stack);
 
+				auto block = stack->Top;
 				while (block)
 				{
 					for (int i = 0; i < block->NumEntities; i++)
 					{
 						this->Update(block->controlArray[i], block->GetComponent<TComponents>(i, TComponentIndexer<TComponents>::index) ...);
 					}
-
 					block = block->Next;
 				}
 			}
@@ -76,43 +70,42 @@ private:
 
 
 protected:
-	FEntityComponentSystem(EntityWorld* entityWorld) :
+	FEntityComponentSystem(Scene* scene) :
 		systemArchetype(TEntityArchetype<TComponents...>()),
-		entityWorld(entityWorld),
-		scene(NULL)
+		scene(scene)
 	{
 	}
 
 	FEntityComponentSystem() :
 		systemArchetype(TEntityArchetype<TComponents...>()),
-		entityWorld(NULL),
 		scene(NULL)
 	{
-
 	}
 
-	virtual void Update(Entity ent, TComponents&...) = 0;
+	virtual void Update(Entity ent, TComponents&...)
+	{
+	}
 
-	class Scene* scene;
+	Scene* scene;
 
 public:
 
 	FEntityComponentSystem(FEntityComponentSystem&& other) noexcept :
 		systemArchetype(other.systemArchetype),
-		entityWorld(other.entityWorld)
+		scene(other.scene)
 	{
 	}
 
 	FEntityComponentSystem(const FEntityComponentSystem& other) noexcept :
 		systemArchetype(other.systemArchetype),
-		entityWorld(other.entityWorld)
+		scene(other.scene)
 	{
 	}
 
 	FEntityComponentSystem& operator=(const FEntityComponentSystem& other)
 	{
 		systemArchetype = other.systemArchetype;
-		entityWorld = other.entityWorld;
+		scene = other.scene;
 
 		return *this;
 	}
@@ -120,21 +113,13 @@ public:
 	template<typename TLambda>
 	void ForEach(TLambda lambdaFunc)
 	{
-
-		auto begin = entityWorld->EntMemory.Begin();
-		auto end = entityWorld->EntMemory.End();
-
-
-		for (auto it = begin; it != end; it++)
+		for (auto& [archType, stack] : scene->entityWorld.EntMemory)
 		{
-			auto stack = it->Value;
-
 			if (stack->BlockArchetype.Contains(systemArchetype))
 			{
-				auto block = stack->Top;
-
 				IndexStack(stack);
 
+				auto block = stack->Top;
 				while (block)
 				{
 					for (int i = 0; i < block->NumEntities; i++)
@@ -145,43 +130,29 @@ public:
 					block = block->Next;
 				}
 			}
-
 		}
-
 	}
 
 	int32 Count()
 	{
 		int32 entityCount = 0;
 
-		auto begin = entityWorld->EntMemory.Begin();
-		auto end = entityWorld->EntMemory.End();
-
-
-		for (auto it = begin; it != end; it++)
+		for (auto& [archType, stack] : scene->entityWorld.EntMemory)
 		{
-			auto stack = it->Value;
-
 			if (stack->BlockArchetype.Contains(systemArchetype))
 			{
 				auto block = stack->Top;
 				while (block)
 				{
 					entityCount += block->NumEntities;
-
 					block = block->Next;
 				}
 			}
-
 		}
 
 		return entityCount;
 	}
 
 	FEntityArchetype systemArchetype;
-	EntityWorld* entityWorld;
-
-
 	friend class Scene;
-
 };

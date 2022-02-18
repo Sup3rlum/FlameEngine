@@ -4,8 +4,6 @@
 #include "Core/Utility/Readers/RapidJSON/JSONDocument.h"
 
 
-
-
 struct ConfigValue
 {
 	union

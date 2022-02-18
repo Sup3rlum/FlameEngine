@@ -6,8 +6,6 @@
 #include "Core/Runtime/Common/Memory.h"
 
 
-
-
 template<typename GenType, size_t GenSize>
 struct FStaticArray
 {
@@ -44,7 +42,7 @@ public:
 	/*
 	*	C++ why you make me use std :(
 	*/
-	FStaticArray(std::initializer_list<GenType> list) : FStaticArray(static_cast<const GenType*>(list.begin())) 
+	FStaticArray(const std::initializer_list<GenType>& list) : FStaticArray(static_cast<const GenType*>(list.begin())) 
 	{
 		assert(GenSize == list.size());
 	}
@@ -192,8 +190,9 @@ public:
 	/*
 	*	Copy Constructor
 	*/
-	FArray(const FArray<GenType>&arr) : FArray(arr.ptrInternal, arr.size)
+	FArray(const FArray<GenType>& arr) : FArray(arr.ptrInternal, arr.size)
 	{
+
 	}
 	/*
 	*	Move Constructor
@@ -211,7 +210,13 @@ public:
 	/*
 	*	C++ why you make me use std :(
 	*/
-	FArray(std::initializer_list<GenType> list) : FArray(static_cast<const GenType*>(list.begin()), list.size()) {}
+	FArray(const std::initializer_list<GenType>& list) : FArray()
+	{
+		for (auto& elem : list)
+		{
+			this->Add(elem);
+		}
+	}
 
 	/*
 	*   Destructor
@@ -352,7 +357,7 @@ public:
 	{
 		if (size >= capacity)
 			Reserve(capacity + 5);
-		ptrInternal[size++] = v;
+		ptrInternal[size++] = std::move(v);
 
 		return *this;
 	}

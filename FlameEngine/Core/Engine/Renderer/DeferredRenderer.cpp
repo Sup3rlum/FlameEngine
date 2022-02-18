@@ -3,6 +3,7 @@
 
 #include "Core/Framework/IO/FileStream.h"
 #include "../ContentSystem/Client/AssetImportScripts/Material.h"
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 
 #include "Deferred/BRDF.h"
 
@@ -97,7 +98,11 @@ void DeferredRenderer::_DRShaders::Create(FRIContext* renderContext)
 {
 	FRICommandList cmdList(renderContext->GetFRIDynamic());
 
-	ShaderLibrary deferredLib = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/deferred_dx.fslib", renderContext);
+
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+
+	ShaderLibrary deferredLib =  Content.Load<ShaderLibrary>("Shaders/deferred_dx.fslib", renderContext);
 
 	GShader			= cmdList.GetDynamic()->CreateShaderPipeline(deferredLib.Modules["GBufferGen"]);
 	GSkinnedShader	= cmdList.GetDynamic()->CreateShaderPipeline(deferredLib.Modules["GBufferGenSkinned"]);
@@ -158,7 +163,7 @@ void DeferredRenderer::CreateRenderUtil(FRIContext* renderContext)
 	FRIVertexShader* scrQuadSignatureShader = NULL;
 	if (renderContext->RenderFramework == EFRIRendererFramework::DX11)
 	{
-		scrQuadSignatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("shaders/signature/dx/bin/CombineQuad.signature.cso").ReadBytes());
+		scrQuadSignatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("Assets/Shaders/signature/dx/bin/CombineQuad.signature.cso").ReadBytes());
 	}
 
 

@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# FlameEngine assets
+.fslib
+.fl3d
+.flen
+.flmt

@@ -1,4 +1,5 @@
 #include "TestGame.h"
+#include "TestPlayerScript.h"
 
 #include "FlameEngine/Platform/Windows/Win32Context.h"
 
@@ -10,13 +11,23 @@
 #include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/InstanceMesh.h"
 #include "FlameEngine/Core/Engine/ContentSystem/Client/AssetImportScripts/Level.h"
 
+
+
 TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework framework) : GameApplication(appName, framework, NULL)
 {
 	srand(static_cast <unsigned> (time(0)));
 
 	PerspMatrix = FPerspectiveMatrix(PI / 4, 16.0f / 9.0f, 0.1f, 300.0f);
 
-	playerEntity = currentScene->CreateEntity<FTransform, CameraComponent, FirstPersonCharacterComponent, ControlComponent, CharacterBody>("player");
+	playerEntity = currentScene->CreateEntity<
+		FTransform, 
+		CameraComponent, 
+		ControlComponent, 
+		CharacterBody,
+		FPComponent,
+		Behaviour>("player");
+
+
 	currentScene->Camera = playerEntity;
 
 
@@ -24,30 +35,14 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 	playerEntity.Component<FTransform>().Position = FVector3(5, 5, 5);
 	playerEntity.Component<FTransform>().Orientation = FQuaternion::Identity();
 
-	playerEntity.Component<FirstPersonCharacterComponent>().yaw = 2.3;
-	playerEntity.Component<FirstPersonCharacterComponent>().flySpeed = 100.0;
-
 	playerEntity.SetComponent<CharacterBody>(currentScene->Physics->CreateCharacter(FVector3(0, 30, 0)));
 
-
+	playerEntity.Component<Behaviour>().Attach<TestScript>(FriContext, this);
 
 	currentScene->Sun = currentScene->CreateEntity<DirectionalLight>("Sun");
 	currentScene->Sun.Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(-1, -2.5f, -1));
 	currentScene->Sun.Component<DirectionalLight>().Color = Color::White;
 	currentScene->Sun.Component<DirectionalLight>().Intensity = 5.0f;
-
-
-
-
-	/*this->Renderer.atmosphereRenderer.Atmosphere = AtmospherePresets::Earth;
-	this->Renderer.atmosphereRenderer.Scale = AtmosphereScale(8000,1200,0.99);*/
-
-	/*this->Renderer.properties.AmbienceFactor = 0.1f;
-	this->Renderer.properties.Exposure = 0.3f;*/
-
-
-	FMatrix4 persp = FPerspectiveMatrix(PI / 4.0f, 16.0f / 9.0f, 0.1f, 100.0f);
-
 }
 
 
@@ -61,11 +56,6 @@ void TestGameApplication::Update(FGameTime gameTime)
 		FAnsiString fpsString = FAnsiString::Format("SetFPS('%0', %1, %2, %3, %4)", 1 / gameTime.DeltaTime.GetSeconds(), 0, posVec.x, posVec.y, posVec.z);
 		currentScene->uxContainer->ExecuteScript(fpsString);
 	}
-
-
-	angle += 0.0005f;
-
-	//currentScene->Sun.Component<DirectionalLight>().Direction = FVector3(FMathFunc::Cos(angle), -2, FMathFunc::Sin(angle));
 }
 
 
@@ -85,108 +75,28 @@ void TestGameApplication::Shoot()
 
 	ball.SetComponent<FTransform>(playerEntity.Component<FTransform>());
 	ball.SetComponent<RigidBody>(currentScene->Physics->CreateDynamic(ball.Component<FTransform>()));
-	ball.Component<RigidBody>().SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), BoxGeometry(1.0f)));
 
-	ball.Component<RigidBody>().SetLinearVelocity(playerEntity.Component<FirstPersonCharacterComponent>().LookDirection * 10.0f);
+	ball.Component<RigidBody>().SetShape(
+		PhysicsShape(
+			PhysicsMaterial(0.8f, 0.8f, 0.1f), 
+			BoxGeometry(1.0f)
+		)
+	);
+
+	ball.Component<RigidBody>().SetLinearVelocity(playerEntity.Component<FPComponent>().LookDirection * 10.0f);
 }
 
 void TestGameApplication::Load()
 {
 
-	currentScene->RegisterSystem<TestPlayerSystem>(ECSExecutionFlag::MAIN_THREAD, FriContext, this);
+	//CreateParticleSystem();
+	ballMesh = Content.Load<Mesh>("Models/cube.fl3d", FriContext);
 
-	/* Test Particle System */
+	defaultMaterial =	Content.Load<Material>("Materials/default2.flmt", FriContext);
+	brickMaterial =		Content.Load<Material>("Materials/brick_material.flmt", FriContext);
+	riverRockMaterial = Content.Load<Material>("Materials/river_rock.flmt", FriContext);
 
-	
-	TestParticleSystem* testParticleSystem = new TestParticleSystem(FriContext, 500);
-
-	testParticleSystem->SetParticleTick([](TestParticle& particle, float dt)
-		{
-			particle.Position += particle.Velocity * dt;
-			particle.Velocity += FVector3(0, -10, 0) * dt;
-
-			if (particle.Color.g > 0)
-			{
-				particle.Color.g -= dt / 2;
-			}
-
-			if (particle.Color.g <= 0.01)
-			{
-				if (particle.Color.r > 0)
-				{
-					particle.Color.r -= dt / 2;
-				}
-			}
-
-		});
-
-	testParticleSystem->SetStageTransform([](TestParticle& particle)
-		{
-			return TestParticleStage(FTranslationMatrix(particle.Position), particle.Color);
-		});
-
-
-	testParticleSystem->AddEmitter(TestEmitter(FVector3(0, 5, 0)));
-
-	/* Test Particle System renderer */
-
-	ShaderLibrary psysLib = FLocalContent::LoadFromLocal<ShaderLibrary>("shaders/testParticle_dx.fslib", FriContext);
-
-
-	FArray<FRIVertexDeclarationComponent> vertexDecl;
-	vertexDecl.Add(FRIVertexDeclarationComponent("POSITION", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 0));
-	vertexDecl.Add(FRIVertexDeclarationComponent("NORMAL", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 12));
-	vertexDecl.Add(FRIVertexDeclarationComponent("TANGENT", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 24));
-	vertexDecl.Add(FRIVertexDeclarationComponent("BITANGENT", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 36));
-	vertexDecl.Add(FRIVertexDeclarationComponent("TEXCOORD", 2, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 48));
-
-	FArray<FRIVertexDeclarationComponent> instanceDecl;
-	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 0), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 0 , EFRIAttribUsage::PerInstance));
-	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 1), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 16, EFRIAttribUsage::PerInstance));
-	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 2), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 32, EFRIAttribUsage::PerInstance));
-	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 3), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 48, EFRIAttribUsage::PerInstance));
-	instanceDecl.Add(FRIVertexDeclarationComponent("INSTANCE_COLOR",				      4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 64, EFRIAttribUsage::PerInstance));
-
-
-
-
-	Material smokeMap = FLocalContent::LoadFromLocal<Material>("materials/smoke.flmt", FriContext);
-	InstanceMesh instancedBallMesh = FLocalContent::LoadFromLocal<InstanceMesh>("models/quad.fl3d", FriContext, vertexDecl, instanceDecl, psysLib.Modules["Test"].Parts[EFRIResourceShaderType::Vertex]);
-
-	ParticleRenderer* testParticleRenderer = new ParticleRenderer(FriContext, psysLib.Modules["Test"]);
-
-	testParticleRenderer->SetInstanceMesh(instancedBallMesh);
-	testParticleRenderer->Samplers.Add(FUniformSampler(0, smokeMap.GetMap(EMaterialMap::Diffuse).Handle));
-
-	//currentScene->RegisterParticleSystem(testParticleSystem, testParticleRenderer);
-
-
-
-	ballMesh = FLocalContent::LoadFromLocal<Mesh>("models/cube.fl3d", FriContext);
-
-	defaultMaterial = FLocalContent::LoadFromLocal<Material>("materials/default2.flmt", FriContext);
-	brickMaterial = FLocalContent::LoadFromLocal<Material>("materials/brick_material.flmt", FriContext);
-	riverRockMaterial = FLocalContent::LoadFromLocal<Material>("materials/river_rock.flmt", FriContext);
-
-
-
-
-	floorEntity = currentScene->CreateEntity<FTransform, StaticRigidBody>("ground");
-
-
-	//floorEntity.SetComponent<Mesh>(FLocalContent::LoadFromLocal<Mesh>("models/new_ground.fl3d", FriContext));
-	//floorEntity.SetComponent<Material>(defaultMaterial);
-
-	//floorEntity.Component<Material>().SetWrapMode(EMaterialWrap::Repeat);
-	//floorEntity.Component<Material>().SetFilterMode(EMaterialFilter::Trilinear);
-
-	//floorEntity.SetComponent<FTransform>(FTransform());
-	//floorEntity.SetComponent<StaticRigidBody>(currentScene->Physics->CreateStatic(FTransform()));
-
-	//floorEntity.Component<StaticRigidBody>().SetShape(PhysicsShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), currentScene->Physics->CookTriangleMeshGeometry(FLocalContent::LoadFromLocal<PhysicsTriangleMeshDesc>("models/new_ground.fl3d"))));
-
-
-	currentScene->SceneLevel = FLocalContent::LoadFromLocal<Level>("maps/sponza.flen", FriContext, currentScene);
+	currentScene->SceneLevel = Content.Load<Level>("Maps/map.flen", FriContext, currentScene);
 
 
 	/*boneGuy = currentScene->CreateEntity<SkinnedMesh, Material, FTransform, AnimationComponent>("boneguy");
@@ -240,6 +150,71 @@ void TestGameApplication::Load()
 	whiteLight.Component<SpotLight>().Radius = 10;
 	whiteLight.Component<SpotLight>().ApertureSize = 0.5;
 	whiteLight.Component<SpotLight>().ApertureSharpness = 4;*/
+
+
+
+}
+
+void TestGameApplication::CreateParticleSystem()
+{
+	/* Test Particle System */
+
+	TestParticleSystem* testParticleSystem = new TestParticleSystem(FriContext, 500);
+
+	testParticleSystem->SetParticleTick([](TestParticle& particle, float dt)
+		{
+			particle.Position += particle.Velocity * dt;
+			particle.Velocity += FVector3(0, -10, 0) * dt;
+
+			if (particle.Color.g > 0)
+			{
+				particle.Color.g -= dt / 2;
+			}
+
+			if (particle.Color.g <= 0.01)
+			{
+				if (particle.Color.r > 0)
+				{
+					particle.Color.r -= dt / 2;
+				}
+			}
+		});
+
+	testParticleSystem->SetStageTransform([](TestParticle& particle)
+		{
+			return TestParticleStage(FTranslationMatrix(particle.Position), particle.Color);
+		});
+
+
+	testParticleSystem->AddEmitter(TestEmitter(FVector3(0, 5, 0)));
+
+	/* Test Particle System renderer */
+	ShaderLibrary psysLib = Content.Load<ShaderLibrary>("Shaders/testParticle_dx.fslib", FriContext);
+
+	FArray<FRIVertexDeclarationComponent> vertexDecl;
+	vertexDecl.Add(FRIVertexDeclarationComponent("POSITION", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 0));
+	vertexDecl.Add(FRIVertexDeclarationComponent("NORMAL", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 12));
+	vertexDecl.Add(FRIVertexDeclarationComponent("TANGENT", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 24));
+	vertexDecl.Add(FRIVertexDeclarationComponent("BITANGENT", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 36));
+	vertexDecl.Add(FRIVertexDeclarationComponent("TEXCOORD", 2, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 56, 48));
+
+	FArray<FRIVertexDeclarationComponent> instanceDecl;
+	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 0), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 0, EFRIAttribUsage::PerInstance));
+	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 1), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 16, EFRIAttribUsage::PerInstance));
+	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 2), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 32, EFRIAttribUsage::PerInstance));
+	instanceDecl.Add(FRIVertexDeclarationComponent(FRIInputSemantic("INSTANCE_WORLD", 3), 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 48, EFRIAttribUsage::PerInstance));
+	instanceDecl.Add(FRIVertexDeclarationComponent("INSTANCE_COLOR", 4, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 80, 64, EFRIAttribUsage::PerInstance));
+
+
+	Material smokeMap = Content.Load<Material>("Materials/smoke.flmt", FriContext);
+	InstanceMesh instancedBallMesh = Content.Load<InstanceMesh>("Models/quad.fl3d", FriContext, vertexDecl, instanceDecl, psysLib.Modules["Test"].Parts[EFRIResourceShaderType::Vertex]);
+
+	ParticleRenderer* testParticleRenderer = new ParticleRenderer(FriContext, psysLib.Modules["Test"]);
+
+	testParticleRenderer->SetInstanceMesh(instancedBallMesh);
+	testParticleRenderer->Samplers.Add(FUniformSampler(0, smokeMap.GetMap(EMaterialMap::Diffuse).Handle));
+
+	//currentScene->RegisterParticleSystem(testParticleSystem, testParticleRenderer);
 
 }
 

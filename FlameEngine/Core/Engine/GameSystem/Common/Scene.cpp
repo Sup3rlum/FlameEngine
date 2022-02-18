@@ -45,6 +45,7 @@ void Scene::LoadSystems()
 {
 	RegisterSystem<DynamicPhys>();
 	RegisterSystem<AnimSystem>();
+	RegisterSystem<BehaviourSystem>();
 }
 
 
@@ -64,59 +65,65 @@ void Scene::Update(FGameTime gameTime)
 		pSysPtr.Key->Tick(gameTime.DeltaTime.GetSeconds());
 	}
 
+	UpdateDirectionalLights();
+}
+
+void Scene::UpdateDirectionalLights()
+{
 	CameraComponent& camRef = Camera.Component<CameraComponent>();
-	DirectionalLight& dirLightRef = Sun.Component<DirectionalLight>();
 
-	FStaticArray<FVector3, 8> frustumCorners;
-	FStaticArray<FVector3, 8> frustumSplitCorners;
-	{
-		// Create an orthonormal basis describing the light's local coordinate system
-		camRef.GetFrustumCorners(frustumCorners);
-
-		for (int i = 0; i < SM_CASCADES; i++)
+	System<DirectionalLight>()->ForEach([&](Entity ent, DirectionalLight& dirLight)
 		{
 
-			SplitFrustum(frustumCorners, frustumSplitCorners, SM_CASCADES, i);
-
-
-			FViewMatrix viewMatrix(FVector3(0), dirLightRef.Direction, FVector3(0, 1, 0));
-
-			FMatrix3 toGlobalSpace = FMatrix4::ToMatrix3(viewMatrix);
-			FMatrix3 toLocalSpace = FMatrix3::Transpose(toGlobalSpace);
-
-			// Create the AABB enveloping the users view frustum in the light's basis space
-			AABB aabb;
-			aabb.SetDegenerate();
-
-			for (int i = 0; i < 8; i++)
+			FStaticArray<FVector3, 8> frustumCorners;
+			FStaticArray<FVector3, 8> frustumSplitCorners;
 			{
-				FVector3 p = toLocalSpace * frustumSplitCorners[i];
+				// Create an orthonormal basis describing the light's local coordinate system
+				camRef.GetFrustumCorners(frustumCorners);
 
-				aabb.Enclose(p);
+				for (int i = 0; i < SM_CASCADES; i++)
+				{
+					SplitFrustum(frustumCorners, frustumSplitCorners, SM_CASCADES, i);
+
+					FViewMatrix viewMatrix(FVector3(0), dirLight.Direction, FVector3(0, 1, 0));
+
+					FMatrix3 toGlobalSpace = FMatrix4::ToMatrix3(viewMatrix);
+					FMatrix3 toLocalSpace = FMatrix3::Transpose(toGlobalSpace);
+
+					// Create the AABB enveloping the users view frustum in the light's basis space
+					AABB aabb;
+					aabb.SetDegenerate();
+
+					for (int i = 0; i < 8; i++)
+					{
+						FVector3 p = toLocalSpace * frustumSplitCorners[i];
+
+						aabb.Enclose(p);
+					}
+
+					// Get the position of the camera as being in the middle of the -Z plane of the AABB, add bias, and then turn it into global space
+					FVector3 position = toGlobalSpace * (aabb.Center() - FVector3(0, 0, aabb.LengthZ() / 2.0f + cascadeBias));
+
+
+					float halfLengthX = aabb.LengthX() / 2.0f;
+					float halfLengthY = aabb.LengthY() / 2.0f;
+
+
+					//Get the up component required to reorient the AABB into global space
+					FVector3 aabbUp = toGlobalSpace * FVector3(0, 1, 0);
+
+
+					// Create the view and projection matrices for the light's camera that envelops the user view frustum
+					dirLight.FrustumInfo[i].View = FViewMatrix(position, position + dirLight.Direction, aabbUp);
+					dirLight.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
+
+					float zFar = 300.0f;
+					float zNear = 0.1f;
+
+					dirLight.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i + 1) / (float)SM_CASCADES) + zNear;
+				}
 			}
-
-			// Get the position of the camera as being in the middle of the -Z plane of the AABB, add bias, and then turn it into global space
-			FVector3 position = toGlobalSpace * (aabb.Center() - FVector3(0, 0, aabb.LengthZ() / 2.0f + cascadeBias));
-
-
-			float halfLengthX = aabb.LengthX() / 2.0f;
-			float halfLengthY = aabb.LengthY() / 2.0f;
-
-
-			//Get the up component required to reorient the AABB into global space
-			FVector3 aabbUp = toGlobalSpace * FVector3(0, 1, 0);
-
-
-			// Create the view and projection matrices for the light's camera that envelops the user view frustum
-			dirLightRef.FrustumInfo[i].View = FViewMatrix(position, position + dirLightRef.Direction, aabbUp);
-			dirLightRef.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
-
-			float zFar = 300.0f;
-			float zNear = 0.1f;
-
-			dirLightRef.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i+1) / (float)SM_CASCADES) + zNear;
-		}
-	}
+		});
 }
 
 void Scene::RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer)

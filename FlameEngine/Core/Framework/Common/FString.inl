@@ -52,11 +52,9 @@ template<typename TChar>
 template<typename...TArgs>
 TString<TChar> TString<TChar>::Format(const TString<TChar>& format, const TArgs& ... args)
 {
-
 	typedef TString<TChar> TStringType;
-	typedef TStringFormatArg<TChar> TArgType;
 
-	FArray<TArgType> formatargs = { TArgType(args) ... };
+	FArray<TStringType> formatargs = { TStringType(args) ... };
 
 	TStringType result;
 	result.Reserve(format.Length()); // Reserve atleast the amount of characters in the format (best case, no reallactions for output string)
@@ -89,13 +87,7 @@ TString<TChar> TString<TChar>::Format(const TString<TChar>& format, const TArgs&
 			{
 				if (formatIndex >= 0 && formatIndex <= 9)
 				{
-					typename TArgType::EType debugt = formatargs[formatIndex].Type;
-
-					if (debugt == TArgType::Double)				fmtArgString = formatargs[formatIndex].DoubleValue;
-					else if (debugt == TArgType::Int)			fmtArgString = formatargs[formatIndex].IntValue;
-					else if (debugt == TArgType::UInt)			fmtArgString = formatargs[formatIndex].UIntValue;
-					else if (debugt == TArgType::StringLiteral)	fmtArgString = formatargs[formatIndex].StringLiteralValue;
-					else if (debugt == TArgType::String)		fmtArgString = formatargs[formatIndex].StringValue;
+					fmtArgString = formatargs[formatIndex];
 				}
 			}
 		}

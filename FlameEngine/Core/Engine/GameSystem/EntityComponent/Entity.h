@@ -24,6 +24,21 @@ EXPORT(struct, Entity)
 {
 
 	template<typename TComponent>
+	const int Find() const
+	{
+		FComponentType compareType = TComponentType<TComponent>();
+
+		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
+		{
+			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
+			{
+				return row;
+			}
+		}
+
+		return -1;
+	}
+	template<typename TComponent>
 	int Find()
 	{
 		FComponentType compareType = TComponentType<TComponent>();
@@ -76,7 +91,7 @@ EXPORT(struct, Entity)
 	{
 		if (!HasComponent<TComponent>())
 		{
-			// idk
+			
 		}
 	}
 
@@ -104,7 +119,7 @@ private:
 	friend class Scene;
 
 	GEntityID* EntityId;
-	FString name;
 	uint32* refCount;
+	FString name;
 
 };

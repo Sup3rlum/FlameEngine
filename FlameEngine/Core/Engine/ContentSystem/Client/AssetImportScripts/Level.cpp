@@ -3,6 +3,7 @@
 
 #include "Material.h"
 #include "Core/Engine/GameSystem/Common/Scene.h"
+#include "../LocalAssetManager.h"
 /*
 *	vLength
 *	vertexSize
@@ -41,7 +42,7 @@ TContentSerializer<Level>::TContentSerializer(FRIContext* context, Scene* sc)
 	FRIVertexShader* signatureShader = NULL;
 	if (renderContext->RenderFramework == EFRIRendererFramework::DX11)
 	{
-		signatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("shaders/signature/dx/bin/Mesh.signature.cso").ReadBytes());
+		signatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("Assets/Shaders/signature/dx/bin/Mesh.signature.cso").ReadBytes());
 	}
 
 	FArray<FRIVertexDeclarationComponent> DeclCompArray;
@@ -69,10 +70,13 @@ Level TContentSerializer<Level>::Serialize(IOFileStream& fileStream)
 
 	FArray<Material> Materials;
 
+	FAssetManager Content;
+	Content.Connect("./Assets/");
+
 	for (int i = 0; i < NumMaterials; i++)
 	{
 		FAnsiString materialName = fileStream.ReadLengthedString<FAnsiString>();
-		Materials.Add(FLocalContent::LoadFromLocal<Material>(materialName.ToPlatformString(), renderContext));
+		Materials.Add(Content.Load<Material>(materialName.ToPlatformString(), renderContext));
 	}
 
 

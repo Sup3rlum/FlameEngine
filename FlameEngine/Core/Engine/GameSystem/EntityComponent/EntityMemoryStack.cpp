@@ -52,6 +52,7 @@ void FEntityMemoryStack::AllocBlock(uint32 blockCapacity)
 	uint64 allocSize = sizeof(FEntityMemoryBlock) + blockCapacity * BlockArchetype.MemColumnSize + Alignment;
 
 	Top = Memory::Alloc<FEntityMemoryBlock>(allocSize);
+	Memory::Zero(Top, allocSize);
 
 	Top->ColumnSize = BlockArchetype.MemColumnSize;
 	Top->Columns = blockCapacity;

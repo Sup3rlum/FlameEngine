@@ -39,10 +39,10 @@ Entity::~Entity()
 	{
 		(*refCount)--;
 
-		if (*refCount == 0)
+		/*if (*refCount == 0)
 		{
 			Invalidate();
-		}
+		}*/
 	}
 }
 

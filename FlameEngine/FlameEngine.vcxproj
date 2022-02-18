@@ -171,7 +171,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
       <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -270,6 +270,7 @@
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\ShaderLibrary.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\AssetManager.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRIDynamic.h" />
     <ClInclude Include="Core\Engine\FlameRI\DX11\D3D11FRI.h" />
@@ -284,6 +285,7 @@
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIResource.h" />
     <ClInclude Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIProxyTypes.h" />
     <ClInclude Include="Core\Engine\FlameRI\ShaderLibrary\ShaderLibrary.h" />
+    <ClInclude Include="Core\Engine\GameSystem\Behaviour.h" />
     <ClInclude Include="Core\Engine\GameSystem\Animation\SkeletonPose.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\SceneSystems.h" />
     <ClInclude Include="Core\Engine\GameSystem\Common\ViewFrustum.h" />
@@ -370,7 +372,6 @@
     <ClInclude Include="Core\Math\Types\Vector.h" />
     <ClInclude Include="Core\Math\Types\TVector2.inl" />
     <ClInclude Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.h" />
-    <ClInclude Include="Core\Framework\Common\FObject.h" />
     <ClInclude Include="Core\Engine\Renderer\DeferredRenderer.h" />
     <ClInclude Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.h" />
     <ClInclude Include="Core\Engine\Renderer\Services\HBAOPlus\HBAOPlusInterface.h" />
@@ -384,7 +385,7 @@
     <ClInclude Include="Core\Math\Module.h" />
     <ClInclude Include="Core\Math\Utilities\BezierCurve.h" />
     <ClInclude Include="Core\Engine\GameSystem\Game.h" />
-    <ClInclude Include="Core\Engine\ContentSystem\Client\LocalContentService.h" />
+    <ClInclude Include="Core\Engine\ContentSystem\Client\LocalAssetManager.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\Color.h" />
     <ClInclude Include="Core\Engine\Renderer\Common\Geometry\VertexComponent.h" />
     <ClInclude Include="Core\Runtime\Common\Memory.h" />
@@ -448,6 +449,7 @@
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\PhysicsTriangleMesh.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\ShaderLibrary.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\SkinnedMesh.cpp" />
+    <ClCompile Include="Core\Engine\ContentSystem\Client\LocalAssetManager.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIContext.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\DX11\D3D11FRIImpl.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommand.cpp" />
@@ -455,6 +457,7 @@
     <ClCompile Include="Core\Engine\Common\CommandRegistry.cpp" />
     <ClCompile Include="Core\Engine\FlameRI\FRICommandList.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Animation\AnimationComponent.cpp" />
+    <ClCompile Include="Core\Engine\GameSystem\Behaviour.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\CameraSystem\CameraComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Configuration\ConfigComponent.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\ControlComponent.cpp" />
@@ -498,7 +501,6 @@
     <ClCompile Include="Core\Framework\IO\FileStream.cpp" />
     <ClCompile Include="Core\Engine\Renderer\DebugRenderer.cpp" />
     <ClCompile Include="Core\Media\Visual\Loaders\FFmpeg\FFmpeg.cpp" />
-    <ClCompile Include="Core\Framework\Common\FObject.cpp" />
     <ClCompile Include="Core\Engine\Renderer\DeferredRenderer.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\GaussianBlurService.cpp" />
     <ClCompile Include="Core\Engine\PostprocessServices\Blur\KawaseBlurService.cpp" />
