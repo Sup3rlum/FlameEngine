@@ -45,7 +45,8 @@ FComponentType::FComponentType(_InternalId id, uint64 size, const char* name) :
 FEntityArchetype::FEntityArchetype(const FEntityArchetype& archetypeCopy) :
 	NumComponentTypes(archetypeCopy.NumComponentTypes),
 	MemColumnSize(archetypeCopy.MemColumnSize),
-	MemAlignment(archetypeCopy.MemAlignment)
+	MemAlignment(archetypeCopy.MemAlignment),
+	HashCode(archetypeCopy.HashCode)
 {
 	ComponentTypes = new FComponentType[NumComponentTypes];
 	Memory::CopyCounted(ComponentTypes, archetypeCopy.ComponentTypes, NumComponentTypes);
@@ -54,7 +55,18 @@ FEntityArchetype::FEntityArchetype(const FEntityArchetype& archetypeCopy) :
 
 bool FEntityArchetype::Contains(const FEntityArchetype& type)
 {
-	return Algorithm::SortedIsSubsetOf(type.ComponentTypes, ComponentTypes, type.NumComponentTypes, NumComponentTypes, [](FComponentType& comp) -> FComponentType::_InternalId& { return comp._TypeId; });
+	return Algorithm::SortedIsSubsetOf
+		(
+		type.ComponentTypes, 
+		type.NumComponentTypes, 
+
+		ComponentTypes,
+		NumComponentTypes, 
+
+		[](FComponentType& comp) -> FComponentType::_InternalId& 
+		{ 
+			return comp._TypeId; 
+		});
 }
 
 
@@ -67,5 +79,6 @@ FEntityArchetype::FEntityArchetype(uint32 numComponents, FComponentType* cds, ui
 	NumComponentTypes(numComponents),
 	ComponentTypes(cds),
 	MemColumnSize(columnByteSize),
-	MemAlignment(columnAlignment)
+	MemAlignment(columnAlignment),
+	HashCode(0)
 {}

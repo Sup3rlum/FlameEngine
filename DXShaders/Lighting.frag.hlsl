@@ -153,7 +153,7 @@ float VarianceShadow(float2 moments, float compare)
         float d = compare - fAvgZ;
         float pMax = smoothstep(0.0, 1.0, variance / (variance + d * d));
 
-        return pow(pMax, 4);
+        return pow(pMax, 4.0);
     }
 }
 
@@ -168,6 +168,8 @@ float ShadowCalculation(float4 fragPosLightSpace, float cascadeIndex)
 
     return VarianceShadow(moments, depthCompare);
 }
+
+
 
 /*********************************************************/
 
@@ -438,11 +440,10 @@ float3 CalcDirectionalLight(DirectionalLight dLight, float3 FragPos, float3 Norm
     float Shadow = ShadowCalculation(lsPosition, cascadeIdx);
     //float Shadow = max(0.0f, TraceShadowCone(wsPosition.xyz, -dLight.Direction.xyz, coneShadowAperture, 1.0f / voxelScale));
      
-    float3 LightDir = -normalize(mul((float3x3) View, dLight.Direction.xyz));
-         
+    float3 LightDir = -normalize(mul((float3x3) View, dLight.Direction.xyz));  
     float3 radianceIn = dLight.Radiance.rgb * dLight.Radiance.a * Shadow;
-    float3 radianceOut = BRDF(FragPos, Normal, ViewDir, LightDir, Albedo, Roughness, Metallic, Fresnel0) * radianceIn;
-         
+
+    float3 radianceOut = BRDF(FragPos, Normal, ViewDir, LightDir, Albedo, Roughness, Metallic, Fresnel0) * radianceIn;       
     return radianceOut;
 }
 
@@ -467,7 +468,7 @@ float4 main(PSInput input) : SV_Target0
     float Opacity = packedAlbedoOpacity.a;
     
     float4 Emissive         = gEmissive.Sample(EmissiveSampler, input.TexCoord);
-    float AmbientOcclusion  = gHbao.Sample(HbaoSampler, input.TexCoord);
+    float AmbientOcclusion  = gHbao.Sample(HbaoSampler, input.TexCoord).r;
    
     
     // Use a base fresnel reflectance based on metallicity
@@ -503,8 +504,10 @@ float4 main(PSInput input) : SV_Target0
     float3 wsNormal = mul(transpose((float3x3) View), Normal);
     float4 vxgi = float4(0, 0, 0, 1);// CalculateIndirectLighting(wsPosition.xyz, wsNormal, Albedo, float4(Albedo, 1 - Roughness), true);
     
-    float3 vxgiAmbient = vxgi.rgb;
-    float vxgiAO = vxgi.a;
+    float3 vxgiAmbient = Albedo * 0.4f;
+    vxgiAmbient *= 1.0f;// float3(0.83f, 0.86f, 1.0f);
+
+    float vxgiAO = lerp(0.3f, 1.0f, AmbientOcclusion);
     
     /*--- Finalize ---*/
     

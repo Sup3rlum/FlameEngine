@@ -126,6 +126,7 @@
     <None Include="Assets\Animations\anim_guy.fl3d.anim" />
     <None Include="Assets\Shaders\deferred.fslib" />
     <None Include="Assets\welcome.html" />
+    <None Include="Assets\settings.html" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestGame.h" />

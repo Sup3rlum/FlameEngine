@@ -64,7 +64,7 @@ public:
 class ShaderLibrary
 {
 public:
-	FHashMap<FAnsiString, ShaderLibraryModule> Modules;
+	FHashMap<FString8, ShaderLibraryModule> Modules;
 
 	ShaderLibrary()
 	{

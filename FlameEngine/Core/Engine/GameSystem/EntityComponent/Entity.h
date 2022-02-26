@@ -16,6 +16,9 @@ struct GEntityID
 		struct { void* HighPtr, * LowPtr; };
 	};
 
+
+	class Entity& GetControl();
+
 	bool IsValid();
 };
 
@@ -23,67 +26,37 @@ struct GEntityID
 EXPORT(struct, Entity)
 {
 
-	template<typename TComponent>
-	const int Find() const
-	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				return row;
-			}
-		}
-
-		return -1;
-	}
-	template<typename TComponent>
-	int Find()
-	{
-		FComponentType compareType = TComponentType<TComponent>();
-
-		for (int row = 0; row < EntityId->Block->Parent->BlockArchetype.NumComponentTypes; row++)
-		{
-			if (compareType == EntityId->Block->Parent->BlockArchetype.ComponentTypes[row])
-			{
-				return row;
-			}
-		}
-
-		return -1;
-	}
 
 	template<typename TComponent>
 	void SetComponent(const TComponent& component)
 	{
-		EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>()) = component;
+		EntityId->Block->GetComponent<TComponent>(EntityId->Index) = component;
 	}
 
 	template<typename TComponent, typename...TCreationArgs>
 	void InitComponent(const TCreationArgs& ... args)
 	{
-		new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>())) TComponent(args...);
+		new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index)) TComponent(args...);
 	}
 
 
 	template<typename TComponent>
 	TComponent& Component()
 	{
-		return EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>());
+		return EntityId->Block->GetComponent<TComponent>(EntityId->Index);
 	}
 
 
 	template<typename TComponent>
 	const TComponent& Component() const
 	{
-		return EntityId->Block->GetComponent<TComponent>(EntityId->Index, Find<TComponent>());
+		return EntityId->Block->GetComponent<TComponent>(EntityId->Index);
 	}
 
 	template<typename TComponent>
 	bool HasComponent() const
 	{
-		return Find<TComponent>() != -1;
+		return GetArchetype().GetIndex<TComponent>() != -1;
 	}
 
 	template<typename TComponent>
@@ -95,13 +68,13 @@ EXPORT(struct, Entity)
 		}
 	}
 
-	FORCEINLINE FEntityArchetype GetArchetype() const;
+	const FEntityArchetype& GetArchetype() const;
 	uint32 GetRefCount() const;
 
-	FString Name() const;
+	FString GetName() const;
 	bool IsValid() const;
 
-	Entity();
+
 	Entity(GEntityID* eid, const FString& name);
 	Entity(Entity&& other) noexcept;
 	Entity(const Entity& other);
@@ -111,15 +84,13 @@ EXPORT(struct, Entity)
 	~Entity();
 
 private:
-	void Invalidate();
-	void Delete();
+
+	Entity();
 
 	friend class EntityManager;
 	friend class FEntityMemoryStack;
 	friend class Scene;
 
-	GEntityID* EntityId;
-	uint32* refCount;
-	FString name;
-
+	FSharedPointer<GEntityID> EntityId;
+	FString Name;
 };

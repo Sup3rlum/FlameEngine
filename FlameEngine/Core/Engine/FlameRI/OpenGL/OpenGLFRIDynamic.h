@@ -68,8 +68,8 @@ public:
 	void DrawInstancesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer);
 
 	void SetShaderPipeline(FRIShaderPipeline* shader);
-	void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer);
-	void SetShaderSampler(FUniformSampler* sampler);
+	void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32 attachFlags = 63);
+	void SetShaderSampler(FUniformSampler sampler);
 	void SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param);
 	void SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer param);
 
@@ -79,7 +79,7 @@ public:
 	void SetUAV(uint32 slot, FRITexture3D* tex);
 
 
-	uint32 GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FAnsiString uniformName);
+	uint32 GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FString8 uniformName);
 
 
 

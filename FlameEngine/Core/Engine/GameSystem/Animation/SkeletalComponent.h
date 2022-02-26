@@ -8,12 +8,12 @@ struct Joint
 {
 	FArray<Joint*> childrenJoints;
 	uint32 ID;
-	FAnsiString Name;
+	FString8 Name;
 
 	FMatrix4 animatedTransform;
 	FMatrix4 inverseBindTransform;
 
-	Joint(uint32 index, FAnsiString name, FMatrix4 inverseBindTransform) :
+	Joint(uint32 index, FString8 name, FMatrix4 inverseBindTransform) :
 		ID(index),
 		Name(name),
 		inverseBindTransform(inverseBindTransform)

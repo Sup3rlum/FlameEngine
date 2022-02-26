@@ -30,7 +30,7 @@ IMPL_CMD(DrawPrimitivesIndexed)
 }
 IMPL_CMD(SetShaderPipeline)
 {
-	ALLOCATOR->SetShaderPipeline(shaderPipelineProgram);
+	ALLOCATOR->SetShaderPipeline(shader);
 }
 
 IMPL_CMD(BeginFrame)
@@ -60,4 +60,49 @@ IMPL_CMD(SetShaderUniformBuffer)
 IMPL_CMD(UnbindFrameBuffer)
 {
 	ALLOCATOR->UnbindFrameBuffer();
+}
+
+IMPL_CMD(SetDepthStencilState)
+{
+	ALLOCATOR->SetDepthStencilState(depth);
+}
+
+IMPL_CMD(SetRasterizerState)
+{
+	ALLOCATOR->SetRasterizerState(rasterizer);
+}
+IMPL_CMD(SetBlendState)
+{
+	ALLOCATOR->SetBlendState(blend);
+}
+
+IMPL_CMD(SetShaderSampler)
+{
+	ALLOCATOR->SetShaderSampler(sampler);
+}
+
+
+IMPL_CMD(UniformBufferSubdata)
+{
+	ALLOCATOR->UniformBufferSubdata(buffer, data);
+}
+
+IMPL_CMD(StageResources)
+{
+	ALLOCATOR->UniformBufferSubdata(buffer, update);
+}
+
+IMPL_CMD(SetTextureParameterBuffer<FRITexture2D>)
+{
+	ALLOCATOR->SetTextureParameterBuffer(texture, parameterBuffer);
+}
+
+IMPL_CMD(SetTextureParameterBuffer<FRITexture2DArray>)
+{
+	ALLOCATOR->SetTextureParameterBuffer(texture, parameterBuffer);
+}
+
+IMPL_CMD(SetFrameBufferTextureLayer)
+{
+	ALLOCATOR->SetFramebufferTextureLayer(frameBuffer, layer);
 }

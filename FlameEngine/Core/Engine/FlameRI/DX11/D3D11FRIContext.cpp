@@ -8,23 +8,34 @@ LRESULT CALLBACK D3D11FRIContext::Win32MessageHandler(HWND hwnd, UINT umessage, 
 	{
 	case  WM_KEYDOWN:
 	{
-		uint32 repeatCount = wparam & 0x7FFF;
+		uint32 repeatCount = lparam & 0x7FFF;
 
-		if (repeatCount > 0)
+		if (repeatCount > 1)
 		{
-			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnHold);
+			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnHold);
 		}
 		else
 		{
-			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnPress);
+			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnPress);
 		}
 		break;
 	}
 	case WM_KEYUP:
 	{
-		InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnRelease);
+		InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnRelease);
 		break;
 	}
+
+    case WM_MBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Middle, FKeyEvent::OnPress);    break;
+    case WM_MBUTTONUP:      InputHandlerDelegate2(FMouseButton::Middle, FKeyEvent::OnRelease);  break;
+
+    case WM_LBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Left,   FKeyEvent::OnPress);    break;
+    case WM_LBUTTONUP:      InputHandlerDelegate2(FMouseButton::Left,   FKeyEvent::OnRelease);  break;
+
+    case WM_RBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Right, FKeyEvent::OnPress);    break;
+    case WM_RBUTTONUP:      InputHandlerDelegate2(FMouseButton::Right, FKeyEvent::OnRelease);  break;
+
+  
 	default:
 
 		return DefWindowProc(hwnd, umessage, wparam, lparam);
@@ -362,4 +373,15 @@ FViewportRect D3D11FRIContext::GetViewport()
         return FViewportRect(0, 0, win32Context->Width, win32Context->Height);
     else
         return FViewportRect(0, 0, 0, 0);
+}
+
+
+void D3D11FRIContext::ShowCursor()
+{
+    while (::ShowCursor(TRUE) < 0);
+}
+
+void D3D11FRIContext::HideCursor()
+{
+    while (::ShowCursor(FALSE) >= 0);
 }

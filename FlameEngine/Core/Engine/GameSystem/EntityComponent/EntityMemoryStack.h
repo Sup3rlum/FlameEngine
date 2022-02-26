@@ -50,7 +50,15 @@ struct FEntityMemoryStack
 		}
 
 		template<typename TComponent>
-		FORCEINLINE TComponent& GetComponent(uint64 column, uint64 row)
+		FORCEINLINE TComponent& GetComponent(uint64 column)
+		{
+			int32 row = Parent->BlockArchetype.GetIndex<TComponent>();
+
+			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
+		}
+
+		template<typename TComponent>
+		FORCEINLINE TComponent& GetComponent(uint64 column, int32 row)
 		{
 			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
 		}
@@ -67,16 +75,16 @@ struct FEntityMemoryStack
 
 	FEntityMemoryStack(FEntityArchetype archetype, uint32 initialCapacity);
 	Entity AllocEntity(const FString&);
-	void FreeEntity(GEntityID entity);
 	void AllocBlock(uint32 blockCapacity);
 
+	void FreeEntity(GEntityID entity);
 	void Flush();
 
 	~FEntityMemoryStack()
 	{
 		Flush();
-
 		delete Offsets;
 	}
 
+	void AllocEntityMemory();
 };

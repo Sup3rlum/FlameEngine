@@ -26,6 +26,11 @@ float FTimeSpan::GetSeconds()
 	return (float)Data / (float)FTime::PlatformTickFrequency().Data;
 }
 
+float FTimeSpan::GetMilliseconds()
+{
+	return GetSeconds() * 1000.0f;
+}
+
 float FTimeSpan::GetMinutes()
 {
 	return GetSeconds() / 60.0f;

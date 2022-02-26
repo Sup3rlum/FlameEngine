@@ -17,17 +17,17 @@ LRESULT CALLBACK OpenGLFRIContext::Win32MessageHandler(HWND hwnd, UINT umessage,
 
 			if (repeatCount > 0)
 			{
-				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnHold);
+				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnHold);
 			}
 			else
 			{
-				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnPress);
+				InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnPress);
 			}
 			break;
 		}
 		case WM_KEYUP:
 		{
-			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyboardKeyEvent::OnRelease);
+			InputHandlerDelegate((FKeyboardKeys)wparam, FKeyEvent::OnRelease);
 			break;
 		}
 		default:
@@ -277,5 +277,15 @@ void OpenGLFRIContext::InitializeOpenGLStates()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+}
 
+
+void OpenGLFRIContext::ShowCursor()
+{
+	::ShowCursor(TRUE);
+}
+
+void OpenGLFRIContext::HideCursor()
+{
+	::ShowCursor(FALSE);
 }

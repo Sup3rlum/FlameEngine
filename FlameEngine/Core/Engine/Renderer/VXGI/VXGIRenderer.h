@@ -40,9 +40,9 @@ public:
 	FRIShaderPipeline* AnisoCompute;
 
 
-	FRIUniformBuffer* VXGIBuffer;
-	FRIUniformBuffer* PropagationData;
-	FRIUniformBuffer* VoxelizeBuffer;
+	FRIStageBuffer VXGIBuffer;
+	FRIStageBuffer PropagationData;
+	FRIStageBuffer VoxelizeBuffer;
 
 
 	FRITexture3D* VoxelAlbedo;

@@ -64,7 +64,7 @@ EXPORT(struct, FEntityArchetype)
 	template<typename TComponent>
 	struct FComponentIndexer
 	{
-		inline static int index = -1;
+		inline static int32 index = -1;
 	};
 
 	FComponentType* ComponentTypes;
@@ -72,10 +72,11 @@ EXPORT(struct, FEntityArchetype)
 	uint32 MemColumnSize;
 	uint32 MemAlignment;
 
+	size_t HashCode;
+
 	template<typename TComponent>
 	FEntityArchetype& AddComponent()
 	{
-
 		// Resize Array
 		FComponentType* compTypes = new FComponentType[NumComponentTypes + 1];
 		Memory::CopyArray(compTypes, ComponentTypes, NumComponentTypes);
@@ -111,6 +112,22 @@ EXPORT(struct, FEntityArchetype)
 		return true;
 	}
 
+	template<typename TComponent>
+	int32 GetIndex() const
+	{
+		FComponentType cmp = TComponentType<TComponent>();
+
+		for (int i = 0; i < NumComponentTypes; i++)
+		{
+			if (cmp == ComponentTypes[i])
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
 	bool Contains(const FEntityArchetype& type);
 
 	FEntityArchetype(const FEntityArchetype& archetypeCopy);
@@ -138,9 +155,11 @@ struct TEntityArchetype : public FEntityArchetype
 	TEntityArchetype() :
 		FEntityArchetype(0, NULL, (sizeof(TComponentArgs) + ...), _Flame_CExpr_MulAlignof<TComponentArgs...>())
 	{
-		constexpr uint32 componentNum = sizeof...(TComponentArgs);// (DummyOne<TComponentArgs>() + ...);
+		constexpr uint32 componentNum = sizeof...(TComponentArgs);
 
-		// Create an array of the component type descriptions and sort it by ID
+		/* Create an array of the component type descriptionsand sort it by ID */
+		/* This makes algorithms on archetypes*/
+
 		FComponentType* compTypes = new FComponentType[]{ TComponentType<TComponentArgs>() ... };
 
 		Sort::Insertion(compTypes, componentNum, [](FComponentType& componentType) -> typename FComponentType::_InternalId&
@@ -150,6 +169,14 @@ struct TEntityArchetype : public FEntityArchetype
 
 		this->NumComponentTypes = componentNum;
 		this->ComponentTypes = compTypes;
+
+		/* Compute Hash code */
+
+		HashCode = 0;
+		for (int i = 0; i < NumComponentTypes; i++)
+		{
+			HashCode += ComponentTypes[i]._TypeId;
+		}
 	}
 };
 

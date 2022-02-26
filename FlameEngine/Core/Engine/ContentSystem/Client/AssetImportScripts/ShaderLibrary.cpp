@@ -26,7 +26,7 @@ ShaderLibrary TContentSerializer<ShaderLibrary>::Serialize(IOFileStream& fileStr
 
 	for (int i = 0; i < libHeader.ModuleCount; i++)
 	{
-		FAnsiString moduleName = fileStream.ReadLengthedString<FAnsiString>();
+		FString8 moduleName = fileStream.ReadLengthedString<FString8>();
 		uint32 shaderNum = fileStream.Read<uint32>();
 
 		lib.Modules.Set(moduleName, ShaderLibraryModule());

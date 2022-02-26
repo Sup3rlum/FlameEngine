@@ -23,7 +23,7 @@ protected:
 	friend class RigidBody;
 	friend class StaticRigidBody;
 	friend class CharacterBody;
-	FPXGeometryProxy* FPXGeometry;
+	FPXGeometryProxy* FPXGeometry = nullptr;
 
 public:
 	virtual EPGeometryType GetGeometryType() const = 0;

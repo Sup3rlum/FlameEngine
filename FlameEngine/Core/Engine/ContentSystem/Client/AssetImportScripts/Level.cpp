@@ -1,27 +1,8 @@
 #include "Level.h"
 
-
 #include "Material.h"
 #include "Core/Engine/GameSystem/Common/Scene.h"
 #include "../LocalAssetManager.h"
-/*
-*	vLength
-*	vertexSize
-*	iLength
-*	indexType
-*	vdeclLength
-*
-*	vdecl
-*	vdata
-*	idata
-*/
-
-
-struct FLevelHeader
-{
-
-};
-
 
 struct FLevelStaticGeometryHeader
 {
@@ -75,7 +56,7 @@ Level TContentSerializer<Level>::Serialize(IOFileStream& fileStream)
 
 	for (int i = 0; i < NumMaterials; i++)
 	{
-		FAnsiString materialName = fileStream.ReadLengthedString<FAnsiString>();
+		FString8 materialName = fileStream.ReadLengthedString<FString8>();
 		Materials.Add(Content.Load<Material>(materialName.ToPlatformString(), renderContext));
 	}
 

@@ -82,10 +82,12 @@ private:
 	FVector3 Velocity;
 	FVector3 Gravity;
 	FTimeSpan LastMoveTimestamp = 0;
+	bool isGrounded = false;
 
 	CharacterBody(PhysXControllerProxy * pController, class FPXAllocator* allocator) :
 		pPxController(pController),
-		Allocator(allocator)
+		Allocator(allocator),
+		HasGravity(true)
 	{
 	}
 public:

@@ -13,22 +13,14 @@ public:
 	void Load();
 	void Dispose();
 	void Suspend();
-	void Update(FGameTime gameTime);
+	void Update(FGameTime gameTime) override;
 
-
+	void Close();
 	void CreateParticleSystem();
-
 	void Shoot();
+	 
 
 	float angle = 0;
-
-
-	Entity playerEntity;
-	Entity floorEntity;
-
-	Entity benchEntity;
-
-	Entity boneGuy;
 
 
 	FProjectionMatrix PerspMatrix;

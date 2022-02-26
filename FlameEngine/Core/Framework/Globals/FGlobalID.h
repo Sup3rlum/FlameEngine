@@ -84,10 +84,3 @@ private:
 		return t;
 	}
 };
-
-
-
-EXPORT(struct, IElementIdentifiable)
-{
-	virtual FGlobalID GetID() const = 0;
-};

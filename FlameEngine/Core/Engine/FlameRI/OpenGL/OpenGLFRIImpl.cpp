@@ -4,11 +4,11 @@
 
 
 
-typedef void (*_SamplerFuncPtr)(FUniformSampler* param);
+typedef void (*_SamplerFuncPtr)(FUniformSampler param);
 
 FStaticArray<_SamplerFuncPtr, (size_t)EFRIUniformSamplerType::MaxSamplerTypes> _FSamplerFuncPtrs;
 
-#define SET_ENUM_SAMPLER_FUNC_PTR(e, f) _FSamplerFuncPtrs[(size_t)EFRIUniformSamplerType::e]			= [](FUniformSampler* fp) { f }
+#define SET_ENUM_SAMPLER_FUNC_PTR(e, f) _FSamplerFuncPtrs[(size_t)EFRIUniformSamplerType::e]			= [](FUniformSampler fp) { f }
 
 
 FRIVertexBuffer* OpenGLFRIDynamicAllocator::CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
@@ -246,7 +246,7 @@ void OpenGLFRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 
 	glUseProgram(glshader->pipelineHandle);
 }
-void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer)
+void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32)
 {
 	FGLResourceUniformBuffer* glubuffer = static_cast<FGLResourceUniformBuffer*>(uniformBuffer);
 
@@ -254,12 +254,12 @@ void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBu
 
 }
 
-void OpenGLFRIDynamicAllocator::SetShaderSampler(FUniformSampler* sampler)
+void OpenGLFRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
 {
-	(_FSamplerFuncPtrs[(size_t)sampler->samplerType])(sampler);
+	(_FSamplerFuncPtrs[(size_t)sampler.samplerType])(sampler);
 }
 
-uint32 OpenGLFRIDynamicAllocator::GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FAnsiString uniformName)
+uint32 OpenGLFRIDynamicAllocator::GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FString8 uniformName)
 {
 	return glGetUniformLocation(((FGLResourceShaderPipeline*)shader)->pipelineHandle, uniformName.ToPlatformString());
 }
@@ -354,15 +354,15 @@ bool OpenGLFRIContext::InitializeOpenGLUniformExtensions()
 {
 	SET_ENUM_SAMPLER_FUNC_PTR(TSampler2D,
 
-		glActiveTexture(GL_TEXTURE0 + fp->Unit);
-		glBindTexture(GL_TEXTURE_2D, ((FGLResourceTexture2D*)fp->Param2D)->textureHandle);
+		glActiveTexture(GL_TEXTURE0 + fp.Unit);
+		glBindTexture(GL_TEXTURE_2D, ((FGLResourceTexture2D*)fp.Param2D)->textureHandle);
 		);
 
 
 	SET_ENUM_SAMPLER_FUNC_PTR(TSampler2DArray,
 
-		glActiveTexture(GL_TEXTURE0 + fp->Unit);
-		glBindTexture(GL_TEXTURE_2D_ARRAY, ((FGLResourceTexture2DArray*)fp->Param2D)->textureHandle);
+		glActiveTexture(GL_TEXTURE0 + fp.Unit);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, ((FGLResourceTexture2DArray*)fp.Param2D)->textureHandle);
 	);
 
 

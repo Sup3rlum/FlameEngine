@@ -1,10 +1,6 @@
 #include "Scene.h"
 #include "SceneSystems.h"
-
-
 #include "Core/Math/Geometry/Volumes/AABB.h"
-
-
 
 
 float cascadeBias = 35.0f;
@@ -29,7 +25,6 @@ void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& 
 
 
 Scene::Scene(PhysicsSceneDescription desc, FRIContext* renderContext) : 
-	sceneID("someScene"),
 	Physics(desc.pAllocator),
 	physicsScene(desc.pScene),
 	physicsService(desc.pService),
@@ -37,23 +32,54 @@ Scene::Scene(PhysicsSceneDescription desc, FRIContext* renderContext) :
 {
 
 	uxContainer = new UXContainer(FriContext);
-	uxContainer->LoadURL("file:///welcome.html");
 }
 
 
 void Scene::LoadSystems()
 {
-	RegisterSystem<DynamicPhys>();
-	RegisterSystem<AnimSystem>();
-	RegisterSystem<BehaviourSystem>();
 }
 
+#define PROFILE_(name, a, code) auto now_##a = FTime::GetTimestamp(); \
+							code \
+							a += FTime::GetTimestamp() - now_##a; \
+
+
+void Scene::UpdateSystems()
+{
+	this->System<RigidBody, FTransform>()->ParallelForEach([&](Entity entity, RigidBody& body, FTransform& transform)
+		{
+			transform = body.GetGlobalTransform();
+		});
+
+
+}
+
+void Scene::UpdateBehaviour(FGameTime gameTime)
+{
+	this->System<Behaviour>()->ParallelForEach([&](Entity entity, Behaviour& behaviour)
+		{
+			if (behaviour.pScript)
+			{
+				behaviour.pScript->Update(gameTime.DeltaTime.GetSeconds());
+			}
+		});
+}
 
 void Scene::Update(FGameTime gameTime)
 {
-	uxContainer->Update();
-	physicsScene->Step(gameTime.DeltaTime.GetSeconds());
 
+	PROFILE_("Physics", physTime,
+		uxContainer->UpdateContainer();
+		physicsScene->Step(gameTime.DeltaTime.GetSeconds());
+	)
+
+	PROFILE_("Behaviour", behTime,
+		UpdateBehaviour(gameTime);
+	)
+
+	PROFILE_("Dyn", dynTime,
+		UpdateSystems();
+	)
 
 	for (auto sysPtr : Systems)
 	{
@@ -72,14 +98,15 @@ void Scene::UpdateDirectionalLights()
 {
 	CameraComponent& camRef = Camera.Component<CameraComponent>();
 
-	System<DirectionalLight>()->ForEach([&](Entity ent, DirectionalLight& dirLight)
-		{
 
-			FStaticArray<FVector3, 8> frustumCorners;
+	FStaticArray<FVector3, 8> frustumCorners;
+	camRef.GetFrustumCorners(frustumCorners);
+
+	System<DirectionalLight>()->ParallelForEach([&](Entity ent, DirectionalLight& dirLight)
+		{
 			FStaticArray<FVector3, 8> frustumSplitCorners;
 			{
 				// Create an orthonormal basis describing the light's local coordinate system
-				camRef.GetFrustumCorners(frustumCorners);
 
 				for (int i = 0; i < SM_CASCADES; i++)
 				{
@@ -140,13 +167,13 @@ AABB Scene::GetAABB() const
 	return AABB(0, 0);
 }
 
-FGlobalID Scene::GetID() const
-{
-	return sceneID;
-}
-
-
 Scene::~Scene()
 {
 
+}
+
+
+void Scene::FinishUpdate()
+{
+	EntWorld.CopyEntMemory();
 }

@@ -65,7 +65,7 @@ void SMAA::SubmitPass(FRICommandList& cmdList, FRITexture2D* input)
 
 	cmdList.SetBlendState(BlendState);
 	cmdList.SetRasterizerState(RasterizerState);
-	cmdList.GetDynamic()->SetDepthStencilState(DepthStencilState);
+	cmdList.SetDepthStencilState(DepthStencilState);
 
 
 	cmdList.SetShaderSampler(FUniformSampler(0, input));

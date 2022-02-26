@@ -620,7 +620,8 @@ struct FD3D11FrameBuffer : FRIFrameBuffer
 	FD3D11FrameBuffer(ID3D11Device* device, FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthBuffer) : 
 		FRIFrameBuffer(0, 0),
 		NumViews(textureAttachments.Length()),
-		RenderTargetViews(0)
+		RenderTargetViews(nullptr),
+		DepthTexture(nullptr)
 	{
 
 		RenderTargetViews = new TComPtr<ID3D11RenderTargetView>[NumViews];
@@ -654,7 +655,8 @@ struct FD3D11FrameBuffer : FRIFrameBuffer
 	FD3D11FrameBuffer(ID3D11Device* device, FRIFrameBufferArrayAttachment textureAttachment, bool enableDepthBuffer) :
 		FRIFrameBuffer(0, 0),
 		NumViews(0),
-		RenderTargetViews(0)
+		RenderTargetViews(nullptr),
+		DepthTexture(nullptr)
 	{
 
 		FD3D11Texture2DArray* fdxResource = static_cast<FD3D11Texture2DArray*>(textureAttachment.Param2DArray);
@@ -836,7 +838,7 @@ struct FD3D11VertexDeclaration : FRIVertexDeclaration
 
 		for (int i = 0; i < NumLayoutElems; i++)
 		{
-			printf("%s %d\n", vertexLayout[i].SemanticName, vertexLayout[i].SemanticIndex);
+			//printf("%s %d\n", vertexLayout[i].SemanticName, vertexLayout[i].SemanticIndex);
 		}
 
 		device->CreateInputLayout(vertexLayout.Begin(), NumLayoutElems, shaderSignature->ByteCode.Begin(), shaderSignature->ByteCode.ByteSize(), &InputLayout);

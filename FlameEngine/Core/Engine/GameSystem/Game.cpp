@@ -8,6 +8,9 @@
 #include "Physics/PX/FPXAllocator.h"
 #include "Physics/PX/FPXScene.h"
 
+#include <future>
+
+
 GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri, Win32Context* context) :
 	applicationName(Name),
 	FriContext(nullptr)
@@ -33,7 +36,6 @@ GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri
 	}
 
 
-
 	if (efri == EFRIRendererFramework::OpenGL)
 	{
 		FriContext = new OpenGLFRIContext(desc, context);
@@ -44,88 +46,200 @@ GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri
 	}
 
 	FriContext->InputHandlerDelegate = FKeyEventBindingDelegate::Make<GameApplication, &GameApplication::InputHandlerFunc>(this);
+	FriContext->InputHandlerDelegate2 = FMouseKeyEventBindingDelegate::Make<GameApplication, &GameApplication::MouseInputHandlerFunc>(this);
 	FriContext->Initialize();
 	
 	Renderer.CreateResources(FriContext);
 	UXRenderer.LoadResources(FriContext);
 
+
 	currentScene = new Scene(CreatePhysicsSceneDescription(), FriContext);
 	currentScene->LoadSystems();
 
 }
+
+#define AVERAGE(a) a.GetSeconds() * 1000.0f / (float)updateGameTime.TotalTicks
+
+#define PROFILE_START(name, a) auto now_##a = FTime::GetTimestamp()
+#define PROFILE_END(a) a += FTime::GetTimestamp() - now_##a
+
+
+
+FGameTime updateGameTime;
+FTimeSpan updateLastTick = FTime::GetTimestamp();
+
 GameApplication::~GameApplication()
 {
-
-}
-
-
-void GameApplication::Update(FGameTime gameTime)
-{
-
-
+	printf("\nPhysics time:         %fms\n", AVERAGE(currentScene->physTime));
+	printf("Dynamic time:         %fms\n", AVERAGE(currentScene->dynTime));
+	printf("Behaviour time:         %fms\n", AVERAGE(currentScene->behTime));
+	printf("Update time:         %fms\n", AVERAGE(upTime));
+	printf("------------------------------------\n");
+	printf("Stage time:         %fms\n", AVERAGE(Renderer.stageTime));
+	printf("GI time:            %fms\n", AVERAGE(Renderer.giTime));
+	printf("SM time:            %fms\n", AVERAGE(Renderer.smTime));
+	printf("GBuffer time:       %fms\n", AVERAGE(Renderer.gTime));
+	printf("Test time:          %fms\n", AVERAGE(Renderer.testTime));
+	printf("Lighting time:      %fms\n", AVERAGE(Renderer.lightTime));
+	printf("PostProcess time:   %fms\n", AVERAGE(Renderer.ppTime));
+	printf("UXtime:             %fms\n", AVERAGE(uxTime));
+	printf("End time:           %fms\n", AVERAGE(endTime));
+	printf("Swap	time:       %fms\n", AVERAGE(swapTime));
+	printf("Message	time:       %fms\n", AVERAGE(msgTime));
+	printf("------------------------------------\n");
+	printf("total	time:       %fms\n", AVERAGE(totalTime));
 }
 
 void GameApplication::Frame()
 {
 
-	auto TimeStamp = FTime::GetTimestamp();
-	gameTime.TotalTicks++;
-	gameTime.DeltaTime = TimeStamp - LastTickTimestamp;
-	LastTickTimestamp = TimeStamp;
 
+}
 
-	FRICommandList cmd(FriContext->GetFRIDynamic());
+float timeFrame = 1000.0f / 128.0f;
 
-	BeginRender(cmd);
+void GameApplication::LaunchGameThread()
+{
+	/*FGameTime updateGameTime;
+	FTimeSpan updateLastTick = FTime::GetTimestamp();
+	FTimeSpan loopLastTick = updateLastTick;
 
+	float accumulator = 0;
 
-	currentScene->Update(gameTime);
-	Update(gameTime);
-
-
-	Renderer.Render(cmd);
-	if (currentScene->uxContainer)
+	while (FriContext->IsActive())
 	{
-		UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
+		auto loopStamp = FTime::GetTimestamp();
+		float loopDelta = (loopStamp - loopLastTick).GetMilliseconds();
+		loopLastTick = loopStamp;
+
+		accumulator += loopDelta;
+
+		if (accumulator >= timeFrame)
+		{
+			auto TimeStamp = FTime::GetTimestamp();
+			updateGameTime.TotalTicks++;
+			updateGameTime.DeltaTime = TimeStamp - updateLastTick;
+			updateLastTick = TimeStamp;
+
+
+			PROFILE_START("Scene Update", upTime);
+			{
+				currentScene->Update(updateGameTime);
+			}
+			PROFILE_END(upTime);
+
+			//std::cout << "Update: " << updateGameTime.DeltaTime.GetMilliseconds() << "ms" << std::endl;
+
+			accumulator -= timeFrame;
+		}
+	}*/
+}
+
+void GameApplication::LaunchRenderThread()
+{
+	//FGameTime updateGameTime;
+	//FTimeSpan updateLastTick = FTime::GetTimestamp();
+
+	bool firstLoop = true;
+
+	while (FriContext->IsActive())
+	{
+		auto TimeStamp = FTime::GetTimestamp();
+		updateGameTime.TotalTicks++;
+		updateGameTime.DeltaTime = TimeStamp - updateLastTick;
+		updateLastTick = TimeStamp;
+
+		PROFILE_START("Total", totalTime);
+
+			/*auto renderTask = std::async(std::launch::async, [&]()
+				{*/
+					//if (firstLoop) continue;
+					
+					FRICommandList cmd(FriContext->GetFRIDynamic(), true);
+					BeginRender(cmd);
+					{
+						PROFILE_START("Scene Update", upTime);
+
+						PROFILE_END(upTime);
+
+						currentScene->Update(updateGameTime);
+						currentScene->FinishUpdate();
+						this->Update(updateGameTime);
+
+						Renderer.Render(cmd);
+
+						PROFILE_START("UX", uxTime);
+
+						if (currentScene->uxContainer)
+						{
+							UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
+						}
+						PROFILE_END(uxTime);
+					}
+
+					PROFILE_START("End", endTime);
+					EndRender(cmd);
+					PROFILE_END(endTime);
+
+					//cmd.Flush();
+
+					PROFILE_START("SwapBuffers", swapTime);
+					FriContext->SwapBuffers();
+					PROFILE_END(swapTime);
+
+					PROFILE_START("Msg Time", msgTime);
+					FriContext->HandleEvents();
+					PROFILE_END(msgTime);
+				//});
+		PROFILE_END(totalTime);
+
+		//renderTask.wait();
+
+
+
+		//std::cout << "Render: " << updateGameTime.DeltaTime.GetSeconds() * 1000.0f << "ms" << std::endl;
+
+		if (firstLoop) firstLoop = false;
 	}
-
-	EndRender(cmd);
-
-	//cmd.Flush();
-
-	FriContext->SwapBuffers();
-	FriContext->HandleEvents();
-
 }
 
 void GameApplication::Run()
 {
 	Renderer.AttachToScene(currentScene);
 
+	//renderThread = std::thread([&] {
+		this->LaunchRenderThread();
+		//});
 
-	while (FriContext->IsActive())
-	{
-		Frame();
-	}
+	//LaunchGameThread();
+
+	//renderThread.join();
 }
 
-void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyEvent)
+void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent)
 {
-	if (key == FKeyboardKeys::Escape)
-	{
-		FriContext->PollCloseEvent();
-	}
+	currentScene->uxContainer->HandleInput(key, keyEvent);
 
-
-	/*
-	ControlSystem.ForEach([&](Entity ent, ControlComponent& controlRef) 
+	currentScene->System<ControlComponent>()->ForEach([&](Entity ent, ControlComponent& controlRef)
 		{
 			for (int j = 0; j < controlRef.KeyEventBindings.Length(); j++)
 			{
 				controlRef.KeyEventBindings[j](key, keyEvent);
 			}
 		});
-		*/
+		
+}
+
+void GameApplication::MouseInputHandlerFunc(FMouseButton key, FKeyEvent keyEvent)
+{
+	currentScene->System<ControlComponent>()->ForEach([&](Entity ent, ControlComponent& controlRef)
+		{
+			for (int j = 0; j < controlRef.MouseEventBindings.Length(); j++)
+			{
+				controlRef.MouseEventBindings[j](key, keyEvent);
+			}
+		});
+
 }
 
 void GameApplication::BeginRender(FRICommandList& cmdList)

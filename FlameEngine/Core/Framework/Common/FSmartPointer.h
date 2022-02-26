@@ -113,13 +113,17 @@ public:
 
 	FSharedPointer& operator=(const FSharedPointer& fpOther)
 	{
-
-		(*refCounter)--;
+		if (refCounter)
+		{
+			(*refCounter)--;
+		}
 
 		this->data = fpOther.data;
 		this->refCounter = fpOther.refCounter;
 
 		(*refCounter)++;
+
+		return *this;
 	}
 
 	// Move 
@@ -140,6 +144,8 @@ public:
 
 		fpOther.data = NULL;
 		fpOther.refCounter = NULL;
+
+		return *this;
 	}
 
 
@@ -151,12 +157,15 @@ public:
 
 	~FSharedPointer()
 	{
-		(*refCounter)--;
-
-		if (*refCounter < 1)
+		if (refCounter)
 		{
-			delete data;
-			delete refCounter;
+			(*refCounter)--;
+
+			if (*refCounter < 1)
+			{
+				delete data;
+				delete refCounter;
+			}
 		}
 	}
 
@@ -165,6 +174,12 @@ public:
 	{
 		return data;
 	}
+
+	TUserType& operator*() const
+	{
+		return *data;
+	}
+
 
 	FORCEINLINE uint64_t GetRefCount() const
 	{

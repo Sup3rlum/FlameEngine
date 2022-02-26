@@ -12,7 +12,7 @@ void PrintDebugMatrix2(const FMatrix4& a)
 
 AnimationSequence TContentSerializer<AnimationSequence>::Serialize(IOFileStream& fileStream)
 {
-	FAnsiString sequenceName = fileStream.ReadLengthedString<FAnsiString>();
+	FString8 sequenceName = fileStream.ReadLengthedString<FString8>();
 	float sequenceLength = fileStream.Read<float>();
 	uint32 numKeyFrames = fileStream.Read<uint32>();
 
@@ -35,8 +35,6 @@ AnimationSequence TContentSerializer<AnimationSequence>::Serialize(IOFileStream&
 
 			//printf("Joint: %d\n", i);
 			//PrintDebugMatrix2(tr);
-
-
 
 			keyFrame.PoseTransforms[i] = FTransform(tr);
 		}

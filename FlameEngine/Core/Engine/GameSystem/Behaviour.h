@@ -5,26 +5,26 @@
 
 #include "EntityComponent/Entity.h"
 
-class BehaviourScript
+class Scene;
+
+EXPORT(class, BehaviourScript)
 {
 protected:
 	virtual void Load() = 0;
-	virtual void Update() = 0;
-
-	friend class BehaviourSystem;
-	friend class Behaviour;
+	virtual void Update(float dt) = 0;
 	
-	Entity& AttachedEntity()
-	{
-		return *pEntity;
-	}
-	const Entity& AttachedEntity() const
-	{
-		return AttachedEntity();
-	}
+	Scene& CurrentScene();
+	const Scene& CurrentScene() const;
+
+	Entity& AttachedEntity();
+	const Entity& AttachedEntity() const;
+
+	friend class Scene;
+	friend class Behaviour;
 
 private:
 	Entity* pEntity;
+	Scene* pScene;
 };
 
 
@@ -40,12 +40,13 @@ public:
 
 		pScript = new TBScript(args...);
 		pScript->pEntity = &pEntity;
+		pScript->pScene = pScene;
 		pScript->Load();
 	}
 private:
 	BehaviourScript* pScript = NULL;
 	Entity pEntity;
+	Scene* pScene;
 
-	friend class BehaviourSystem;
 	friend class Scene;
 };

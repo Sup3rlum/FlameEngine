@@ -27,8 +27,10 @@ public:
 	bool InitializeOpenGL();
 	void InitializeOpenGLStates();
 	void* GetPlatformSpecificHandle() { return win32Context; }
-
 	void SwapBuffers();
+
+	void ShowCursor();
+	void HideCursor();
 
 	void HandleEvents();
 

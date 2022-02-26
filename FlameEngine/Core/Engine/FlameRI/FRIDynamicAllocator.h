@@ -64,8 +64,8 @@ public:
 	virtual void DrawInstancesIndexed(EFRIPrimitiveType primitveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer) = 0;
 
 	virtual void SetShaderPipeline(FRIShaderPipeline* shader) = 0;
-	virtual void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer) = 0;
-	virtual void SetShaderSampler(FUniformSampler* sampler) = 0;
+	virtual void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32 attachFlags = 63) = 0;
+	virtual void SetShaderSampler(FUniformSampler sampler) = 0;
 	virtual void SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param) = 0;
 	virtual void SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer param) = 0;
 

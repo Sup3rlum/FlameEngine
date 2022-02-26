@@ -191,7 +191,7 @@ template<size_t GenSize>
 using FStaticUTF32String = TStaticString<char32_t, GenSize>;
 
 
-typedef TString<char> FAnsiString;
+typedef TString<char> FString8;
 typedef TString<FChar> FString;
 typedef TString<char32_t> FUTF32String;
 

@@ -49,7 +49,10 @@ protected:
 
 public:
 	FRIRenderingContextDescription InstanceDescription;
+
 	FKeyEventBindingDelegate InputHandlerDelegate;
+	FMouseKeyEventBindingDelegate InputHandlerDelegate2;
+
 	EFRIRendererFramework RenderFramework;
 	
 
@@ -79,6 +82,8 @@ public:
 
 	virtual FVector2 GetCursorPosition() = 0;
 	virtual void SetCursorPosition(FVector2 pos) = 0;
+	virtual void ShowCursor() = 0;
+	virtual void HideCursor() = 0;
 
 	virtual FViewportRect GetViewport() = 0;
 };

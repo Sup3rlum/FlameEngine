@@ -12,7 +12,7 @@
 #include "AtmosphereRenderer.h"
 #include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
 #include "Deferred/SMAA/SMAA.h"
-#include "VXGI/VXGIRenderer.h"
+#include "Services/HBAOPlus/HBAOPlusInterface.h"
 
 
 struct VXGI
@@ -29,21 +29,22 @@ struct VXGI
 
 };
 
+
 EXPORT(class, DeferredRenderer) : public RenderModule
 {
 
 	struct _DRUBuffers
 	{
-		FRIUniformBuffer* DLight;
-		FRIUniformBuffer* PLight;
-		FRIUniformBuffer* SLight;
-		FRIUniformBuffer* CascadeData;
-		FRIUniformBuffer* LightingConstants;
-		FRIUniformBuffer* VXGI;
-		FRIUniformBuffer* Transform;
-		FRIUniformBuffer* JointData;
-		FRIUniformBuffer* CameraMatrix;
-		FRIUniformBuffer* Material;
+		FRIStageBuffer DLight;
+		FRIStageBuffer PLight;
+		FRIStageBuffer SLight;
+		FRIStageBuffer CascadeData;
+		FRIStageBuffer LightingConstants;
+		FRIStageBuffer VXGI;
+		FRIStageBuffer Transform;
+		FRIStageBuffer JointData;
+		FRIStageBuffer CameraMatrix;
+		FRIStageBuffer Material;
 
 		void Create(FRIContext* renderContext);
 
@@ -89,7 +90,7 @@ EXPORT(class, DeferredRenderer) : public RenderModule
 
 public:
 
-	
+	~DeferredRenderer();
 
 	void CreateResources(FRIContext* renderContext);
 	void RecreateResources(FRIContext* renderContext, FRIContext* prevContext = 0);
@@ -110,33 +111,36 @@ public:
 	void Present(FRICommandList& cmdList);
 
 
-	void RenderGeometry(FRICommandList& cmdList);
+	void RenderGeometry(FRICommandList& cmdList, bool material);
 	void RenderGeometrySkinned(FRICommandList& cmdList);
-	void RenderEnvironmentStatic(FRICommandList& cmdList);
+	void RenderEnvironmentStatic(FRICommandList& cmdList, bool material);
 
 	void UnbindSamplers(FRICommandList& cmdList, int32 startSlot, int32 endSlot);
 	void StageLightData(FRICommandList& cmdList);
 
 
+	void Testperf(FRICommandList& cmdList);
+
 	FRIBlendState* DefaultBlend;
 	FRIRasterizerState* DefaultRasterizer;
+	FRIRasterizerState* SMRasterizer;
+
 	FRIDepthStencilState* DisableDepth;
 	FRIDepthStencilState* DefaultDepth;
 
-
 	FRenderSystemGeom* Geometry;
 	FRenderSystemSkinnedGeom* SkinnedGeometry;
-
-
-
-	VXGI GlobalIllumination;
 
 
 	FViewportRect Viewport;
 	FViewportRect ShadowmapViewport;
 
 	AtmosphereRenderer atmosphereRenderer;
-	VXGIRenderer vxgiRenderer;
+	HBAOPlus* hbaoRenderer;
 	DebugRenderer debugRenderer;
 	SMAA smaa;
+
+
+	FTimeSpan stageTime, giTime, smTime, gTime, lightTime, ppTime, presentTime, smLayerTime[5], smaaTime, totalTime, testTime;
+
 };

@@ -39,33 +39,25 @@ enum class ECSExecutionFlag : uint32
 };
 
 
-EXPORT(class,  Scene) : public IElementIdentifiable
+EXPORT(class,  Scene)
 {
 public:
 	Scene(PhysicsSceneDescription physDesc, FRIContext* renderContext);
 	~Scene();
 
-
-	/*
-	template<typename... TComponents>
-	Entity CreateEntity(const FString& name, TComponents... args)
-	{
-		Entity e = CreateEntity<TComponents...>(name);
-		(e.SetComponent(args), ...);
-		return e;
-	}*/
-
 	template<typename... TComponents>
 	Entity CreateEntity(const FString& name)
 	{
-		Entity entity = entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
+		Entity entity = EntWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
 
 		//(entity.InitComponent<TComponents>(), ...);
 
 		if (entity.HasComponent<Behaviour>())
-			entity.Component<Behaviour>().pEntity = entity; 
-
-		return entity;// entityWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
+		{
+			entity.Component<Behaviour>().pEntity = entity;
+			entity.Component<Behaviour>().pScene = this;
+		}
+		return entity;
 	}
 
 	template<typename TSystem, typename... TCreationArgs>
@@ -88,14 +80,20 @@ public:
 		return pSystem;
 	}
 
+
+
+
 	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer);
 
 	AABB GetAABB() const;
-	FGlobalID GetID() const;
 
 	void LoadSystems();
 	void Update(FGameTime gameTime);
+	void UpdateSystems();
+	void UpdateBehaviour(FGameTime gameTime);
 	void UpdateDirectionalLights();
+
+	void FinishUpdate();
 
 	Entity Camera;
 	Entity Sun;
@@ -114,10 +112,11 @@ private:
 
 	FRIContext* FriContext;
 
-	FGlobalID sceneID;
-	EntityWorld entityWorld;
+	EntityWorld EntWorld;
 	
 	template<typename ...TComponents>
 	friend class FEntityComponentSystem;
+public:
+	FTimeSpan physTime, dynTime, behTime;
 };
 

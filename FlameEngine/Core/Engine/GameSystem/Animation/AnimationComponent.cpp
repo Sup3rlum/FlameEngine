@@ -18,7 +18,7 @@ AnimationComponent::AnimationComponent() :
 }
 
 
-void AnimationComponent::AddSequence(const FAnsiString& seqName, const AnimationSequence& seq)
+void AnimationComponent::AddSequence(const FString8& seqName, const AnimationSequence& seq)
 {
 	if (AnimationSequences.Contains(seqName))
 	{
@@ -30,7 +30,7 @@ void AnimationComponent::AddSequence(const FAnsiString& seqName, const Animation
 	}
 }
 
-void AnimationComponent::PlaySequence(const FAnsiString& seqName)
+void AnimationComponent::PlaySequence(const FString8& seqName)
 {
 
 	auto b = AnimationSequences.Begin();

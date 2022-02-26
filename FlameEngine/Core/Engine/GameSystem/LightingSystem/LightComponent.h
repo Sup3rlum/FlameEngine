@@ -13,7 +13,7 @@ struct FViewFrustumInfo
 	//FMatrix4 ToLightTransform;
 	FMatrix4 View;
 	FMatrix4 Projection;
-	float Depth;
+	float Depth = 0.0f;
 };
 
 

@@ -235,6 +235,7 @@ echo</Command>
     <ClCompile Include="TestParticleSystem.cpp" />
     <ClCompile Include="TestPlayerScript.cpp" />
     <None Include="Assets\Animations\anim_guy.fl3d.anim" />
+    <None Include="Assets\settings.html" />
     <None Include="Assets\welcome.html" />
     <None Include="Assets\Shaders\atmosphere\atmosphere.vert">
       <FileType>Document</FileType>

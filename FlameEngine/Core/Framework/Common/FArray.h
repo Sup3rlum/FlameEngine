@@ -4,14 +4,13 @@
 #include "Core/Common/CoreBase.h"
 #include "Core/Common/TypeTraits.h"
 #include "Core/Runtime/Common/Memory.h"
-
+#include "Range.h"
 
 template<typename GenType, size_t GenSize>
 struct FStaticArray
 {
 public:
 	typedef GenType* IteratorType;
-
 
 	/*
 	*	Default Constructor
@@ -327,6 +326,30 @@ public:
 
 		return ptrInternal[index];
 	}
+
+	/* Range operators */
+
+
+	FArray<GenType> operator[](const FRange& range)
+	{
+		assert(range.end() <= size);
+		assert(range.begin() >= 0);
+
+		size_t distance = range.end() - range.begin();
+		assert(distance != 0);
+
+		FArray<GenType> rArray;
+
+		for (auto index : range)
+		{
+			rArray.Add(ptrInternal[index]);
+		}
+
+		return rArray;
+	}
+
+	/* ------------------------ */
+
 
 	FArray<GenType>& operator=(const FArray<GenType> &arr)
 	{

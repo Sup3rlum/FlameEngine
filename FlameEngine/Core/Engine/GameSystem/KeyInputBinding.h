@@ -131,7 +131,7 @@ enum class FKeyboardKeys : int32
 		
 };
 
-EXPORT(enum class, FKeyboardKeyEvent) : int32
+enum class FKeyEvent : int32
 {
 	OnPress = 0,
 	OnRelease = 1,
@@ -153,4 +153,5 @@ struct FKeyEventArgs
 };
 
 
-typedef FDelegate<void(FKeyboardKeys, FKeyboardKeyEvent)> FKeyEventBindingDelegate;
+typedef FDelegate<void(FKeyboardKeys, FKeyEvent)> FKeyEventBindingDelegate;
+typedef FDelegate<void(FMouseButton, FKeyEvent)> FMouseKeyEventBindingDelegate;

@@ -40,7 +40,7 @@ void ParticleRenderer::RenderSystem(FRICommandList& cmdList, ParticleSystemBase*
 
 	cmdList.SetBlendState(BlendState);
 	cmdList.SetRasterizerState(RasterizerState);
-	cmdList.GetDynamic()->SetDepthStencilState(DepthStencilState);
+	cmdList.SetDepthStencilState(DepthStencilState);
 
 	cmdList.SetShaderPipeline(ShaderPipeline);
 	uint32 InstanceCount = pSystem->GetStageCount();

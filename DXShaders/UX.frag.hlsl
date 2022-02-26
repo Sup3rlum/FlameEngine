@@ -10,5 +10,5 @@ SamplerState UxSampler : register(s0);
 
 float4 main(PSInput input) : SV_Target0
 {
-    return UxTexture.Sample(UxSampler, input.TexCoord);
+    return UxTexture.Sample(UxSampler, input.TexCoord).bgra;
 }

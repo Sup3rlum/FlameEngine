@@ -20,8 +20,6 @@ public:
 	TContentSerializer(FRIContext * friContext, Scene* scene);
 
 	Level Serialize(IOFileStream & fileStream);
-
-
 };
 
 

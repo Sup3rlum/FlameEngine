@@ -131,6 +131,7 @@
       <Command>cd $(OutputPath)
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/deferred_library.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/vxgi.xml"
+$(OutputPath)fslink.exe -i "$(OutputPath)shaderc/ux.xml"
 move "$(OutputPath)*.fslib" "D:\Projects\FlameEngine\Showcase\Assets\Shaders\"</Command>
       <Message>Building shader library</Message>
       <TreatOutputAsContent>false</TreatOutputAsContent>

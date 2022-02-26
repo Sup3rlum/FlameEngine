@@ -26,20 +26,40 @@ Entity FEntityMemoryStack::AllocEntity(const FString& name)
 		AllocBlock(FEntityMemoryAllocator::BlockCapacityDefault);
 	}
 
+	auto newEntId = new GEntityID
+	{ 
+		Top, 
+		Top->NumEntities 
+	};
 
-	new (&Top->controlArray[Top->NumEntities]) Entity(new GEntityID{ Top, Top->NumEntities }, name);
+	Top->NumEntities++;
 
-	return Top->controlArray[Top->NumEntities++];
+	new (&newEntId->GetControl()) Entity(newEntId, name);
+	return newEntId->GetControl();
 }
+
+
+void FEntityMemoryStack::AllocEntityMemory()
+{
+	if (Top->IsFull())
+	{
+		AllocBlock(FEntityMemoryAllocator::BlockCapacityDefault);
+	}
+	Top->NumEntities++;
+}
+
 
 void FEntityMemoryStack::FreeEntity(GEntityID entityId)
 {
-	memcpy(entityId.Block->GetColumn(entityId.Index), Top->GetColumn(--(Top->NumEntities)), BlockArchetype.MemColumnSize);
+	memcpy(
+		entityId.Block->GetColumn(entityId.Index), 
+		Top->GetColumn(--(Top->NumEntities)),
+		BlockArchetype.MemColumnSize
+	);
 
-	entityId.Block->controlArray[entityId.Index].Invalidate();
-	entityId.Block->controlArray[entityId.Index] = Top->controlArray[Top->NumEntities];
-
-	*entityId.Block->controlArray[entityId.Index].EntityId = entityId;
+	//entityId.GetControl().Invalidate();
+	entityId.GetControl() = Top->controlArray[Top->NumEntities];
+	*entityId.GetControl().EntityId = entityId;
 }
 
 

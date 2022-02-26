@@ -42,9 +42,9 @@ struct FHash<FString>
 };
 
 template<>
-struct FHash<FAnsiString>
+struct FHash<FString8>
 {
-    size_t operator ()(const FAnsiString & str) const
+    size_t operator ()(const FString8 & str) const
     {
         return FHashFuncImpl::MurmurHash3_x86_32(str.Begin(), str.ByteSize(), 100);
     }

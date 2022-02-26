@@ -15,12 +15,11 @@ class Win32Context;
 EXPORT(class,  GameApplication)
 {
 protected:
-	FGameTime gameTime;	
-	FTimeSpan LastTickTimestamp;
 
 	FRIContext* FriContext;
 
-	void InputHandlerFunc(FKeyboardKeys key, FKeyboardKeyEvent keyEvent);
+	void InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent);
+	void MouseInputHandlerFunc(FMouseButton key, FKeyEvent keyEvent);
 
 public:
 	GameApplication(const FString& name, EFRIRendererFramework framework, Win32Context* winContext);
@@ -30,6 +29,10 @@ public:
 	virtual void Suspend() = 0;
 
 	virtual void Update(FGameTime gameTime) = 0;
+
+
+	void LaunchGameThread();
+	void LaunchRenderThread();
 
 	void Run();
 	void Frame();
@@ -50,5 +53,7 @@ public:
 	UXRenderer UXRenderer;
 	
 	FAssetManager Content;
+
+	FTimeSpan uxTime, swapTime, msgTime, totalTime, endTime, upTime;
 };
 

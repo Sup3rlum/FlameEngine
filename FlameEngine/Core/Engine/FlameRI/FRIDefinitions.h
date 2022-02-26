@@ -20,7 +20,7 @@ enum class EFRITextureParameterBufferParameterType
 	Float
 };
 
-enum class EFRIResourceShaderType
+enum class EFRIResourceShaderType 
 {
 	Vertex,
 	Pixel,
@@ -215,4 +215,14 @@ enum class EFRIAccess
 	CPURead,
 	CPUWrite,
 	CPUReadWrite
+};
+
+enum EFRIPipelineStage
+{
+	EFRI_Vertex = 1,
+	EFRI_Pixel = 2,
+	EFRI_Geometry = 4,
+	EFRI_Domain = 8,
+	EFRI_Hull = 16,
+	EFRI_Compute = 32
 };

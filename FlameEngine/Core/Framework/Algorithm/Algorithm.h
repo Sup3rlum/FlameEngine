@@ -8,7 +8,7 @@ class Algorithm
 {
 public:
     template<typename TGen, typename TLambda>
-    FORCEINLINE static bool SortedIsSubsetOf(TGen smaller[], TGen bigger[], int smallerSize, int biggerSize, TLambda getter = [](TGen& value) -> TGen& { return value; })
+    FORCEINLINE static bool SortedIsSubsetOf(TGen smaller[], int smallerSize, TGen bigger[], int biggerSize, TLambda getter = [](TGen& value) -> TGen& { return value; })
     {
 
         int i = 0, j = 0;

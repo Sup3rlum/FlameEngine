@@ -7,16 +7,17 @@ void FPXScene::Step(float dt)
 	StepAccumulator += dt;
 	if (StepAccumulator >= StepSize)
 	{
-		if (StepAccumulator >= 2 * StepSize)
+		if (StepAccumulator >= 10 * StepSize)
 		{
 			StepAccumulator = 0;
 		}
 
-
 		StepAccumulator -= StepSize;
 
-		sceneHandle->simulate(StepSize*2.0f);
+
+		sceneHandle->simulate(StepSize);
 		sceneHandle->fetchResults(true);
+
 
 		//printf("Updating: Delta %f Accumulation %f\n", dt, StepAccumulator);
 	}
@@ -27,4 +28,9 @@ void FPXScene::Step(float dt)
 
 	
 
+}
+
+void FPXScene::FetchResults()
+{
+	sceneHandle->fetchResults(true);
 }

@@ -74,14 +74,14 @@ public:
 	}
 
 
-	FAnsiString ReadAnsiFile()
+	FString8 ReadAnsiFile()
 	{
 		std::string contents((std::istreambuf_iterator<char>(_file)),
 			std::istreambuf_iterator<char>());
 
 		;
 
-		return FAnsiString(contents.c_str());
+		return FString8(contents.c_str());
 	}
 
 

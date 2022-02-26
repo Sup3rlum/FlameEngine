@@ -98,20 +98,11 @@
     <ClCompile Include="Core\Engine\Renderer\ParticleRenderer.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\InstanceMesh.cpp" />
     <ClCompile Include="Core\UX\UXFRISurface.cpp" />
-    <ClCompile Include="Core\UX\UXService.cpp" />
     <ClCompile Include="Core\UX\UXRenderer.cpp" />
     <ClCompile Include="Core\UX\UXContainer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\VXGI\VXGIRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageHBAO.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageGBufferGen.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageLighting.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageShadowmap.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageEnvironment.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageTranslucency.cpp" />
     <ClCompile Include="Core\Engine\ContentSystem\Client\AssetImportScripts\Level.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageVXGI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\RenderModule.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\EntityComponent\Entity.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Animation\AnimationComponent.cpp" />
@@ -314,7 +305,6 @@
     <ClInclude Include="Core\Engine\GameSystem\CompositeMesh.h" />
     <ClInclude Include="Core\UX\UXFRISurface.h" />
     <ClInclude Include="Core\UX\UXRenderer.h" />
-    <ClInclude Include="Core\UX\UXService.h" />
     <ClInclude Include="Core\UX\UXContainer.h" />
     <ClInclude Include="Core\Engine\Renderer\VXGI\VXGIRenderer.h" />
     <ClInclude Include="Core\Engine\Renderer\Deferred\RenderStages.h" />
@@ -328,6 +318,7 @@
     <ClInclude Include="Core\Framework\Serialization\JSON.h" />
     <ClInclude Include="Core\Engine\ContentSystem\Client\AssetManager.h" />
     <ClInclude Include="Core\Engine\GameSystem\Behaviour.h" />
+    <ClInclude Include="Core\Framework\Common\Range.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\debug_frag.glsl">

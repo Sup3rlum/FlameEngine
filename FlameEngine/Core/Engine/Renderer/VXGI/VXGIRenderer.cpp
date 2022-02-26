@@ -60,9 +60,9 @@ void VXGIRenderer::CreateResources(FRIContext* renderContext)
 	FlushCompute = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["VoxelFlush"]);
 	AnisoCompute = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["AnisotropicCreate"]);
 
-	VXGIBuffer = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FVXGIBuffer)));
-	VoxelizeBuffer = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 3));
-	PropagationData = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(float)*4));
+	VXGIBuffer.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FVXGIBuffer)));
+	VoxelizeBuffer.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 3));
+	PropagationData.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(float)*4));
 
 
 	VoxelAlbedo = cmdList.GetDynamic()->CreateTexture3D(256, 256, 256, EFRITextureFormat::R32UI);
@@ -100,9 +100,9 @@ void VXGIRenderer::RecreateResources(FRIContext* renderContext, FRIContext* prev
 
 void VXGIRenderer::Render(FRICommandList& cmdList, DeferredRenderer* renderer)
 {
-	cmdList.SetShaderUniformBuffer(UBO_SLOT_VOXELIZE, VoxelizeBuffer);
-	cmdList.SetShaderUniformBuffer(UBO_SLOT_VXGI, VXGIBuffer);
-	cmdList.SetShaderUniformBuffer(11, PropagationData);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_VOXELIZE, VoxelizeBuffer.GPU);
+	cmdList.SetShaderUniformBuffer(UBO_SLOT_VXGI, VXGIBuffer.GPU);
+	cmdList.SetShaderUniformBuffer(11, PropagationData.GPU);
 
 
 	if (NeedsUpdate)
@@ -166,8 +166,8 @@ void VXGIRenderer::VoxelizeScene(FRICommandList& cmdList, DeferredRenderer* rend
 
 		cmdList.SetShaderPipeline(Voxelize);
 
-		renderer->RenderEnvironmentStatic(cmdList);
-		renderer->RenderGeometry(cmdList);
+		renderer->RenderEnvironmentStatic(cmdList, true);
+		renderer->RenderGeometry(cmdList, true);
 	}
 
 	cmdList.UnbindFrameBuffer();

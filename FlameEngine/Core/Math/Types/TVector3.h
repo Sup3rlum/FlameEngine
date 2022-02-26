@@ -94,6 +94,16 @@ public:
 		return v / v.Length();
 	}
 
+	static TVector3 NormalizeOrZero(const TVector3& v)
+	{
+		float len = v.Length();
+
+		if (len < 0.0001f)
+			return 0;
+
+		return v / len;
+	}
+
 	static TVector3 Max(const TVector3& a, const TVector3& b)
 	{
 		return TVector3(
@@ -112,6 +122,11 @@ public:
 		);
 	}
 
+
+	static TVector3 Project(const TVector3& a, const TVector3& b)
+	{
+		return b * (Dot(a, b) / Dot(b, b));
+	}
 
 
 	GenType& operator[](size_t _index)

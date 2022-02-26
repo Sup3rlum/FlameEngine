@@ -28,6 +28,9 @@ public:
 	FViewportRect GetViewport();
 
 
+	void ShowCursor();
+	void HideCursor();
+
 	LRESULT Win32MessageHandler(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
 
 

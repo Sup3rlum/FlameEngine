@@ -359,78 +359,61 @@ void D3D11FRIDynamicAllocator::DrawInstancesIndexed(EFRIPrimitiveType primitveTy
 
 void D3D11FRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 {
-	D3DFRI->DeviceContext->VSSetShader(NULL,0,0);
-	D3DFRI->DeviceContext->GSSetShader(NULL,0,0);
-	D3DFRI->DeviceContext->DSSetShader(NULL,0,0);
-	D3DFRI->DeviceContext->HSSetShader(NULL,0,0);
-	D3DFRI->DeviceContext->PSSetShader(NULL,0,0);
-	D3DFRI->DeviceContext->CSSetShader(NULL,0,0);
-
 
 	FD3D11ShaderPipeline* fdxShaderPipeline = static_cast<FD3D11ShaderPipeline*>(shader);
-	if (fdxShaderPipeline->vertexShader)
-	{
-		D3DFRI->DeviceContext->VSSetShader(fdxShaderPipeline->vertexShader, 0, 0);
-	}
-	if (fdxShaderPipeline->geometryShader)
-	{
-		D3DFRI->DeviceContext->GSSetShader(fdxShaderPipeline->geometryShader, 0, 0);
-	}
-	if (fdxShaderPipeline->domainShader)
-	{
-		D3DFRI->DeviceContext->DSSetShader(fdxShaderPipeline->domainShader, 0, 0);
-	}
-	if (fdxShaderPipeline->hullShader)
-	{
-		D3DFRI->DeviceContext->HSSetShader(fdxShaderPipeline->hullShader, 0, 0);
-	}
-	if (fdxShaderPipeline->pixelShader)
-	{
-		D3DFRI->DeviceContext->PSSetShader(fdxShaderPipeline->pixelShader, 0, 0);
-	}
 
-	if (fdxShaderPipeline->computeShader)
-	{
-		D3DFRI->DeviceContext->CSSetShader(fdxShaderPipeline->computeShader, 0, 0);
-	}
+	D3DFRI->DeviceContext->VSSetShader(fdxShaderPipeline->vertexShader, 0, 0);
+	D3DFRI->DeviceContext->GSSetShader(fdxShaderPipeline->geometryShader, 0, 0);
+	D3DFRI->DeviceContext->DSSetShader(fdxShaderPipeline->domainShader, 0, 0);
+	D3DFRI->DeviceContext->HSSetShader(fdxShaderPipeline->hullShader, 0, 0);
+	D3DFRI->DeviceContext->PSSetShader(fdxShaderPipeline->pixelShader, 0, 0);
+	D3DFRI->DeviceContext->CSSetShader(fdxShaderPipeline->computeShader, 0, 0);
+
 }
-void D3D11FRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer)
+void D3D11FRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32 attachFlags)
 {
 	FD3D11UniformBuffer* d3dubuff = static_cast<FD3D11UniformBuffer*>(uniformBuffer);
 
-	D3DFRI->DeviceContext->VSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
-	D3DFRI->DeviceContext->GSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
-	D3DFRI->DeviceContext->PSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
-	D3DFRI->DeviceContext->CSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+	if (attachFlags & EFRI_Vertex)
+		D3DFRI->DeviceContext->VSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+
+	if (attachFlags & EFRI_Pixel)
+		D3DFRI->DeviceContext->PSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+
+	if (attachFlags & EFRI_Geometry)
+		D3DFRI->DeviceContext->GSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+
+	if (attachFlags & EFRI_Compute)
+		D3DFRI->DeviceContext->CSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
 
 }
-void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler* sampler)
+void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
 {
 
-	if (sampler->Param2D)
+	if (sampler.Param2D)
 	{
 		ID3D11ShaderResourceView* srv = NULL;
 		ID3D11SamplerState* samplerState = NULL;
 
-		switch (sampler->samplerType)
+		switch (sampler.samplerType)
 		{
 		case EFRIUniformSamplerType::TSampler2D:
 		{
-			FD3D11Texture2D* fdxTex = static_cast<FD3D11Texture2D*>(sampler->Param2D);
+			FD3D11Texture2D* fdxTex = static_cast<FD3D11Texture2D*>(sampler.Param2D);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
 		}
 		case EFRIUniformSamplerType::TSampler2DArray:
 		{
-			FD3D11Texture2DArray* fdxTex = static_cast<FD3D11Texture2DArray*>(sampler->Param2DArray);
+			FD3D11Texture2DArray* fdxTex = static_cast<FD3D11Texture2DArray*>(sampler.Param2DArray);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
 		}
 		case EFRIUniformSamplerType::TSampler3D:
 		{
-			FD3D11Texture3D* fdxTex = static_cast<FD3D11Texture3D*>(sampler->Param3D);
+			FD3D11Texture3D* fdxTex = static_cast<FD3D11Texture3D*>(sampler.Param3D);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
@@ -439,18 +422,18 @@ void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler* sampler)
 			break;
 		}
 
-		D3DFRI->DeviceContext->VSSetShaderResources(sampler->Unit, 1, &srv);
-		D3DFRI->DeviceContext->PSSetShaderResources(sampler->Unit, 1, &srv);
-		D3DFRI->DeviceContext->CSSetShaderResources(sampler->Unit, 1, &srv);
-		D3DFRI->DeviceContext->PSSetSamplers(sampler->Unit, 1, &samplerState);
-		D3DFRI->DeviceContext->VSSetSamplers(sampler->Unit, 1, &samplerState);
-		D3DFRI->DeviceContext->CSSetSamplers(sampler->Unit, 1, &samplerState);
+		//D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, &srv);
+		D3DFRI->DeviceContext->PSSetShaderResources(sampler.Unit, 1, &srv);
+		D3DFRI->DeviceContext->CSSetShaderResources(sampler.Unit, 1, &srv);
+		//D3DFRI->DeviceContext->VSSetSamplers(sampler.Unit, 1, &samplerState);
+		D3DFRI->DeviceContext->PSSetSamplers(sampler.Unit, 1, &samplerState);
+		D3DFRI->DeviceContext->CSSetSamplers(sampler.Unit, 1, &samplerState);
 	}
 	else
 	{
-		D3DFRI->DeviceContext->VSSetShaderResources(sampler->Unit, 1, FRID3DEmptySRV);
-		D3DFRI->DeviceContext->PSSetShaderResources(sampler->Unit, 1, FRID3DEmptySRV);
-		D3DFRI->DeviceContext->CSSetShaderResources(sampler->Unit, 1, FRID3DEmptySRV);
+		//D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
+		D3DFRI->DeviceContext->PSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
+		D3DFRI->DeviceContext->CSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
 	}
 }
 void D3D11FRIDynamicAllocator::SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param)
@@ -489,7 +472,7 @@ void D3D11FRIDynamicAllocator::EndFrame()
 	D3DFRI->DeviceContext->PSSetShaderResources(0, 16, FRID3DEmptySRV);
 	D3DFRI->DeviceContext->GSSetShaderResources(0, 16, FRID3DEmptySRV);
 	D3DFRI->DeviceContext->CSSetShaderResources(0, 16, FRID3DEmptySRV);
-	D3DFRI->DeviceContext->VSSetShaderResources(0, 16, FRID3DEmptySRV);
+	//D3DFRI->DeviceContext->VSSetShaderResources(0, 16, FRID3DEmptySRV);
 }
 
 
@@ -586,19 +569,22 @@ void D3D11FRIDynamicAllocator::StageResources(FRIUniformBuffer* uniformBuffer, F
 
 	FD3D11UniformBuffer* fdxUniformBuffer = static_cast<FD3D11UniformBuffer*>(uniformBuffer);
 	FRIMemoryMap memory;
+	memory.Head = 0;
+	memory.MemoryPtr = (byte*)_aligned_malloc(fdxUniformBuffer->ByteSize, 16);
+
+	stageLambda(memory);
+
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	D3DFRI->DeviceContext->Map(fdxUniformBuffer->Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	{
-		memory.MemoryPtr = (byte*)mappedResource.pData;
-		memory.Head = 0;
-
-		stageLambda(memory);
+		memcpy(mappedResource.pData, memory.MemoryPtr, fdxUniformBuffer->ByteSize);
 	}
 	D3DFRI->DeviceContext->Unmap(fdxUniformBuffer->Buffer, 0);
 
+	_aligned_free(memory.MemoryPtr);
 }
 
 void D3D11FRIDynamicAllocator::SetRasterizerState(FRIRasterizerState* rasterizer)

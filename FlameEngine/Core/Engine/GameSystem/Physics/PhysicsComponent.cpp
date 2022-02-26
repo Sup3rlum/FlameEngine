@@ -5,6 +5,7 @@
 #include "PX/FPXActorProxy.h"
 #include "PX/FPXAllocator.h"
 #include "PX/FPXService.h"
+#include "PX/FPXScene.h"
 #include "PhysicsGeometryProxy.h"
 
 
@@ -142,12 +143,27 @@ void CharacterBody::Move(FVector3 vec)
 	auto MoveTimeDelta = (MoveTimestamp - LastMoveTimestamp).GetSeconds();
 	LastMoveTimestamp = MoveTimestamp;
 
-	if (MoveTimeDelta < 0.1f)
+	if (MoveTimeDelta < 2.0f)
 	{
-		vec += FVector3(0, -15, 0);
+		//vec += FVector3(0, -15, 0);
 		vec *= MoveTimeDelta;
+		pPxController->move(physx_cast(vec), 0.005f, MoveTimeDelta, PxControllerFilters());
 
-		pPxController->move(physx_cast(vec), 0.01f, MoveTimeDelta, PxControllerFilters());
+
+		auto raycastOrigin = pPxController->getFootPosition();
+		PxVec3 downDir(0, -1, 0);
+		PxRaycastBuffer hit;
+
+		bool status = Allocator->fpxScene->sceneHandle->raycast(
+			PxVec3(raycastOrigin.x, raycastOrigin.y + 0.1f, raycastOrigin.z),
+			downDir,
+			0.2f,
+			hit
+		);
+
+		isGrounded =
+			status &&
+			hit.block.normal.dot(PxVec3(0, 1, 0)) > 0.7f;
 	}
 }
 
@@ -161,8 +177,7 @@ FTransform CharacterBody::GetGlobalTransform() const
 
 bool CharacterBody::IsGrounded() const
 {
-	return true;
-
+	return isGrounded;
 }
 
 float CharacterBody::GetHeight() const

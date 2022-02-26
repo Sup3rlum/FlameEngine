@@ -32,7 +32,7 @@ struct FSkeletonDataHeader
 struct FJointData
 {
 	uint32 Id;
-	FAnsiString Name;
+	FString8 Name;
 	FMatrix4 bindTransform;
 	FArray<uint32> childrenIndices;
 
@@ -128,7 +128,7 @@ SkinnedMesh TContentSerializer<SkinnedMesh>::Serialize(IOFileStream& fileStream)
 		FJointData joint;
 
 		joint.Id = fileStream.Read<uint32>();
-		joint.Name = fileStream.ReadLengthedString<FAnsiString>();
+		joint.Name = fileStream.ReadLengthedString<FString8>();
 		joint.bindTransform = fileStream.Read<FMatrix4>();
 		
 		//printf("Joint index: %d\n", i);

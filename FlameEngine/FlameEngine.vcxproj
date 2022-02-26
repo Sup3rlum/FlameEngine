@@ -171,7 +171,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <BrowseInformation>true</BrowseInformation>
       <AdditionalIncludeDirectories>D:\Projects\FlameEngine\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -354,6 +354,7 @@
     <ClInclude Include="Core\Engine\Common\FEngineInformation.h" />
     <ClInclude Include="Core\Framework\Common\FStringConversionTraits.h" />
     <ClInclude Include="Core\Framework\Common\FStringMemoryAllocator.h" />
+    <ClInclude Include="Core\Framework\Common\Range.h" />
     <ClInclude Include="Core\Framework\Serialization\JSON.h" />
     <ClInclude Include="Core\Math\Calc\VectorField.h" />
     <ClInclude Include="Core\Math\Functions\Functions.h" />
@@ -417,7 +418,6 @@
     <ClInclude Include="Core\UX\UXContainer.h" />
     <ClInclude Include="Core\UX\UXFRISurface.h" />
     <ClInclude Include="Core\UX\UXRenderer.h" />
-    <ClInclude Include="Core\UX\UXService.h" />
     <ClInclude Include="Environment\EngineEnvironment.h" />
     <ClInclude Include="Platform\OpenGL\gl.h" />
     <ClInclude Include="Platform\OpenGL\glcorearb.h" />
@@ -477,15 +477,7 @@
     <ClCompile Include="Core\Engine\GameSystem\Physics\PX\FPXScene.cpp" />
     <ClCompile Include="Core\Engine\GameSystem\Physics\PX\PhysXPXCast.h" />
     <ClCompile Include="Core\Engine\Renderer\AtmosphereRenderer.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageEnvironment.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageLighting.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageGBufferGen.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageHBAO.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StagePostProcess.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageShadowmap.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Deferred\SMAA\SMAA.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageTranslucency.cpp" />
-    <ClCompile Include="Core\Engine\Renderer\Deferred\StageVXGI.cpp" />
     <ClCompile Include="Core\Engine\Renderer\ParticleRenderer.cpp" />
     <ClCompile Include="Core\Engine\Renderer\RenderModule.cpp" />
     <ClCompile Include="Core\Engine\Renderer\Services\HBAOPlus\DX11\D3D11HBAOPlus.cpp" />
@@ -544,7 +536,6 @@
     <ClCompile Include="Core\Engine\FlameRI\OpenGL\OpenGLFRIImpl.cpp" />
     <ClCompile Include="Core\UX\UXFRISurface.cpp" />
     <ClCompile Include="Core\UX\UXRenderer.cpp" />
-    <ClCompile Include="Core\UX\UXService.cpp" />
     <ClCompile Include="Environment\EngineEnvironment.cpp" />
     <ClCompile Include="Platform\Windows\Win32.cpp" />
   </ItemGroup>

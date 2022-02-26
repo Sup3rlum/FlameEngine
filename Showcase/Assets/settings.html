@@ -1,0 +1,151 @@
+﻿<html>
+<head>
+    <style type="text/css">
+
+        * {
+            padding: 0;
+            margin: 0;
+            top: 0;
+            left: 0;
+        }
+
+        :root {
+            --bg-color: #212121B1;
+        }
+
+        body {
+            animation: fadeInAnimation ease 0.7s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+
+        }
+
+        .bg {
+            background: var(--bg-color);
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+
+            }
+
+            100% {
+                opacity: 1;
+
+            }
+        }
+
+        button {
+            width: 200px;
+            height: auto;
+            font-family: Montserrat;
+            font-size: 18pt;
+            color: white;
+            position: relative;
+            background-color: #41414111;
+            border-radius: 5px;
+            margin: 10px 10px;
+            padding: 10px 20px;
+            text-align: left;
+            transition-duration: 0.4s;
+            display: block;
+        }
+
+        button:hover {
+            background-color: dodgerblue;
+        }
+
+
+        .menu {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            width: 40%;
+            background-color: #20202020;
+            justify-content: space-between;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+        }
+
+
+        .menu-console {
+            background-color: #313131;
+            overflow-y: scroll;
+            width: 600px;
+            height: 600px;
+            align-items: flex-end;
+            margin: 10px;
+
+            color: white;
+            font-family: Montserrat;
+            font-size: 18pt;
+
+            padding: 5px;
+
+            border-style: solid;
+            border-radius: 5px;
+            border-color: #AAAAAA;
+            border-width: 1px;
+        }
+
+        .title {
+            margin: auto;
+            margin-top: 100px;
+            margin-bottom: 0px;
+            width: 50%;
+            text-align: center;
+            font-family: Montserrat;
+        }
+
+        .heading1 {
+            font-size: 64pt;
+            color: white;
+        }
+
+        .heading2 {
+            font-size: 24pt;
+            color: white;
+        }
+    </style>
+    <script>
+        function setLogs(msg) {
+
+            let elem = document.getElementById('console');
+
+            elem.innerText =  " " + msg;
+        }
+        function clearConsole() {
+
+            let elem = document.getElementById('console');
+
+            elem.innerText = "";
+        }
+    </script>
+</head>
+<body>
+    <div class="bg">
+    <div class="title">
+        <p class="heading1">Flame Engine Test</p>
+        <p class="heading2">Version 2.0</p>
+    </div>
+    <div class="menu">
+        <div class="menu-buttons">
+            <button onclick="BackButton();">Back</button>
+            <button onclick="setLogs('Stuff');">Test</button>
+            <button onclick="clearConsole();">Clear</button>
+            <button onclick="ExitButton();">Exit</button>
+        </div>
+        <div class="menu-console" id="console"></div>
+    </div>
+        </div>
+</body>
+</html>

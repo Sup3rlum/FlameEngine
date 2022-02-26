@@ -30,9 +30,9 @@ struct AnimationSequence
 {
 	FArray<AnimationKeyFrame> KeyFrames;
 	float Length;
-	FAnsiString Name;
+	FString8 Name;
 
-	AnimationSequence(const FAnsiString& name, float length) :
+	AnimationSequence(const FString8& name, float length) :
 		Name(name),
 		Length(length)
 	{
@@ -56,8 +56,8 @@ struct AnimationSequence
 
 EXPORT(struct, AnimationComponent)
 {
-	FHashMap<FAnsiString, AnimationSequence> AnimationSequences;
-	FAnsiString CurrentSequenceName;
+	FHashMap<FString8, AnimationSequence> AnimationSequences;
+	FString8 CurrentSequenceName;
 	AnimationSequence* CurrentSequenceRef;
 
 	float animationTime;
@@ -67,9 +67,9 @@ EXPORT(struct, AnimationComponent)
 	AnimationComponent(const AnimationComponent & other);
 	AnimationComponent();
 
-	void AddSequence(const FAnsiString& seqName, const AnimationSequence& seq);
+	void AddSequence(const FString8& seqName, const AnimationSequence& seq);
 
-	void PlaySequence(const FAnsiString& seqName);
+	void PlaySequence(const FString8& seqName);
 	void Step(float dt);
 
 	FArray<FMatrix4> CalculatePoseJointTransforms();

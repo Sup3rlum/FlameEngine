@@ -499,6 +499,31 @@ struct FRIMemoryMap
 		return *this;
 	}
 
+	~FRIMemoryMap()
+	{
+		_aligned_free(MemoryPtr);
+	}
+
+	template<typename TLambda>
+	void Begin(TLambda&& lambda)
+	{
+		Head = 0;
+
+		lambda(*this);
+	}
+
+	FRIMemoryMap()
+	{
+		MemoryPtr = (byte*)_aligned_malloc(4096, 16);
+	}
+
+};
+
+
+struct FRIStageBuffer
+{
+	FRIUniformBuffer* GPU;
+	FRIMemoryMap Stage;
 };
 
 typedef FDelegate<void(FRIMemoryMap&)> FRIMemoryStageDelegate;

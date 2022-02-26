@@ -17,8 +17,8 @@ void AnimSystem::Update(Entity ent, SkinnedMesh& mesh, AnimationComponent& anim)
 
 void BehaviourSystem::Update(Entity ent, Behaviour& behaviour)
 {
-	if (behaviour.pScript)
+	/*if (behaviour.pScript)
 	{
 		behaviour.pScript->Update();
-	}
+	}*/
 }

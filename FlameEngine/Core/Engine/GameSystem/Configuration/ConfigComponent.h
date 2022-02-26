@@ -8,7 +8,7 @@ struct ConfigValue
 {
 	union
 	{
-		FAnsiString* string;
+		FString8* string;
 		float floatVal;
 		int intVal;
 		bool boolVal;
@@ -29,7 +29,7 @@ public:
 	ConfigValue(int i) : intVal(i), _type(Type::Int) {}
 	ConfigValue(float f) : floatVal(f), _type(Type::Float) {}
 	ConfigValue(bool b) : boolVal(b), _type(Type::Bool) {}
-	ConfigValue(const FAnsiString& str) : string(new FAnsiString(str)), _type(Type::String) {}
+	ConfigValue(const FString8& str) : string(new FString8(str)), _type(Type::String) {}
 
 	~ConfigValue()
 	{
@@ -43,13 +43,13 @@ public:
 class ConfigModule
 {
 public:
-	FAnsiString GetString(const FAnsiString& name);
-	int			GetInt(const FAnsiString& name);
-	float		GetFloat(const FAnsiString& name);
-	bool		GetBool(const FAnsiString& name);
+	FString8 GetString(const FString8& name);
+	int			GetInt(const FString8& name);
+	float		GetFloat(const FString8& name);
+	bool		GetBool(const FString8& name);
 	
 	void Load(const FString& filepath);
 
 private:
-	FHashMap<FAnsiString, ConfigValue> Data;
+	FHashMap<FString8, ConfigValue> Data;
 };

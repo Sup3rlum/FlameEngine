@@ -17,9 +17,9 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 {
 	srand(static_cast <unsigned> (time(0)));
 
-	PerspMatrix = FPerspectiveMatrix(PI / 4, 16.0f / 9.0f, 0.1f, 300.0f);
+	PerspMatrix = FPerspectiveMatrix(PI / 3, 16.0f / 9.0f, 0.1f, 300.0f);
 
-	playerEntity = currentScene->CreateEntity<
+	auto playerEntity = currentScene->CreateEntity<
 		FTransform, 
 		CameraComponent, 
 		ControlComponent, 
@@ -48,14 +48,7 @@ TestGameApplication::TestGameApplication(FString appName, EFRIRendererFramework 
 
 void TestGameApplication::Update(FGameTime gameTime)
 {
-
-	FVector3 posVec = playerEntity.Component<FTransform>().Position;
-
-	if (gameTime.TotalTicks % 100 == 0)
-	{
-		FAnsiString fpsString = FAnsiString::Format("SetFPS('%0', %1, %2, %3, %4)", 1 / gameTime.DeltaTime.GetSeconds(), 0, posVec.x, posVec.y, posVec.z);
-		currentScene->uxContainer->ExecuteScript(fpsString);
-	}
+	
 }
 
 
@@ -63,40 +56,42 @@ void TestGameApplication::Update(FGameTime gameTime)
 void TestGameApplication::Shoot()
 {
 
-	static int count = 0;
-	count++;
+	/*for (int i = 0; i < 400; i++)
+	{
+		Entity ball = currentScene->CreateEntity<Mesh, Material, FTransform, RigidBody>("ball");
 
-	count %= 10;
+		ball.SetComponent<Mesh>(ballMesh);
+		ball.SetComponent<Material>(riverRockMaterial);
 
-	Entity ball = currentScene->CreateEntity<Mesh, Material, FTransform, RigidBody>("ball");
+		auto start = playerEntity.Component<FTransform>();
 
-	ball.SetComponent<Mesh>(ballMesh);
-	ball.SetComponent<Material>(riverRockMaterial);
+		start.Position += FVector3((i%20)*2.1f - 10, 0, (i/20)*2.1f - 10);
 
-	ball.SetComponent<FTransform>(playerEntity.Component<FTransform>());
-	ball.SetComponent<RigidBody>(currentScene->Physics->CreateDynamic(ball.Component<FTransform>()));
+		ball.SetComponent<FTransform>(start);
+		ball.SetComponent<RigidBody>(currentScene->Physics->CreateDynamic(ball.Component<FTransform>()));
 
-	ball.Component<RigidBody>().SetShape(
-		PhysicsShape(
-			PhysicsMaterial(0.8f, 0.8f, 0.1f), 
-			BoxGeometry(1.0f)
-		)
-	);
+		ball.Component<RigidBody>().SetShape(
+			PhysicsShape(
+				PhysicsMaterial(0.8f, 0.8f, 0.1f),
+				BoxGeometry(1.0f)
+			)
+		);
 
-	ball.Component<RigidBody>().SetLinearVelocity(playerEntity.Component<FPComponent>().LookDirection * 10.0f);
+		ball.Component<RigidBody>().SetLinearVelocity(playerEntity.Component<FPComponent>().LookDirection * 10.0f);
+	}*/
 }
 
 void TestGameApplication::Load()
 {
 
-	//CreateParticleSystem();
+	CreateParticleSystem();
 	ballMesh = Content.Load<Mesh>("Models/cube.fl3d", FriContext);
 
 	defaultMaterial =	Content.Load<Material>("Materials/default2.flmt", FriContext);
 	brickMaterial =		Content.Load<Material>("Materials/brick_material.flmt", FriContext);
 	riverRockMaterial = Content.Load<Material>("Materials/river_rock.flmt", FriContext);
 
-	currentScene->SceneLevel = Content.Load<Level>("Maps/map.flen", FriContext, currentScene);
+	currentScene->SceneLevel = Content.Load<Level>("Maps/dust2.flen", FriContext, currentScene);
 
 
 	/*boneGuy = currentScene->CreateEntity<SkinnedMesh, Material, FTransform, AnimationComponent>("boneguy");
@@ -214,7 +209,7 @@ void TestGameApplication::CreateParticleSystem()
 	testParticleRenderer->SetInstanceMesh(instancedBallMesh);
 	testParticleRenderer->Samplers.Add(FUniformSampler(0, smokeMap.GetMap(EMaterialMap::Diffuse).Handle));
 
-	//currentScene->RegisterParticleSystem(testParticleSystem, testParticleRenderer);
+	currentScene->RegisterParticleSystem(testParticleSystem, testParticleRenderer);
 
 }
 
@@ -228,4 +223,9 @@ void TestGameApplication::Dispose()
 {
 
 
+}
+
+void TestGameApplication::Close()
+{
+	FriContext->PollCloseEvent();
 }

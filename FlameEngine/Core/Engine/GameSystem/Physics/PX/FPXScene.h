@@ -9,6 +9,7 @@ class FPXScene : public PhysicsScene
 
 	friend class FPXService;
 	friend class FPXAllocator;
+	friend class CharacterBody;
 
 private:
 	physx::PxScene* sceneHandle;
@@ -28,4 +29,5 @@ private:
 	
 public:
 	void Step(float dt);
+	void FetchResults();
 };

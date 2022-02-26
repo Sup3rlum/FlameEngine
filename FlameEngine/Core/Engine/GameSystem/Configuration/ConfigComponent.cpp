@@ -3,7 +3,7 @@
 
 #include <nlohmann/json.hpp>
 
-FAnsiString ConfigModule::GetString(const FAnsiString& name)
+FString8 ConfigModule::GetString(const FString8& name)
 {
 	if (Data.Contains(name) && Data[name]._type == ConfigValue::Type::String)
 	{
@@ -11,7 +11,7 @@ FAnsiString ConfigModule::GetString(const FAnsiString& name)
 	}
 }
 
-bool ConfigModule::GetBool(const FAnsiString& name)
+bool ConfigModule::GetBool(const FString8& name)
 {
 	if (Data.Contains(name) && Data[name]._type == ConfigValue::Type::Bool)
 	{
@@ -19,14 +19,14 @@ bool ConfigModule::GetBool(const FAnsiString& name)
 	}
 }
 
-int ConfigModule::GetInt(const FAnsiString& name)
+int ConfigModule::GetInt(const FString8& name)
 {
 	if (Data.Contains(name) && Data[name]._type == ConfigValue::Type::Int)
 	{
 		return Data[name].intVal;
 	}
 }
-float ConfigModule::GetFloat(const FAnsiString& name)
+float ConfigModule::GetFloat(const FString8& name)
 {
 	if (Data.Contains(name) && Data[name]._type == ConfigValue::Type::Float)
 	{

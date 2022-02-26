@@ -7,7 +7,7 @@ struct FEntityArchetypeHasher
 {
 	size_t operator ()(const FEntityArchetype& archetype) const
 	{
-		return FHashFuncImpl::MurmurHash3_x86_32(archetype.ComponentTypes, sizeof(FComponentType) * archetype.NumComponentTypes, 100);
+		return archetype.HashCode;
 	}
 };
 
@@ -22,7 +22,12 @@ public:
 	Entity CreateEntityFromArchetype(const FString& name, const FEntityArchetype& archetype);
 	~EntityWorld();
 
+
+	void CopyEntMemory();
+
+	FHashMap<FEntityArchetype, FEntityMemoryStack*, FEntityArchetypeHasher> StageMemory;
 	FHashMap<FEntityArchetype, FEntityMemoryStack*, FEntityArchetypeHasher> EntMemory;
+
 
 	friend class Entity;
 };
