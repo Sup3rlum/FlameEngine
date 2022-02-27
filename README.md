@@ -3,7 +3,7 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 ## Images
 
-Renders of a few materials
+Screenshots from various scenes:
 
 <img src="https://cdn.discordapp.com/attachments/717866375212826705/947628214795255818/unknown.png" width="900" height="500">
 <img src="https://cdn.discordapp.com/attachments/761699926211952700/913991686689005668/Screenshot_29.png" width="900" height="492">
