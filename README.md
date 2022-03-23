@@ -8,7 +8,7 @@ Screenshots from various scenes and editors:
 <img src="https://cdn.discordapp.com/attachments/717866375212826705/947628214795255818/unknown.png" width="900" height="500">
 <img src="https://cdn.discordapp.com/attachments/761699926211952700/913991686689005668/Screenshot_29.png" width="900" height="492">
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
-<img src="https://cdn.discordapp.com/attachments/761699926211952700/956147912646201354/unknown.png" width="900" height="500"
+<img src="https://cdn.discordapp.com/attachments/761699926211952700/956147912646201354/unknown.png" width="900" height="400"
 
 ## Features
 
