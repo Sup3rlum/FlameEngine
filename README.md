@@ -40,7 +40,7 @@ Flame uses NVIDIA's PhysX API to simulate a physical environment. Currently only
 
 Flame currently uses its own asset system and formats for models, materials and shaders. FlameEncoder is used for composing material, environment and effect graphs using nodes. There is also a Blender plugin that I have made which exports geometry directly into Flame's native model format FL3D.
 
-<img src="https://cdn.discordapp.com/attachments/761699926211952700/956147912646201354/unknown.png" width="900" height="450"
+<img src="https://cdn.discordapp.com/attachments/761699926211952700/956147912646201354/unknown.png" width="900" height="450">
 
 
 ### Editor
