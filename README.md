@@ -6,7 +6,7 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 Screenshots from various scenes and editors:
 
 <img src="https://media.discordapp.net/attachments/761699926211952700/967389605848551504/Screenshot_3.png?width=1833&height=909" width="900" height="500">
-<img src="https://github.com/Sup3rlum/FlameEngine/blob/16b672232f242fe898b8439bed6737a1fa40dd11/Showcase/helm.gif" width="900" height="500">
+<img src="https://github.com/Sup3rlum/FlameEngine/blob/master/Showcase/helm_dissolve.gif?raw=true" width="900" height="490">
 <img src="https://cdn.discordapp.com/attachments/761699926211952700/913991686689005668/Screenshot_29.png" width="900" height="492">
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
 
