@@ -3,10 +3,11 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 ## Images
 
-Renders of a few materials
+Screenshots from various scenes and editors:
 
+<img src="https://media.discordapp.net/attachments/761699926211952700/967389605848551504/Screenshot_3.png?width=1833&height=909" width="900" height="500">
+<img src="https://github.com/Sup3rlum/FlameEngine/blob/master/Showcase/helm_dissolve.gif?raw=true" width="900" height="490">
 <img src="https://cdn.discordapp.com/attachments/761699926211952700/913991686689005668/Screenshot_29.png" width="900" height="492">
-<img src="https://cdn.discordapp.com/attachments/649214971590213653/904501784221995079/Screenshot_3.png" width="900" height="432">
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
 
 ## Features
@@ -37,7 +38,10 @@ Flame uses NVIDIA's PhysX API to simulate a physical environment. Currently only
 
 ### Assets
 
-Flame currently uses its own asset system and formats for models, materials and shaders. It is quite primitive and requires some dubios setup but works fine for now. I am planning on integrating the asset encoder and compilers in the scene editor for better productivity. (Currently I have to console-compile every asset :( ). There is also a Blender plugin that I have made which exports geometry directly into Flame's native model format FL3D.
+Flame currently uses its own asset system and formats for models, materials and shaders. FlameEncoder is used for composing material, environment and effect graphs using nodes. There is also a Blender plugin that I have made which exports geometry directly into Flame's native model format FL3D.
+
+<img src="https://cdn.discordapp.com/attachments/761699926211952700/956147912646201354/unknown.png" width="900" height="450">
+
 
 ### Editor
 
@@ -47,11 +51,8 @@ Currently the editor is broken. Otherwise it worked just fine, it is a WPF .NET 
 
 Currently the roadmap outlines itself as follows:
 
-- Adding translucent object forward pass during rendering
-- Fixing SSR
 - Improving compute integration
 - Improving atmospheric scattering shaders
-- Introducing robust environment/level management
 - Incorporating asset compilers into editor
 - Integrating more of PhysX's features
 
