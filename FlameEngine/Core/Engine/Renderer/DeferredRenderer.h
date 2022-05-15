@@ -5,32 +5,20 @@
 #include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"
 #include "Common/Geometry/VertexComponent.h"
 #include "../GameSystem/Common/Scene.h"
+#include "../GameSystem/Environment/EnvironmentMap.h"
 
-
-
-#include "DebugRenderer.h"
+#include "Common/RenderOutputLayer.h"
 #include "AtmosphereRenderer.h"
-#include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
+#include "Core/Engine/ContentSystem/ImportScripts/ShaderLibrary.h"
 #include "Deferred/SMAA/SMAA.h"
 #include "Services/HBAOPlus/HBAOPlusInterface.h"
+#include "../GameSystem/RenderObject.h"
+#include "BlurRenderer.h"
+#include "../PCI/PCI.h"
 
 
-struct VXGI
-{
-	bool Enable;
 
-	float MaxTracingDistance;
-	float BounceStrength;
-	float AOFalloff;
-	float AOAlpha;
-	float SamplingFactor;
-	float ShadowTolerance;
-	float ShadowAperture;
-
-};
-
-
-EXPORT(class, DeferredRenderer) : public RenderModule
+EXPORT(class, DeferredRenderer) : public RenderModule, public IProperties
 {
 
 	struct _DRUBuffers
@@ -46,47 +34,57 @@ EXPORT(class, DeferredRenderer) : public RenderModule
 		FRIStageBuffer CameraMatrix;
 		FRIStageBuffer Material;
 
-		void Create(FRIContext* renderContext);
+		void Create(DeferredRenderer* renderer, FRIContext* renderContext);
 
 	} UBuffers;
 
 	struct _DRShaders
 	{
-		FRIShaderPipeline* Lighting;
-		FRIShaderPipeline* GShader;
-		FRIShaderPipeline* GSkinnedShader;
-		FRIShaderPipeline* SMShader;
-		FRIShaderPipeline* SMSkinnedShader;
-		FRIShaderPipeline* PostProcess;
+		FRIShaderPipelineRef Lighting;
+		FRIShaderPipelineRef GShader;
+		FRIShaderPipelineRef GSkinnedShader;
+		FRIShaderPipelineRef SMShader;
+		FRIShaderPipelineRef SMSkinnedShader;
+		FRIShaderPipelineRef PostProcess;
 
-		void Create(FRIContext* renderContext);
+		void Create(DeferredRenderer* renderer, FRIContext* renderContext);
 
 	} Shaders;
 
 
 	struct _DRFBO
 	{
-		FRIFrameBuffer* PostProcess;                                                                                                                                                                                               
-		FRIFrameBuffer* Lighting;
-		FRIFrameBuffer* GBuffer;
-		FRIFrameBuffer* SMBuffer;
-		FRIFrameBuffer* AOBuffer;
+		FRIFrameBufferRef PostProcess;                                                                                                                                                                                               
+		FRIFrameBufferRef Lighting;
+		FRIFrameBufferRef GBuffer;
+		FRIFrameBufferRef SMBuffer;
+		FRIFrameBufferRef AOBuffer;
+		FRIFrameBufferRef TransluscentBuffer;
 
-		FRITexture2D* AOTexture;
-		FRITexture2D* PostProcessTex;
-		FRITexture2D* LightingTex;
-		FRITexture2D* Albedo;
-		FRITexture2D* Normal;
-		FRITexture2D* MetallicRoughness;
-		FRITexture2D* Emissive;
-		FRITexture2DArray* ShadowmapArray;
+		FRITexture2DRef AOTexture;
+		FRITexture2DRef PostProcessTex;
+		FRITexture2DRef LightingTex;
+		FRITexture2DRef Albedo;
+		FRITexture2DRef Normal;
+		FRITexture2DRef MetallicRoughness;
+		FRITexture2DRef Emissive;
+		FRITexture2DRef LightAndTransluscentTex;
+		FRITexture2DArrayRef ShadowmapArray;
 
-		FRITexture2D* BRDFLut;
+		FRITextureCubeMapRef EnvCubemap;
 
-		void Create(FRIContext* renderContext);
+		FRITexture2DRef BRDFLut;
+
+		void Create(DeferredRenderer* renderer, FRIContext* renderContext);
 
 	} FrameBuffers;
 
+
+	FHashMap<FString8, RenderOutputLayer> outputLayers;
+
+
+	PropertyInt(ShadowmapResolution, 2048);
+	PropertyBool(AOEnabled, true);
 
 public:
 
@@ -102,45 +100,41 @@ public:
 	void EndRender(FRICommandList & cmdList);
 
 
-	void RenderGBuffer(FRICommandList& cmdList);
-	void RenderShadowmaps(FRICommandList& cmdList);
+	void RenderGBuffer(FRICommandList& cmdList, const Camera& camera);
+	void RenderShadowmaps(FRICommandList& cmdList, const DirectionalLight& Sun);
 	void RenderTransluscency(FRICommandList& cmdList);
 	void RenderPostProcess(FRICommandList& cmdList);
-	void RenderLighting(FRICommandList& cmdList);
-	void RenderGI(FRICommandList& cmdList);
+	void RenderLighting(FRICommandList& cmdList, const Camera& Camera, const DirectionalLight& Sun, const EnvironmentMap& env);
+	void RenderGI(FRICommandList& cmdList, const Camera& Camera);
 	void Present(FRICommandList& cmdList);
 
 
-	void RenderGeometry(FRICommandList& cmdList, bool material);
+	void RenderGeometry(FRICommandList& cmdList, GRenderMode renderMode);
 	void RenderGeometrySkinned(FRICommandList& cmdList);
-	void RenderEnvironmentStatic(FRICommandList& cmdList, bool material);
+	void RenderEnvironmentStatic(FRICommandList& cmdList, GRenderMode renderMode);
 
 	void UnbindSamplers(FRICommandList& cmdList, int32 startSlot, int32 endSlot);
-	void StageLightData(FRICommandList& cmdList);
+	void StageLightData(FRICommandList& cmdList, const Camera& camera, const DirectionalLight Sun);
 
+	RenderOutputLayer GetOutputLayer(const FString8& layer);
 
-	void Testperf(FRICommandList& cmdList);
+	FRIBlendStateRef DefaultBlend;
+	FRIRasterizerStateRef DefaultRasterizer;
+	FRIRasterizerStateRef SMRasterizer;
 
-	FRIBlendState* DefaultBlend;
-	FRIRasterizerState* DefaultRasterizer;
-	FRIRasterizerState* SMRasterizer;
-
-	FRIDepthStencilState* DisableDepth;
-	FRIDepthStencilState* DefaultDepth;
-
-	FRenderSystemGeom* Geometry;
-	FRenderSystemSkinnedGeom* SkinnedGeometry;
+	FRIDepthStencilStateRef DisableDepth;
+	FRIDepthStencilStateRef DefaultDepth;
 
 
 	FViewportRect Viewport;
 	FViewportRect ShadowmapViewport;
 
+	BlurRenderer blurRenderer;
 	AtmosphereRenderer atmosphereRenderer;
-	HBAOPlus* hbaoRenderer;
-	DebugRenderer debugRenderer;
+	ParticleRenderer particleRenderer;
+	FUniquePtr<HBAOPlus> hbaoRenderer;
 	SMAA smaa;
 
 
 	FTimeSpan stageTime, giTime, smTime, gTime, lightTime, ppTime, presentTime, smLayerTime[5], smaaTime, totalTime, testTime;
-
 };

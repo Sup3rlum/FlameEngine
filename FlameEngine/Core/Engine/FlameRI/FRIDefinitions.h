@@ -4,7 +4,7 @@
 typedef unsigned int uint32;
 
 
-enum class EFRIUniformSamplerType
+enum class EFRISamplerType
 {
 	TSampler2D,
 	TSampler3D,
@@ -20,7 +20,7 @@ enum class EFRITextureParameterBufferParameterType
 	Float
 };
 
-enum class EFRIResourceShaderType 
+enum class EFRIShaderType 
 {
 	Vertex,
 	Pixel,
@@ -30,7 +30,7 @@ enum class EFRIResourceShaderType
 	Compute
 };
 
-enum class EFRIVertexDeclerationAttributeType : unsigned int
+enum class EFRIAttributeType : unsigned int
 {
 	Float = 0x1406,
 	Int = 0x1404
@@ -40,7 +40,8 @@ enum class EFRIPrimitiveType
 {
 	Points,
 	Lines = 0x0001,
-	Triangles = 0x0004
+	Triangles = 0x0004,
+	ControlPoint3 = 35
 };
 
 enum class EFRIIndexType : unsigned int
@@ -155,6 +156,11 @@ enum class EFRITextureFormat
 	RGB8UNORM,
 	RGBA8UNORM,
 
+	R16UNORM,
+	RG16UNORM,
+	RGB16UNORM,
+	RGBA16UNORM,
+
 	DEPTH32
 
 };
@@ -212,9 +218,14 @@ enum class EFRIAttribUsage
 enum class EFRIAccess
 {
 	None,
-	CPURead,
-	CPUWrite,
-	CPUReadWrite
+	Read,
+	Write,
+	ReadWrite
+};
+
+enum class EFRIUsage
+{
+
 };
 
 enum EFRIPipelineStage

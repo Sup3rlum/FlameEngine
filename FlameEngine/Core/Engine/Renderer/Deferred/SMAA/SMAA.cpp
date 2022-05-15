@@ -2,7 +2,7 @@
 
 #include "Core/Engine/FlameRI/ShaderLibrary/ShaderLibrary.h"
 #include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
-#include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
+#include "Core/Engine/ContentSystem/ImportScripts/ShaderLibrary.h"
 
 
 #include "LUT.h"
@@ -13,7 +13,8 @@ void SMAA::CreateResources(FRIContext* renderContext)
 
 	FAssetManager Content;
 	Content.Connect("./Assets/");	
-	ShaderLibrary Shaders = Content.Load<ShaderLibrary>("Shaders/smaa_dx.fslib", renderContext);
+	Content.RenderContext = renderContext;
+	ShaderLibrary Shaders = Content.Load<ShaderLibrary>("Shaders/smaa_dx.fslib");
 
 
 	// Create textures
@@ -68,7 +69,7 @@ void SMAA::SubmitPass(FRICommandList& cmdList, FRITexture2D* input)
 	cmdList.SetDepthStencilState(DepthStencilState);
 
 
-	cmdList.SetShaderSampler(FUniformSampler(0, input));
+	cmdList.SetShaderSampler(FRISampler(0, input));
 
 	// Edge Detection
 	cmdList.ClearBuffer(EdgeFrameBuffer, Color::Transparent);
@@ -83,9 +84,9 @@ void SMAA::SubmitPass(FRICommandList& cmdList, FRITexture2D* input)
 	cmdList.ClearBuffer(BlendFrameBuffer, Color::Transparent);
 	{
 		cmdList.SetShaderPipeline(BlendingWeight);
-		cmdList.SetShaderSampler(FUniformSampler(1, EdgeTex));
-		cmdList.SetShaderSampler(FUniformSampler(2, AreaTex));
-		cmdList.SetShaderSampler(FUniformSampler(3, SearchTex));
+		cmdList.SetShaderSampler(FRISampler(1, EdgeTex));
+		cmdList.SetShaderSampler(FRISampler(2, AreaTex));
+		cmdList.SetShaderSampler(FRISampler(3, SearchTex));
 
 		FRenderUtil::DrawScreenQuad(cmdList);
 	}
@@ -96,7 +97,7 @@ void SMAA::SubmitPass(FRICommandList& cmdList, FRITexture2D* input)
 	cmdList.ClearBuffer(OutputFrameBuffer, Color::Transparent);
 	{
 		cmdList.SetShaderPipeline(Neighbourhood);
-		cmdList.SetShaderSampler(FUniformSampler(1, BlendTex));
+		cmdList.SetShaderSampler(FRISampler(1, BlendTex));
 
 		FRenderUtil::DrawScreenQuad(cmdList);
 	}

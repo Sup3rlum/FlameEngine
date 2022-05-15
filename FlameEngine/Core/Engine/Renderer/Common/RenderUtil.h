@@ -23,12 +23,12 @@ struct FRenderUtil
 	};
 #else
 	
-	inline static FArray<FVertexComponent_PositionTexture> quadVData =
+	inline static FArray<FVertex_PositionTexture> quadVData =
 	{
-		FVertexComponent_PositionTexture(FVector3(-1,1,0), FVector2(0,0)),
-		FVertexComponent_PositionTexture(FVector3(1,1,0), FVector2(1,0)),
-		FVertexComponent_PositionTexture(FVector3(1,-1,0), FVector2(1,1)),
-		FVertexComponent_PositionTexture(FVector3(-1,-1,0), FVector2(0,1))
+		FVertex_PositionTexture(FVector3(-1,1,0), FVector2(0,0)),
+		FVertex_PositionTexture(FVector3(1,1,0), FVector2(1,0)),
+		FVertex_PositionTexture(FVector3(1,-1,0), FVector2(1,1)),
+		FVertex_PositionTexture(FVector3(-1,-1,0), FVector2(0,1))
 
 	};
 #endif
@@ -40,10 +40,10 @@ struct FRenderUtil
 	inline static FRIIndexBuffer* IndexBuffer = NULL;
 	inline static FRIVertexDeclaration* VertexDeclaration = NULL;
 
-	inline static FArray<FRIVertexDeclarationComponent> VertexDeclComp =
+	inline static FArray<FRIInputAttribute> VertexDeclComp =
 	{
-		FRIVertexDeclarationComponent("POSITION", 3, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 20, 0),
-		FRIVertexDeclarationComponent("TEXCOORD", 2, EFRIVertexDeclerationAttributeType::Float, EFRIBool::False, 20, 12)
+		FRIInputAttribute("POSITION", 3, EFRIAttributeType::Float, EFRIBool::False, 20, 0),
+		FRIInputAttribute("TEXCOORD", 2, EFRIAttributeType::Float, EFRIBool::False, 20, 12)
 	};
 
 
@@ -55,8 +55,6 @@ struct FRenderUtil
 		cmdList.SetGeometrySource(VertexBuffer);
 		cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, 6, EFRIIndexType::UInt32, IndexBuffer);
 	}
-
-
 };
 
 

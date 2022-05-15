@@ -19,14 +19,14 @@ FORCEINLINE const FEntityArchetype& Entity::GetArchetype() const
 	return EntityId->Block->Parent->BlockArchetype;
 }
 
-/*
-void Entity::Delete()
+
+void Entity::Kill()
 {
 	if (EntityId.IsValid())
 	{
 		EntityId->Block->Parent->FreeEntity(*EntityId);
 	}
-}*/
+}
 
 uint32 Entity::GetRefCount() const
 {

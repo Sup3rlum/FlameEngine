@@ -4,47 +4,45 @@
 #include "Core/Math/Module.h"
 #include "Core/Engine/FlameRI/FRI.h"
 
-EXPORT(struct, FVertexElementComponentAttribute)
+class InputLayouts
 {
-	uint32 AttribNumber;
-	uint32 Type;
-	bool Normalized;
-	uint32 Stride;
-	uint32 ByteSize;
-	void* Offset;
-
-	FVertexElementComponentAttribute(uint32 attribNumber, uint32 byteSize, uint32 type, bool norm, uint32 stride, void* offset)
+public:
+	inline static FArray<FRIInputAttribute> StaticLit =
 	{
-		AttribNumber = attribNumber;
-		Type = type;
-		Normalized = norm;
-		Stride = stride;
-		Offset = offset;
-		ByteSize = byteSize;
+		FRIInputAttribute("POSITION",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 0),
+		FRIInputAttribute("NORMAL",		3, EFRIAttributeType::Float, EFRIBool::False, 56, 12),
+		FRIInputAttribute("TANGENT",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 24),
+		FRIInputAttribute("BITANGENT",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 36),
+		FRIInputAttribute("TEXCOORD",	2, EFRIAttributeType::Float, EFRIBool::False, 56, 48)
+	};
 
-	}
+	inline static FArray<FRIInputAttribute> SkinnedLit =
+	{
+		FRIInputAttribute("POSITION",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 0),
+		FRIInputAttribute("NORMAL",			3, EFRIAttributeType::Float, EFRIBool::False, 88, 12),
+		FRIInputAttribute("TANGENT",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 24),
+		FRIInputAttribute("BITANGENT",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 36),
+		FRIInputAttribute("TEXCOORD",		2, EFRIAttributeType::Float, EFRIBool::False, 88, 48),
+		FRIInputAttribute("JOINT_INDICES",	4, EFRIAttributeType::Int,	 EFRIBool::False, 88, 56),
+		FRIInputAttribute("JOINT_WEIGHTS",	4, EFRIAttributeType::Float, EFRIBool::False, 88, 72)
 
+	};
+
+	inline static FArray<FRIInputAttribute> PositionTexture =
+	{
+		FRIInputAttribute("POSITION", 3, EFRIAttributeType::Float, EFRIBool::False, 56, 0),
+		FRIInputAttribute("TEXCOORD", 2, EFRIAttributeType::Float, EFRIBool::False, 56, 48)
+	};
 };
 
 
-
-
-
-EXPORT(struct, FVertexComponentInterface) : public FRIArrayInterface
-{
-
-
-
-};
-
-
-EXPORT(struct,  FVertexComponent_PositionNormalTexture) : public FVertexComponentInterface
+struct FVertex_PositionNormalTexture
 {
 	FVector3 Position;
 	FVector3 Normal;
 	FVector2 TexCoord;
 
-	FVertexComponent_PositionNormalTexture(FVector3 pos, FVector3 norm, FVector2 tex) :
+	FVertex_PositionNormalTexture(FVector3 pos, FVector3 norm, FVector2 tex) :
 		Position(pos),
 		Normal(norm),
 		TexCoord(tex)
@@ -53,44 +51,42 @@ EXPORT(struct,  FVertexComponent_PositionNormalTexture) : public FVertexComponen
 
 };
 
-EXPORT(struct, FVertexComponent_PositionTexture) : public FVertexComponentInterface
+struct FVertex_PositionTexture
 {
 	FVector3 Position;
 	FVector2 TexCoord;
 
-	FVertexComponent_PositionTexture(FVector3 pos, FVector2 tex) :
+	FVertex_PositionTexture(FVector3 pos, FVector2 tex) :
 		Position(pos),
 		TexCoord(tex)
 	{
 	}
 };
 
-EXPORT(struct, FVertexComponent_Color) : public FVertexComponentInterface
+struct FVertex_PositionColor
 {
 	FVector3 Position;
 	FVector3 Color;
 
-	FVertexComponent_Color(FVector3 pos, FVector3 col) :
+	FVertex_PositionColor(FVector3 pos, FVector3 col) :
 		Position(pos),
 		Color(col)
 	{
 	}
 };
 
-EXPORT(struct, FVertexComponent) : public FVertexComponentInterface
+struct FVertex_Position
 {
 	FVector3 Position;
 
-	FVertexComponent(FVector3 pos) :
+	FVertex_Position(FVector3 pos) :
 		Position(pos)
 	{
 	}
 };
 
 
-
-
-EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentInterface
+struct FVertex_StaticLit
 {
 	FVector3 Position;
 	FVector3 Normal;
@@ -98,7 +94,7 @@ EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentInter
 	FVector3 Bitangent;
 	FVector2 TexCoord;
 
-	FVertexComponent_StaticFullShaded(FVector3 pos, FVector3 norm, FVector3 tangent, FVector3 bitangent, FVector2 tex) :
+	FVertex_StaticLit(FVector3 pos, FVector3 norm, FVector3 tangent, FVector3 bitangent, FVector2 tex) :
 		Position(pos),
 		Normal(norm),
 		Tangent(tangent),
@@ -108,7 +104,7 @@ EXPORT(struct, FVertexComponent_StaticFullShaded) : public FVertexComponentInter
 	}
 };
 
-EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentInterface
+struct FVertex_SkinnedLit
 {
 	FVector3 Position;
 	FVector3 Normal;
@@ -119,7 +115,7 @@ EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentInt
 	IVector4 jointIds;
 	FVector4 jointWeights;
 
-	FVertexComponent_SkeletalFullShaded(FVector3 pos, FVector3 norm, FVector3 tangent, FVector3 bitangent, FVector2 tex, IVector4 jointIds, FVector4 jointWeights) :
+	FVertex_SkinnedLit(FVector3 pos, FVector3 norm, FVector3 tangent, FVector3 bitangent, FVector2 tex, IVector4 jointIds, FVector4 jointWeights) :
 		Position(pos),
 		Normal(norm),
 		Tangent(tangent),
@@ -132,7 +128,7 @@ EXPORT(struct, FVertexComponent_SkeletalFullShaded) : public FVertexComponentInt
 	}
 };
 
-EXPORT(struct, FIndexComponent) : public FRIArrayInterface
+struct FIndexComponent
 {
 	uint32 Index;
 

@@ -45,7 +45,7 @@ void AnimationComponent::PlaySequence(const FString8& seqName)
 	}
 	else
 	{
-		std::wcout << L"Unrecognized sequence: " << seqName.ToPlatformString() << std::endl;
+		//std::wcout << L"Unrecognized sequence: " << seqName.ToPlatformString() << std::endl;
 
 	}
 }

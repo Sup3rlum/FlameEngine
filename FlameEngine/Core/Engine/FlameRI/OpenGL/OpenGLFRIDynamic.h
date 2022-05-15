@@ -26,11 +26,13 @@ public:
 
 	FRITexture2D*			CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false);
 	FRITexture3D*			CreateTexture3D(uint32 width, uint32 height, uint32 depth, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false, bool render = true);
-	FRITexture2DArray*	CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
+	FRITexture2DArray*	CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor* resourceDescriptor = NULL);
+	FRITextureCubeMap* CreateTextureCubeMap(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor* resourceDescriptor = NULL);
+
 	FRIUniformBuffer*		CreateUniformBuffer(FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0));
 	FRIFrameBuffer*		CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true);
-	FRIFrameBuffer*		CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer = true);
-
+	FRIFrameBuffer*		CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer = true, uint32 MipLevel = 0);
+	FRIComputeBuffer* CreateComputeBuffer(EFRIAccess access, size_t stride, FRICreationDescriptor);
 
 	FRIRasterizerState* CreateRasterizerState(EFRICullMode cullMode, EFRIFillMode fillmode);
 	FRIBlendState* CreateBlendState(EFRIAlphaBlend srcBlend, EFRIAlphaBlend dstBlend);
@@ -38,7 +40,7 @@ public:
 
 
 
-	FRIVertexDeclaration* CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> components, FRIVertexShader* shaderSignature);
+	FRIVertexDeclaration* CreateVertexDeclaration(FArray<FRIInputDesc> components, FRIVertexShader* shaderSignature);
 	void AttachVertexDeclaration(FRIVertexBuffer* geometry, FRIVertexDeclaration* declaration);
 
 
@@ -69,7 +71,7 @@ public:
 
 	void SetShaderPipeline(FRIShaderPipeline* shader);
 	void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32 attachFlags = 63);
-	void SetShaderSampler(FUniformSampler sampler);
+	void SetShaderSampler(FRISampler sampler);
 	void SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param);
 	void SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer param);
 
@@ -77,7 +79,8 @@ public:
 
 	void StageResources(FRIUniformBuffer* ubo, FRIMemoryStageDelegate stageLambda);
 	void SetUAV(uint32 slot, FRITexture3D* tex);
-
+	void SetUAV(uint32 slot, FRIComputeBuffer* tex);
+	void ClearUAV(uint32 slot);
 
 	uint32 GetShaderUniformParameterLocation(FRIShaderPipeline* shader, FString8 uniformName);
 
@@ -96,8 +99,12 @@ public:
 	void FlushMipMaps(FRITexture2D* tex);
 	void FlushMipMaps(FRITexture2DArray* tex);
 	void FlushMipMaps(FRITexture3D* tex);
+	void FlushMipMaps(FRITextureCubeMap* tex);
 
 	void CopyTexture(FRITexture2D* source, FRITexture2D* dest);
+	void CopyTexture(FRITexture2DArray* source, FRITexture2DArray* dest);
+	void CopyTexture(FRITexture3D* source, FRITexture3D* dest);
+	void CopyBuffer(FRIBuffer* source, FRIBuffer* dest);
 
 	void DispatchCompute(uint32 xThreads, uint32 yThreads, uint32 zThreads);
 

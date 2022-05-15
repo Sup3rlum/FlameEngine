@@ -106,6 +106,11 @@ namespace FlameCompiler.Math
         {
             return new Vertex3(a * b.X, a * b.Y, a * b.Z);
         }
+        public static Vertex3 operator *(Vertex3 b, float a)
+        {
+            return new Vertex3(a * b.X, a * b.Y, a * b.Z);
+        }
+
 
         public static float Dot(Vertex3 a, Vertex3 b)
         {
@@ -117,6 +122,14 @@ namespace FlameCompiler.Math
             return (1.0f / MathF.Sqrt(Dot(a, a))) * a;
         }
 
+        public static Vertex3 Cross(Vertex3 a, Vertex3 b)
+        {
+            return new Vertex3(a.Y * b.Z - a.Z * b.Y,
+                a.Z * b.X - a.X * b.Z,
+                a.X * b.Y - a.Y * b.X);
+        }
+
+
         public byte[] GetBytes()
         {
             List<byte> r = new List<byte>();
@@ -126,6 +139,13 @@ namespace FlameCompiler.Math
             r.AddRange(BitConverter.GetBytes(Z));
 
             return r.ToArray();
+        }
+
+        public void Deconstruct(out float x, out float y, out float z)
+        {
+            x = this.X;
+            y = this.Y;
+            z = this.Z;
         }
     }
 }

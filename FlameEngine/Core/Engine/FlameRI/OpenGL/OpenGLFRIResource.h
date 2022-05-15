@@ -161,7 +161,7 @@ struct FGLResourceTexture2DArray : FGLTextureBase, FRITexture2DArray
 
 struct FGLResourceVertexDeclaration : FRIVertexDeclaration
 {
-	FGLResourceVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclarationElements) : FRIVertexDeclaration(DeclarationElements)
+	FGLResourceVertexDeclaration(FArray<FRIInputDesc> DeclarationElements) : FRIVertexDeclaration(DeclarationElements)
 	{
 
 	}
@@ -172,7 +172,7 @@ struct FGLResourceVertexBuffer : FRIVertexBuffer
 	GLuint vertexBufferHandle;
 	GLuint vertexArrayBindingHandle;
 
-	FGLResourceVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor Data) : FRIVertexBuffer(Size, Usage) 
+	FGLResourceVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor Data) : FRIVertexBuffer(Size, Usage, EFRIAccess::None) 
 	{
 
 
@@ -198,7 +198,7 @@ struct FGLResourceIndexBuffer : FRIIndexBuffer
 {
 	GLuint indexBufferHandle;
 
-	FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, FRICreationDescriptor Data) : FRIIndexBuffer(IndexCount, Usage)
+	FGLResourceIndexBuffer(uint32 IndexCount, uint32 Usage, FRICreationDescriptor Data) : FRIIndexBuffer(IndexCount, Usage, EFRIAccess::None)
 	{
 
 		OpenGL::GenBuffers(1, &indexBufferHandle);
@@ -220,7 +220,7 @@ struct FGLResourceUniformBuffer : FRIUniformBuffer
 	GLuint bufferHandle;
 
 	FGLResourceUniformBuffer(FRICreationDescriptor Data) :
-		FRIUniformBuffer(Data.ByteSize)
+		FRIUniformBuffer(Data.ByteSize, 0, 0, EFRIAccess::None)
 	{
 		OpenGL::GenBuffers(1, &bufferHandle);
 

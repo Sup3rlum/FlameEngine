@@ -8,7 +8,7 @@
 class TestGameApplication : public GameApplication
 {
 public:
-	TestGameApplication(FString name, EFRIRendererFramework renderFramework);
+	TestGameApplication(const FString& name);
 
 	void Load();
 	void Dispose();
@@ -16,19 +16,15 @@ public:
 	void Update(FGameTime gameTime) override;
 
 	void Close();
-	void CreateParticleSystem();
 	void Shoot();
-	 
 
-	float angle = 0;
 
+	Entity playerEntity;
 
 	FProjectionMatrix PerspMatrix;
 
 	Material defaultMaterial;
 	Material brickMaterial;
 	Material riverRockMaterial;
-
-	Mesh ballMesh;
 };
 

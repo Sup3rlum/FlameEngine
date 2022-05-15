@@ -58,7 +58,7 @@ FORCEINLINE FMatrix3& physx_cast(const physx::PxMat33& obj)
 
 
 
-FORCEINLINE FTransform& physx_cast(const physx::PxTransform& obj)
+FORCEINLINE FTransform physx_cast(const physx::PxTransform& obj)
 {
 	FTransform t;
 
@@ -121,7 +121,7 @@ FORCEINLINE physx::PxMat33& physx_cast(const FMatrix3& obj)
 
 
 
-FORCEINLINE const physx::PxTransform& physx_cast(const FTransform& obj)
+FORCEINLINE const physx::PxTransform physx_cast(const FTransform& obj)
 {
 	return physx::PxTransform(physx_cast(obj.Position), physx_cast(obj.Orientation));
 }

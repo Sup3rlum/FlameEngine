@@ -38,7 +38,7 @@ public:
 
 	}
 
-	FString ToString()
+	FString ToString() const
 	{
 		return FString::Format("{ X:%0 Y:%1 }", x, y);
 	}
@@ -82,12 +82,12 @@ public:
 		return data[_index];
 	}
 
-	TVector2& operator-()
+	const TVector2& operator-()
 	{
-		this->x = -this->x;
-		this->y = -this->x;
-
-		return *this;
+		return TVector2(
+			-this->x,
+			-this->y
+		);
 	}
 
 

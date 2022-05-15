@@ -1,0 +1,585 @@
+<html>
+<head>
+<style type="text/css">
+
+    * {
+        padding: 0;
+        margin: 0;
+        top: 0;
+        left: 0;
+    }
+
+    body {
+        background: #00000000;
+    }
+
+    .bg {
+        background: var(--bg-color);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    #content {
+        width: 300px;
+        height: auto;
+        font-family: Arial;
+        font-size: 12pt;
+        font-weight: 600;
+        color: white;
+        padding: 5px 5px;
+        position: absolute;
+        background: #444444A1;
+        border-radius: 10px;
+        margin: 10px 10px;
+        padding: 10px 10px;
+        line-height: 1.4;
+    }
+
+    .screen {
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+
+
+    .screen2 {
+        justify-content: flex-end;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        pointer-events: none;
+    }
+
+
+    .xhair {
+        width: 16px;
+        height: 16px;
+        background-color: red;
+        
+    }
+
+    .toolbar {
+        height: 100px;
+        bottom: 10px;
+        margin-bottom: 5em;
+    }
+    .toolbar-items {
+        background-image: url("Resources/task.png");
+        width: 634px;
+        height: 64px;
+        bottom: 10px;
+        margin-bottom: 5em;
+        display: flex;
+    }
+    .toolbar-item {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #toolbar-offhand
+    {
+        margin-right: 30px;
+    }
+
+    .toolbar-item-selected {
+        outline: 5px solid red;
+        outline-offset: -5px;
+    }
+
+    .inventory {
+        background-image: url("Resources/gui/inventory.png");
+        background-size: cover;
+        width: 440px;
+        height: 416px;
+    }
+
+    .inventory-slots {
+        margin: 207px 18px;
+        width: 403px;
+        height: 190px;
+    }
+
+    .inventory-row {
+        width: 100%;
+        height: 45px;
+        display: flex;
+    }
+
+    .inventory-row-toolbar {
+        margin-top: 12px;
+    }
+
+
+    .inventory-slot {
+        width: 46px;
+        height: 46px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inventory-slot:hover {
+        background: #fffa;
+    }
+
+    .page-open
+    {
+        display: block;
+    }
+    .page-closed
+    {
+        display: none;
+    }
+
+    .bg {
+        background: var(--bg-color);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    @font-face {
+        font-family: "Minecraft2";
+        src: url("Resources/gui/F77MinecraftRegular-0VYv.ttf");
+    }
+
+    @keyframes fadeInAnimation {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    button {
+        width: 200px;
+        height: auto;
+        font-family: Montserrat;
+        font-size: 18pt;
+        color: white;
+        position: relative;
+        background-color: #41414111;
+        border-radius: 5px;
+        margin: 10px 10px;
+        padding: 10px 20px;
+        text-align: left;
+        transition-duration: 0.4s;
+        display: block;
+    }
+
+        button:hover {
+            background-color: dodgerblue;
+        }
+
+
+    .menu {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 40%;
+        background-color: #20202020;
+        justify-content: space-between;
+    }
+
+    .menu-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+    }
+
+
+    .menu-console {
+        background-color: #313131;
+        overflow-y: scroll;
+        width: 600px;
+        height: 600px;
+        align-items: flex-end;
+        margin: 10px;
+        color: white;
+        font-family: Montserrat;
+        font-size: 18pt;
+        padding: 5px;
+        border-style: solid;
+        border-radius: 5px;
+        border-color: #AAAAAA;
+        border-width: 1px;
+    }
+
+    .title {
+        margin: auto;
+        margin-top: 100px;
+        margin-bottom: 0px;
+        width: 50%;
+        text-align: center;
+        font-family: Montserrat;
+    }
+
+    .heading1 {
+        font-size: 64pt;
+        color: white;
+    }
+
+    .heading2 {
+        font-size: 24pt;
+        color: white;
+    }
+
+    .item-block-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: right;
+        
+    }
+
+    .item-block-face {
+        background: black;
+        width: 24px;
+        height: 24px;
+    }
+    .item-block-face-ingame {
+        background: black;
+        width: 28px;
+        height: 28px;
+    }
+
+    .item-block-face0 {
+        transform: translateY(80%) translateX(50%) rotateX(30deg) rotateY(45deg) translateX(-50%);
+        position: absolute;
+    }
+
+    .item-block-face1 {
+        transform: translateY(80%) translateX(50%) rotateX(60deg) rotateZ(45deg) translateX(-110%) translateY(-110%);
+        position: absolute;
+    }
+
+    .item-block-face2 {
+        transform: translateY(80%) translateX(50%) rotateX(30deg) rotateY(-45deg) translateX(50%);
+        position: absolute;
+    }
+
+    .item-block-face-ingame0 {
+        transform: translateY(110%) translateX(50%) rotateX(30deg) rotateY(45deg) translateX(-50%);
+        position: absolute;
+    }
+
+    .item-block-face-ingame1 {
+        transform: translateY(110%) translateX(50%) rotateX(60deg) rotateZ(45deg) translateX(-110%) translateY(-110%);
+        position: absolute;
+    }
+
+    .item-block-face-ingame2 {
+        transform: translateY(110%) translateX(50%) rotateX(30deg) rotateY(-45deg) translateX(50%);
+        position: absolute;
+    }
+
+    .item-block-text {
+        font-size: 15pt;
+        margin: 54% 0%;
+        text-shadow: 2px 2px #333;
+    }
+    .item-block-ingame-text {
+        font-size: 18pt;
+        margin: 60% 15%;
+        text-shadow: 3px 3px #333;
+    }
+
+    .item-block-text,
+    .item-block-ingame-text {
+        font-family: Minecraft2;
+        display: flex;
+        z-index: 100;
+        text-align: right;
+        color: white;
+    }
+
+
+    .item-block-face img,
+    .item-block-face-ingame img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .item-block-cover{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 90;
+    }
+
+    .item-block-cover0 {
+        background-color: #0006;
+    }
+
+    .item-block-cover2 {
+        background-color: #000a;
+    }
+
+    .slidecontainer
+    {
+        z-index: 200;
+        width: 300px;
+    }
+
+    #mieSlide
+    {
+        width: 250px;
+    }
+
+</style>
+<script>
+
+    const textures = [
+        [""],
+        ["Resources/blocks/stone.png",              "Resources/blocks/stone.png",               "Resources/blocks/stone.png"],
+        ["Resources/blocks/grass_block_side.png",   "Resources/blocks/grass_block_top.png",     "Resources/blocks/grass_block_side.png"],
+        ["Resources/blocks/dirt.png",               "Resources/blocks/dirt.png",                "Resources/blocks/dirt.png"],
+        ["Resources/blocks/cobblestone.png",        "Resources/blocks/cobblestone.png",         "Resources/blocks/cobblestone.png"],
+        ["Resources/blocks/oak_planks.png",         "Resources/blocks/oak_planks.png",          "Resources/blocks/oak_planks.png"],
+        ["Resources/blocks/sand.png",               "Resources/blocks/sand.png",                "Resources/blocks/sand.png"],
+        ["Resources/blocks/oak_log.png",            "Resources/blocks/oak_log_top.png",         "Resources/blocks/oak_log.png"]
+    ]
+
+    function SetupInventory(inventory) {
+
+        console.log("setting stuff");
+
+
+        for (let i = 0; i < inventory.blocks.length; i++) {
+
+            let column = i % 9;
+            let row = Math.floor(i / 9);
+
+            let idName = `slot-${row}${column}`;
+            let elem = document.getElementById(idName);
+
+            let finalHtml = "<div class='item-block-container'>";
+            if (inventory.blocks[i].id > 0) {
+                for (let side = 0; side < 3; side++) {
+                    finalHtml += `<div class="item-block-face item-block-face${side}"><div class=" item-block-cover item-block-cover${side}"></div><img src="${textures[inventory.blocks[i].id][side]}"></div>`;
+                }
+
+              //  finalHtml += `<span class="item-block-text-shadow">${inventory.blocks[i].count}</span>`
+                finalHtml += `<div class="item-block-text">${inventory.blocks[i].count}</div>`
+            }
+            finalHtml += "</div>";
+            elem.innerHTML = finalHtml;
+
+        }
+
+        console.log("setting stuff");
+
+        for (let j = 0; j < 9; j++) {
+
+            let idName = `toolbar-item${j}`;
+            let elem = document.getElementById(idName);
+
+            console.log(elem);
+
+            let finalHtml = "<div class='item-block-container'>";
+            if (inventory.blocks[j].id > 0) {
+                for (let side = 0; side < 3; side++) {
+                    finalHtml += `<div class="item-block-face-ingame item-block-face-ingame${side}"><div class=" item-block-cover item-block-cover${side}"></div><img src="${textures[inventory.blocks[j].id][side]}"></div>`;
+                }
+
+
+               // finalHtml += `<span class="item-block-text-shadow">${inventory.blocks[j].count}</span>`
+                finalHtml += `<div class="item-block-text">${inventory.blocks[j].count}</div>`
+            }
+            finalHtml += "</div>";
+            elem.innerHTML = finalHtml;
+        }
+    }
+
+
+    function SetupInventory2(inventory) {
+        setTimeout(SetupInventory, 1, inventory);
+    }
+
+
+	function SetFPS(fps, atmos, x, y, z)
+	{      
+		let elem = document.getElementById('content');
+
+        elem.innerHTML = "FlameEngine v2.04 <br>FPS: " + fps;
+
+		if (atmos)
+		{
+            elem.innerHTML += "<br>Atmosphere: ON";
+		}
+		else
+		{
+            elem.innerHTML += "<br>Atmosphere: OFF";
+        }
+
+        elem.innerHTML += "<br> X: " + x;
+        elem.innerHTML += "<br> Y: " + y;
+		elem.innerHTML += "<br> Z: " + z;
+    }
+
+    function Hold(id)
+    {
+        for (let i = 0; i < 9; i++) {
+            let idName = `toolbar-item${i}`;
+            let elem = document.getElementById(idName);
+
+            if (id == i) {
+                elem.classList.add("toolbar-item-selected");
+            }
+            else {
+                elem.classList.remove("toolbar-item-selected");
+            }
+        }
+    }
+
+
+    function SwitchScreen(screen) {
+        let guiIngame = document.getElementById('gui-ingame');
+        let guiInventory = document.getElementById('gui-inventory');
+        let guiEscape = document.getElementById('gui-escape');
+
+        guiIngame.classList.add('page-closed');
+        guiInventory.classList.add('page-closed');
+        guiEscape.classList.add('page-closed');
+
+        if (screen == "ingame") {
+            guiIngame.classList.remove('page-closed');
+        }
+        if (screen == "inventory") {
+            guiInventory.classList.remove('page-closed');
+        }
+        if (screen == "escape") {
+            guiEscape.classList.remove('page-closed');
+        }
+    }
+    
+
+    setTimeout(() => {
+        SwitchScreen("escape");
+        SetupInventory({
+            blocks: [
+                { id: 2, count: 3 },
+                { id: 2, count: 3 },
+                { id: 4, count: 64 },
+                { id: 2, count: 3 },
+                { id: 0, count: 0 },
+                { id: 0, count: 0 },
+                { id: 6, count: 3 },
+                { id: 0, count: 0 },
+                { id: 2, count: 3 }]
+        });
+    }, 100);
+
+
+</script>
+</head>
+<body>
+    <div id="gui-ingame">
+        <div class="screen">
+            <div class="xhair">
+            </div>
+            <div id="content"></div>
+        </div>
+        <div class="screen2">
+            <div class="toolbar-items">
+                <div class="toolbar-item" id="toolbar-offhand"></div>
+                <div class="toolbar-item toolbar-item-selected" id="toolbar-item0"></div>
+                <div class="toolbar-item" id="toolbar-item1"></div>
+                <div class="toolbar-item" id="toolbar-item2"></div>
+                <div class="toolbar-item" id="toolbar-item3"></div>
+                <div class="toolbar-item" id="toolbar-item4"></div>
+                <div class="toolbar-item" id="toolbar-item5"></div>
+                <div class="toolbar-item" id="toolbar-item6"></div>
+                <div class="toolbar-item" id="toolbar-item7"></div>
+                <div class="toolbar-item" id="toolbar-item8"></div>
+            </div>
+        </div>
+    </div>
+    <div id="gui-inventory">
+        <div class="screen">
+            <div class="inventory">
+                <div class="inventory-slots">
+                    <div class="inventory-row">
+                        <div id="slot-10" class="inventory-slot"></div>
+                        <div id="slot-11" class="inventory-slot"></div>
+                        <div id="slot-12" class="inventory-slot"></div>
+                        <div id="slot-13" class="inventory-slot"></div>
+                        <div id="slot-14" class="inventory-slot"></div>
+                        <div id="slot-15" class="inventory-slot"></div>
+                        <div id="slot-16" class="inventory-slot"></div>
+                        <div id="slot-17" class="inventory-slot"></div>
+                        <div id="slot-18" class="inventory-slot"></div>
+                    </div>
+                    <div class="inventory-row">
+                        <div id="slot-20" class="inventory-slot"></div>
+                        <div id="slot-21" class="inventory-slot"></div>
+                        <div id="slot-22" class="inventory-slot"></div>
+                        <div id="slot-23" class="inventory-slot"></div>
+                        <div id="slot-24" class="inventory-slot"></div>
+                        <div id="slot-25" class="inventory-slot"></div>
+                        <div id="slot-26" class="inventory-slot"></div>
+                        <div id="slot-27" class="inventory-slot"></div>
+                        <div id="slot-28" class="inventory-slot"></div>
+                    </div>
+                    <div class="inventory-row">
+                        <div id="slot-30" class="inventory-slot"></div>
+                        <div id="slot-31" class="inventory-slot"></div>
+                        <div id="slot-32" class="inventory-slot"></div>
+                        <div id="slot-33" class="inventory-slot"></div>
+                        <div id="slot-34" class="inventory-slot"></div>
+                        <div id="slot-35" class="inventory-slot"></div>
+                        <div id="slot-36" class="inventory-slot"></div>
+                        <div id="slot-37" class="inventory-slot"></div>
+                        <div id="slot-38" class="inventory-slot"></div>
+                    </div>
+                    <div class="inventory-row inventory-row-toolbar">
+                        <div id="slot-00" class="inventory-slot"></div>
+                        <div id="slot-01" class="inventory-slot"></div>
+                        <div id="slot-02" class="inventory-slot"></div>
+                        <div id="slot-03" class="inventory-slot"></div>
+                        <div id="slot-04" class="inventory-slot"></div>
+                        <div id="slot-05" class="inventory-slot"></div>
+                        <div id="slot-06" class="inventory-slot"></div>
+                        <div id="slot-07" class="inventory-slot"></div>
+                        <div id="slot-08" class="inventory-slot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="gui-escape">
+        <div class="title">
+            <p class="heading1">Flame Engine Test</p>
+            <p class="heading2">Version 2.0</p>
+        </div>
+        <div class="menu">
+            <div class="menu-buttons">
+                <button onclick="BackButton();">Back</button>
+                <button onclick="SetFloat(5.4);">Clear</button>
+                <button onclick="ExitButton();">Exit</button>
+            </div>
+            <div class="atmosphereSliders">
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="1000" id="mieSlide" onchange="SetFloat(this.value)">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+ 

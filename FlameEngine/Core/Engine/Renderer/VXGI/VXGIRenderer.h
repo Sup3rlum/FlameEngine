@@ -9,7 +9,7 @@
 
 #include "../RenderSystems.h"
 #include "../Common/RenderUtil.h"
-#include "Core/Engine/ContentSystem/Client/AssetImportScripts/ShaderLibrary.h"
+#include "Core/Engine/ContentSystem/ImportScripts/ShaderLibrary.h"
 
 
 

@@ -5,17 +5,17 @@
 #include "../EntityComponent/EntityComponent.h"
 
 
-EXPORT(struct,  CameraComponent)
+EXPORT(struct,  Camera)
 {
 
 public:
-	CameraComponent(FViewMatrix viewmat, FProjectionMatrix perspmat) :  
+	Camera(FViewMatrix viewmat, FProjectionMatrix perspmat) :  
 		View(viewmat),
 		Projection(perspmat)
 	{}
 
 
-	CameraComponent(FProjectionMatrix perspmat) :
+	Camera(FProjectionMatrix perspmat) :
 
 		View(FMatrix4::Identity()),
 		Projection(perspmat)

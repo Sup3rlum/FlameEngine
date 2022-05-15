@@ -50,59 +50,17 @@ void OpenGLFRIContext::Initialize()
 	}
 
 
-	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	int PosX = 100, PosY = 100;
+	int PosX = 0, PosY = 0;
 
-	if (InstanceDescription.IsFullscreen)
-	{
-
-
-		DEVMODE dmScreenSettings;                               // Device Mode
-		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));   // Makes Sure Memory's Cleared
-		dmScreenSettings.dmSize = sizeof(dmScreenSettings);       // Size Of The Devmode Structure
-		dmScreenSettings.dmPelsWidth = screenWidth;                // Selected Screen Width
-		dmScreenSettings.dmPelsHeight = screenHeight;               // Selected Screen Height
-		dmScreenSettings.dmBitsPerPel = 32;                 // Selected Bits Per Pixel
-		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-
-		// Try To Set Selected Mode And Get Results.  NOTE: CDS_FULLSCREEN Gets Rid Of Start Bar.
-		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
-		{
-			printf("Wtf??");
-		}
-
-		/*
-		MONITORINFO mi = { sizeof(mi) };
-		GetMonitorInfo(, &mi);
-		SetWindowPos(window->win32.handle, HWND_TOPMOST,
-			mi.rcMonitor.left,
-			mi.rcMonitor.top,
-			mi.rcMonitor.right - mi.rcMonitor.left,
-			mi.rcMonitor.bottom - mi.rcMonitor.top,
-			SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS);*/
-	}
-	else
-	{
-
-		screenWidth = InstanceDescription.Width;
-		screenHeight = InstanceDescription.Height;
-
-		PosX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
-		PosY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
-	}
 	if (!win32Context)
 	{
-		win32Context = new Win32Context("Engine2", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &OpenGLFRIContext::Win32MessageHandler>(this));
+		win32Context = new Win32Context("Engine2", PosX, PosY, InstanceDescription.Width, InstanceDescription.Height, InstanceDescription.IsFullscreen, FWin32MessageProcDelegate::Make<OpenGLFRIContext, &OpenGLFRIContext::Win32MessageHandler>(this));
 	}
-
 
 	isActive = true;
 
 	InitializeOpenGL();
-
-
 	win32Context->Show();
 
 }
@@ -111,7 +69,7 @@ bool OpenGLFRIContext::InitializeOpenGLExtensions()
 
 	PIXELFORMATDESCRIPTOR pfd;
 
-	Win32Context wglLoadExtContext("WGLContext", 0, 0, 320, 240);
+	Win32Context wglLoadExtContext("WGLContext", 0, 0, 320, 240, false);
 	wglLoadExtContext.SetPixelFormat(&pfd);
 
 

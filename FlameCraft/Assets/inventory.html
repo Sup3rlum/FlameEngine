@@ -1,0 +1,144 @@
+<html>
+<head>
+    <style type="text/css">
+
+        * {
+            padding: 0;
+            margin: 0;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            background: #00000000;
+        }
+
+        .screen {
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+        .inventory {
+            background-image: url("Resources/gui/inventory.png");
+            width: 352px;
+            height: 332px;
+        }
+
+        .inventory-slots {
+            margin: 166px 14px;
+            width: 322px;
+            height: 151px;
+        }
+        .inventory-row {
+            width: 100%;
+            height: 35px;
+            display:flex;
+        }
+
+        .inventory-row-toolbar {
+            margin-top: 12px;
+        }
+
+
+        .inventory-slot {
+            width: 36px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .inventory-slot:hover {
+            background: #fffa;
+        }
+
+    </style>
+    <script>
+
+
+    const textures = [
+        "",
+        "Resources/blocks/stone.png",
+        "Resources/blocks/grass_block_side.png",
+        "Resources/blocks/dirt.png",
+        "Resources/blocks/cobblestone.png",
+        "Resources/blocks/oak_planks.png",
+        "Resources/blocks/sand.png",
+        "Resources/blocks/oak_log.png"
+    ]
+
+    function SetupInventory(inventory)
+    {
+        for (let i = 0; i < 36; i++) {
+
+            let column = i % 9;
+            let row = Math.floor(i / 9);
+
+            let idName = `slot-${row}${column}`;
+            let elem = document.getElementById(idName);
+
+            if (inventory.blocks[i] > 0)
+                elem.innerHTML = `<img src="${textures[inventory.blocks[i]]}">`;
+        }
+
+        function SetupInventory2(inventory) {
+            setTimeout(SetupInventory, 100, inventory);
+        }
+
+    </script>
+</head>
+<body>
+    <div class="screen">
+        <div class="inventory">
+            <div class="inventory-slots">
+                <div class="inventory-row">
+                    <div id="slot-10" class="inventory-slot"></div>
+                    <div id="slot-11" class="inventory-slot"></div>
+                    <div id="slot-12" class="inventory-slot"></div>
+                    <div id="slot-13" class="inventory-slot"></div>
+                    <div id="slot-14" class="inventory-slot"></div>
+                    <div id="slot-15" class="inventory-slot"></div>
+                    <div id="slot-16" class="inventory-slot"></div>
+                    <div id="slot-17" class="inventory-slot"></div>
+                    <div id="slot-18" class="inventory-slot"></div>
+                </div>
+                <div class="inventory-row">
+                    <div id="slot-20" class="inventory-slot"></div>
+                    <div id="slot-21" class="inventory-slot"></div>
+                    <div id="slot-22" class="inventory-slot"></div>
+                    <div id="slot-23" class="inventory-slot"></div>
+                    <div id="slot-24" class="inventory-slot"></div>
+                    <div id="slot-25" class="inventory-slot"></div>
+                    <div id="slot-26" class="inventory-slot"></div>
+                    <div id="slot-27" class="inventory-slot"></div>
+                    <div id="slot-28" class="inventory-slot"></div>
+                </div>
+                <div class="inventory-row">
+                    <div id="slot-30" class="inventory-slot"></div>
+                    <div id="slot-31" class="inventory-slot"></div>
+                    <div id="slot-32" class="inventory-slot"></div>
+                    <div id="slot-33" class="inventory-slot"></div>
+                    <div id="slot-34" class="inventory-slot"></div>
+                    <div id="slot-35" class="inventory-slot"></div>
+                    <div id="slot-36" class="inventory-slot"></div>
+                    <div id="slot-37" class="inventory-slot"></div>
+                    <div id="slot-38" class="inventory-slot"></div>
+                </div>
+                <div class="inventory-row inventory-row-toolbar">
+                    <div id="slot-00" class="inventory-slot"></div>
+                    <div id="slot-01" class="inventory-slot"></div>
+                    <div id="slot-02" class="inventory-slot"></div>
+                    <div id="slot-03" class="inventory-slot"></div>
+                    <div id="slot-04" class="inventory-slot"></div>
+                    <div id="slot-05" class="inventory-slot"></div>
+                    <div id="slot-06" class="inventory-slot"></div>
+                    <div id="slot-07" class="inventory-slot"></div>
+                    <div id="slot-08" class="inventory-slot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

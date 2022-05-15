@@ -1,0 +1,292 @@
+﻿<Window x:Class="FlameEncoder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlameEncoder"
+        xmlns:fli="clr-namespace:FlameEncoder.ImportScripts"
+        xmlns:fld="clr-namespace:FlameEncoder.Data"
+        xmlns:fln="clr-namespace:FlameEncoder.NodeEditor"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1920" Height="1080" Loaded="Window_Loaded" Closing="Window_Closing" WindowState="Maximized">
+    <DockPanel Background="#2a2a2a" LastChildFill="True">
+        <Menu DockPanel.Dock="Top" Background="#2a2a2a" Foreground="LightGray">
+            <MenuItem Header="_File" Background="#2a2a2a">
+                <MenuItem Header="_New" Click="FileMenu_New" Foreground="#2a2a2a"/>
+                <MenuItem Header="_Open" Click="FileMenu_Open" Foreground="#2a2a2a"/>
+                <MenuItem Header="_Save" Click="FileMenu_Save" Foreground="#2a2a2a"/>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom" Background="#2a2a2a">
+            <ProgressBar Name="MainProgressBar" Width="200" Height="10"/>
+        </StatusBar>
+        <ToolBar DockPanel.Dock="Top" Background="#2a2a2a" Foreground="LightGray">
+            <Button Foreground="LightGray"
+                    Click="Toolbar_CompileAll">
+                Compile all
+            </Button>
+            <Button Foreground="LightGray"
+                    Click="Toolbar_Render">
+            Render
+            </Button>
+        </ToolBar>
+
+        <TreeView 
+            Width="300" 
+            Name="projectTreeView" 
+            DockPanel.Dock="Left"
+            SelectedItemChanged="TreeView_SelectedItemChanged"
+            Margin="10" Background="#242424" Foreground="LightGray"
+            Padding="10">
+            <TreeView.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                      Color="#007ACC" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                      Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                      Color="LightGray" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                      Color="Black" />
+
+            </TreeView.Resources>
+            <TreeView.ItemTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type fli:BuildScript}" ItemsSource="{Binding MaterialGraphs}">
+                    <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add New Graph.." Click="TreeView_AddGraph"/>
+                            </ContextMenu>
+                            
+                        </StackPanel.ContextMenu>
+                        <TextBlock Text="BuildScript" Foreground="LightGray" FontSize="15"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type fln:NodeGraph }">
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu Tag="{ Binding Path=.}">
+                                        <MenuItem Header="Compile" Click="TreeView_CompileMaterialGraph" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                                <Image Source="/tex4.png" 
+                                       Height="20"
+                                       RenderOptions.BitmapScalingMode="Fant"/>
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Name}" Foreground="LightGray" FontSize="15" Margin="10 0"/>
+                            </StackPanel> 
+                            
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+
+        <Grid Margin="10">
+
+
+            <DockPanel x:Name="StartPage" LastChildFill="True">
+                <TextBlock 
+                    FontSize="40" 
+                    Text="Open New" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Foreground="LightGray"
+                    MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"></TextBlock>
+            </DockPanel>
+
+            <DockPanel x:Name="texturePreviewPanel" LastChildFill="True">
+                <Image Name="imagePreview" Source="{Binding Image}" DockPanel.Dock="Left"/>
+                <StackPanel Orientation="Vertical" Margin="20">
+                    <TextBlock Text="Location" Foreground="LightGray" Margin="5" FontSize="15"/>
+                    <DockPanel  LastChildFill="True">
+                        <Button Padding="10 0" DockPanel.Dock="Right" Width="70">Browse</Button>
+                        <TextBox Text="{Binding TextureMap.Path}" Margin="0 0 20 0" FontSize="15" Background="#2a2a2a" Foreground="LightGray"/>
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+
+            <DockPanel x:Name="nodeGraphPanel">
+                <DockPanel LastChildFill="True" DockPanel.Dock="Right" >
+                    <WindowsFormsHost Name="wfhPanel" Width="300" Height="300" Margin="0 0 0 20" DockPanel.Dock="Top">
+                        <wf:Panel x:Name="enginePanel"/>
+                    </WindowsFormsHost>
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <ListBox Name="matListBox" ItemsSource="{Binding Views}" Background="#2a2a2a">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:TextureView }">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Margin="10" VerticalAlignment="Center" IsChecked="{Binding IsActive}"/>
+                                        <Image Width="100" Height="100" Source="{Binding Image}"/>
+                                        <StackPanel Orientation="Vertical" Margin="20" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Foreground="LightGray" FontSize="20"/>
+                                            <TextBlock Text="16 Bit" Foreground="LightGray" FontSize="15"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </DockPanel>
+                <Grid Name="nodeGraphCanvas">
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 20 0" Background="#242424">
+                        <Canvas Name="mainCanvas"
+                                MouseMove="DockPanel_MouseMove"
+                                MouseLeftButtonUp="mainCanvas_MouseLeftButtonUp">
+                            <Canvas.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Source">
+                                        <MenuItem Header="Color"            Click="Graph_AddColorNode" />
+                                        <MenuItem Header="Texture"          Click="Graph_AddTextureNode" />
+                                    </MenuItem>
+                                    <MenuItem Header="Common">
+                                        <MenuItem Header="Channel Splitter" Click="Graph_AddChannelSplitterNode" />
+                                        <MenuItem Header="Channel Mixer"    Click="Graph_AddChannelMixerNode" />
+                                        <MenuItem Header="Desaturate"       Click="Graph_AddDesaturateNode" />
+                                        <MenuItem Header="Invert"       Click="Graph_AddInvertNode" />
+                                    </MenuItem>
+                                    <MenuItem Header="Convolution">
+                                        <MenuItem Header="Gaussian Blur" Click="Graph_AddGaussianBlurNode"/>
+                                    </MenuItem>
+                                    <MenuItem Header="Remap">
+                                        <MenuItem Header="Equirectangular to Face List"/>
+                                    </MenuItem>
+                                    <MenuItem Header="Output">
+                                        <MenuItem Header="Material"         Click="Graph_AddMaterialNode" />
+                                        <MenuItem Header="Environment Map"         Click="Graph_AddMaterialNode" />
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Canvas.ContextMenu>
+                            
+                            <Canvas.Background>
+                                <DrawingBrush TileMode="Tile" Viewport="-10,-10,40,40" 
+                                     ViewportUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <GeometryDrawing>
+                                            <GeometryDrawing.Geometry>
+                                                <RectangleGeometry Rect="0,0,50,50"/>
+                                            </GeometryDrawing.Geometry>
+                                            <GeometryDrawing.Pen>
+                                                <Pen Brush="Gray" Thickness="0.1"/>
+                                            </GeometryDrawing.Pen>
+                                        </GeometryDrawing>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Canvas.Background>
+
+                            <ItemsControl Name="nodeGroup" ItemsSource="{Binding Nodes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="8" 
+                                                Background="#4c4c4c"
+                                                BorderThickness="{Binding IsSelected}"
+                                                BorderBrush="Goldenrod">
+
+
+                                            <DockPanel Width="200"
+                                                   MouseLeftButtonDown="DockPanel_MouseLeftButtonDown"
+                                                   MouseLeftButtonUp="DockPanel_MouseLeftButtonUp"
+                                                   Loaded="DockPanel_Loaded"
+                                                   Unloaded="DockPanel_Unloaded"
+                                                   LastChildFill="True"
+                                                   Tag="{Binding}"
+                                                       >
+                                                <StackPanel Margin="0 0" DockPanel.Dock="Top">
+                                                    <DockPanel>
+                                                        <TextBlock Margin="10 5" Text="{Binding Name}" FontSize="15" Foreground="LightGray"/>
+                                                        <Button 
+                                                            BorderThickness="0" 
+                                                            Background="Transparent" 
+                                                            HorizontalAlignment="Right" 
+                                                            Margin="0 5" 
+                                                            Width="15"
+                                                            Tag="{Binding}"
+                                                            Click="DeleteNode_Click">
+                                                            
+                                                            <Image Source="/close.png" RenderOptions.BitmapScalingMode="Fant"/>
+                                                        </Button>
+                                                    </DockPanel>
+                                                    <Border BorderThickness="0" BorderBrush="White" Height="{Binding NodeHeight}">
+                                                       
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <ItemsControl DockPanel.Dock="Left" ItemsSource="{Binding InputsView}" VerticalAlignment="Center" Margin="0 30">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Rectangle Width="8" 
+                                                                           Height="8" 
+                                                                           Fill="White" 
+                                                                           Margin="0 0 10 0"
+                                                                           Tag="{Binding Value}"
+                                                                           MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"
+                                                                           MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"
+                                                                           MouseRightButtonDown="Rectangle_MouseRightButtonDown"/>
+                                                                            
+                                                                <TextBlock Text="{Binding Key}" Foreground="White" Margin="0 5" FontSize="15"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+
+                                                <ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding OutputsView}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 30">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                                <TextBlock Text="{Binding Key}" Foreground="White" Margin="0 5" FontSize="15" TextAlignment="Right"/>
+                                                                <Rectangle Width="8" 
+                                                                           Height="8" 
+                                                                           Fill="White" 
+                                                                           Margin="10 0 0 0" 
+                                                                           Tag="{Binding Value}"
+                                                                           MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"
+                                                                           MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"
+                                                                           MouseRightButtonDown="Rectangle_MouseRightButtonDown"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DockPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style>
+                                        <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                                        <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                            <ItemsControl Name="nodeConnections" ItemsSource="{Binding Connections}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas>
+                                        </Canvas>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Path StrokeThickness="1.2" Stroke="White" Data="{Binding SvgString}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                        </Canvas>
+                    </Border>
+
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>

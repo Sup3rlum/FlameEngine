@@ -24,6 +24,7 @@ public:
 	FORCEINLINE float Volume() const;
 
 	void GetCorners(FStaticArray<FVector3, 8>& out);
+	bool Contains(const FVector3 & vec) const;
 
 	static AABB FromPointArray(const FArray<FVector3>&points);
 	void SetDegenerate();

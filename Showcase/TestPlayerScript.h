@@ -2,7 +2,9 @@
 
 #include "FlameEngine/Core/Engine/GameSystem/Behaviour.h"
 #include "FlameEngine/Core/Math/Module.h"
-#include "FlameEngine/Core/Engine/GameSystem/ControlComponent.h"
+#include "FlameEngine/Core/Engine/GameSystem/InputComponent.h"
+#include "FlameEngine/Core/Engine/GameSystem/Material/MaterialComponent.h"
+#include "FlameEngine/Core/Engine/GameSystem/Mesh.h"
 
 class TestGameApplication;
 class FRIContext;
@@ -40,8 +42,14 @@ public:
 	void Gravity(float dt);
 
 	void Jump();
+	void Shoot();
 
 	void KeyEvent(FKeyboardKeys key, FKeyEvent event);
+	void MouseEvent(FMouseButton key, FKeyEvent event);
+
+	void KillBalls();
+
+	void SetFloat(float f);
 
 	void ReturnToGame();
 	void PauseMenu();
@@ -51,7 +59,11 @@ public:
 	TestGameApplication* game;
 
 	FVector3 Velocity = 0;
-
+	Mesh ballMesh;
+	Material ballMaterial;
+	Material metal;
+	Material plastic;
+	Material metal2;
 
 	bool wasOnGround = false;
 	bool settings = false;

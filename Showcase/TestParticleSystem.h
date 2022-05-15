@@ -13,6 +13,7 @@ struct TestEmitter : IEmitterBase
 	{}
 };
 
+/*
 struct TestParticle : IParticleBase
 {
 	FVector3 Position;
@@ -32,22 +33,4 @@ struct TestParticle : IParticleBase
 		Velocity = FVector3(vX*3, 20.0f, vZ*3);
 	}
 };
-
-
-struct TestParticleStage
-{
-	FMatrix4 Translation;
-	Color color;
-
-	TestParticleStage()
-	{}
-
-	TestParticleStage(const FMatrix4& matrix, Color color) :
-		Translation(matrix),
-		color(color)
-	{
-
-	}
-};
-
-typedef ParticleSystem<TestParticle, TestParticleStage, TestEmitter> TestParticleSystem;
+*/

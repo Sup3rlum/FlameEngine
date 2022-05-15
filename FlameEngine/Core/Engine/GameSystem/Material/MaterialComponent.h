@@ -1,7 +1,6 @@
 #pragma once
 
-
-#include "Core/Engine/FlameRI/FRI.h"
+#include "../../FlameRI/FRI.h"
 #include "../EntityComponent/EntityComponent.h"
 #include "MaterialDefinitions.h"
 
@@ -10,10 +9,8 @@ enum class EMaterialMap : uint32
 {
 	Diffuse,
 	Normal,
-	Height,
-	Roughness,
-	Metallic,
-	AmbientOcclusion,
+	Detail,
+	Emissive,
 	MAX_MAPS
 };
 
@@ -22,33 +19,23 @@ struct MaterialMap
 {
 	FRITexture2D* Handle;
 
-	MaterialMap(FRITexture2D* Handle) : Handle(Handle)
-	{}
-
-	MaterialMap() : Handle(NULL)
-	{}
-
+	MaterialMap(FRITexture2D* Handle) : Handle(Handle) {}
+	MaterialMap() : Handle(NULL) {}
 };
 
 struct MaterialProperties
 {
-	FVector3 EmissiveColor;
-	float EmissiveIntensity;
-
 	FRIBool HasNormalMap;
 	FRIBool HasPOMEnabled;
 	FRIBool HasAOMap;
 	FRIBool HasEmissive;
 	FRIBool HasTransluscent;
 
-
 	MaterialProperties()
 	{
-		EmissiveColor = 0;
-		EmissiveIntensity = 0;
-		HasNormalMap = EFRIBool::False;
-		HasPOMEnabled = EFRIBool::False;
-		HasAOMap = EFRIBool::False;
+		HasNormalMap = EFRIBool::True;
+		HasPOMEnabled = EFRIBool::True;
+		HasAOMap = EFRIBool::True;
 		HasEmissive = EFRIBool::False;
 		HasTransluscent = EFRIBool::False;
 	}
@@ -65,7 +52,6 @@ struct Material
 
 	Material() :
 		FriContext(NULL)
-
 	{
 		Memory::Zero(Maps.Begin(), Maps.ByteSize());
 
@@ -80,8 +66,9 @@ struct Material
 
 	void StageMemory(FRIMemoryMap& memory) const
 	{
-		memory.Load(Properties);
+		memory << Properties;
 	}
+
 	inline static size_t GetStageMemorySize()
 	{
 		return sizeof(float) * 12;

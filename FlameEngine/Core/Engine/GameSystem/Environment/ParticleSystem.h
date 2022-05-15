@@ -3,7 +3,9 @@
 #include "Core/Common/Alignment.h"
 #include "Core/Math/Module.h"
 #include "Core/Engine/FlameRI/FRI.h"
+#include "../Mesh.h"
 
+#include "../CameraSystem/CameraComponent.h"
 
 #include "ParticleInterface.h"
 
@@ -14,117 +16,90 @@ enum class PSComputeMode
 	GPUCompute
 };
 
-/*
-struct IndexStack
-{
-	IndexStack(int32 capacity) :
-		Data(NULL),
-		Capacity(capacity),
-		Top(0)
-	{
-		Data = Memory::AllocCounted<int32>(capacity);
-		Memory::Zero(Data, sizeof(int32) * capacity);
-	}
 
-	void Push(int32 val)
+struct DeadList
+{
+	DeadList(size_t capacity) : 
+		Capacity(capacity), 
+		Count(capacity)
 	{
-		if (Top < Capacity - 1)
+		auto dataPtr = Memory::AllocCounted<int32>(Capacity + 1);
+		Memory::Zero(dataPtr, (Capacity + 1) * sizeof(int32));
+		Data = Align(dataPtr, alignof(int32));
+
+		for (int i = 0; i < Capacity; i++)
 		{
-			Data[Top++] = val;
+			Data[i] = Capacity - 1 - i;
 		}
 	}
+
+	void Push(int32 index)
+	{
+		if (Count >= Capacity)
+		{
+			return;
+		}
+		Data[Count] = index;
+		Count++;
+	}
+
 	int32 Pop()
 	{
-		if (Top > 0)
+		if (Count <= 0)
 		{
-			return Data[--Top];
+			return -1;
 		}
 		else
 		{
-			return 0;
+			int32 LastIndex = Data[Count - 1];
+			Count--;
+			return LastIndex;
 		}
 	}
 
-	~IndexStack()
-	{
-		Memory::Free(Data);
-	}
 
-
-	int32 Capacity;
-	int32 Top;
 	int32* Data;
-};*/
-
-
-template<typename TStage>
-struct PStageBuffer
-{
-	PStageBuffer(int32 Capacity) :
-		Size(0)
-	{
-		Data = Memory::AllocCounted<TStage>(Capacity);
-		Memory::Zero(Data, Capacity * sizeof(TStage));
-	}
-
-	void Reset()
-	{
-		Size = 0;
-	}
-
-	void Add(const TStage& stage)
-	{
-		Data[Size++] = stage;
-	}
-
-	int32 ByteSize() const
-	{
-		return sizeof(TStage) * Size;
-	}
-
-	int32 Size;
-	TStage* Data;
+	size_t Count;
+	size_t Capacity;
 };
 
-
 template<typename TParticle>
+#if __cplusplus >= 202002L
+requires ParticleConcept<TParticle>
+#endif
 struct ParticleMemoryPool
 {
-
-	const int32 Capacity;
-	const int32 AlignedSize;
-
 	ParticleMemoryPool(size_t Capacity) :
 		Data(NULL),
-		Top(NULL),
 		Capacity(Capacity),
 		AlignedSize(sizeof(TParticle)),
-		ParticleCount(0)
+		ParticleCount(0),
+		deadList(Capacity)
 	{
 		Data = Memory::AllocCounted<TParticle>(Capacity);
 		Memory::Zero(Data, Capacity * AlignedSize);
-
-		Top = Data;
 	}
 
 	TParticle* Allocate()
 	{
-		if (ParticleCount < Capacity)
-		{
-			ParticleCount++;
-		}
+		int32 deadIndex = deadList.Pop();
+		if (deadIndex < 0) return NULL;
 
-		TParticle* AllocPtr = Top;
-		TParticle* NewTop = AllocPtr + 1;
+		ParticleCount++;
 
-		if (NewTop >= Data + Capacity)
-		{
-			NewTop = Data;
-		}
+		printf("Allocating index %d\n", deadIndex);
 
-		Top = NewTop;
-
+		auto AllocPtr = &Data[deadIndex];
 		return AllocPtr;
+	}
+
+
+	void Deallocate(int32 index)
+	{
+		deadList.Push(index);
+		ParticleCount--;
+
+		Memory::Zero(Data + index, sizeof(TParticle));
 	}
 
 	~ParticleMemoryPool()
@@ -132,18 +107,19 @@ struct ParticleMemoryPool
 		Memory::Free(Data);
 	}
 
-	TParticle* Top;
-	TParticle* Data;
+	DeadList deadList;
 
+	const int32 Capacity;
+	const int32 AlignedSize;
+
+	TParticle* Data;
 	int32 ParticleCount;
 };
 
 
 
 
-
-
-class ParticleSystemBase
+class IParticleSystem
 {
 	PSComputeMode ComputeMode;
 	bool Enabled;
@@ -152,7 +128,7 @@ class ParticleSystemBase
 	friend class ParticleRenderer;
 
 protected:
-	ParticleSystemBase(PSComputeMode computeMode) : 
+	IParticleSystem(PSComputeMode computeMode) : 
 		ComputeMode(computeMode),
 		Enabled(true)
 	{
@@ -161,16 +137,25 @@ protected:
 	virtual FRIInstanceBuffer* GetInstanceBuffer() = 0;
 	virtual int32 GetStageCount() = 0;
 
-	virtual void Tick(float dt) = 0;
-	virtual ~ParticleSystemBase()
+	virtual void Tick(float dt, const Camera& cam) = 0;
+	virtual ~IParticleSystem()
 	{}
+
+public:
+	FArray<FRISampler> Samplers;
+	Mesh ParticleMesh;
+	FRIShaderPipeline* Shader;
+
 };
 
 
-template<typename TParticle, typename TStage, typename TEmitter>
-class ParticleSystem : public ParticleSystemBase
+template<typename TParticle>
+#if __cplusplus >= 202002L
+	requires ParticleConcept<TParticle>
+#endif
+class ParticleSystem : public IParticleSystem
 {
-	void Tick(float dt)
+	void Tick(float dt, const Camera& cam)
 	{
 		if (dt > 5.0f)
 		{
@@ -179,40 +164,58 @@ class ParticleSystem : public ParticleSystemBase
 
 		FRICommandList cmdList(FriContext->GetFRIDynamic());
 
-
-		StageBuffer.Reset();
-
-		for (int i = 0; i < PMemory.ParticleCount; i++)
+		for (int i = 0; i < PMemory.Capacity; i++)
 		{
-			if (PMemory.Data[i].Age < PMemory.Data[i].Life)
+			if (PMemory.Data[i].Life > 0)
 			{
-				PMemory.Data[i].Age += dt;
+				if (PMemory.Data[i].Age < PMemory.Data[i].Life)
+				{
+					PMemory.Data[i].Age += dt;
+					TickDelegate(PMemory.Data[i], dt);
+				}
+				else
+				{
+					PMemory.Deallocate(i);
+					printf("deleting particle index %d\n", i);
 
-				TickDelegate(PMemory.Data[i], dt);
-				StageBuffer.Add(STDelegate(PMemory.Data[i]));
+				}
 			}
 		}
 
-		cmdList.GetDynamic()->InstanceBufferSubdata(InstanceBuffer, FRIUpdateDescriptor(StageBuffer.Data, 0, StageBuffer.ByteSize()));
 
-
-		int32 EmitterNum = Emitters.Length();
-
-		for (int i = 0; i < EmitterNum; i++)
-		{
-			if (Emitters[i].Enabled)
+		Sort::Insertion(PMemory.Data, PMemory.Capacity, [&](TParticle& particle) 
 			{
-				float EmitFreq = 1.0f / Emitters[i].EmitRate;
-
-				EmitterAccum[i] += dt;
-				if (EmitterAccum[i] >= EmitFreq)
+				if (particle.Life == 0)
 				{
-					EmitterAccum[i] -= EmitFreq;
+					return -100000000.0f;
+				}
+				auto ViewDist = FMatrix4::Transpose(cam.View) * FVector4(particle.Position.xyz, 1.0f);
+				//ViewDist = cam.Projection * ViewDist;
+				return -ViewDist.z;
+			});
+
+		cmdList.GetDynamic()->InstanceBufferSubdata(InstanceBuffer, FRIUpdateDescriptor(PMemory.Data, 0, PMemory.Capacity * sizeof(TParticle)));
+
+		for (auto& emitter : Emitters)
+		{
+			if (emitter.Enabled)
+			{
+				float EmitFreq = 1.0f / emitter.EmitRate;
+
+				emitter.Accumulator += dt;
+				if (emitter.Accumulator >= EmitFreq)
+				{
+					emitter.Accumulator -= EmitFreq;
+
+					printf("Trying to emit\n");
 
 					// Emit new particle
-
-					TParticle* ParticleMem = PMemory.Allocate();
-					new (ParticleMem) TParticle(Emitters[i]);
+					auto ParticleMem = PMemory.Allocate();
+					if (ParticleMem) 
+					{
+						printf("emitting particle\n");
+						new (ParticleMem) TParticle(emitter);
+					}
 				}
 			}
 		}
@@ -221,27 +224,17 @@ class ParticleSystem : public ParticleSystemBase
 
 public:
 
-	typedef FDelegate<TStage(TParticle&)> StageTransformDelegate;
 	typedef FDelegate<void(TParticle&, float)> ParticleTickDelegate;
 
 	ParticleSystem(FRIContext* FriContext, int32 Capacity) :
-		ParticleSystemBase(PSComputeMode::Software),
+		IParticleSystem(PSComputeMode::Software),
 		FriContext(FriContext),
-		PMemory(Capacity),
-		StageBuffer(Capacity)
+		PMemory(Capacity)
 	{
-		SetStageTransform([](TParticle& p) { return TStage(); });
 		SetParticleTick([](TParticle& p, float dt) {});
 
 		FRICommandList cmdList(FriContext->GetFRIDynamic());
-
-		InstanceBuffer = cmdList.GetDynamic()->CreateInstanceBuffer(Capacity, sizeof(TStage), FRICreationDescriptor(NULL, sizeof(TStage) * Capacity));
-	}
-
-	void SetStageTransform(StageTransformDelegate transformDelegate)
-	{
-		//assert(transformDelegate.IsValid());
-		STDelegate = transformDelegate;
+		InstanceBuffer = cmdList.GetDynamic()->CreateInstanceBuffer(Capacity, TParticle::GetStageSize(), FRICreationDescriptor(NULL, TParticle::GetStageSize() * Capacity));
 	}
 
 	void SetParticleTick(ParticleTickDelegate tickDelegate)
@@ -251,10 +244,110 @@ public:
 	}
 
 
-	void AddEmitter(const TEmitter& emitter)
+	void AddEmitter(const ParticleEmitter<TParticle>& emitter)
 	{
 		Emitters.Add(emitter);
-		EmitterAccum.Add(0);
+	}
+
+	FRIInstanceBuffer* GetInstanceBuffer()
+	{
+		return InstanceBuffer;
+	}
+
+	int32 GetStageCount()
+	{
+		return PMemory.Capacity;
+	}
+
+	~ParticleSystem()
+	{
+		delete InstanceBuffer;
+	}
+
+	FArray<ParticleEmitter<TParticle>> Emitters;
+	ParticleMemoryPool<TParticle> PMemory;
+
+	ParticleTickDelegate TickDelegate;
+
+	FRIInstanceBuffer* InstanceBuffer;
+	FRIContext* FriContext;
+
+	friend class Scene;
+};
+
+/*
+template<typename TParticle>
+#if __cplusplus >= 202002L
+	requires ParticleConcept<TParticle>
+#endif
+class GPUParticleSystem : public IParticleSystem
+{
+	void Tick(float dt, const Camera& cam)
+	{
+		if (dt > 5.0f)
+		{
+			return;
+		}
+
+		FRICommandList cmdList(FriContext->GetFRIDynamic());
+
+		StageBuffer.Reset();
+
+		for (int i = 0; i < PMemory.ParticleCount; i++)
+		{
+			if (PMemory.Data[i].Age < PMemory.Data[i].Life)
+			{
+				PMemory.Data[i].Age += dt;
+
+				STDelegate(StageBuffer, PMemory.Data[i]);
+			}
+		}
+
+		SortDelegate(StageBuffer, cam);
+
+		cmdList.GetDynamic()->InstanceBufferSubdata(InstanceBuffer, FRIUpdateDescriptor(StageBuffer.Data, 0, StageBuffer.ByteSize()));
+
+		for (auto& emitter : Emitters)
+		{
+			if (emitter.Enabled)
+			{
+				float EmitFreq = 1.0f / emitter.EmitRate;
+
+				emitter.Accumulator += dt;
+				if (emitter.Accumulator >= EmitFreq)
+				{
+					emitter.Accumulator -= EmitFreq;
+
+					// Emit new particle
+
+					TParticle* ParticleMem = PMemory.Allocate();
+					new (ParticleMem) TParticle(emitter);
+				}
+			}
+		}
+	}
+
+
+public:
+
+
+	GPUParticleSystem(FRIContext* FriContext, int32 Capacity) :
+		IParticleSystem(PSComputeMode::GPUCompute),
+		FriContext(FriContext),
+		PMemory(Capacity),
+		StageBuffer(Capacity, TParticle::GetStageSize())
+	{
+		SetStageTransform([](PStageBuffer& map, TParticle& p) {});
+		SetParticleTick([](TParticle& p, float dt) {});
+
+		FRICommandList cmdList(FriContext->GetFRIDynamic());
+
+		InstanceBuffer = cmdList.GetDynamic()->CreateInstanceBuffer(Capacity, TParticle::GetStageSize(), FRICreationDescriptor(NULL, TParticle::GetStageSize() * Capacity));
+	}
+
+	void AddEmitter(const ParticleEmitter<TParticle>& emitter)
+	{
+		Emitters.Add(emitter);
 	}
 
 	FRIInstanceBuffer* GetInstanceBuffer()
@@ -267,22 +360,22 @@ public:
 		return StageBuffer.Size;
 	}
 
-	~ParticleSystem()
+	~GPUParticleSystem()
 	{
 		delete InstanceBuffer;
 	}
 
-	StageTransformDelegate STDelegate;
-	ParticleTickDelegate TickDelegate;
+	FArray<ParticleEmitter<TParticle>> Emitters;
+	ParticleMemoryPool<TParticle> PMemory;
 
 	FRIInstanceBuffer* InstanceBuffer;
 	FRIContext* FriContext;
 
-	FArray<TEmitter> Emitters;
-	FArray<float> EmitterAccum;
-	ParticleMemoryPool<TParticle> PMemory;
-	PStageBuffer<TStage> StageBuffer;
-
 	friend class Scene;
 };
+*/
 
+struct ParticleManager
+{
+	IParticleSystem* ParticleSystemPtr;
+};

@@ -3,10 +3,7 @@
 #include "Core/Common/CoreCommon.h"
 
 #include "TComplex.h"
-
 #include "TVector4.h"
-
-
 
 
 typedef TVector4<float> FVector4;

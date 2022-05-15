@@ -58,7 +58,7 @@ public:
 		return *this;
 	}
 
-	FHashMap<EFRIResourceShaderType, ShaderLibraryModulePart> Parts;
+	FHashMap<EFRIShaderType, ShaderLibraryModulePart> Parts;
 };
 
 class ShaderLibrary

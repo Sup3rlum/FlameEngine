@@ -171,9 +171,13 @@ uint32_t FHashFuncImpl::MurmurHash3_x86_32(const void* key, int len, uint32_t se
     // finalization
 
     h1 ^= len;
-
     h1 = fmix32(h1);
 
     return h1;
 }
 
+size_t FHashFuncImpl::PointerScramble(void* ptr)
+{
+    size_t ptrSz = (size_t)ptr;
+    return ROTL64(ptrSz, 7);
+}

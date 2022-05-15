@@ -83,7 +83,7 @@ public:
 
 
 
-	FString ToString()
+	FString ToString() const
 	{
 		return FString::Format("{ X:%0 Y:%1 Z:%2 W:%3 }", x, y, z, w);
 	}
@@ -135,14 +135,14 @@ public:
 	}
 
 
-	TVector4& operator-()
+	const TVector4& operator-()
 	{
-		this->x = -this->x;
-		this->y = -this->y;
-		this->z = -this->z;
-		this->w = -this->w;
-
-		return *this;
+		return TVector4(
+			-this->x,
+			-this->y,
+			-this->z,
+			-this->w
+		);
 	}
 
 

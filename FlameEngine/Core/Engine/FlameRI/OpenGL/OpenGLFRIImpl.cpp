@@ -4,11 +4,11 @@
 
 
 
-typedef void (*_SamplerFuncPtr)(FUniformSampler param);
+typedef void (*_SamplerFuncPtr)(FRISampler param);
 
-FStaticArray<_SamplerFuncPtr, (size_t)EFRIUniformSamplerType::MaxSamplerTypes> _FSamplerFuncPtrs;
+FStaticArray<_SamplerFuncPtr, (size_t)EFRISamplerType::MaxSamplerTypes> _FSamplerFuncPtrs;
 
-#define SET_ENUM_SAMPLER_FUNC_PTR(e, f) _FSamplerFuncPtrs[(size_t)EFRIUniformSamplerType::e]			= [](FUniformSampler fp) { f }
+#define SET_ENUM_SAMPLER_FUNC_PTR(e, f) _FSamplerFuncPtrs[(size_t)EFRISamplerType::e]			= [](FRISampler fp) { f }
 
 
 FRIVertexBuffer* OpenGLFRIDynamicAllocator::CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
@@ -49,14 +49,14 @@ FRITexture3D* OpenGLFRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 he
 }
 
 
-FRITexture2DArray* OpenGLFRIDynamicAllocator::CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor)
+FRITexture2DArray* OpenGLFRIDynamicAllocator::CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat textureFormat, FRIColorDataFormat dataFormat, FRICreationDescriptor resourceDescriptor[])
 {
 
 	GLuint gpuFormat = EGLFormatProxyEnum(textureFormat);
 	GLuint channelFormat = EGLColorProxyEnum(dataFormat.channelFormat);
 	GLuint dataPixelFormat = EGLPixelProxyEnum(dataFormat.pixelStorage);
 
-	return new FGLResourceTexture2DArray(width, height, numLayers, gpuFormat, channelFormat, dataPixelFormat, resourceDescriptor);
+	return NULL;// new FGLResourceTexture2DArray(width, height, numLayers, gpuFormat, channelFormat, dataPixelFormat, resourceDescriptor);
 }
 
 
@@ -77,11 +77,11 @@ FRIShaderPipeline* OpenGLFRIDynamicAllocator::CreateShaderPipeline(const ShaderL
 
 		switch (part.Key)
 		{
-		case EFRIResourceShaderType::Vertex: shaderResource = CreateVertexShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Pixel: shaderResource = CreatePixelShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Geometry: shaderResource = CreateGeometryShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Hull: shaderResource = CreateHullShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Domain: shaderResource = CreateDomainShader(part.Value.Memory); break;
+		case EFRIShaderType::Vertex: shaderResource = CreateVertexShader(part.Value.Memory); break;
+		case EFRIShaderType::Pixel: shaderResource = CreatePixelShader(part.Value.Memory); break;
+		case EFRIShaderType::Geometry: shaderResource = CreateGeometryShader(part.Value.Memory); break;
+		case EFRIShaderType::Hull: shaderResource = CreateHullShader(part.Value.Memory); break;
+		case EFRIShaderType::Domain: shaderResource = CreateDomainShader(part.Value.Memory); break;
 
 		}
 
@@ -133,13 +133,20 @@ FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FArray<FRIFrameBuff
 
 
 
-FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer)
+FRIFrameBuffer* OpenGLFRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachments, bool enableDepthRenderBuffer, uint32 mipLevel)
 {
 	return NULL;// new FGLResourceFrameBuffer(textureAttachments, enableDepthRenderBuffer);
 }
 
 
-FRIVertexDeclaration* OpenGLFRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclCompArray, FRIVertexShader* shaderSignature)
+FRIComputeBuffer* OpenGLFRIDynamicAllocator::CreateComputeBuffer(EFRIAccess access, size_t StructureStride, FRICreationDescriptor resource)
+{
+	return  NULL;
+}
+
+
+
+FRIVertexDeclaration* OpenGLFRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIInputDesc> DeclCompArray, FRIVertexShader* shaderSignature)
 {
 	return new FRIVertexDeclaration(DeclCompArray);
 }
@@ -254,7 +261,7 @@ void OpenGLFRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBu
 
 }
 
-void OpenGLFRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
+void OpenGLFRIDynamicAllocator::SetShaderSampler(FRISampler sampler)
 {
 	(_FSamplerFuncPtrs[(size_t)sampler.samplerType])(sampler);
 }
@@ -431,6 +438,15 @@ void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITexture3D* tex)
 	glGenerateMipmap(gltex->textureType);*/
 }
 
+void OpenGLFRIDynamicAllocator::FlushMipMaps(FRITextureCubeMap* tex)
+{
+	/*FGLResourceTexture2DArray* gltex = static_cast<FGLResourceTexture2DArray*>(tex);
+
+	glBindTexture(gltex->textureType, gltex->textureHandle);
+	glGenerateMipmap(gltex->textureType);*/
+}
+
+
 void OpenGLFRIDynamicAllocator::UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
 {
 	FGLResourceUniformBuffer* fglubo = static_cast<FGLResourceUniformBuffer*>(buffer);
@@ -484,7 +500,31 @@ void OpenGLFRIDynamicAllocator::CopyTexture(FRITexture2D* source, FRITexture2D* 
 
 }
 
+void OpenGLFRIDynamicAllocator::CopyTexture(FRITexture3D* source, FRITexture3D* dest)
+{
+
+
+}
+void OpenGLFRIDynamicAllocator::CopyTexture(FRITexture2DArray* source, FRITexture2DArray* dest)
+{
+
+
+}
+void OpenGLFRIDynamicAllocator::CopyBuffer(FRIBuffer* source, FRIBuffer* dest)
+{
+
+
+}
+
 void OpenGLFRIDynamicAllocator::SetUAV(uint32 slot, FRITexture3D* tex)
+{
+}
+
+void OpenGLFRIDynamicAllocator::SetUAV(uint32 slot, FRIComputeBuffer* tex)
+{
+}
+
+void OpenGLFRIDynamicAllocator::ClearUAV(uint32 slot)
 {
 }
 
@@ -496,4 +536,9 @@ void OpenGLFRIDynamicAllocator::ClearBufferAndSetUAVs(FRIFrameBuffer* buffer, Co
 void OpenGLFRIDynamicAllocator::DispatchCompute(uint32 x, uint32 y, uint32 z)
 {
 
+}
+
+FRITextureCubeMap* OpenGLFRIDynamicAllocator::CreateTextureCubeMap(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor* resourceDescriptor)
+{
+	return NULL;
 }

@@ -7,10 +7,13 @@
 #include "Core/Engine/FlameRI/FRI.h"
 #include "Core/Framework/IO/FileStream.h"
 #include "RenderModule.h"
+#include "../PCI/PCI.h"
 
 class DebugRenderer : public RenderModule
 {
 public:
+
+
 	DebugRenderer();
 
 	void Render(FRICommandList& cmdList, FVector3* Corners);
@@ -20,7 +23,5 @@ public:
 	FRIShaderPipeline* pipeline;
 	FRIVertexBuffer* vBuffer;
 
-
 	FRIVertexDeclaration* VertexDecl;
-
 };

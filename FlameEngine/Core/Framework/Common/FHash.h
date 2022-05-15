@@ -10,6 +10,8 @@ EXPORT(struct, FHashFuncImpl)
 public:
     static void MurmurHash3_x64_128(const void* key, const int len, const uint32_t seed, void* out);
     static uint32_t MurmurHash3_x86_32(const void* key, int len, uint32_t seed);
+
+    static size_t PointerScramble(void* ptr);
 };
 
 
@@ -27,7 +29,7 @@ struct FHash<TType*>
 {
     size_t operator ()(TType* typePtr) const
     {
-        return FHashFuncImpl::MurmurHash3_x86_32(&static_cast<size_t>(typePtr), sizeof(size_t), 100);
+        return FHashFuncImpl::PointerScramble(typePtr);
     }
 };
 

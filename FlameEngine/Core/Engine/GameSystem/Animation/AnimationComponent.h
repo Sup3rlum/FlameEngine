@@ -5,8 +5,6 @@
 #include "Core/Math/Module.h"
 #include "SkeletonPose.h"
 
-#include <iostream>
-
 struct AnimationKeyFrame
 {
 	FArray<FTransform> PoseTransforms;
@@ -45,6 +43,12 @@ struct AnimationSequence
 	{
 
 	}
+
+	AnimationSequence() :
+		Name("Unnamed"),
+		Length(0)
+	{}
+
 
 	void AddKeyFrame(const AnimationKeyFrame& keyFrame)
 	{

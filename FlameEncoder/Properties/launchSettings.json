@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "AssetEncoderCommandline": {
+    "FlameEncoder": {
       "commandName": "Project",
-      "commandLineArgs": "-i \".\\newmat.buildscript\""
+      "nativeDebugging": true
     }
   }
 }

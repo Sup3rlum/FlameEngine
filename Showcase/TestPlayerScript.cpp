@@ -1,6 +1,7 @@
 #include "TestPlayerScript.h"
 #include "TestGame.h"
 
+#include "FlameEngine/Core/Engine/ContentSystem/ImportScripts/Common.h"
 
 void TestScript::Load()
 {
@@ -9,17 +10,36 @@ void TestScript::Load()
 
 	CurrentScene().uxContainer->SetCallback("ExitButton", FDelegate<void(void)>::Make<TestGameApplication, &TestGameApplication::Close>(game));
 	CurrentScene().uxContainer->SetCallback("BackButton", FDelegate<void(void)>::Make<TestScript, &TestScript::ReturnToGame>(this));
+	CurrentScene().uxContainer->SetCallback("ClearButton", FDelegate<void(void)>::Make<TestScript, &TestScript::KillBalls>(this));
 
-	AttachedEntity().Component<ControlComponent>().BindKeyEvent<TestScript, &TestScript::KeyEvent>(this);
+	CurrentScene().uxContainer->SetCallback("SetFloat", FDelegate<void(float)>::Make<TestScript, &TestScript::SetFloat>(this));
+
+	Component<Input>().BindKeyEvent<TestScript, &TestScript::KeyEvent>(this);
+	Component<Input>().BindMouseEvent<TestScript, &TestScript::MouseEvent>(this);
+
+
+	ballMesh = game->Content.Load<Mesh>("Models/sphere.fl3d");
+	ballMaterial = game->Content.Load<Material>("Materials/default2.flmt");
+	metal = game->Content.Load<Material>("Materials/perfMetal.flmt");
+	plastic = game->Content.Load<Material>("Materials/gold.flmt");
+	metal2 = game->Content.Load<Material>("Materials/metal_wall.flmt");
+}
+
+void TestScript::SetFloat(float f)
+{
+	float g = f;
+
+
+	printf(" Heyyy  %f \n", g);
 }
 
 void TestScript::Update(float dt)
 {
-	auto& control = AttachedEntity().Component<ControlComponent>();
-	auto& phys = AttachedEntity().Component<CharacterBody>();
-	auto& cam = AttachedEntity().Component<CameraComponent>();
-	auto& transformComponent = AttachedEntity().Component<FTransform>();
-	auto& fps = AttachedEntity().Component<FPComponent>();
+	auto& control = Component<Input>();
+	auto& phys = Component<CharacterBody>();
+	auto& cam = Component<Camera>();
+	auto& transformComponent = Component<FTransform>();
+	auto& fps = Component<FPComponent>();
 
 
 	static float accum = 0;
@@ -27,25 +47,26 @@ void TestScript::Update(float dt)
 	accum += dt;
 	if (accum > 0.3f)
 	{
-		FVector3 posVec = AttachedEntity().Component<FTransform>().Position;
+		FVector3 posVec = Component<FTransform>().Position;
 
-		FString8 fpsString = FString8::Format("SetFPS('%0', %1, %2)", 
+		FString8 fpsString = FString8::Format("SetFPS('%0', %1, %2, %3, %4)", 
 			1.0f / dt,
 			phys.IsGrounded(),
-			FVector3(Velocity.x, 0, Velocity.z).Length());
+			transformComponent.Position.x,
+			transformComponent.Position.y,
+			transformComponent.Position.z);
 
 		CurrentScene().uxContainer->ExecuteScript(fpsString);
 		accum = 0;
 	}
 	
 
-	fps.pitch = FMathFunc::Clamp
+	fps.pitch = FMath::Clamp
 	(
 		fps.pitch,
 		-HALF_PI,
 		HALF_PI
 	);
-
 
 	FVector2 cursorPos = FriContext->GetCursorPosition();
 
@@ -67,26 +88,23 @@ void TestScript::Update(float dt)
 
 	fps.LookDirection = FVector3
 	(
-		FMathFunc::Cos(fps.pitch) * FMathFunc::Sin(fps.yaw),
-		FMathFunc::Sin(fps.pitch),
-		FMathFunc::Cos(fps.pitch) * FMathFunc::Cos(fps.yaw)
+		FMath::Cos(fps.pitch) * FMath::Sin(fps.yaw),
+		FMath::Sin(fps.pitch),
+		FMath::Cos(fps.pitch) * FMath::Cos(fps.yaw)
 	);
 
 	fps.Right = FVector3
 	(
-		FMathFunc::Sin(fps.yaw - HALF_PI),
+		FMath::Sin(fps.yaw - HALF_PI),
 		0,
-		FMathFunc::Cos(fps.yaw - HALF_PI)
+		FMath::Cos(fps.yaw - HALF_PI)
 	);
 
 	fps.Up = fps.Right ^ fps.LookDirection;
 
 	UpdateMovement(dt);
 
-
-	float viewHeight = 2 * phys.GetHeight() * 0.8;
-	FVector3 viewPos = transformComponent.Position + FVector3(0, viewHeight, 0);
-
+	FVector3 viewPos = phys.GetViewpoint(0.9f);
 	cam.View = FViewMatrix(viewPos, viewPos + fps.LookDirection, fps.Up);
 }
 
@@ -119,10 +137,10 @@ FVector3 clampMagnitude(const FVector3& v, float m)
 
 void TestScript::UpdateMovement(float dt)
 {
-	auto& fps = AttachedEntity().Component<FPComponent>();
-	auto& control = AttachedEntity().Component<ControlComponent>();
-	auto& phys = AttachedEntity().Component<CharacterBody>();
-	auto& transformComponent = AttachedEntity().Component<FTransform>();
+	auto& fps =					Component<FPComponent>();
+	auto& control =				Component<Input>();
+	auto& phys =				Component<CharacterBody>();
+	auto& transformComponent =	Component<FTransform>();
 
 	FVector3 forward = fps.LookDirection;
 	FVector3 right = fps.Right;
@@ -132,7 +150,7 @@ void TestScript::UpdateMovement(float dt)
 	right = FVector3::Normalize(right);
 
 
-	if (control.IsKeyDown(FKeyboardKeys::Space) && AttachedEntity().Component<CharacterBody>().IsGrounded())
+	if (control.IsKeyDown(FKeyboardKeys::Space) && Component<CharacterBody>().IsGrounded())
 	{
 		Jump();
 	}
@@ -161,7 +179,7 @@ void TestScript::UpdateMovement(float dt)
 
 void TestScript::ReturnToGame()
 {
-	AttachedEntity().Component<FPComponent>().isCursorLocked = true;
+	Component<FPComponent>().isCursorLocked = true;
 	settings = false;
 	FriContext->HideCursor();
 
@@ -179,7 +197,7 @@ void TestScript::ReturnToGame()
 
 void TestScript::PauseMenu()
 {
-	AttachedEntity().Component<FPComponent>().isCursorLocked = false;
+	Component<FPComponent>().isCursorLocked = false;
 	settings = true;
 	FriContext->ShowCursor();
 
@@ -197,7 +215,7 @@ void TestScript::KeyEvent(FKeyboardKeys key, FKeyEvent event)
 		return;
 
 
-	auto& fps = AttachedEntity().Component<FPComponent>();
+	auto& fps = Component<FPComponent>();
 
 	if (key == FKeyboardKeys::Z && !settings)
 	{
@@ -213,8 +231,6 @@ void TestScript::KeyEvent(FKeyboardKeys key, FKeyEvent event)
 		fps.isCursorLocked = !fps.isCursorLocked;
 
 	}
-	
-
 
 	if (key == FKeyboardKeys::Escape)
 	{
@@ -223,6 +239,13 @@ void TestScript::KeyEvent(FKeyboardKeys key, FKeyEvent event)
 	}
 }
 
+void TestScript::MouseEvent(FMouseButton button, FKeyEvent event)
+{
+	if (button == FMouseButton::Left && event == FKeyEvent::OnPress)
+	{
+		Shoot();
+	}
+}
 
 void TestScript::MoveGround(FVector3 moveVector, float dt)
 {
@@ -257,7 +280,7 @@ void TestScript::Accelerate(FVector3 moveVector, float accel, float maxSpeed, fl
 
 	auto dVel = moveVector * accel * dt;
 
-	float maxFactor = max(0, 1 - (horizontalVel.Length() / maxSpeed));
+	float maxFactor = FMath::Max(0, 1 - (horizontalVel.Length() / maxSpeed));
 	float projVel = FVector3::Dot(horizontalVel, moveVector);
 
 	FVector3 modVel = dVel * maxFactor;
@@ -274,6 +297,46 @@ void TestScript::Gravity(float dt)
 
 void TestScript::Jump()
 {
-	float verticalVelocity = FMathFunc::Sqrt(2 * JumpHeight * GravityAcceleration);
+	float verticalVelocity = FMath::Sqrt(2 * JumpHeight * GravityAcceleration);
 	Velocity.y = verticalVelocity;
+}
+
+
+int counter = 0;
+
+void TestScript::Shoot()
+{
+
+	Material mats[1] = { metal };
+
+	Entity ball = CurrentScene().CreateEntity<Model, RigidBody>("Ball");
+
+	ball.Component<Model>().Mesh = ballMesh;
+	ball.Component<Model>().Material = mats[counter++ % 1];
+
+	auto start = FTransform(Component<CharacterBody>().GetViewpoint(0.9f));
+	start.Position += Component<FPComponent>().LookDirection * 1.1f;
+
+	ball.SetComponent<FTransform>(start);
+	ball.SetComponent<RigidBody>(CurrentScene().CreateRigidBody(ball.Component<FTransform>()));
+
+	ball.Component<RigidBody>().SetShape(
+		PhysShape(
+			PhysicsMaterial(0.8f, 0.8f, 0.8f), 
+			SphereGeometry(1.0f)
+		)
+	);
+
+	ball.Component<RigidBody>().SetLinearVelocity(Component<FPComponent>().LookDirection * 100.0f);
+
+}
+
+void TestScript::KillBalls()
+{
+	auto ents = CurrentScene().QueryEntities("Ball");
+
+	for (auto ent : ents)
+	{
+		//ent.Kill();
+	}
 }

@@ -2,42 +2,43 @@
 
 #include "../MathFwdDef.h"
 
-EXPORT(struct, FMathFunc)
+
+typedef TVector2<float> FVector2;
+typedef TVector3<float> FVector3;
+typedef TVector4<float> FVector4;
+
+EXPORT(struct, FMath)
 {
-
 	// Regular Trig
-	FORCEINLINE static TVector2<float> Cos(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Cos(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Cos(TVector4<float> val);
+	FORCEINLINE static float	Cos(float val);
+	FORCEINLINE static FVector2 Cos(FVector2 val);
+	FORCEINLINE static FVector3 Cos(FVector3 val);
+	FORCEINLINE static FVector4 Cos(FVector4 val);
 
-	FORCEINLINE static TVector2<float> Sin(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Sin(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Sin(TVector4<float> val);
+	FORCEINLINE static float	Sin(float val);
+	FORCEINLINE static FVector2 Sin(FVector2 val);
+	FORCEINLINE static FVector3 Sin(FVector3 val);
+	FORCEINLINE static FVector4 Sin(FVector4 val);
 
-
-	FORCEINLINE static TVector2<float> Tan(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Tan(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Tan(TVector4<float> val);
-
-
-	FORCEINLINE static float Sin(float val);
-	FORCEINLINE static float Cos(float val);
-	FORCEINLINE static float Tan(float val);
+	FORCEINLINE static float	Tan(float val);
+	FORCEINLINE static FVector2 Tan(FVector2 val);
+	FORCEINLINE static FVector3 Tan(FVector3 val);
+	FORCEINLINE static FVector4 Tan(FVector4 val);
 
 
 	// Hyperbolic trig
-	FORCEINLINE static TVector2<float> Cosh(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Cosh(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Cosh(TVector4<float> val);
+	FORCEINLINE static FVector2 Cosh(FVector2 val);
+	FORCEINLINE static FVector3 Cosh(FVector3 val);
+	FORCEINLINE static FVector4 Cosh(FVector4 val);
 
-	FORCEINLINE static TVector2<float> Sinh(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Sinh(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Sinh(TVector4<float> val);
+	FORCEINLINE static FVector2 Sinh(FVector2 val);
+	FORCEINLINE static FVector3 Sinh(FVector3 val);
+	FORCEINLINE static FVector4 Sinh(FVector4 val);
 
 
-	FORCEINLINE static TVector2<float> Tanh(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Tanh(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Tanh(TVector4<float> val);
+	FORCEINLINE static FVector2 Tanh(FVector2 val);
+	FORCEINLINE static FVector3 Tanh(FVector3 val);
+	FORCEINLINE static FVector4 Tanh(FVector4 val);
 
 	FORCEINLINE static float Sinh(float val);
 	FORCEINLINE static float Cosh(float val);
@@ -45,7 +46,10 @@ EXPORT(struct, FMathFunc)
 
 
 
-	FORCEINLINE static float Sqrt(float);
+	FORCEINLINE static float Sqrt(float val);
+	FORCEINLINE static FVector2 Sqrt(FVector2 val);
+	FORCEINLINE static FVector3 Sqrt(FVector3 val);
+	FORCEINLINE static FVector4 Sqrt(FVector4 val);
 
 
 	// Inverses
@@ -54,9 +58,9 @@ EXPORT(struct, FMathFunc)
 
 
 	// Other Transcendental
-	FORCEINLINE static TVector2<float> Exp(TVector2<float> val);
-	FORCEINLINE static TVector3<float> Exp(TVector3<float> val);
-	FORCEINLINE static TVector4<float> Exp(TVector4<float> val);
+	FORCEINLINE static FVector2 Exp(FVector2 val);
+	FORCEINLINE static FVector3 Exp(FVector3 val);
+	FORCEINLINE static FVector4 Exp(FVector4 val);
 
 	FORCEINLINE static float Exp(float val);
 	FORCEINLINE static float Log2(float val);
@@ -64,5 +68,33 @@ EXPORT(struct, FMathFunc)
 	FORCEINLINE static float Log4(float val);
 
 	FORCEINLINE static float Clamp(float val, float low, float high);
+	FORCEINLINE static FVector2 Clamp(FVector2 val, FVector2 low, FVector2 high);
+	FORCEINLINE static FVector3 Clamp(FVector3 val, FVector3 low, FVector2 high);
+
+
+
+	FORCEINLINE static float Max(float  arg)
+	{
+		return arg;
+	}
+	FORCEINLINE static float Max(float  arg, float arg2)
+	{
+		return fmaxf(arg, arg2);
+	}
+
+	template<typename TArg, typename... TArgs>
+	FORCEINLINE static float Max(TArg arg, TArg arg2, TArgs... args)
+	{
+		return Max(arg, Max(arg2, args...));
+	}
+
+	/*
+	template<typename TField>
+	FORCEINLINE static TVector3<TField> Sign(TVector3<TField> vector)
+	{
+		return signVector;
+	}
+
+	*/
 
 };

@@ -34,7 +34,7 @@ FVector4 DXNdcCornersVector4[8] =
 
 
 
-void CameraComponent::GetFrustumCorners(FStaticArray<FVector3, 8>& Corners)
+void Camera::GetFrustumCorners(FStaticArray<FVector3, 8>& Corners)
 {
 	//FMatrix4 inverseVPMatrix = FMatrix4::Transpose(FMatrix4::Inverse(View * Projection));
 	FMatrix4 inverseVPMatrix = FMatrix4::Transpose(FMatrix4::Inverse(Projection * View));

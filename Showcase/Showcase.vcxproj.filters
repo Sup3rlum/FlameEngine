@@ -5,6 +5,9 @@
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestParticleSystem.cpp" />
     <ClCompile Include="TestPlayerScript.cpp" />
+    <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="RenderModel.cpp" />
+    <ClCompile Include="ImportScripts\IS_BitTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -133,6 +136,10 @@
     <ClInclude Include="Assets\Shaders\util\SATGen.vert" />
     <ClInclude Include="TestParticleSystem.h" />
     <ClInclude Include="TestPlayerScript.h" />
+    <ClInclude Include="CoinScript.h" />
+    <ClInclude Include="RenderModel.h" />
+    <ClInclude Include="ImportScripts\BitTexture.h" />
+    <ClInclude Include="Renderer\BitTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Assets\Shaders\deferred\ShadowmapSkinned.vert.glsl" />

@@ -19,6 +19,15 @@ protected:
 	Entity& AttachedEntity();
 	const Entity& AttachedEntity() const;
 
+
+	template<typename TComponent>
+	FORCEINLINE TComponent& Component()
+	{
+		assert(pEntity != nullptr);
+		return pEntity->Component<TComponent>();
+	}
+
+
 	friend class Scene;
 	friend class Behaviour;
 
@@ -43,6 +52,13 @@ public:
 		pScript->pScene = pScene;
 		pScript->Load();
 	}
+
+	template<typename TBScript>
+	TBScript* ScriptAs()
+	{
+		return static_cast<TBScript*>(pScript);
+	}
+
 private:
 	BehaviourScript* pScript = NULL;
 	Entity pEntity;

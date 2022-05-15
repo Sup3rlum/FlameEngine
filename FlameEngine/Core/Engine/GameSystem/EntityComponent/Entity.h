@@ -2,6 +2,7 @@
 
 
 #include "EntityMemoryStack.h"
+#include "Core/Math/Module.h"
 
 
 struct EntityWorld;
@@ -16,21 +17,25 @@ struct GEntityID
 		struct { void* HighPtr, * LowPtr; };
 	};
 
-
 	class Entity& GetControl();
-
 	bool IsValid();
 };
 
 
+enum class TransformMode
+{
+	Absolute,
+	Relative
+};
+
 EXPORT(struct, Entity)
 {
-
+	FArray<struct Entity> Children;
 
 	template<typename TComponent>
 	void SetComponent(const TComponent& component)
 	{
-		EntityId->Block->GetComponent<TComponent>(EntityId->Index) = component;
+		Memory::Copy(&EntityId->Block->GetComponent<TComponent>(EntityId->Index), &component, sizeof(TComponent));
 	}
 
 	template<typename TComponent, typename...TCreationArgs>
@@ -38,7 +43,6 @@ EXPORT(struct, Entity)
 	{
 		new (&EntityId->Block->GetComponent<TComponent>(EntityId->Index)) TComponent(args...);
 	}
-
 
 	template<typename TComponent>
 	TComponent& Component()
@@ -68,13 +72,25 @@ EXPORT(struct, Entity)
 		}
 	}
 
+	FTransform& Transform()
+	{
+		return Component<FTransform>();
+	}
+
+	const FTransform& Transform() const
+	{
+		return Component<FTransform>();
+	}
+
 	const FEntityArchetype& GetArchetype() const;
 	uint32 GetRefCount() const;
 
 	FString GetName() const;
 	bool IsValid() const;
 
+	void Kill();
 
+	Entity(const FString& name, const Entity& parent);
 	Entity(GEntityID* eid, const FString& name);
 	Entity(Entity&& other) noexcept;
 	Entity(const Entity& other);
@@ -82,15 +98,16 @@ EXPORT(struct, Entity)
 	void operator=(const Entity& other);
 
 	~Entity();
+	Entity();
+
+	TransformMode TransformMode;
 
 private:
-
-	Entity();
 
 	friend class EntityManager;
 	friend class FEntityMemoryStack;
 	friend class Scene;
 
-	FSharedPointer<GEntityID> EntityId;
+	FSharedPtr<GEntityID> EntityId;
 	FString Name;
 };

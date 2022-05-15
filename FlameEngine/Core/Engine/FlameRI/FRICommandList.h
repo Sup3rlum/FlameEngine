@@ -468,9 +468,9 @@ FRegisterFRICommand(SetShaderUniformBuffer)
 
 FRegisterFRICommand(SetShaderSampler)
 {
-	FUniformSampler sampler;
+	FRISampler sampler;
 
-	FRICmdInit(SetShaderSampler)(FUniformSampler sampler) :
+	FRICmdInit(SetShaderSampler)(FRISampler sampler) :
 		sampler(sampler)
 	{
 
@@ -682,6 +682,7 @@ FRegisterFRICommand(StageResources)
 
 
 //#define ALLOC_COMMAND(...) new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
+//#define ALLOC_COMMAND(...) auto pCmd = new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
 #define ALLOC_COMMAND(...) auto pCmd = new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
 							
 
@@ -713,9 +714,9 @@ public:
 			GetDynamic()->SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetViewport)(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+		//ALLOC_COMMAND(FRICommandSetViewport)(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 	}
 
 
@@ -726,9 +727,9 @@ public:
 			GetDynamic()->DrawPrimitives(primitiveType, vertexCount);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawPrimitives)(primitiveType, vertexCount);
+		//ALLOC_COMMAND(FRICommandDrawPrimitives)(primitiveType, vertexCount);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -739,9 +740,9 @@ public:
 			GetDynamic()->DrawPrimitivesIndexed(primitiveType, vertextCount, indexType,  indexBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(primitiveType, vertextCount, indexType, indexBuffer);
+		//ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(primitiveType, vertextCount, indexType, indexBuffer);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 	}
 
 
@@ -754,9 +755,9 @@ public:
 			GetDynamic()->DrawInstances(primitiveType, vertexCount, instanceCount);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawInstances)(primitiveType, vertexCount, instanceCount);
+		//ALLOC_COMMAND(FRICommandDrawInstances)(primitiveType, vertexCount, instanceCount);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -767,9 +768,9 @@ public:
 			GetDynamic()->DrawInstancesIndexed(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandDrawInstancesIndexed)(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
+		//ALLOC_COMMAND(FRICommandDrawInstancesIndexed)(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -786,9 +787,9 @@ public:
 			GetDynamic()->SetShaderPipeline(shaderPipeline);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
+	//	ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void SetGeometrySource(FRIVertexBuffer* vertexBuffer)
@@ -798,9 +799,9 @@ public:
 			GetDynamic()->SetGeometrySource(vertexBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
+	//	ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -811,9 +812,9 @@ public:
 			GetDynamic()->SetInstancedGeometrySource(vertexBuffer, instanceBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
+	//	ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -825,9 +826,9 @@ public:
 			GetDynamic()->BindFrameBuffer(frameBuffer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandBindFrameBuffer)(frameBuffer);
+	//	ALLOC_COMMAND(FRICommandBindFrameBuffer)(frameBuffer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -839,9 +840,9 @@ public:
 			GetDynamic()->UnbindFrameBuffer();
 			return;
 		}
-		ALLOC_COMMAND(FRICommandUnbindFrameBuffer)();
+	//	ALLOC_COMMAND(FRICommandUnbindFrameBuffer)();
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -853,9 +854,9 @@ public:
 			GetDynamic()->BeginScene();
 			return;
 		}
-		ALLOC_COMMAND(FRICommandBeginScene)();
+	//	ALLOC_COMMAND(FRICommandBeginScene)();
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void BeginFrame()
@@ -865,9 +866,9 @@ public:
 			GetDynamic()->BeginFrame();
 			return;
 		}
-		ALLOC_COMMAND(FRICommandBeginFrame)();
+	//	ALLOC_COMMAND(FRICommandBeginFrame)();
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void EndScene()
@@ -877,9 +878,9 @@ public:
 			GetDynamic()->EndScene();
 			return;
 		}
-		ALLOC_COMMAND(FRICommandEndScene)();
+	//	ALLOC_COMMAND(FRICommandEndScene)();
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void EndFrame()
@@ -889,9 +890,9 @@ public:
 			GetDynamic()->EndFrame();
 			return;
 		}
-		ALLOC_COMMAND(FRICommandEndFrame)();
+	//	ALLOC_COMMAND(FRICommandEndFrame)();
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* buffer, uint32 attachFlags = 63)
@@ -901,9 +902,9 @@ public:
 			GetDynamic()->SetShaderUniformBuffer(slot, buffer, attachFlags);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetShaderUniformBuffer)(slot, buffer);
+	//	ALLOC_COMMAND(FRICommandSetShaderUniformBuffer)(slot, buffer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -916,23 +917,23 @@ public:
 			GetDynamic()->ClearBuffer(buffer, color);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandClearBuffer)(buffer, color);
+	//	ALLOC_COMMAND(FRICommandClearBuffer)(buffer, color);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	
 
-	FORCEINLINE void SetShaderSampler(FUniformSampler param)
+	FORCEINLINE void SetShaderSampler(FRISampler param)
 	{
 		if (Bypass())
 		{
 			GetDynamic()->SetShaderSampler(param);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetShaderSampler)(param);
+	//	ALLOC_COMMAND(FRICommandSetShaderSampler)(param);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 	FORCEINLINE void SetTextureParameterBuffer(FRITexture2D* tex, FRITextureParameterBuffer param)
@@ -942,9 +943,9 @@ public:
 			GetDynamic()->SetTextureParameterBuffer(tex, param);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2D>)(tex, param);
+	//	ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2D>)(tex, param);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -955,9 +956,9 @@ public:
 			GetDynamic()->SetTextureParameterBuffer(tex, param);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2DArray>)(tex, param);
+	//	ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2DArray>)(tex, param);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -968,9 +969,9 @@ public:
 			GetDynamic()->SetFramebufferTextureLayer(fbo, layer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetFrameBufferTextureLayer)(fbo, layer);
+	//	ALLOC_COMMAND(FRICommandSetFrameBufferTextureLayer)(fbo, layer);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -981,9 +982,9 @@ public:
 			GetDynamic()->SetRasterizerState(rasterizer);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetRasterizerState)(rasterizer);
+	//	ALLOC_COMMAND(FRICommandSetRasterizerState)(rasterizer);
 
-		pCmd->CommandIdx = NumCommands;
+		//pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -994,9 +995,9 @@ public:
 			GetDynamic()->SetBlendState(blend);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetBlendState)(blend);
+	//	ALLOC_COMMAND(FRICommandSetBlendState)(blend);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -1007,9 +1008,9 @@ public:
 			GetDynamic()->SetDepthStencilState(depth);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandSetDepthStencilState)(depth);
+		//ALLOC_COMMAND(FRICommandSetDepthStencilState)(depth);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -1020,9 +1021,9 @@ public:
 			GetDynamic()->FlushMipMaps(tex);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2D>)(tex);
+		//ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2D>)(tex);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -1034,9 +1035,9 @@ public:
 			GetDynamic()->FlushMipMaps(tex);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2DArray>)(tex);
+		//ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2DArray>)(tex);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 
 	}
@@ -1049,9 +1050,9 @@ public:
 			GetDynamic()->FlushMipMaps(tex);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture3D>)(tex);
+	//	ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture3D>)(tex);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 
@@ -1062,9 +1063,9 @@ public:
 			GetDynamic()->UniformBufferSubdata(buffer, resource);
 			return;
 		}
-		ALLOC_COMMAND(FRICommandUniformBufferSubdata)(buffer, resource);
+	//	ALLOC_COMMAND(FRICommandUniformBufferSubdata)(buffer, resource);
 
-		pCmd->CommandIdx = NumCommands;
+	//	pCmd->CommandIdx = NumCommands;
 
 	}
 

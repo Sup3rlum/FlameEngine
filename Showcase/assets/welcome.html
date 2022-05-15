@@ -1,32 +1,62 @@
 <html>
 <head>
 <style type="text/css">
-body {
-  background: #00000000;
-  margin: 0;
-  line-height: 1.4;
-}
 
-#content {
-  width: 300px;
-  height: auto;
-  font-family: Arial;
-  font-size: 12pt;
-  font-weight: 600;
-  color: white;
-  padding: 5px 5px;
-  position:absolute;
-  background: #444444A1;
-  border-radius: 10px;
-  margin: 10px 10px;
-  padding: 10px 10px;
-}
+    * {
+        padding: 0;
+        margin: 0;
+        top: 0;
+        left: 0;
+    }
+
+    body {
+        background: #00000000;
+    }
+
+    .bg {
+        background: var(--bg-color);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    #content {
+        width: 300px;
+        height: auto;
+        font-family: Arial;
+        font-size: 12pt;
+        font-weight: 600;
+        color: white;
+        padding: 5px 5px;
+        position: absolute;
+        background: #444444A1;
+        border-radius: 10px;
+        margin: 10px 10px;
+        padding: 10px 10px;
+        line-height: 1.4;
+    }
+
+    .screen {
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+
+    .xhair {
+        width: 16px;
+        height: 16px;
+        background-color: red;
+        
+    }
 
 </style>
 <script>
 	function SetFPS(fps, atmos, x, y, z)
 	{
-
+        
 		let elem = document.getElementById('content');
 
         elem.innerHTML = "FlameEngine v2.04 <br>FPS: " + fps;
@@ -40,13 +70,19 @@ body {
             elem.innerHTML += "<br>Atmosphere: OFF";
         }
 
-		elem.innerHTML += "<br>" + x + "m/s";
+        elem.innerHTML += "<br> X: " + x;
+        elem.innerHTML += "<br> Y: " + y;
+		elem.innerHTML += "<br> Z: " + z;
 
 	}
 </script>
 </head>
 <body>
-	<div id="content"/>
+    <div class="screen">
+        <div class="xhair">
+        </div>
+        <div id="content"/>
+    </div>
  </body>
 </html>
  

@@ -6,7 +6,7 @@
 
 
 
-struct PhysicsShape
+struct PhysShape
 {
 private:
 
@@ -14,35 +14,34 @@ private:
 	PhysicsGeometry* Geometry;
 
 
-
 public:
-	PhysicsShape(PhysicsMaterial pmat, SphereGeometry geometry) :
+	PhysShape(PhysicsMaterial pmat, SphereGeometry geometry) :
 		Material(pmat),
 		Geometry(new SphereGeometry(geometry))
 	{
 	}
 
-	PhysicsShape(PhysicsMaterial pmat, BoxGeometry geometry) :
+	PhysShape(PhysicsMaterial pmat, BoxGeometry geometry) :
 		Material(pmat),
 		Geometry(new BoxGeometry(geometry))
 	{
 
 	}
 
-	PhysicsShape(PhysicsMaterial pmat, CapsuleGeometry geometry) :
+	PhysShape(PhysicsMaterial pmat, CapsuleGeometry geometry) :
 		Material(pmat),
 		Geometry(new CapsuleGeometry(geometry))
 	{
 
 	}
 
-	PhysicsShape(PhysicsMaterial pmat, PlaneGeometry geometry) :
+	PhysShape(PhysicsMaterial pmat, PlaneGeometry geometry) :
 		Material(pmat),
 		Geometry(new PlaneGeometry(geometry))
 	{
 
 	}
-	PhysicsShape(PhysicsMaterial pmat, TriangleMeshGeometry geometry) :
+	PhysShape(PhysicsMaterial pmat, TriangleMeshGeometry geometry) :
 		Material(pmat),
 		Geometry(new TriangleMeshGeometry(geometry))
 	{
@@ -58,7 +57,7 @@ public:
 		return Material;
 	}
 
-	~PhysicsShape()
+	~PhysShape()
 	{
 		delete Geometry;
 	}

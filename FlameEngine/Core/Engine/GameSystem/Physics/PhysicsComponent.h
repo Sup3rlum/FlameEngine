@@ -12,7 +12,6 @@ EXPORT(struct, RigidBody)
 {
 private:
 	class FPXAllocator* Allocator;
-
 	class PhysXActorProxy;
 	PhysXActorProxy* pPxActor;
 	friend class FPXAllocator;
@@ -22,7 +21,7 @@ private:
 public:
 
 
-	void SetShape(const PhysicsShape& physShape);
+	void SetShape(const PhysShape& physShape);
 
 	void SetLinearVelocity(FVector3 velocity);
 	void SetAngularVelocity(FVector3 avelocity);
@@ -57,11 +56,11 @@ private:
 	class PhysXActorProxy;
 	PhysXActorProxy* pPxActor;
 	friend class FPXAllocator;
-
 	StaticRigidBody(PhysXActorProxy* pActor, class FPXAllocator* allocator) : pPxActor(pActor), Allocator(allocator) {}
 public:
 
-	void SetShape(const PhysicsShape& physShape);
+	void SetShape(const PhysShape& physShape);
+	void RemoveShapes();
 	void SetGlobalTransform(FTransform transform);
 	FTransform GetGlobalTransform() const;
 
@@ -96,6 +95,8 @@ public:
 
 	void Move(FVector3 Velocity);
 	FTransform GetGlobalTransform() const;
+
+	FVector3 GetViewpoint(float factor) const;
 
 	bool IsGrounded() const;
 	float GetHeight() const;

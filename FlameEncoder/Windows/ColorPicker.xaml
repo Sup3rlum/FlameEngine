@@ -1,0 +1,70 @@
+﻿<Window x:Class="FlameEncoder.Windows.ColorPicker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlameEncoder.Windows"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="ColorPicker" Height="450" Width="700" Background="#2a2a2a" ResizeMode="NoResize">
+    <Grid>
+
+        <DockPanel LastChildFill="True">
+            <Image Name="hsvPalette" Loaded="Canvas_Loaded" Margin="10" Width="400" Height="413" DockPanel.Dock="Left" 
+                   MouseLeftButtonDown="hsvPalette_MouseLeftButtonDown"
+                   MouseLeftButtonUp="hsvPalette_MouseLeftButtonUp"
+                   MouseMove="hsvPalette_MouseMove"
+                   MouseLeave="hsvPalette_MouseLeave"/>
+            <Image Name="hueSlider" Width="30" Height="413" Margin="0 10" 
+                   MouseLeftButtonDown="hueSlider_MouseLeftButtonDown"
+                   MouseLeftButtonUp="hueSlider_MouseLeftButtonUp"
+                   MouseMove="hueSlider_MouseMove"
+                   MouseLeave="hueSlider_MouseLeave"/>
+            <DockPanel Margin="10">
+                <Image Name="hsvPreview" DockPanel.Dock="Top" Margin="50" Width="100" Height="100"></Image>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                    <Button Name="acceptBtn" Width="80" Margin="5" Click="acceptBtn_Click">Accept</Button>
+                    <Button Name="cancelBtn" Width="80" Margin="5" Click="cancelBtn_Click">Cancel</Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="R:" Foreground="LightGray"/>
+                                <TextBox Margin="6 0" Name="textBox_Red" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="G:" Foreground="LightGray"/>
+                                <TextBox Margin="5 0" Name="textBox_Green" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="B:" Foreground="LightGray"/>
+                                <TextBox Margin="6 0" Name="textBox_Blue" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="H:" Foreground="LightGray"/>
+                                <TextBox Margin="5 0" Name="textBox_Hue" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="S:" Foreground="LightGray"/>
+                                <TextBox Margin="7 0" Name="textBox_Saturation" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="V:" Foreground="LightGray"/>
+                                <TextBox Margin="7 0" Name="textBox_Value" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                        <TextBlock Text="Hex:" Foreground="LightGray"/>
+                        <TextBox Margin="7 0" Name="textBox_Hex" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="140" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>

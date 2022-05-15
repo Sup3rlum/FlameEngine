@@ -11,36 +11,19 @@
 #include <future>
 
 
-GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri, Win32Context* context) :
+GameApplication::GameApplication(const FString& Name) :
 	applicationName(Name),
 	FriContext(nullptr)
 {
+}
 
-
-	FRIRenderingContextDescription desc;
-
-
-	if (context)
+void GameApplication::CreateContext(FRIRenderingContextDescription desc)
+{
+	if (desc.RenderFramework == EFRIRendererFramework::OpenGL)
 	{
-		desc.Width = context->Width;
-		desc.Height = context->Height;
-		desc.IsFullscreen = false;
-		desc.SampleCount = 0;
+		FriContext = new OpenGLFRIContext(desc, NULL);
 	}
-	else
-	{
-		desc.Width = 2560;
-		desc.Height = 1440;
-		desc.IsFullscreen = false;
-		desc.SampleCount = 0;
-	}
-
-
-	if (efri == EFRIRendererFramework::OpenGL)
-	{
-		FriContext = new OpenGLFRIContext(desc, context);
-	}
-	else if (efri == EFRIRendererFramework::DX11)
+	else if (desc.RenderFramework == EFRIRendererFramework::DX11)
 	{
 		FriContext = new D3D11FRIContext(desc, NULL);
 	}
@@ -48,21 +31,22 @@ GameApplication::GameApplication(const FString& Name, EFRIRendererFramework efri
 	FriContext->InputHandlerDelegate = FKeyEventBindingDelegate::Make<GameApplication, &GameApplication::InputHandlerFunc>(this);
 	FriContext->InputHandlerDelegate2 = FMouseKeyEventBindingDelegate::Make<GameApplication, &GameApplication::MouseInputHandlerFunc>(this);
 	FriContext->Initialize();
-	
+
+	Content.RenderContext = FriContext;
+
 	Renderer.CreateResources(FriContext);
 	UXRenderer.LoadResources(FriContext);
 
 
 	currentScene = new Scene(CreatePhysicsSceneDescription(), FriContext);
 	currentScene->LoadSystems();
-
 }
 
-#define AVERAGE(a) a.GetSeconds() * 1000.0f / (float)updateGameTime.TotalTicks
 
+
+#define AVERAGE(a) a.GetSeconds() * 1000.0f / (float)updateGameTime.TotalTicks
 #define PROFILE_START(name, a) auto now_##a = FTime::GetTimestamp()
 #define PROFILE_END(a) a += FTime::GetTimestamp() - now_##a
-
 
 
 FGameTime updateGameTime;
@@ -70,6 +54,8 @@ FTimeSpan updateLastTick = FTime::GetTimestamp();
 
 GameApplication::~GameApplication()
 {
+	delete currentScene;
+
 	printf("\nPhysics time:         %fms\n", AVERAGE(currentScene->physTime));
 	printf("Dynamic time:         %fms\n", AVERAGE(currentScene->dynTime));
 	printf("Behaviour time:         %fms\n", AVERAGE(currentScene->behTime));
@@ -94,6 +80,56 @@ void GameApplication::Frame()
 {
 
 
+	auto TimeStamp = FTime::GetTimestamp();
+	updateGameTime.TotalTicks++;
+	updateGameTime.DeltaTime = TimeStamp - updateLastTick;
+	updateLastTick = TimeStamp;
+
+	PROFILE_START("Total", totalTime);
+
+	/*auto renderTask = std::async(std::launch::async, [&]()
+		{*/
+		//if (firstLoop) continue;
+
+	FRICommandList cmd(FriContext->GetFRIDynamic(), true);
+	BeginRender(cmd);
+	{
+		PROFILE_START("Scene Update", upTime);
+
+		PROFILE_END(upTime);
+
+		currentScene->Update(updateGameTime);
+		currentScene->FinishUpdate();
+		this->Update(updateGameTime);
+
+		Renderer.Render(cmd);
+
+		PROFILE_START("UX", uxTime);
+
+		if (currentScene->uxContainer)
+		{
+			UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
+		}
+		PROFILE_END(uxTime);
+	}
+
+	PROFILE_START("End", endTime);
+	EndRender(cmd);
+	PROFILE_END(endTime);
+
+	//cmd.Flush();
+
+	PROFILE_START("SwapBuffers", swapTime);
+	FriContext->SwapBuffers();
+	PROFILE_END(swapTime);
+
+	PROFILE_START("Msg Time", msgTime);
+	FriContext->HandleEvents();
+	PROFILE_END(msgTime);
+	//});
+	PROFILE_END(totalTime);
+
+	//renderTask.wait();
 }
 
 float timeFrame = 1000.0f / 128.0f;
@@ -144,59 +180,7 @@ void GameApplication::LaunchRenderThread()
 
 	while (FriContext->IsActive())
 	{
-		auto TimeStamp = FTime::GetTimestamp();
-		updateGameTime.TotalTicks++;
-		updateGameTime.DeltaTime = TimeStamp - updateLastTick;
-		updateLastTick = TimeStamp;
-
-		PROFILE_START("Total", totalTime);
-
-			/*auto renderTask = std::async(std::launch::async, [&]()
-				{*/
-					//if (firstLoop) continue;
-					
-					FRICommandList cmd(FriContext->GetFRIDynamic(), true);
-					BeginRender(cmd);
-					{
-						PROFILE_START("Scene Update", upTime);
-
-						PROFILE_END(upTime);
-
-						currentScene->Update(updateGameTime);
-						currentScene->FinishUpdate();
-						this->Update(updateGameTime);
-
-						Renderer.Render(cmd);
-
-						PROFILE_START("UX", uxTime);
-
-						if (currentScene->uxContainer)
-						{
-							UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
-						}
-						PROFILE_END(uxTime);
-					}
-
-					PROFILE_START("End", endTime);
-					EndRender(cmd);
-					PROFILE_END(endTime);
-
-					//cmd.Flush();
-
-					PROFILE_START("SwapBuffers", swapTime);
-					FriContext->SwapBuffers();
-					PROFILE_END(swapTime);
-
-					PROFILE_START("Msg Time", msgTime);
-					FriContext->HandleEvents();
-					PROFILE_END(msgTime);
-				//});
-		PROFILE_END(totalTime);
-
-		//renderTask.wait();
-
-
-
+		Frame();
 		//std::cout << "Render: " << updateGameTime.DeltaTime.GetSeconds() * 1000.0f << "ms" << std::endl;
 
 		if (firstLoop) firstLoop = false;
@@ -220,11 +204,11 @@ void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent)
 {
 	currentScene->uxContainer->HandleInput(key, keyEvent);
 
-	currentScene->System<ControlComponent>()->ForEach([&](Entity ent, ControlComponent& controlRef)
+	currentScene->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
 		{
-			for (int j = 0; j < controlRef.KeyEventBindings.Length(); j++)
+			for (auto& binding : inputRef.KeyEventBindings)
 			{
-				controlRef.KeyEventBindings[j](key, keyEvent);
+				binding(key, keyEvent);
 			}
 		});
 		
@@ -232,11 +216,11 @@ void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent)
 
 void GameApplication::MouseInputHandlerFunc(FMouseButton key, FKeyEvent keyEvent)
 {
-	currentScene->System<ControlComponent>()->ForEach([&](Entity ent, ControlComponent& controlRef)
+	currentScene->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
 		{
-			for (int j = 0; j < controlRef.MouseEventBindings.Length(); j++)
+			for (auto& binding : inputRef.MouseEventBindings)
 			{
-				controlRef.MouseEventBindings[j](key, keyEvent);
+				binding(key, keyEvent);
 			}
 		});
 

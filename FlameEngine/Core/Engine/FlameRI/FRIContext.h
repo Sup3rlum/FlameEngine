@@ -23,8 +23,10 @@ struct FRIRenderingContextDescription
 	uint32 Height;
 	uint32 SampleCount;
 
+	EFRIRendererFramework RenderFramework;
 	ERenderingContextPixelFormat PixelFormat;
 	bool IsFullscreen;
+	class Win32Context* WinContext;
 
 };
 
@@ -37,11 +39,10 @@ protected:
 	FRIDynamicAllocator* dynamicAllocator;
 
 
-	FRIContext(FRIRenderingContextDescription description, EFRIRendererFramework renderFramework, FRIContext* contextToCopy = NULL) :
+	FRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL) :
 		InstanceDescription(description),
 		dynamicAllocator(NULL),
-		isActive(false),
-		RenderFramework(renderFramework)
+		isActive(false)
 	{
 
 	}
@@ -52,8 +53,6 @@ public:
 
 	FKeyEventBindingDelegate InputHandlerDelegate;
 	FMouseKeyEventBindingDelegate InputHandlerDelegate2;
-
-	EFRIRendererFramework RenderFramework;
 	
 
 

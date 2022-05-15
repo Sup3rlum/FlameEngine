@@ -30,7 +30,7 @@ D3D11HBAOPlus::D3D11HBAOPlus(FHBAOParameters params, ID3D11Device* d3dDevice, ID
 	mAoParams.ForegroundAO.Enable = params.ForegroundAOEnable;
 	mAoParams.ForegroundAO.ForegroundViewDepth = params.ForegroundAO_ViewDepth;
 
-	mAoParams.DepthStorage = GFSDK_SSAO_FP32_VIEW_DEPTHS;
+	mAoParams.DepthStorage = GFSDK_SSAO_FP16_VIEW_DEPTHS;
 	mAoParams.PowerExponent = params.PowerExponent;
 	mAoParams.DepthClampMode = false ? GFSDK_SSAO_CLAMP_TO_BORDER : GFSDK_SSAO_CLAMP_TO_EDGE;
 	mAoParams.Blur.Enable = params.BlurEnable;

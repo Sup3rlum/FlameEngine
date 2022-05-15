@@ -43,13 +43,13 @@ CharacterBody FPXAllocator::CreateCharacter(FTransform transform)
 	CapsControllerDesc.climbingMode = PxCapsuleClimbingMode::eCONSTRAINED;
 	CapsControllerDesc.contactOffset = 0.1f;
 	CapsControllerDesc.density = 10.0f;
-	CapsControllerDesc.height = 2.0f;
+	CapsControllerDesc.height = 1.0f;
 	CapsControllerDesc.invisibleWallHeight = 0;
 	CapsControllerDesc.material = fpxService->mPxPhysics->createMaterial(0.5, 0.5, 0.5);
 	CapsControllerDesc.maxJumpHeight = 0;
 	CapsControllerDesc.nonWalkableMode = PxControllerNonWalkableMode::ePREVENT_CLIMBING_AND_FORCE_SLIDING;
 	CapsControllerDesc.position = PxExtendedVec3(vec.x, vec.y, vec.z);
-	CapsControllerDesc.radius = 1.0f;
+	CapsControllerDesc.radius = 0.4f;
 	CapsControllerDesc.scaleCoeff = 0.9f;
 	CapsControllerDesc.slopeLimit = cosf(3.1415f / 3.0f);
 	CapsControllerDesc.stepOffset = 0.1f;
@@ -68,13 +68,13 @@ TriangleMeshGeometry FPXAllocator::CookTriangleMeshGeometry(const PhysicsTriangl
 {
 	PxTriangleMeshDesc TrMeshDesc;
 
-	TrMeshDesc.points.count = desc.VertexData.Length() / desc.DataStride;
+	TrMeshDesc.points.count = desc.VertexData.ByteSize / desc.DataStride;
 	TrMeshDesc.points.stride = desc.DataStride;
-	TrMeshDesc.points.data = &desc.VertexData[0];
+	TrMeshDesc.points.data = desc.VertexData.DataArray;
 
-	TrMeshDesc.triangles.count = desc.IndexData.Length() / 3;
+	TrMeshDesc.triangles.count = desc.IndexData.ByteSize / 12;
 	TrMeshDesc.triangles.stride = 3 * sizeof(uint32);
-	TrMeshDesc.triangles.data = &desc.IndexData[0];
+	TrMeshDesc.triangles.data = desc.IndexData.DataArray;
 
 	PxDefaultMemoryOutputStream outStream;
 	PxTriangleMeshCookingResult::Enum result;

@@ -72,7 +72,7 @@ public:
 
 		if (diagonal > 0) 
 		{
-			GenType w4 = (GenType)(FMathFunc::Sqrt(diagonal + GenType(1)) * GenType(2));
+			GenType w4 = (GenType)(FMath::Sqrt(diagonal + GenType(1)) * GenType(2));
 			w = w4 / GenType(4);
 			x = (rot[2][1] - rot[1][2]) / w4;
 			y = (rot[0][2] - rot[2][0]) / w4;
@@ -81,7 +81,7 @@ public:
 
 		else if ((rot[0][0] > rot[1][1]) && (rot[0][0] > rot[2][2])) 
 		{
-			GenType x4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[0][0] - rot[1][1] - rot[2][2]) * GenType(2));
+			GenType x4 = (GenType)(FMath::Sqrt(GenType(1) + rot[0][0] - rot[1][1] - rot[2][2]) * GenType(2));
 			w = (rot[2][1] - rot[1][2]) / x4;
 			x = x4 / GenType(4);
 			y = (rot[0][1] + rot[1][0]) / x4;
@@ -89,7 +89,7 @@ public:
 		}
 		else if (rot[1][1] > rot[2][2]) 
 		{
-			GenType y4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[1][1] - rot[0][0] - rot[2][2]) * GenType(2));
+			GenType y4 = (GenType)(FMath::Sqrt(GenType(1) + rot[1][1] - rot[0][0] - rot[2][2]) * GenType(2));
 			w = (rot[0][2] - rot[2][0]) / y4;
 			x = (rot[0][1] + rot[1][0]) / y4;
 			y = y4 / GenType(4);
@@ -97,7 +97,7 @@ public:
 		}
 		else
 		{
-			GenType z4 = (GenType)(FMathFunc::Sqrt(GenType(1) + rot[2][2] - rot[0][0] - rot[1][1]) * GenType(2));
+			GenType z4 = (GenType)(FMath::Sqrt(GenType(1) + rot[2][2] - rot[0][0] - rot[1][1]) * GenType(2));
 			w = (rot[1][0] - rot[0][1]) / z4;
 			x = (rot[0][2] + rot[2][0]) / z4;
 			y = (rot[1][2] + rot[2][1]) / z4;
@@ -141,8 +141,23 @@ public:
 	}
 	static TQuaternion FromEulerAngles(TVector3<GenType> eulerAngles)
 	{
-		TVector3<GenType> c = FMathFunc::Cos(eulerAngles * GenType(0.5));
-		TVector3<GenType> s = FMathFunc::Sin(eulerAngles * GenType(0.5));
+		TVector3<GenType> c = FMath::Cos(eulerAngles * GenType(0.5));
+		TVector3<GenType> s = FMath::Sin(eulerAngles * GenType(0.5));
+
+		return TQuaternion
+		(
+			c.x * c.y * c.z + s.x * s.y * s.z,
+			s.x * c.y * c.z - c.x * s.y * s.z,
+			c.x * s.y * c.z + s.x * c.y * s.z,
+			c.x * c.y * s.z - s.x * s.y * c.z
+		);
+	}
+	static TQuaternion FromEulerAngles(GenType yaw, GenType pitch, GenType roll)
+	{
+		const TVector3<GenType> eulerAngles(yaw, pitch, roll);
+
+		TVector3<GenType> c = FMath::Cos(eulerAngles * GenType(0.5));
+		TVector3<GenType> s = FMath::Sin(eulerAngles * GenType(0.5));
 
 		return TQuaternion
 		(
@@ -153,10 +168,11 @@ public:
 		);
 	}
 
+
 	static TQuaternion FromAxisAngle(GenType angle, TVector3<GenType> axis)
 	{
-		TVector3<GenType> qv = axis * FMathFunc::Sin(angle / GenType(2));
-		GenType qr = FMathFunc::Cos(angle / GenType(2));
+		TVector3<GenType> qv = axis * FMath::Sin(angle / GenType(2));
+		GenType qr = FMath::Cos(angle / GenType(2));
 
 		return TQuaternion(qr, qv);
 	}

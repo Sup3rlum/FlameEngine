@@ -37,6 +37,18 @@ ID3D11ShaderResourceView* FRID3DEmptySRV[16] = { 0 };
 ID3D11UnorderedAccessView* FRID3DEmptyUAV[16] = { 0 };
 
 
+FORCEINLINE UINT FD3D11AccessFlags(EFRIAccess access)
+{
+	UINT D3DAccessFlags = 0;
+
+	if (access == EFRIAccess::Read) D3DAccessFlags = D3D11_CPU_ACCESS_READ;
+	else if (access == EFRIAccess::Write) D3DAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	else if (access == EFRIAccess::ReadWrite) D3DAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_WRITE;
+
+	return D3DAccessFlags;
+}
+
+
 FRIIndexBuffer* D3D11FRIDynamicAllocator::CreateIndexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
 {
 	return new FD3D11IndexBuffer(D3DFRI->Device, Size, Usage, resourceDescriptor);
@@ -45,7 +57,7 @@ FRIIndexBuffer* D3D11FRIDynamicAllocator::CreateIndexBuffer(uint32 Size, uint32 
 FRIVertexBuffer* D3D11FRIDynamicAllocator::CreateVertexBuffer(uint32 Size, uint32 Usage, FRICreationDescriptor resourceDescriptor)
 {
 
-	EFRIAccess access = Usage == 0 ? EFRIAccess::None : EFRIAccess::CPUWrite;
+	EFRIAccess access = Usage == 0 ? EFRIAccess::None : EFRIAccess::Write;
 
 	return new FD3D11VertexBuffer(D3DFRI->Device, Size, Usage, access, resourceDescriptor);
 }
@@ -70,11 +82,11 @@ FRIGeometryShader* D3D11FRIDynamicAllocator::CreateGeometryShader(const FArray<b
 }
 FRIHullShader* D3D11FRIDynamicAllocator::CreateHullShader(const FArray<byte>& binCode)
 {
-	return NULL;
+	return new FD3D11HullShader(D3DFRI->Device, binCode);
 }
 FRIDomainShader* D3D11FRIDynamicAllocator::CreateDomainShader(const FArray<byte>& binCode)
 {
-	return NULL;
+	return new FD3D11DomainShader(D3DFRI->Device, binCode);
 }
 FRIComputeShader* D3D11FRIDynamicAllocator::CreateComputeShader(const FArray<byte>& binCode)
 {
@@ -91,7 +103,7 @@ FRIShaderPipeline* D3D11FRIDynamicAllocator::CreateShaderPipeline(FRIShaderPipel
 FRIShaderPipeline* D3D11FRIDynamicAllocator::CreateShaderPipeline(const ShaderLibraryModule& shaderModule)
 {
 	FArray<FRIShaderBase*> shaderArray;
-	FArray<EFRIResourceShaderType> typesArray;
+	FArray<EFRIShaderType> typesArray;
 
 	for (const auto& part : shaderModule.Parts)
 	{
@@ -99,12 +111,12 @@ FRIShaderPipeline* D3D11FRIDynamicAllocator::CreateShaderPipeline(const ShaderLi
 
 		switch (part.Key)
 		{
-		case EFRIResourceShaderType::Vertex: shaderResource = CreateVertexShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Pixel: shaderResource = CreatePixelShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Geometry: shaderResource = CreateGeometryShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Hull: shaderResource = CreateHullShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Domain: shaderResource = CreateDomainShader(part.Value.Memory); break;
-		case EFRIResourceShaderType::Compute: shaderResource = CreateComputeShader(part.Value.Memory); break;
+		case EFRIShaderType::Vertex: shaderResource = CreateVertexShader(part.Value.Memory); break;
+		case EFRIShaderType::Pixel: shaderResource = CreatePixelShader(part.Value.Memory); break;
+		case EFRIShaderType::Geometry: shaderResource = CreateGeometryShader(part.Value.Memory); break;
+		case EFRIShaderType::Hull: shaderResource = CreateHullShader(part.Value.Memory); break;
+		case EFRIShaderType::Domain: shaderResource = CreateDomainShader(part.Value.Memory); break;
+		case EFRIShaderType::Compute: shaderResource = CreateComputeShader(part.Value.Memory); break;
 
 		}
 
@@ -127,10 +139,21 @@ FRITexture3D* D3D11FRIDynamicAllocator::CreateTexture3D(uint32 width, uint32 hei
 }
 
 
-FRITexture2DArray* D3D11FRIDynamicAllocator::CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor)
+FRITexture2DArray* D3D11FRIDynamicAllocator::CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor[])
 {
 	DXGI_FORMAT gpuformat = EDX11FormatProxyEnum(format);
-	return new FD3D11Texture2DArray(D3DFRI->Device, width, height, numLayers, gpuformat);
+	return new FD3D11Texture2DArray(D3DFRI->Device, width, height, numLayers, gpuformat, resourceDescriptor);
+}
+
+FRITextureCubeMap* D3D11FRIDynamicAllocator::CreateTextureCubeMap(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData, FRICreationDescriptor resourceDescriptor[])
+{
+	if (width != height)
+	{
+		return NULL;
+	}
+
+	DXGI_FORMAT gpuformat = EDX11FormatProxyEnum(format);
+	return new FD3D11TextureCubeMap(D3DFRI->Device, width, height, sampleCount, gpuformat, resourceDescriptor);
 }
 
 FRIUniformBuffer* D3D11FRIDynamicAllocator::CreateUniformBuffer(FRICreationDescriptor resourceDescriptor)
@@ -144,14 +167,27 @@ FRIFrameBuffer* D3D11FRIDynamicAllocator::CreateFrameBuffer(FArray<FRIFrameBuffe
 {
 	return new FD3D11FrameBuffer(D3DFRI->Device, textureAttachments, enableDepthRenderBuffer);
 }
-FRIFrameBuffer* D3D11FRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachment, bool enableDepthRenderBuffer)
+FRIFrameBuffer* D3D11FRIDynamicAllocator::CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachment, bool enableDepthRenderBuffer, uint32 mipLevel)
 {
-	return new FD3D11FrameBuffer(D3DFRI->Device, textureAttachment, enableDepthRenderBuffer);
+	return new FD3D11FrameBuffer(D3DFRI->Device, textureAttachment, enableDepthRenderBuffer, mipLevel);
+}
+
+
+FRIComputeBuffer* D3D11FRIDynamicAllocator::CreateComputeBuffer(EFRIAccess access, size_t StructureOffset, FRICreationDescriptor resourceDescriptor)
+{
+	UINT D3DAccessFlags = FD3D11AccessFlags(access);
+
+	return new FD3D11ComputeBuffer(
+		D3DFRI->Device, 
+		StructureOffset, 
+		resourceDescriptor,
+		D3DAccessFlags);
 }
 
 
 
-FRIVertexDeclaration* D3D11FRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> DeclCompArray, FRIVertexShader* signatureShader)
+
+FRIVertexDeclaration* D3D11FRIDynamicAllocator::CreateVertexDeclaration(FArray<FRIInputDesc> DeclCompArray, FRIVertexShader* signatureShader)
 {
 	return new FD3D11VertexDeclaration(D3DFRI->Device, DeclCompArray, static_cast<FD3D11VertexShader*>(signatureShader));
 }
@@ -286,8 +322,11 @@ void D3D11FRIDynamicAllocator::SetGeometrySource(FRIVertexBuffer* vertexBuffer)
 {
 	FD3D11VertexBuffer* VertexBuffer = static_cast<FD3D11VertexBuffer*>(vertexBuffer);
 
+	ID3D11Buffer** Buffer = &(VertexBuffer->Buffer);
+	uint32* Stride = &(VertexBuffer->LayoutStride);
+
 	D3DFRI->DeviceContext->IASetInputLayout(VertexBuffer->InputLayout);
-	D3DFRI->DeviceContext->IASetVertexBuffers(0, 1, &(VertexBuffer->Buffer), &(VertexBuffer->LayoutStride), ZEROOFFSET);
+	D3DFRI->DeviceContext->IASetVertexBuffers(0, 1, Buffer, Stride, ZEROOFFSET);
 }
 
 void D3D11FRIDynamicAllocator::SetInstancedGeometrySource(FRIVertexBuffer* vertexBuffer, FRIInstanceBuffer* instanceBuffer)
@@ -309,21 +348,14 @@ void D3D11FRIDynamicAllocator::SetInstancedGeometrySource(FRIVertexBuffer* verte
 
 void D3D11FRIDynamicAllocator::DrawPrimitives(EFRIPrimitiveType primitveType, uint32 vertexCount)
 {
-
-
 	if (primitveType == EFRIPrimitiveType::Lines)
-	{
-
 		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-	}
 	else if (primitveType == EFRIPrimitiveType::Triangles)
-	{
 		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	}
+	else if (primitveType == EFRIPrimitiveType::ControlPoint3)
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 	else
-	{
 		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	}
 
 	D3DFRI->DeviceContext->Draw(vertexCount, 0);
 }
@@ -332,7 +364,15 @@ void D3D11FRIDynamicAllocator::DrawPrimitivesIndexed(EFRIPrimitiveType primitveT
 	FD3D11IndexBuffer* IndexBuffer = static_cast<FD3D11IndexBuffer*>(indexBuffer);
 
 	D3DFRI->DeviceContext->IASetIndexBuffer(IndexBuffer->Buffer, DXGI_FORMAT_R32_UINT, 0);
-	D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	if (primitveType == EFRIPrimitiveType::Lines)
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+	else if (primitveType == EFRIPrimitiveType::Triangles)
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	else if (primitveType == EFRIPrimitiveType::ControlPoint3)
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	else
+		D3DFRI->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	D3DFRI->DeviceContext->DrawIndexed(vertexCount, 0, 0);
 
@@ -364,8 +404,8 @@ void D3D11FRIDynamicAllocator::SetShaderPipeline(FRIShaderPipeline* shader)
 
 	D3DFRI->DeviceContext->VSSetShader(fdxShaderPipeline->vertexShader, 0, 0);
 	D3DFRI->DeviceContext->GSSetShader(fdxShaderPipeline->geometryShader, 0, 0);
-	D3DFRI->DeviceContext->DSSetShader(fdxShaderPipeline->domainShader, 0, 0);
 	D3DFRI->DeviceContext->HSSetShader(fdxShaderPipeline->hullShader, 0, 0);
+	D3DFRI->DeviceContext->DSSetShader(fdxShaderPipeline->domainShader, 0, 0);
 	D3DFRI->DeviceContext->PSSetShader(fdxShaderPipeline->pixelShader, 0, 0);
 	D3DFRI->DeviceContext->CSSetShader(fdxShaderPipeline->computeShader, 0, 0);
 
@@ -377,17 +417,21 @@ void D3D11FRIDynamicAllocator::SetShaderUniformBuffer(uint32 slot, FRIUniformBuf
 	if (attachFlags & EFRI_Vertex)
 		D3DFRI->DeviceContext->VSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
 
-	if (attachFlags & EFRI_Pixel)
-		D3DFRI->DeviceContext->PSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
-
 	if (attachFlags & EFRI_Geometry)
 		D3DFRI->DeviceContext->GSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+
+
+	D3DFRI->DeviceContext->HSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+	D3DFRI->DeviceContext->DSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
+
+	if (attachFlags & EFRI_Pixel)
+		D3DFRI->DeviceContext->PSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
 
 	if (attachFlags & EFRI_Compute)
 		D3DFRI->DeviceContext->CSSetConstantBuffers(slot, 1, &(d3dubuff->Buffer));
 
 }
-void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
+void D3D11FRIDynamicAllocator::SetShaderSampler(FRISampler sampler)
 {
 
 	if (sampler.Param2D)
@@ -397,23 +441,30 @@ void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
 
 		switch (sampler.samplerType)
 		{
-		case EFRIUniformSamplerType::TSampler2D:
+		case EFRISamplerType::TSampler2D:
 		{
 			FD3D11Texture2D* fdxTex = static_cast<FD3D11Texture2D*>(sampler.Param2D);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
 		}
-		case EFRIUniformSamplerType::TSampler2DArray:
+		case EFRISamplerType::TSampler2DArray:
 		{
 			FD3D11Texture2DArray* fdxTex = static_cast<FD3D11Texture2DArray*>(sampler.Param2DArray);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
 		}
-		case EFRIUniformSamplerType::TSampler3D:
+		case EFRISamplerType::TSampler3D:
 		{
 			FD3D11Texture3D* fdxTex = static_cast<FD3D11Texture3D*>(sampler.Param3D);
+			srv = fdxTex->ShaderResourceView;
+			samplerState = fdxTex->Sampler;
+			break;
+		}
+		case EFRISamplerType::TSamplerCube:
+		{
+			FD3D11TextureCubeMap* fdxTex = static_cast<FD3D11TextureCubeMap*>(sampler.ParamCube);
 			srv = fdxTex->ShaderResourceView;
 			samplerState = fdxTex->Sampler;
 			break;
@@ -422,16 +473,18 @@ void D3D11FRIDynamicAllocator::SetShaderSampler(FUniformSampler sampler)
 			break;
 		}
 
-		//D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, &srv);
+		D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, &srv);
 		D3DFRI->DeviceContext->PSSetShaderResources(sampler.Unit, 1, &srv);
+		D3DFRI->DeviceContext->DSSetShaderResources(sampler.Unit, 1, &srv);
 		D3DFRI->DeviceContext->CSSetShaderResources(sampler.Unit, 1, &srv);
-		//D3DFRI->DeviceContext->VSSetSamplers(sampler.Unit, 1, &samplerState);
+		D3DFRI->DeviceContext->VSSetSamplers(sampler.Unit, 1, &samplerState);
 		D3DFRI->DeviceContext->PSSetSamplers(sampler.Unit, 1, &samplerState);
+		D3DFRI->DeviceContext->DSSetSamplers(sampler.Unit, 1, &samplerState);
 		D3DFRI->DeviceContext->CSSetSamplers(sampler.Unit, 1, &samplerState);
 	}
 	else
 	{
-		//D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
+		D3DFRI->DeviceContext->VSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
 		D3DFRI->DeviceContext->PSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
 		D3DFRI->DeviceContext->CSSetShaderResources(sampler.Unit, 1, FRID3DEmptySRV);
 	}
@@ -472,7 +525,7 @@ void D3D11FRIDynamicAllocator::EndFrame()
 	D3DFRI->DeviceContext->PSSetShaderResources(0, 16, FRID3DEmptySRV);
 	D3DFRI->DeviceContext->GSSetShaderResources(0, 16, FRID3DEmptySRV);
 	D3DFRI->DeviceContext->CSSetShaderResources(0, 16, FRID3DEmptySRV);
-	//D3DFRI->DeviceContext->VSSetShaderResources(0, 16, FRID3DEmptySRV);
+	D3DFRI->DeviceContext->VSSetShaderResources(0, 16, FRID3DEmptySRV);
 }
 
 
@@ -493,6 +546,14 @@ void D3D11FRIDynamicAllocator::FlushMipMaps(FRITexture3D* tex)
 	FD3D11Texture3D* fdxTexture3D = static_cast<FD3D11Texture3D*>(tex);
 	D3DFRI->DeviceContext->GenerateMips(fdxTexture3D->ShaderResourceView);
 }
+
+
+void D3D11FRIDynamicAllocator::FlushMipMaps(FRITextureCubeMap* tex)
+{
+	FD3D11TextureCubeMap* fdxTextureCube = static_cast<FD3D11TextureCubeMap*>(tex);
+	D3DFRI->DeviceContext->GenerateMips(fdxTextureCube->ShaderResourceView);
+}
+
 
 
 
@@ -610,20 +671,58 @@ void D3D11FRIDynamicAllocator::CopyTexture(FRITexture2D* source, FRITexture2D* d
 	D3DFRI->DeviceContext->CopyResource(fdxDestTex->Texture, fdxSourceTex->Texture);
 }
 
+void D3D11FRIDynamicAllocator::CopyTexture(FRITexture3D* source, FRITexture3D* dest)
+{
+
+	auto fdxSourceTex = static_cast<FD3D11Texture3D*>(source);
+	auto fdxDestTex = static_cast<FD3D11Texture3D*>(dest);
+
+	D3DFRI->DeviceContext->CopyResource(fdxDestTex->Texture, fdxSourceTex->Texture);
+}
+void D3D11FRIDynamicAllocator::CopyTexture(FRITexture2DArray* source, FRITexture2DArray* dest)
+{
+
+	auto fdxSourceTex = static_cast<FD3D11Texture2DArray*>(source);
+	auto fdxDestTex = static_cast<FD3D11Texture2DArray*>(dest);
+
+	D3DFRI->DeviceContext->CopyResource(fdxDestTex->Texture, fdxSourceTex->Texture);
+}
+
+
+void D3D11FRIDynamicAllocator::CopyBuffer(FRIBuffer* source, FRIBuffer* dest)
+{
+
+	auto fdxSourceBuffer = static_cast<FD3D11BufferBase*>(source);
+	auto fdxDestBuffer = static_cast<FD3D11BufferBase*>(dest);
+
+	D3DFRI->DeviceContext->CopyResource(fdxDestBuffer->Buffer, fdxSourceBuffer->Buffer);
+}
+
+
 ID3D11UnorderedAccessView** nullUavs = new ID3D11UnorderedAccessView * [1]{ NULL };
 
 void D3D11FRIDynamicAllocator::SetUAV(uint32 slot, FRITexture3D* source)
 {
-
 	if (source)
 	{
 		auto fdxTex = static_cast<FD3D11Texture3D*>(source);
 		D3DFRI->DeviceContext->CSSetUnorderedAccessViews(slot, 1, &fdxTex->UAV, NULL);
 	}
-	else
+}
+
+void D3D11FRIDynamicAllocator::SetUAV(uint32 slot, FRIComputeBuffer* source)
+{
+
+	if (source)
 	{
-		D3DFRI->DeviceContext->CSSetUnorderedAccessViews(slot, 1, nullUavs, NULL);
+		auto fdxBuffer = static_cast<FD3D11ComputeBuffer*>(source);
+		D3DFRI->DeviceContext->CSSetUnorderedAccessViews(slot, 1, &fdxBuffer->UAV, NULL);
 	}
+}
+
+void D3D11FRIDynamicAllocator::ClearUAV(uint32 slot)
+{
+	D3DFRI->DeviceContext->CSSetUnorderedAccessViews(slot, 1, nullUavs, NULL);
 }
 
 void D3D11FRIDynamicAllocator::DispatchCompute(uint32 x, uint32 y, uint32 z)

@@ -28,10 +28,8 @@ LRESULT CALLBACK D3D11FRIContext::Win32MessageHandler(HWND hwnd, UINT umessage, 
 
     case WM_MBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Middle, FKeyEvent::OnPress);    break;
     case WM_MBUTTONUP:      InputHandlerDelegate2(FMouseButton::Middle, FKeyEvent::OnRelease);  break;
-
     case WM_LBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Left,   FKeyEvent::OnPress);    break;
     case WM_LBUTTONUP:      InputHandlerDelegate2(FMouseButton::Left,   FKeyEvent::OnRelease);  break;
-
     case WM_RBUTTONDOWN:    InputHandlerDelegate2(FMouseButton::Right, FKeyEvent::OnPress);    break;
     case WM_RBUTTONUP:      InputHandlerDelegate2(FMouseButton::Right, FKeyEvent::OnRelease);  break;
 
@@ -46,37 +44,32 @@ LRESULT CALLBACK D3D11FRIContext::Win32MessageHandler(HWND hwnd, UINT umessage, 
 
 void D3D11FRIContext::Initialize()
 {
+    int PosX = 0, PosY = 0;
 
+    if (InstanceDescription.IsFullscreen)
+    {
+        int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+        PosX = (screenWidth - InstanceDescription.Width) / 2;
+        PosY = (screenHeight - InstanceDescription.Height) / 2;
+    }
 
-	int PosX = 100, PosY = 100;
-
-	if (InstanceDescription.IsFullscreen)
-	{
-
-	}
-	else
-	{
-		screenWidth = InstanceDescription.Width;
-		screenHeight = InstanceDescription.Height;
-
-		PosX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
-		PosY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
-	}
-
-	win32Context = new Win32Context("Engine2", PosX, PosY, screenWidth, screenHeight, FWin32MessageProcDelegate::Make<D3D11FRIContext, &D3D11FRIContext::Win32MessageHandler>(this));
+    if (win32Context == NULL)
+    {
+        win32Context = new Win32Context("Engine2", PosX, PosY, InstanceDescription.Width, InstanceDescription.Height, InstanceDescription.IsFullscreen, FWin32MessageProcDelegate::Make<D3D11FRIContext, &D3D11FRIContext::Win32MessageHandler>(this));
+    }
     isActive = true;
 
-	InitializeDX();
+    if (!InitializeDX())
+    {
+        return;
+    }
 
     win32Context->Show();
 }
 bool D3D11FRIContext::InitializeDX()
 {
-
-
 	RECT clientRect;
 	GetClientRect(win32Context->hWindow, &clientRect);
 
@@ -97,10 +90,10 @@ bool D3D11FRIContext::InitializeDX()
 	swapChainDesc.SampleDesc.Quality = 0;
     //swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = TRUE;
+	swapChainDesc.Windowed = !InstanceDescription.IsFullscreen;
 
 
-	UINT createDeviceFlags = 0;
+    UINT createDeviceFlags = 0;// D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT;
 #if _DEBUG
 	//createDeviceFlags = D3D11_CREATE_DEVICE_DEBUG;
 #endif
@@ -325,6 +318,8 @@ DXGI_RATIONAL D3D11FRIContext::QueryRefreshRate(UINT screenWidth, UINT screenHei
 
 D3D11FRIContext::~D3D11FRIContext()
 {
+    SwapChain->SetFullscreenState(FALSE, NULL);
+
     delete win32Context;
 }
 

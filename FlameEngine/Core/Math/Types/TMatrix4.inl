@@ -28,6 +28,8 @@ MATH_API_INLINE TMatrix4<GenType> operator*(TMatrix4<GenType> const& l, float co
 }
 
 
+// Multiplication is A^T*V
+
 
 template<typename GenType>
 MATH_API_INLINE TVector4<GenType> operator*(TMatrix4<GenType> const& l, FVector4 const& r)

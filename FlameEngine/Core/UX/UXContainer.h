@@ -6,6 +6,48 @@
 #include <AppCore/Platform.h>
 #include <AppCore/AppCore.h>
 
+#include <tuple>
+
+template<typename T>
+struct JSValueConverter;
+
+template<>
+struct JSValueConverter<bool>
+{
+	bool operator()(const ultralight::JSValue& val)
+	{
+		return val.ToBoolean();
+	}
+};
+
+template<>
+struct JSValueConverter<FString8>
+{
+	FString8 operator()(const ultralight::JSValue& val)
+	{
+		return ((ultralight::String)val.ToString()).utf8().data();
+	}
+};
+
+template<>
+struct JSValueConverter<int>
+{
+	int operator()(const ultralight::JSValue& val)
+	{
+		return val.ToInteger();
+	}
+};
+
+template<>
+struct JSValueConverter<float>
+{
+	float operator()(const ultralight::JSValue& val)
+	{
+		return val.ToNumber();
+	}
+};
+
+
 EXPORT(class, UXContainer) : public ultralight::ViewListener,
 	public ultralight::LoadListener,
 	public ultralight::Logger
@@ -54,7 +96,7 @@ public:
 		const ultralight::String& url) override
 	{
 	
-		int c = 5;
+
 	}
 
 
@@ -63,7 +105,7 @@ public:
 		bool is_main_frame,
 		const ultralight::String& url) override
 	{
-		int d = 5;
+
 	}
 
 	virtual void OnDOMReady(ultralight::View* caller,
@@ -92,6 +134,46 @@ public:
 		global[str.ToPlatformString()] = ultralight::JSCallback([=](const ultralight::JSObject& obj, const ultralight::JSArgs& arg) { lambda(); });
 
 	}
+
+	template<typename TReturn, typename...TArgs>
+	void SetCallback(const FString8& str, const FDelegate<TReturn(TArgs...)>& lambda)
+	{
+		if (!Callbacks.Contains(str))
+		{
+			Callbacks.Set(str, ultralight::JSCallback([=](const ultralight::JSObject& obj, const ultralight::JSArgs& arg)
+				{
+					auto indxr = []<typename...Ts>(size_t i, Ts... args) -> std::tuple<std::tuple<Ts, size_t>...>
+					{
+						size_t indx = 0;
+						std::tuple<std::tuple<Ts, size_t>...> t = { std::make_tuple(args, indx++) ... };
+						return t;
+					};
+
+					std::tuple<std::tuple<TArgs, size_t>...> tuple = indxr(0, TArgs{}...);
+
+					lambda(JSValueConverter<TArgs>{}(arg[std::get<1>(std::get<std::tuple<TArgs, size_t>, std::tuple<TArgs, size_t>...>(tuple))]) ...);
+
+				}));
+		}
+
+		ultralight::JSObject global = ultralight::JSGlobalObject();
+		global[str.ToPlatformString()] = ultralight::JSCallback([=](const ultralight::JSObject& obj, const ultralight::JSArgs& arg) 
+			{ 
+				auto indxr = []<typename...Ts>(size_t i, Ts... args) -> std::tuple<std::tuple<Ts, size_t>...>
+				{
+					size_t indx = 0;
+					std::tuple<std::tuple<Ts, size_t>...> t = { std::make_tuple(args, indx++) ... };
+					return t;
+				};
+
+				std::tuple<std::tuple<TArgs, size_t>...> tuple = indxr(0, TArgs{}...);
+
+				lambda(JSValueConverter<TArgs>{}(arg[std::get<1>(std::get<std::tuple<TArgs, size_t>, std::tuple<TArgs, size_t>...>(tuple))]) ...);
+			});
+
+	}
+
+
 	ultralight::RefPtr<ultralight::View> ContainerView;
 	UXFRISurfaceFactory* surfaceFactory;
 	ultralight::RefPtr<ultralight::Renderer> SoftwareRenderer;

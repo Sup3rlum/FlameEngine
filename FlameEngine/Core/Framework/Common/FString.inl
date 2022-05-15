@@ -21,7 +21,7 @@ FORCEINLINE bool operator!=(const TString<TBaseChar>& first, const TString<TBase
 }
 
 template<typename TBaseChar>
-FORCEINLINE TString<TBaseChar>& operator+(const TString<TBaseChar>& first, const TString<TBaseChar>& second)
+FORCEINLINE TString<TBaseChar> operator+(const TString<TBaseChar>& first, const TString<TBaseChar>& second)
 {
 	TString<TBaseChar> Result;
 	Result.AddArray(first);

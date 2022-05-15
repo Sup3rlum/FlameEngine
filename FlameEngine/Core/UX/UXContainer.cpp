@@ -3,11 +3,35 @@
 #include <AppCore/Platform.h>
 #include <iostream>
 
-#include "../Engine/GameSystem/ControlComponent.h"
+#include "../Engine/GameSystem/InputComponent.h"
 
 using namespace ultralight;
 
-ControlComponent control;
+Input control;
+/*
+bool JSValueConverter<bool>::operator()(const ultralight::JSValue& val)
+{
+	return val.ToBoolean();
+}
+
+
+FString8 JSValueConverter<FString8>::operator()(const ultralight::JSValue& val)
+{
+	return ((ultralight::String)val.ToString()).utf8().data();
+}
+
+
+int JSValueConverter<int>::operator()(const ultralight::JSValue& val)
+{
+	return val.ToInteger();
+}
+
+
+float JSValueConverter<float>::operator()(const ultralight::JSValue& val)
+{
+	return val.ToNumber();
+}*/
+
 
 UXContainer::UXContainer(FRIContext* context) :
 	FriContext(context)
@@ -45,7 +69,13 @@ void UXContainer::LoadURL(const FString8& url)
 
 void UXContainer::ExecuteScript(const FString8& script)
 {
-	ContainerView->EvaluateScript(script.ToPlatformString());
+	String ex = "";
+	ContainerView->EvaluateScript(script.ToPlatformString(), &ex);
+
+	if (!ex.empty())
+	{
+		std::cout << "[UltraLight Exception JS] " << ex.utf8().data() << std::endl;
+	}
 }
 
 void UXContainer::LogMessage(LogLevel log_level, const String16& message) 

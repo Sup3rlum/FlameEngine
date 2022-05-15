@@ -61,18 +61,15 @@ public:
 	{
 		return nameInternal;
 	}
-
-	FString& GetFullString()
+	FString GetFullString()
 	{
 		FString str(nameInternal);
 
 		WCstrLiteral guidStrLit = new FChar[40];
 		//StringFromGUID2(guidInternal.win32Guid, guidStrLit, 40);
 		
-
 		return str;
 	}
-
 
 private:
 	FGUIDType GenerateGUID()

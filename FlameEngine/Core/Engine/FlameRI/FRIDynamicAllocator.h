@@ -30,17 +30,20 @@ public:
 
 	virtual FRITexture2D* CreateTexture2D(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false) = 0;
 	virtual FRITexture3D* CreateTexture3D(uint32 width, uint32 height, uint32 depth, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0), bool cpuWrite = false, bool render = true) = 0;
-	
-	virtual FRITexture2DArray* CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0)) = 0;
+	virtual FRITexture2DArray* CreateTexture2DArray(uint32 width, uint32 height, uint32 numLayers, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor* resourceDescriptor = NULL) = 0;
+	virtual FRITextureCubeMap* CreateTextureCubeMap(uint32 width, uint32 height, uint32 sampleCount, EFRITextureFormat format, FRIColorDataFormat colorData = FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), FRICreationDescriptor* resourceDescriptor = NULL) = 0;
+
 	virtual FRIFrameBuffer* CreateFrameBuffer(FArray<FRIFrameBufferAttachment> textureAttachments, bool enableDepthRenderBuffer = true) = 0;
-	virtual FRIFrameBuffer* CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachment, bool enableDepthRenderBuffer = true) = 0;
+	virtual FRIFrameBuffer* CreateFrameBuffer(FRIFrameBufferArrayAttachment textureAttachment, bool enableDepthRenderBuffer = true, uint32 MipLevel = 0) = 0;
 	virtual FRIUniformBuffer* CreateUniformBuffer(FRICreationDescriptor resourceDescriptor = FRICreationDescriptor(NULL, 0)) = 0;
+	virtual FRIComputeBuffer* CreateComputeBuffer(EFRIAccess access, size_t StructureStride, FRICreationDescriptor creationDescriptor) = 0;
 
 	virtual FRIRasterizerState* CreateRasterizerState(EFRICullMode cullMode, EFRIFillMode fillmode) = 0;
 	virtual FRIBlendState* CreateBlendState(EFRIAlphaBlend srcBlend, EFRIAlphaBlend dstBlend) = 0;
 	virtual FRIDepthStencilState* CreateDepthStencilState(EFRIBool depthEnable, EFRIBool stencilEnable) = 0;
 
-	virtual FRIVertexDeclaration* CreateVertexDeclaration(FArray<FRIVertexDeclarationDesc> components, FRIVertexShader* shaderSignature) = 0;
+
+	virtual FRIVertexDeclaration* CreateVertexDeclaration(FArray<FRIInputDesc> components, FRIVertexShader* shaderSignature) = 0;
 	virtual void AttachVertexDeclaration(FRIVertexBuffer* geometry, FRIVertexDeclaration* declaration) = 0;
 
 	virtual void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource) = 0;
@@ -65,7 +68,7 @@ public:
 
 	virtual void SetShaderPipeline(FRIShaderPipeline* shader) = 0;
 	virtual void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* uniformBuffer, uint32 attachFlags = 63) = 0;
-	virtual void SetShaderSampler(FUniformSampler sampler) = 0;
+	virtual void SetShaderSampler(FRISampler sampler) = 0;
 	virtual void SetTextureParameterBuffer(FRITexture2D* texture, FRITextureParameterBuffer param) = 0;
 	virtual void SetTextureParameterBuffer(FRITexture2DArray* texture, FRITextureParameterBuffer param) = 0;
 
@@ -78,6 +81,8 @@ public:
 	virtual void SetDepthStencilState(FRIDepthStencilState* depth) = 0;
 
 	virtual void SetUAV(uint32 slot, FRITexture3D* tex) = 0;
+	virtual void SetUAV(uint32 slot, FRIComputeBuffer* tex) = 0;
+	virtual void ClearUAV(uint32 slot) = 0;
 
 	virtual void BeginScene() = 0;
 	virtual void BeginFrame() = 0;
@@ -90,8 +95,12 @@ public:
 	virtual void FlushMipMaps(FRITexture2D* tex) = 0;
 	virtual void FlushMipMaps(FRITexture2DArray* tex) = 0;
 	virtual void FlushMipMaps(FRITexture3D* tex) = 0;
+	virtual void FlushMipMaps(FRITextureCubeMap* tex) = 0;
 
 	virtual void CopyTexture(FRITexture2D* source, FRITexture2D* dest) = 0;
+	virtual void CopyTexture(FRITexture2DArray* source, FRITexture2DArray* dest) = 0;
+	virtual void CopyTexture(FRITexture3D* source, FRITexture3D* dest) = 0;
+	virtual void CopyBuffer(FRIBuffer* source, FRIBuffer* dest) = 0;
 
 	virtual void DispatchCompute(uint32 xThreads, uint32 yThreads, uint32 zThreads) = 0;
 

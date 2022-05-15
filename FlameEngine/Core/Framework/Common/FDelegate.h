@@ -114,20 +114,20 @@ public:
 	{
 		return FDelegate(const_cast<TClass*>(instance), const_method_stub<TClass, TMethod>);
 	}
-
+	
 	template <typename FStaticFuncSignature::FuncPtr TMethod>
 	static FDelegate Make()
 	{
 		return FDelegate(nullptr, function_stub<TMethod>);
 	}
 
-
+	
 	template <typename TLambda>
 	static FDelegate Make(const TLambda& instance)
 	{
 		return FDelegate((void*)(&instance), lambda_stub<TLambda>);
 	}
-
+	
 
 
 

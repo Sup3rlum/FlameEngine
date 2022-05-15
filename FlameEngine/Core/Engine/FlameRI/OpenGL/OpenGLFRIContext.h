@@ -9,10 +9,10 @@
 class OpenGLFRIContext : public FRIContext
 {
 public:
-	OpenGLFRIContext(FRIRenderingContextDescription description, Win32Context* wincontext = NULL, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion glVer = FOpenGLVersion_45()) :
-		FRIContext(description, EFRIRendererFramework::OpenGL, contextToCopy),
+	OpenGLFRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL, OpenGLContextDrvVersion glVer = FOpenGLVersion_45()) :
+		FRIContext(description, contextToCopy),
 		GLContextDrvVersion(glVer),
-		win32Context(wincontext),
+		win32Context(description.WinContext),
 		hGLRenderingContext(NULL)
 	{
 		

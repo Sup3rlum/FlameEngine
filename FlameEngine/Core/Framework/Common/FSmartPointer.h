@@ -7,27 +7,27 @@
 
 
 template<typename TUserType>
-struct FUniquePointer : public NonCopyable
+struct FUniquePtr : public NonCopyable
 {
 public:
 
-	FUniquePointer()
+	FUniquePtr()
 	{
 		data = NULL;
 	}
 
-	FUniquePointer(TUserType* ptr)
+	FUniquePtr(TUserType* ptr)
 	{
 		data = ptr;
 	}
 
-	FUniquePointer(FUniquePointer&& fpOther) noexcept
+	FUniquePtr(FUniquePtr&& fpOther) noexcept
 	{
 		this->data = fpOther.data;
 		fpOther.data = NULL;
 	}
 
-	FUniquePointer& operator=(FUniquePointer&& fpOther)
+	FUniquePtr& operator=(FUniquePtr&& fpOther)
 	{
 		this->data = fpOther.data;
 		fpOther.data = NULL;
@@ -37,12 +37,12 @@ public:
 
 
 	template<typename...TArgs>
-	static FUniquePointer<TUserType> New(TArgs... args)
+	static FUniquePtr<TUserType> New(TArgs... args)
 	{
-		return FUniquePointer<TUserType>(new TUserType(args...));
+		return FUniquePtr<TUserType>(new TUserType(args...));
 	}
 
-	~FUniquePointer()
+	~FUniquePtr()
 	{
 		delete data;
 	}
@@ -68,6 +68,16 @@ public:
 		return *data;
 	}
 
+	operator TUserType*()
+	{
+		return data;
+	}
+
+	operator const TUserType* () const
+	{
+		return data;
+	}
+
 
 
 	FORCEINLINE bool IsValid() const
@@ -80,118 +90,291 @@ private:
 
 
 template<typename TUserType>
-struct FSharedPointer
+struct FSharedPtr
 {
 
 public:
 
-	FSharedPointer()
+	FSharedPtr()
 	{
-		data = NULL;
-		refCounter = new uint64_t();
-		*refCounter = 1;
+		pData = NULL;
+		RefCounter = new uint64_t(0);
 	}
 
-	FSharedPointer(TUserType* ptr)
+	FSharedPtr(TUserType* ptr)
 	{
-		data = ptr;
-		refCounter = new uint64_t();
-		*refCounter = 1;
+		pData = ptr;
+		RefCounter = new uint64_t(1);
 	}
 
+	/* Copy */
 
-	// Copy
-
-
-	FSharedPointer(const FSharedPointer& fpOther)
+	FSharedPtr(const FSharedPtr& fpOther)
 	{
-		this->data = fpOther.data;
-		this->refCounter = fpOther.refCounter;
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
 
-		(*refCounter)++;
+		Incr();
 	}
 
-	FSharedPointer& operator=(const FSharedPointer& fpOther)
+	FSharedPtr& operator=(const FSharedPtr& fpOther) noexcept
 	{
-		if (refCounter)
-		{
-			(*refCounter)--;
-		}
+		Decr();
 
-		this->data = fpOther.data;
-		this->refCounter = fpOther.refCounter;
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
 
-		(*refCounter)++;
+		Incr();
 
 		return *this;
 	}
 
 	// Move 
 
-	FSharedPointer(FSharedPointer&& fpOther) noexcept
+	FSharedPtr(FSharedPtr&& fpOther) noexcept
 	{
-		this->data = fpOther.data;
-		this->refCounter = fpOther.refCounter;
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
 
-		fpOther.data = NULL;
-		fpOther.refCounter = NULL;
+		fpOther.pData = NULL;
+		fpOther.RefCounter = NULL;
 	}
 
-	FSharedPointer& operator=(FSharedPointer&& fpOther)
+	FSharedPtr& operator=(FSharedPtr&& fpOther)
 	{
-		this->data = fpOther.data;
-		this->refCounter = fpOther.refCounter;
+		Decr();
 
-		fpOther.data = NULL;
-		fpOther.refCounter = NULL;
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
+
+		fpOther.pData = NULL;
+		fpOther.RefCounter = NULL;
 
 		return *this;
 	}
 
 
 	template<typename...TArgs>
-	static FSharedPointer<TUserType> New(TArgs... args)
+	static FSharedPtr<TUserType> New(TArgs... args)
 	{
-		return FSharedPointer<TUserType>(new TUserType(args...));
+		return FSharedPtr<TUserType>(new TUserType(args...));
 	}
 
-	~FSharedPointer()
+	~FSharedPtr()
 	{
-		if (refCounter)
-		{
-			(*refCounter)--;
-
-			if (*refCounter < 1)
-			{
-				delete data;
-				delete refCounter;
-			}
-		}
+		Decr();
 	}
 
 
 	TUserType* operator->() const
 	{
-		return data;
+		return pData;
 	}
 
 	TUserType& operator*() const
 	{
-		return *data;
+		return *pData;
 	}
 
 
 	FORCEINLINE uint64_t GetRefCount() const
 	{
-		return *refCounter;
+		return *RefCounter;
 	}
 
 	FORCEINLINE bool IsValid() const
 	{
-		return data != NULL && *refCounter > 0;
+		return RefCounter != NULL && pData != NULL && Ctr() > 0;
 	}
 private:
-	TUserType* data;
-	uint64_t* refCounter;
+
+	void Incr() { Ctr()++; }
+
+	void Decr()
+	{
+		if (!RefCounter)
+			return;
+
+		if (Ctr() <= 1)
+		{
+			delete pData;
+			delete RefCounter;
+
+			pData = NULL;
+			RefCounter = NULL;
+
+			return;
+		}
+
+		Ctr()--;
+	}
+
+	uint64_t& Ctr()
+	{
+		return *RefCounter;
+	}
+	const uint64_t& Ctr() const
+	{
+		return *RefCounter;
+	}
+	TUserType* pData;
+	uint64_t* RefCounter;
+
+};
+
+
+
+template<typename TUserType>
+struct FRefPtr
+{
+
+public:
+
+	FRefPtr()
+	{
+		pData = NULL;
+		RefCounter = new uint64_t(0);
+	}
+
+	FRefPtr(TUserType* ptr)
+	{
+		pData = ptr;
+		RefCounter = new uint64_t(1);
+	}
+
+	/* Copy */
+
+	FRefPtr(const FRefPtr& fpOther)
+	{
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
+
+		Incr();
+	}
+
+	FRefPtr& operator=(const FRefPtr& fpOther) noexcept
+	{
+		Decr();
+
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
+
+		Incr();
+
+		return *this;
+	}
+
+	// Move 
+
+	FRefPtr(FRefPtr&& fpOther) noexcept
+	{
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
+
+		fpOther.pData = NULL;
+		fpOther.RefCounter = NULL;
+	}
+
+	FRefPtr& operator=(FRefPtr&& fpOther)
+	{
+		Decr();
+
+		this->pData = fpOther.pData;
+		this->RefCounter = fpOther.RefCounter;
+
+		fpOther.pData = NULL;
+		fpOther.RefCounter = NULL;
+
+		return *this;
+	}
+
+	/*
+	FRefPtr& operator=(TUserType*&& fpOther)
+	{
+		Decr();
+
+		this->pData = fpOther;
+		this->RefCounter = new uint64(1);
+
+		return *this;
+	}*/
+
+
+	template<typename...TArgs>
+	static FRefPtr<TUserType> New(TArgs... args)
+	{
+		return FRefPtr<TUserType>(new TUserType(args...));
+	}
+
+	~FRefPtr()
+	{
+		Decr();
+	}
+
+
+	TUserType* operator->() const
+	{
+		return pData;
+	}
+
+	TUserType& operator*() const
+	{
+		return *pData;
+	}
+
+
+	FORCEINLINE uint64_t GetRefCount() const
+	{
+		return *RefCounter;
+	}
+
+	FORCEINLINE bool IsValid() const
+	{
+		return RefCounter != NULL && pData != NULL && Ctr() > 0;
+	}
+
+	operator TUserType*()
+	{
+		return pData;
+	}
+
+	operator const TUserType* () const
+	{
+		return pData;
+	}
+
+private:
+
+	void Incr() { Ctr()++; }
+
+	void Decr()
+	{
+		if (!RefCounter || !Ctr())
+			return;
+
+		if (Ctr() <= 1)
+		{
+			delete pData;
+			delete RefCounter;
+
+			pData = NULL;
+			RefCounter = NULL;
+
+			return;
+		}
+
+		Ctr()--;
+	}
+
+	uint64_t& Ctr()
+	{
+		return *RefCounter;
+	}
+	const uint64_t& Ctr() const
+	{
+		return *RefCounter;
+	}
+	TUserType* pData;
+	uint64_t* RefCounter;
 
 };

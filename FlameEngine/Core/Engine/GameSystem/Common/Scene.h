@@ -11,7 +11,7 @@
 
 #include "../Physics/PhysicsComponent.h"
 #include "../CameraSystem/CameraComponent.h"
-#include "../ControlComponent.h"
+#include "../InputComponent.h"
 #include "../Physics/PhysicsService.h"
 #include "../Physics/PhysicsAllocator.h"
 #include "../LightingSystem/LightComponent.h"
@@ -48,7 +48,7 @@ public:
 	template<typename... TComponents>
 	Entity CreateEntity(const FString& name)
 	{
-		Entity entity = EntWorld.CreateEntityFromArchetype(name, TEntityArchetype<TComponents...>());
+		Entity entity = EntWorld.CreateEntityFromArchetype(name, TEntityArchetype<FTransform, TComponents...>());
 
 		//(entity.InitComponent<TComponents>(), ...);
 
@@ -81,9 +81,8 @@ public:
 	}
 
 
+	FArray<Entity> QueryEntities(const FString& name);
 
-
-	void RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer);
 
 	AABB GetAABB() const;
 
@@ -92,19 +91,22 @@ public:
 	void UpdateSystems();
 	void UpdateBehaviour(FGameTime gameTime);
 	void UpdateDirectionalLights();
-
 	void FinishUpdate();
 
-	Entity Camera;
-	Entity Sun;
-	Level SceneLevel;
+	/* Physics */
 
-	PhysicsAllocator* Physics;
-	FArray<FKeyVal<ParticleSystemBase*, ParticleRenderer*>> ParticleSystems;
+	CharacterBody CreateCharacterBody(FTransform transform);
+	RigidBody CreateRigidBody(FTransform transform);
+	StaticRigidBody CreateStaticRigidBody(FTransform transform);
+	TriangleMeshGeometry CookTriangleMeshGeometry(PhysicsTriangleMeshDesc desc);
+
+	Level SceneLevel;
+	FHashMap<FString, Entity> Elements;
 
 	UXContainer* uxContainer;
 
 private:
+	PhysicsAllocator* Physics;
 
 	FArray<FEntityComponentSystemBase*> Systems;
 	PhysicsScene* physicsScene;

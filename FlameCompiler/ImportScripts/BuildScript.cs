@@ -1,162 +1,176 @@
 ﻿using FlameCompiler.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using System.Drawing;
 
 using FlameCompiler.Compilers;
 using System.Linq;
 
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.ColorSpaces;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
-
+using SixLabors.ImageSharp.Processing;
 
 
 namespace FlameCompiler.ImportScripts
 {
-    public struct ModelTask
-    {
-        public Mesh mesh;
-        public string outputFileName;
-    }
-    public struct MaterialTask
-    {
-        public Material material;
-        public string outputFileName;
-    }
 
+    public class BuildScriptTask
+    {
+        public string Name { get; set; }
+        public string OutputFileName { get; set; }
+
+        public ITextureMapCollection Source { get; set; }
+        
+        public void ExecuteTask()
+        {
+            var comp = Source.GetCompiler();
+            comp.StartTask(this);
+        }
+
+        public string IconName { get
+        {
+                if (Source.TypeName == "envmap")
+                {
+                    return "/sphere.png";
+                }
+                else if (Source.TypeName == "material")
+                {
+                    return "/tex4.png";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+    }
 
     public class BuildScript
     {
 
-        public string _filePath;
+        public string FilePath { get; set; }
+        public string ScriptDirectory { get; set; }
 
-        List<ModelTask> ModelObjects = new List<ModelTask>();
-        List<MaterialTask> MaterialObjects = new List<MaterialTask>();
-
+        public ObservableCollection<BuildScriptTask> Tasks { get; set; }
 
         public BuildScript(string scriptPath)
         {
-            _filePath = scriptPath;
+            Tasks = new ObservableCollection<BuildScriptTask>();
+            FilePath = scriptPath;
+            
+            ScriptDirectory = Path.GetDirectoryName(scriptPath);
 
+            Load();
         }
         public bool Load()
         {
-            XDocument doc = XDocument.Load(_filePath);
-
+            XDocument doc = XDocument.Load(FilePath);
 
             var currentScript = doc.Element("buildscript");
-
             var contentElements = currentScript.Elements("content").ToList();
-
 
             foreach (var cElement in contentElements)
             {
-                if (cElement.Attribute("type").Value == "mesh")
-                {
-                    LoadModelScript(cElement);
-                }
-                if (cElement.Attribute("type").Value == "material")
-                {
-                    LoadMaterialScript(cElement);
-                }
-
-
+                LoadContentScript(cElement);
             }
-
-
             return true;
         }
 
+        private void LoadContentScript(XElement element)
+        {      
+            var dataType = element.Attribute("type").Value;
 
-        private void LoadModelScript(XElement element)
-        {
+            ITextureMapCollection data = dataType switch
+            {
+                "material" => new Material(),
+                "envmap" => new EnvMap(),
+                _ => null
+            };
 
-            Mesh mesh;
+            if (data == null) return;
 
-            string inputMeshPath = element.Element("source").Attribute("path").Value;
-            string outputPath = element.Element("output").Attribute("path").Value;
-
-
-
-            var meshes = OBJ.DecodeData(inputMeshPath);
-
-
-            mesh = new Mesh(meshes[0].Key);
-
- 
-            ModelObjects.Add(new ModelTask() { mesh = mesh, outputFileName = outputPath });
-
-        }
-
-
-
-        private MaterialMapType GetMaterialMapType(string name) => name switch
-        {
-            "Diffuse" => MaterialMapType.Diffuse,
-            "Normal" => MaterialMapType.Normal,
-            "Height" => MaterialMapType.Height,
-            "Roughness" => MaterialMapType.Roughness,
-            "Metallic" => MaterialMapType.Metallic,
-            "AO" => MaterialMapType.AmbientOcclusion,
-            _ => throw new Exception("Material Map type not recognized")
-        };
-
-        private void LoadMaterialScript(XElement element)
-        {
-            Material material = new Material();
-
+            string dataName = element.Attribute("name").Value;
             var mapElements = element.Elements("map");
             string outputPath = element.Element("output").Attribute("path").Value;
+
+            if (!Path.IsPathRooted(outputPath))
+            {
+                outputPath = Path.Combine(ScriptDirectory, outputPath);
+            }
 
             foreach (var map in mapElements)
             {
                 string name = map.Attribute("name").Value;
                 string path = map.Attribute("path").Value;
 
-                Image<Rgba32> im;
-                MaterialMapType type;
-
-
-                try
+                if (!Path.IsPathRooted(path))
                 {
-                    im  = Image.Load<Rgba32>(path);
-                    type = GetMaterialMapType(name);
-                }
-                catch (Exception x)
-                {
-                    Console.WriteLine(x.Message);
-                    continue;
+                    path = Path.Combine(ScriptDirectory, path);
                 }
 
-                material.mapArray[(int)type] = im;
+                int mipLevels = 1;          
+                if (map.Attribute("mips") != null)
+                    mipLevels = int.Parse(map.Attribute("mips").Value);
 
+                List<Image<Rgba64>> imgData = new List<Image<Rgba64>>();
+
+                var importedImage = Image.Load<Rgba64>(path);
+                imgData.Add(importedImage);
+
+                for (int i = 1; i < mipLevels; i++)
+                {
+                    string directory = Path.GetDirectoryName(path);
+                    string flname = Path.GetFileNameWithoutExtension(path) + $"_{i}" + Path.GetExtension(path);
+
+                    imgData.Add(Image.Load(Path.Combine(directory, flname)).CloneAs<Rgba64>());
+                }
+
+                
+                data.AddMap(name, new TextureMap() 
+                { 
+                    Name = name,
+                    Path = path,
+                    Data = imgData 
+                });
             }
 
-
-
-
-            MaterialObjects.Add(new MaterialTask() { material = material, outputFileName = outputPath });
-
+            Tasks.Add(new BuildScriptTask() 
+            { 
+                Name = dataName,
+                OutputFileName = outputPath,
+                Source = data
+            });
         }
 
         public void Execute()
         {
-            CompilationArguments args = new CompilationArguments();
-            ModelFileCompiler mfc = new ModelFileCompiler(args);
-            MaterialFileCompiler mtc = new MaterialFileCompiler(args);
+            foreach (var task in Tasks)
+            {
+                task.ExecuteTask();
+            }
+        }
 
-            foreach (var modtask in ModelObjects)
-            {
-                mfc.StartTask(modtask);
-            }
-            foreach (var mattask in MaterialObjects)
-            {
-                mtc.StartTask(mattask);
-            }
+        public void SaveAs(string filepath)
+        {
+            XDocument document = new XDocument(
+                new XElement("buildscript",
+                    Tasks.Select(task =>   
+                        new XElement("content", new XAttribute("type", task.Source.TypeName), new XAttribute("name", task.Name),
+                            task.Source.Values.Select(map =>
+                                new XElement("map", new XAttribute("name", map.Name), new XAttribute("path", map.Path))
+                            ),
+                            new XElement("output", new XAttribute("path", task.OutputFileName))
+                        )
+                    )
+                )
+            );
+
+            document.Save(filepath);
         }
     }
 }

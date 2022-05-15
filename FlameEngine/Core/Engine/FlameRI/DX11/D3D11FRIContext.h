@@ -5,13 +5,12 @@
 #include "../FRIContext.h"
 #include "D3D11.h"
 
-
 class D3D11FRIContext : public FRIContext
 {
 public:
 	D3D11FRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL) :
-		FRIContext(description, EFRIRendererFramework::DX11, contextToCopy),
-		win32Context(NULL)
+		FRIContext(description, contextToCopy),
+		win32Context(description.WinContext)
 	{
 	}
 

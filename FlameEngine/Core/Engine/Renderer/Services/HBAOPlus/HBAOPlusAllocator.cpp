@@ -5,7 +5,7 @@
 
 HBAOPlus* HBAOPlus::Allocate(FRIContext* renderContext, FHBAOParameters params)
 {
-	switch (renderContext->RenderFramework)
+	switch (renderContext->InstanceDescription.RenderFramework)
 	{
 		case EFRIRendererFramework::OpenGL:
 		{

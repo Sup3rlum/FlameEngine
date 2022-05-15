@@ -380,7 +380,7 @@ public:
 	{
 		if (size >= capacity)
 			Reserve(capacity + 5);
-		ptrInternal[size++] = std::move(v);
+		ptrInternal[size++] = MoveRef(v);
 
 		return *this;
 	}
@@ -467,15 +467,29 @@ public:
 		}
 
 		GenType* Newbuffer = Memory::AllocCounted<GenType>(newcapacity);
-
 		uint32 l_Size = min(newcapacity, size);
-
 
 		Memory::CopyCounted(Newbuffer, ptrInternal, l_Size);
 
 		capacity = newcapacity;
 		Memory::Free(ptrInternal);
 		ptrInternal = Newbuffer;
+	}
+
+	template<typename TLambda>
+	FArray<GenType> Where(TLambda&& lambda) const
+	{
+		FArray<GenType> result;
+
+		for (const auto& elem : *this)
+		{
+			if (lambda(elem))
+			{
+				result.Add(elem);
+			}
+		}
+
+		return result;
 	}
 
 

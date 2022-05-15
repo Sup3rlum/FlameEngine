@@ -17,7 +17,7 @@ using System.Windows.Interop;
 using System.Diagnostics;
 using System.Windows.Threading;
 
-using FlameEditorCLR;
+//using FlameEditorCLR;
 using FlameEditor.Engine;
 
 namespace FlameEditor
@@ -41,7 +41,7 @@ namespace FlameEditor
 
         public void InitEngineVis()
         {
-            EditorApp editorApp = new EditorApp(enginePanel.Handle, 0, 0, enginePanel.Width, enginePanel.Height);
+           /* EditorApp editorApp = new EditorApp(enginePanel.Handle, 0, 0, enginePanel.Width, enginePanel.Height);
             editorApp.Load();
 
 
@@ -49,7 +49,7 @@ namespace FlameEditor
             {
                 editorApp.Frame();
                 System.Windows.Forms.Application.DoEvents();
-            }
+            }*/
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

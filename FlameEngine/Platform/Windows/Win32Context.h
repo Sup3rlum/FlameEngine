@@ -6,14 +6,11 @@
 
 typedef FDelegate<LRESULT(HWND, UINT, WPARAM, LPARAM)> FWin32MessageProcDelegate;
 
-struct Win32MessageHandler
+EXPORT(struct, Win32MessageHandler)
 {
 	FWin32MessageProcDelegate Handler;
 
-	Win32MessageHandler(FWin32MessageProcDelegate del) : Handler(del)
-	{
-	}
-
+	Win32MessageHandler(FWin32MessageProcDelegate del);
 };
 
 EXPORT(struct, DefaultWin32MessageHandler) : public Win32MessageHandler
@@ -22,8 +19,9 @@ EXPORT(struct, DefaultWin32MessageHandler) : public Win32MessageHandler
 };
 
 
-EXPORT(struct, Win32Context)
+EXPORT(class, Win32Context)
 {
+public:
 	HWND hWindow;
 	HDC hDeviceContext;
 
@@ -35,8 +33,8 @@ EXPORT(struct, Win32Context)
 
 	Win32MessageHandler MessageHandler;
 
-	Win32Context(FString Name, int32 PosX, int32 PosY, int32 Width, int32 Height, Win32MessageHandler handler = DefaultWin32MessageHandler());
-	Win32Context(HWND hwnd, int32 PosX, int32 PosY, int32 Width, int32 Height, Win32MessageHandler handler = DefaultWin32MessageHandler());
+	Win32Context(FString Name, int32 PosX, int32 PosY, int32 Width, int32 Height, bool fullscreen, Win32MessageHandler handler = DefaultWin32MessageHandler());
+	Win32Context(HWND hwnd, int32 PosX, int32 PosY, int32 Width, int32 Height, bool fullscreen, Win32MessageHandler handler = DefaultWin32MessageHandler());
 	void Show(bool setFocus = true);
 
 	void SetPixelFormat(PPIXELFORMATDESCRIPTOR pfd);

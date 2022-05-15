@@ -2,12 +2,12 @@
 
 #include "Core/Common/CoreCommon.h"
 #include "Core/Math/Module.h"
-
+#include "Core/Engine/FlameRI/FRIResource.h"
 
 struct PhysicsTriangleMeshDesc
 {
-	FArray<byte> VertexData;
-	FArray<uint32> IndexData;
+	FRICreationDescriptor VertexData;
+	FRICreationDescriptor IndexData;
 	size_t DataStride;
 
 	PhysicsTriangleMeshDesc(const PhysicsTriangleMeshDesc& other) :

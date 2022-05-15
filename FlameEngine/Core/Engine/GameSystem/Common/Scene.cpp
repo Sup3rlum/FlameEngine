@@ -86,21 +86,23 @@ void Scene::Update(FGameTime gameTime)
 		sysPtr->Tick();
 	}
 
-	for (auto& pSysPtr : ParticleSystems)
-	{
-		pSysPtr.Key->Tick(gameTime.DeltaTime.GetSeconds());
-	}
+	System<ParticleManager>()->ParallelForEach([&](Entity ent, ParticleManager& particleManager)
+		{
+			particleManager.ParticleSystemPtr->Tick(gameTime.DeltaTime.GetSeconds(), Elements["GameCamera"].Component<Camera>());
+		});
 
 	UpdateDirectionalLights();
 }
 
 void Scene::UpdateDirectionalLights()
 {
-	CameraComponent& camRef = Camera.Component<CameraComponent>();
+	if (!Elements.Contains("GameCamera") || !Elements["GameCamera"].HasComponent<Camera>())
+		return;
 
+	Camera& camera = Elements["GameCamera"].Component<Camera>();
 
 	FStaticArray<FVector3, 8> frustumCorners;
-	camRef.GetFrustumCorners(frustumCorners);
+	camera.GetFrustumCorners(frustumCorners);
 
 	System<DirectionalLight>()->ParallelForEach([&](Entity ent, DirectionalLight& dirLight)
 		{
@@ -124,7 +126,6 @@ void Scene::UpdateDirectionalLights()
 					for (int i = 0; i < 8; i++)
 					{
 						FVector3 p = toLocalSpace * frustumSplitCorners[i];
-
 						aabb.Enclose(p);
 					}
 
@@ -144,18 +145,13 @@ void Scene::UpdateDirectionalLights()
 					dirLight.FrustumInfo[i].View = FViewMatrix(position, position + dirLight.Direction, aabbUp);
 					dirLight.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
 
-					float zFar = 300.0f;
+					float zFar = 500.0f;
 					float zNear = 0.1f;
 
 					dirLight.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i + 1) / (float)SM_CASCADES) + zNear;
 				}
 			}
 		});
-}
-
-void Scene::RegisterParticleSystem(ParticleSystemBase* particleSystem, ParticleRenderer* particleRenderer)
-{
-	ParticleSystems.Add(FKeyVal<ParticleSystemBase*, ParticleRenderer*>(particleSystem, particleRenderer));
 }
 
 
@@ -167,13 +163,62 @@ AABB Scene::GetAABB() const
 	return AABB(0, 0);
 }
 
-Scene::~Scene()
+FArray<Entity> Scene::QueryEntities(const FString& name)
 {
+	FArray<Entity> result;
 
+	if (name.Length() == 0)
+		return result;
+
+	for (auto& [stackName, stack] : this->EntWorld.EntMemory)
+	{
+		auto Block = stack->Top;
+
+		while (Block)
+		{
+			for (int idx : FRange(0, Block->NumEntities))
+			{
+				Entity entity = Block->controlArray[idx];
+
+				if (entity.GetName() == name)
+				{
+					result.Add(entity);
+				}
+			}
+
+			Block = Block->Next;
+		}
+	}
+
+	return result;
 }
-
 
 void Scene::FinishUpdate()
 {
 	EntWorld.CopyEntMemory();
+}
+
+CharacterBody Scene::CreateCharacterBody(FTransform transorm)
+{
+	return Physics->CreateCharacter(transorm);
+}
+
+RigidBody Scene::CreateRigidBody(FTransform transform)
+{
+	return Physics->CreateDynamic(transform);
+}
+
+StaticRigidBody Scene::CreateStaticRigidBody(FTransform transform)
+{
+	return Physics->CreateStatic(transform);
+}
+
+TriangleMeshGeometry Scene::CookTriangleMeshGeometry(PhysicsTriangleMeshDesc desc)
+{
+	return Physics->CookTriangleMeshGeometry(desc);
+}
+
+Scene::~Scene()
+{
+
 }

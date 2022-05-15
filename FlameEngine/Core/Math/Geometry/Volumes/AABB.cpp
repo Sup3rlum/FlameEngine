@@ -126,3 +126,14 @@ bool AABB::RayCast(FRay ray)
 	//t = tmin;
 	return true;
 }
+
+bool AABB::Contains(const FVector3& vec) const
+{
+	return (vec.x > minPoint.x &&
+			vec.y > minPoint.y &&
+			vec.z > minPoint.z &&
+
+			vec.x < maxPoint.x &&
+			vec.y < maxPoint.y &&
+			vec.z < maxPoint.z);
+}

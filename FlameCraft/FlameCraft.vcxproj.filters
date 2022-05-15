@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="FlameCraft.cpp" />
+    <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="World\Chunk.cpp" />
+    <ClCompile Include="World\Block.cpp" />
+    <ClCompile Include="World\World.cpp" />
+    <ClCompile Include="Renderer\WorldRenderer.cpp" />
+    <ClCompile Include="Renderer\ChunkMesh.cpp" />
+    <ClCompile Include="Renderer\GameTextureArray.cpp" />
+    <ClCompile Include="ImportScripts\IS_BitTexture.cpp" />
+    <ClCompile Include="World\WorldGenerator.cpp" />
+    <ClCompile Include="World\SmokeParticle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FlameCraft.h" />
+    <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="World\Chunk.h" />
+    <ClInclude Include="World\Block.h" />
+    <ClInclude Include="World\World.h" />
+    <ClInclude Include="Renderer\WorldRenderer.h" />
+    <ClInclude Include="Renderer\ChunkMesh.h" />
+    <ClInclude Include="World\WorldObserver.h" />
+    <ClInclude Include="World\WorldGenerator.h" />
+    <ClInclude Include="Renderer\GameTextureArray.h" />
+    <ClInclude Include="ImportScripts\BitTexture.h" />
+    <ClInclude Include="Renderer\BitTexture.h" />
+    <ClInclude Include="World\WorldBehaviour.h" />
+    <ClInclude Include="World\Perlin.h" />
+    <ClInclude Include="World\ctpl.h" />
+    <ClInclude Include="Renderer\GeometryStream.h" />
+    <ClInclude Include="World\SmokeParticle.h" />
+  </ItemGroup>
+</Project>

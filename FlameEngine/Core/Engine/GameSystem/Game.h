@@ -22,13 +22,15 @@ protected:
 	void MouseInputHandlerFunc(FMouseButton key, FKeyEvent keyEvent);
 
 public:
-	GameApplication(const FString& name, EFRIRendererFramework framework, Win32Context* winContext);
+	GameApplication(const FString& name);
 
 	virtual void Load() = 0;
 	virtual void Dispose() = 0;
 	virtual void Suspend() = 0;
 
 	virtual void Update(FGameTime gameTime) = 0;
+
+	void CreateContext(FRIRenderingContextDescription desc);
 
 
 	void LaunchGameThread();

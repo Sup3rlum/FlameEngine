@@ -3,7 +3,7 @@
 
 #include "Core/Framework/IO/FileStream.h"
 #include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
-#include "../../ContentSystem/Client/AssetImportScripts/Material.h"
+#include "../../ContentSystem/ImportScripts/Material.h"
 #include "Buffers.h"
 
 #include "../DeferredRenderer.h"
@@ -47,7 +47,7 @@ void VXGIRenderer::CreateResources(FRIContext* renderContext)
 
 	FAssetManager Content;
 	Content.Connect("./Assets/");
-	Shaders = Content.Load<ShaderLibrary>("Shaders/vxgi.fslib", renderContext);
+	Shaders = Content.Load<ShaderLibrary>("Shaders/vxgi.fslib");
 
 	IVector2 viewportSize = renderContext->GetViewport().Size;
 
@@ -144,7 +144,7 @@ void VXGIRenderer::VoxelizeScene(FRICommandList& cmdList, DeferredRenderer* rend
 		});
 
 
-	CameraComponent voxelCam(
+	Camera voxelCam(
 		FMatrix4::Identity(),
 		FOrthographicMatrix(-halfDim, halfDim, halfDim, -halfDim, 0, sceneDimension));
 
@@ -166,8 +166,8 @@ void VXGIRenderer::VoxelizeScene(FRICommandList& cmdList, DeferredRenderer* rend
 
 		cmdList.SetShaderPipeline(Voxelize);
 
-		renderer->RenderEnvironmentStatic(cmdList, true);
-		renderer->RenderGeometry(cmdList, true);
+		renderer->RenderEnvironmentStatic(cmdList, GRenderMode::Material);
+		renderer->RenderGeometry(cmdList, GRenderMode::Material);
 	}
 
 	cmdList.UnbindFrameBuffer();
@@ -221,11 +221,11 @@ void VXGIRenderer::FlushVolumes(FRICommandList& cmdList)
 		cmdList.GetDynamic()->DispatchCompute(32, 32, 32);
 	}
 
-	cmdList.GetDynamic()->SetUAV(0, NULL);
-	cmdList.GetDynamic()->SetUAV(1, NULL);
-	cmdList.GetDynamic()->SetUAV(2, NULL);
-	cmdList.GetDynamic()->SetUAV(3, NULL);
-	cmdList.GetDynamic()->SetUAV(4, NULL);
+	cmdList.GetDynamic()->ClearUAV(0);
+	cmdList.GetDynamic()->ClearUAV(1);
+	cmdList.GetDynamic()->ClearUAV(2);
+	cmdList.GetDynamic()->ClearUAV(3);
+	cmdList.GetDynamic()->ClearUAV(4);
 
 }
 
@@ -236,7 +236,7 @@ void VXGIRenderer::GenerateMipMaps(FRICommandList& cmdList, FRITexture3D* voxelm
 	cmdList.SetShaderPipeline(AnisoCompute);
 	{
 
-		cmdList.SetShaderSampler(FUniformSampler(0, voxelmap));
+		cmdList.SetShaderSampler(FRISampler(0, voxelmap));
 		for (int i = 0; i < 6; i++)
 		{
 			cmdList.GetDynamic()->SetUAV(i, VoxelAnisotropic[i]);
@@ -246,11 +246,11 @@ void VXGIRenderer::GenerateMipMaps(FRICommandList& cmdList, FRITexture3D* voxelm
 
 		for (int i = 0; i < 6; i++)
 		{
-			cmdList.GetDynamic()->SetUAV(i, NULL);
+			cmdList.GetDynamic()->ClearUAV(i);
 			cmdList.GetDynamic()->FlushMipMaps(VoxelAnisotropic[i]);
 		}
 
-		cmdList.SetShaderSampler(FUniformSampler(0));
+		cmdList.SetShaderSampler(FRISampler(0));
 	}
 }
 
@@ -267,10 +267,10 @@ void VXGIRenderer::InjectRadiance(FRICommandList& cmdList)
 		cmdList.GetDynamic()->DispatchCompute(32, 32, 32);
 	}
 
-	cmdList.GetDynamic()->SetUAV(0, NULL);
-	cmdList.GetDynamic()->SetUAV(1, NULL);
-	cmdList.GetDynamic()->SetUAV(2, NULL);
-	cmdList.GetDynamic()->SetUAV(3, NULL);
+	cmdList.GetDynamic()->ClearUAV(0);
+	cmdList.GetDynamic()->ClearUAV(1);
+	cmdList.GetDynamic()->ClearUAV(2);
+	cmdList.GetDynamic()->ClearUAV(3);
 }
 
 void VXGIRenderer::InjectLightBounce(FRICommandList& cmdList, FRITexture3D* base, FRITexture3D* output, uint32 bounceNumber)
@@ -288,7 +288,7 @@ void VXGIRenderer::InjectLightBounce(FRICommandList& cmdList, FRITexture3D* base
 
 	for (int i = 0; i < 6; i++)
 	{
-		cmdList.SetShaderSampler(FUniformSampler(i, VoxelAnisotropic[i]));
+		cmdList.SetShaderSampler(FRISampler(i, VoxelAnisotropic[i]));
 	}
 
 	cmdList.SetShaderPipeline(PropagationCompute);
@@ -299,11 +299,11 @@ void VXGIRenderer::InjectLightBounce(FRICommandList& cmdList, FRITexture3D* base
 
 	for (int i = 0; i < 6; i++)
 	{
-		cmdList.SetShaderSampler(FUniformSampler(i));
+		cmdList.SetShaderSampler(FRISampler(i));
 	}
 
-	cmdList.GetDynamic()->SetUAV(0, NULL);
-	cmdList.GetDynamic()->SetUAV(1, NULL);
-	cmdList.GetDynamic()->SetUAV(2, NULL);
-	cmdList.GetDynamic()->SetUAV(3, NULL);
+	cmdList.GetDynamic()->ClearUAV(0);
+	cmdList.GetDynamic()->ClearUAV(1);
+	cmdList.GetDynamic()->ClearUAV(2);
+	cmdList.GetDynamic()->ClearUAV(3);
 }

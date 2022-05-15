@@ -5,6 +5,9 @@
 
 struct FAtmosphereConstantBuffer
 {
+	FMatrix4 InverseProjection;
+	FMatrix4 InverseView;
+
 	FVector4 LightDirection;
 	FVector3 RayleighScatteringCoeff;
 	float MieScatteringCoeff;
@@ -14,8 +17,10 @@ struct FAtmosphereConstantBuffer
 	float MieDir;
 	float SunIntensity;
 
-	FMatrix4 InverseProjection;
-	FMatrix4 InverseView;
+	float PlanetRadius;
+	float AtmosphereThickness;
+	int PrimarySteps;
+	int SecondarySteps;
 };
 
 
@@ -26,20 +31,13 @@ void AtmosphereRenderer::CreateResources(FRIContext* renderContext)
 
 	FAssetManager Content;
 	Content.Connect("./Assets/");
-
-	Shaders = Content.Load<ShaderLibrary>("Shaders/atmosphere_dx.fslib", renderContext);
-	renderSphere = Content.Load<Mesh>("Models/cube.fl3d", renderContext);
-
+	Content.RenderContext = renderContext;
+	Shaders = Content.Load<ShaderLibrary>("Shaders/atmosphere_dx.fslib");
 
 	pipeline = cmdList.GetDynamic()->CreateShaderPipeline(Shaders.Modules["AtmosphereDynamic"]);
-	AtmosphereRasterizer = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::Front, EFRIFillMode::Solid);
-	AtmosphereDepthState = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::False, EFRIBool::False);
-	ConstantBuffer = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FAtmosphereConstantBuffer)));
-
-
-	Atmosphere = AtmospherePresets::Earth;
-	Scale = AtmosphereScale(8e3, 1.2e3, 0.99f);
-
+	AtmRasterizer = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::Front, EFRIFillMode::Solid);
+	AtmDepthState = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::False, EFRIBool::False);
+	SettingsBuffer.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FAtmosphereConstantBuffer)));
 }
 
 void AtmosphereRenderer::RecreateResources(FRIContext* renderContext, FRIContext* prevContext)
@@ -47,7 +45,7 @@ void AtmosphereRenderer::RecreateResources(FRIContext* renderContext, FRIContext
 
 }
 
-void AtmosphereRenderer::RenderSkySphere(FRICommandList& cmdList, CameraComponent& cameraRef, DirectionalLight& dirLightRef)
+void AtmosphereRenderer::RenderSkySphere(FRICommandList& cmdList, const Camera& cameraRef, const DirectionalLight& dirLight)
 {
 	if (!Enabled)
 		return;
@@ -57,26 +55,29 @@ void AtmosphereRenderer::RenderSkySphere(FRICommandList& cmdList, CameraComponen
 	cmdList.SetShaderPipeline(pipeline);
 	{
 		FAtmosphereConstantBuffer buffer;
-		buffer.LightDirection.rgb = FVector3::Normalize(dirLightRef.Direction);
+
+		buffer.InverseProjection	= FMatrix4::Inverse(cameraRef.Projection);
+		buffer.InverseView			= FMatrix4::Inverse(cameraRef.View);
+
+		buffer.LightDirection.rgb	= FVector3::Normalize(dirLight.Direction);
+
+		buffer.RayleighScatteringCoeff  = ThisProperty(RayleighScatteringCoefficient);
+		buffer.MieScatteringCoeff		= ThisProperty(MieScatteringCoeffcient);
+
+		buffer.RayleighScale			= ThisProperty(RayleighScale);
+		buffer.MieScale					= ThisProperty(MieScale);
+		buffer.MieDir					= ThisProperty(GFactor);
+		buffer.SunIntensity				= ThisProperty(SunIntensity);
+
+		buffer.PlanetRadius				= ThisProperty(PlanetRadius);
+		buffer.AtmosphereThickness		= ThisProperty(AtmosphereThickness);
+		buffer.PrimarySteps				= ThisProperty(PrimarySteps);
+		buffer.SecondarySteps			= ThisProperty(SecondarySteps);
 
 
-		buffer.RayleighScatteringCoeff = Atmosphere.RayleighScatteringCoefficient;
-		buffer.MieScatteringCoeff = Atmosphere.MieScatteringCoeffcient;
 
-		buffer.RayleighScale = Scale.RayleighScale;
-		buffer.MieScale = Scale.MieScale;
-		buffer.MieDir = Scale.GFactor;
-		buffer.SunIntensity = Atmosphere.SunIntensity;
-		buffer.InverseProjection = FMatrix4::Inverse(cameraRef.Projection);
-		buffer.InverseView = FMatrix4::Inverse(cameraRef.View);
-
-		FRIUpdateDescriptor dataStage(&buffer, 0, sizeof(FAtmosphereConstantBuffer));
-
-		cmdList.UniformBufferSubdata(ConstantBuffer, dataStage);
+		cmdList.UniformBufferSubdata(SettingsBuffer.GPU, FRIUpdateDescriptor(&buffer, 0, sizeof(FAtmosphereConstantBuffer)));
 	}
-
-	/*cmdList.SetGeometrySource(renderSphere.VertexBuffer);
-	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, renderSphere.IndexBuffer->IndexCount, EFRIIndexType::UInt32, renderSphere.IndexBuffer);*/
 
 	FRenderUtil::DrawScreenQuad(cmdList);
 
@@ -84,8 +85,8 @@ void AtmosphereRenderer::RenderSkySphere(FRICommandList& cmdList, CameraComponen
 
 void AtmosphereRenderer::SetRenderStates(FRICommandList& cmdList)
 {
-	cmdList.SetShaderUniformBuffer(7, ConstantBuffer);
+	cmdList.SetShaderUniformBuffer(9, SettingsBuffer.GPU);
 
-	cmdList.SetRasterizerState(AtmosphereRasterizer);
-	cmdList.GetDynamic()->SetDepthStencilState(AtmosphereDepthState);
+	cmdList.SetRasterizerState(AtmRasterizer);
+	cmdList.SetDepthStencilState(AtmDepthState);
 }

@@ -78,7 +78,7 @@ FTransform RigidBody::GetGlobalTransform() const
 }
 
 
-void RigidBody::SetShape(const PhysicsShape& shape)
+void RigidBody::SetShape(const PhysShape& shape)
 {
 	const PhysicsMaterial& mat = shape.GetMaterial();
 
@@ -120,12 +120,29 @@ void StaticRigidBody::SetGlobalTransform(FTransform transform)
 }
 
 
-void StaticRigidBody::SetShape(const PhysicsShape& shape)
+void StaticRigidBody::SetShape(const PhysShape& shape)
 {
 	const PhysicsMaterial& mat = shape.GetMaterial();
 
 	PxMaterial* pxMaterial = Allocator->fpxService->mPxPhysics->createMaterial(mat.StaticFriction, mat.DynamicFriction, mat.Restitution);
 	PxRigidActorExt::createExclusiveShape(*pPxActor, *shape.GetGeometry()->FPXGeometry, *pxMaterial);
+
+}
+void StaticRigidBody::RemoveShapes()
+{
+	int numShapes =  pPxActor->getNbShapes();
+
+	if (numShapes)
+	{
+		physx::PxShape** pxShapes = new physx::PxShape*[numShapes];
+		pPxActor->getShapes(pxShapes, numShapes, 0);
+
+		for (int i = 0; i < numShapes; i++)
+		{
+			pPxActor->detachShape(*pxShapes[i]);
+		}
+		delete[] pxShapes;
+	}
 }
 
 
@@ -145,7 +162,6 @@ void CharacterBody::Move(FVector3 vec)
 
 	if (MoveTimeDelta < 2.0f)
 	{
-		//vec += FVector3(0, -15, 0);
 		vec *= MoveTimeDelta;
 		pPxController->move(physx_cast(vec), 0.005f, MoveTimeDelta, PxControllerFilters());
 
@@ -174,6 +190,14 @@ FTransform CharacterBody::GetGlobalTransform() const
 	return FTransform(FVector3(pos.x, pos.y, pos.z));
 }
 
+
+FVector3 CharacterBody::GetViewpoint(float f) const
+{
+	auto height = GetHeight() + 2 * pPxController->getRadius();
+	auto position = GetGlobalTransform().Position;
+
+	return position + FVector3(0.0f, height * f, 0.0f);
+}
 
 bool CharacterBody::IsGrounded() const
 {
