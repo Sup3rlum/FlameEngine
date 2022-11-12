@@ -15,6 +15,10 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 ### PBR Samples
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
 
+### Distance Field Decals
+
+<img src="https://user-images.githubusercontent.com/22891245/201473715-117bbd18-6a8b-4d1e-9207-85551492378c.png" width="900">
+
 ## Features
 
 ### Graphics
@@ -26,6 +30,7 @@ Flame uses a deferred renderer with a PBR Metallic/Roughness workflow. Currently
   - HBAO+
   - Screen Space Reflections (Currently disabled, working on improving them performance-wise)
   - HDR Rendering with ACES filimc tonemapping curves
+  - Signed Distance Field Decals
 
 ### Environment
 
