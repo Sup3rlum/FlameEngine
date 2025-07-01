@@ -11,6 +11,7 @@ Flame is an open source game engine that I wrote my self as a way to improve kno
 
 ### VXGI
 <img src="https://raw.githubusercontent.com/Sup3rlum/FlameEngine/refs/heads/master/Showcase/Screenshot_29.png" width="900" height="492">
+<img src="https://raw.githubusercontent.com/Sup3rlum/FlameEngine/refs/heads/master/Showcase/Screenshot_5.png" width="900" height="492">
 
 ### PBR Samples
 <img src="https://cdn.discordapp.com/attachments/649214971590213653/904501793885679656/Screenshot_2.png" width="900" height="502">
