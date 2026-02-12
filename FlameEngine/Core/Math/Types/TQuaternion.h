@@ -68,21 +68,22 @@ public:
 
 	TQuaternion(const TMatrix3<GenType>& rot)
 	{
+		//auto rot = TMatrix3<GenType>::Transpose(_rot);
 		GenType diagonal = rot.Trace();
 
 		if (diagonal > 0) 
 		{
 			GenType w4 = (GenType)(FMath::Sqrt(diagonal + GenType(1)) * GenType(2));
 			w = w4 / GenType(4);
-			x = (rot[2][1] - rot[1][2]) / w4;
-			y = (rot[0][2] - rot[2][0]) / w4;
-			z = (rot[1][0] - rot[0][1]) / w4;
+			x = (rot[1][2] - rot[2][1]) / w4;
+			y = (rot[2][0] - rot[0][2]) / w4;
+			z = (rot[0][1] - rot[1][0]) / w4;
 		}
 
 		else if ((rot[0][0] > rot[1][1]) && (rot[0][0] > rot[2][2])) 
 		{
 			GenType x4 = (GenType)(FMath::Sqrt(GenType(1) + rot[0][0] - rot[1][1] - rot[2][2]) * GenType(2));
-			w = (rot[2][1] - rot[1][2]) / x4;
+			w = (rot[1][2] - rot[2][1]) / x4;
 			x = x4 / GenType(4);
 			y = (rot[0][1] + rot[1][0]) / x4;
 			z = (rot[0][2] + rot[2][0]) / x4;
@@ -90,7 +91,7 @@ public:
 		else if (rot[1][1] > rot[2][2]) 
 		{
 			GenType y4 = (GenType)(FMath::Sqrt(GenType(1) + rot[1][1] - rot[0][0] - rot[2][2]) * GenType(2));
-			w = (rot[0][2] - rot[2][0]) / y4;
+			w = (rot[2][0] - rot[0][2]) / y4;
 			x = (rot[0][1] + rot[1][0]) / y4;
 			y = y4 / GenType(4);
 			z = (rot[1][2] + rot[2][1]) / y4;
@@ -98,7 +99,7 @@ public:
 		else
 		{
 			GenType z4 = (GenType)(FMath::Sqrt(GenType(1) + rot[2][2] - rot[0][0] - rot[1][1]) * GenType(2));
-			w = (rot[1][0] - rot[0][1]) / z4;
+			w = (rot[0][1] - rot[1][0]) / z4;
 			x = (rot[0][2] + rot[2][0]) / z4;
 			y = (rot[1][2] + rot[2][1]) / z4;
 			z = z4 / GenType(4);
@@ -201,42 +202,16 @@ public:
 		return TQuaternion::Normalize(Result);
 	}
 
-	/*
-	static TQuaternion FromOrthoBasis(TVector3<GenType> forward, TVector3<GenType> right, TVector3<GenType> up)
+	static TQuaternion LookAt(const TVector3<GenType>& origin, const TVector3<GenType>& target)
 	{
-		
-		GenType trace = right.x + up.y + forward.z;
-		if (trace > 0.0) {
-			double s = 0.5 / sqrt(trace + 1.0);
-			q.w = 0.25 / s;
-			q.x = (U.z - F.y) * s;
-			q.y = (F.x - R.z) * s;
-			q.z = (R.y - U.x) * s;
-		}
-		else {
-			if (R.x > U.y && R.x > F.z) {
-				double s = 2.0 * sqrt(1.0 + R.x - U.y - F.z);
-				q.w = (U.z - F.y) / s;
-				q.x = 0.25 * s;
-				q.y = (U.x + R.y) / s;
-				q.z = (F.x + R.z) / s;
-			}
-			else if (U.y > F.z) {
-				double s = 2.0 * sqrt(1.0 + U.y - R.x - F.z);
-				q.w = (F.x - R.z) / s;
-				q.x = (U.x + R.y) / s;
-				q.y = 0.25 * s;
-				q.z = (F.y + U.z) / s;
-			}
-			else {
-				double s = 2.0 * sqrt(1.0 + F.z - R.x - U.y);
-				q.w = (R.y - U.x) / s;
-				q.x = (F.x + R.z) / s;
-				q.y = (F.y + U.z) / s;
-				q.z = 0.25 * s;
-			}
-		}
-	}*/
+		TVector3<GenType> dir = TVector3<GenType>::Normalize(target - origin);
+		TVector3<GenType> rotAxis = TVector3<GenType>::Normalize(TVector3<GenType>(0, 0, 1) ^ dir);
+
+		float dot = TVector3<GenType>::Dot(TVector3<GenType>(0, 0, 1), dir);
+		float ang = std::acosf(dot);
+
+		return TQuaternion::FromAxisAngle(GenType(ang), rotAxis);
+	}
 
 	GenType& operator[](size_t _index)
 	{

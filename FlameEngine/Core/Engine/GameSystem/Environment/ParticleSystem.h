@@ -142,7 +142,7 @@ protected:
 	{}
 
 public:
-	FArray<FRISampler> Samplers;
+	FArray<FRIShaderResourceView*> Samplers;
 	Mesh ParticleMesh;
 	FRIShaderPipeline* Shader;
 
@@ -194,7 +194,7 @@ class ParticleSystem : public IParticleSystem
 				return -ViewDist.z;
 			});
 
-		cmdList.GetDynamic()->InstanceBufferSubdata(InstanceBuffer, FRIUpdateDescriptor(PMemory.Data, 0, PMemory.Capacity * sizeof(TParticle)));
+		cmdList.GetDynamic()->ResourceSubdata(InstanceBuffer, FRIUpdateDescriptor(PMemory.Data, 0, PMemory.Capacity * sizeof(TParticle)));
 
 		for (auto& emitter : Emitters)
 		{
@@ -231,10 +231,10 @@ public:
 		FriContext(FriContext),
 		PMemory(Capacity)
 	{
-		SetParticleTick([](TParticle& p, float dt) {});
+	/*	SetParticleTick([](TParticle& p, float dt) {});
 
 		FRICommandList cmdList(FriContext->GetFRIDynamic());
-		InstanceBuffer = cmdList.GetDynamic()->CreateInstanceBuffer(Capacity, TParticle::GetStageSize(), FRICreationDescriptor(NULL, TParticle::GetStageSize() * Capacity));
+		InstanceBuffer = cmdList.GetDynamic()->CreateInstanceBuffer(TParticle::GetStageSize() * Capacity, TParticle::GetStageSize(), EFRIAccess::Write, EFRIUsage::Dynamic);*/
 	}
 
 	void SetParticleTick(ParticleTickDelegate tickDelegate)

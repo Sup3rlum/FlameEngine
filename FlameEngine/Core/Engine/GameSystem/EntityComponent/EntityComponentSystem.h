@@ -3,10 +3,12 @@
 
 #include "EntityComponent.h"
 #include "EntityWorld.h"
+#include "Entity.h"
 
 #include <thread>
 #include <algorithm>
 #include <execution>
+
 
 class Scene;
 
@@ -35,9 +37,9 @@ private:
 	{
 		FComponentType cmp = TComponentType<T>();
 
-		for (int i = 0; i < stack->BlockArchetype.NumComponentTypes; i++)
+		for (int i = 0; i < stack->BlockArchetype.ComponentTypes.Length(); i++)
 		{
-			if (cmp == stack->BlockArchetype.ComponentTypes[i])
+			if (cmp == stack->BlockArchetype.ComponentTypes[i].Key)
 			{
 				TComponentIndexer<T>::index = i;
 			}
@@ -53,33 +55,33 @@ private:
 	{
 		for (auto& [archType, stack] : scene->EntWorld.EntMemory)
 		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
-			{
-				IndexStack(stack);
+			if (!stack->BlockArchetype.Contains(Archetype))
+				continue;
 
-				auto block = stack->Top;
-				while (block)
+			IndexStack(stack);
+
+			auto block = stack->Top;
+			while (block)
+			{
+				for (int idx = 0; idx < block->NumEntities; idx++)
 				{
-					for (int idx = 0; idx < block->NumEntities; idx++)
-					{
-						this->Update(block->controlArray[idx], block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
-					}
-					block = block->Next;
+					this->Update(block->controlArray[idx], block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
 				}
-			}
+				block = block->Next;
+			}	
 		}
 	}
 
 
 protected:
 	FEntityComponentSystem(Scene* scene) :
-		systemArchetype(TEntityArchetype<TComponents...>()),
+		Archetype(TEntityArchetype<TComponents...>()),
 		scene(scene)
 	{
 	}
 
 	FEntityComponentSystem() :
-		systemArchetype(TEntityArchetype<TComponents...>()),
+		Archetype(TEntityArchetype<TComponents...>()),
 		scene(NULL)
 	{
 	}
@@ -93,129 +95,106 @@ protected:
 public:
 
 	FEntityComponentSystem(FEntityComponentSystem&& other) noexcept :
-		systemArchetype(other.systemArchetype),
+		Archetype(other.Archetype),
 		scene(other.scene)
 	{
 	}
 
 	FEntityComponentSystem(const FEntityComponentSystem& other) noexcept :
-		systemArchetype(other.systemArchetype),
+		Archetype(other.Archetype),
 		scene(other.scene)
 	{
 	}
 
 	FEntityComponentSystem& operator=(const FEntityComponentSystem& other)
 	{
-		systemArchetype = other.systemArchetype;
+		Archetype = other.Archetype;
 		scene = other.scene;
 
 		return *this;
 	}
 
 	template<typename TLambda>
-	void ForEach(TLambda lambdaFunc)
+	int32 ForEach(TLambda lambdaFunc)
 	{
+
+		int32 IterCount = 0;
 		for (auto& [archType, stack] : scene->EntWorld.EntMemory)
 		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
-			{
-				IndexStack(stack);
+			if (!stack->BlockArchetype.Contains(Archetype))
+				continue;
 
-				auto block = stack->Top;
-				while (block)
+			IndexStack(stack);
+
+			auto block = stack->Top;
+			while (block)
+			{
+				for (int idx = 0; idx < block->NumEntities; idx++)
 				{
-					for (int idx = 0; idx < block->NumEntities; idx++)
+					lambdaFunc(block->controlArray[idx], block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
+				}
+				IterCount += block->NumEntities;
+				block = block->Next;
+			}
+		}
+
+		return IterCount;
+	}
+
+	template<typename TLambda>
+	int32 ParallelForEach(TLambda lambdaFunc)
+	{
+		int32 IterCount = 0;
+		for (auto& [archType, stack] : scene->EntWorld.EntMemory)
+		{
+			if (!stack->BlockArchetype.Contains(Archetype))
+				continue;
+
+			IndexStack(stack);
+
+			auto block = stack->Top;
+			while (block)
+			{
+				FRange range(0, block->NumEntities);
+
+				std::for_each(std::execution::par_unseq,
+					range.begin(),
+					range.end(),
+					[&](int64& idx)
 					{
+
 						lambdaFunc(block->controlArray[idx], block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
-					}
+					});
 
-					block = block->Next;
-				}
+				block = block->Next;
 			}
 		}
+		
+		return IterCount;
 	}
 
-	template<typename TLambda>
-	void ParallelForEach(TLambda lambdaFunc)
+
+	Entity First()
 	{
 		for (auto& [archType, stack] : scene->EntWorld.EntMemory)
 		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
+			if (!stack->BlockArchetype.Contains(Archetype))
+				continue;
+
+			IndexStack(stack);
+
+			auto block = stack->Top;
+
+			if (block)
 			{
-				IndexStack(stack);
-
-				auto block = stack->Top;
-				while (block)
-				{
-					FRange range(0, block->NumEntities);
-
-					std::for_each(std::execution::par_unseq,
-						range.begin(),
-						range.end(),
-						[&](int64& idx)
-						{
-
-							lambdaFunc(block->controlArray[idx], block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
-						});
-
-					block = block->Next;
-				}
+				if (block->NumEntities)
+					return block->controlArray[0];
 			}
 		}
+
+		return Entity();
 	}
 
-
-	template<typename TLambda>
-	void CopyForEach(TLambda lambdaFunc)
-	{
-		for (auto& [archType, stack] : scene->EntWorld.StageMemory)
-		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
-			{
-				IndexStack(stack);
-
-				auto block = stack->Top;
-				while (block)
-				{
-					for (int idx = 0; idx < block->NumEntities; idx++)
-					{
-						lambdaFunc(block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
-					}
-
-					block = block->Next;
-				}
-			}
-		}
-	}
-	
-	template<typename TLambda>
-	void CopyParallelForEach(TLambda lambdaFunc)
-	{
-		for (auto& [archType, stack] : scene->EntWorld.StageMemory)
-		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
-			{
-				IndexStack(stack);
-
-				auto block = stack->Top;
-				while (block)
-				{
-					FRange range(0, block->NumEntities);
-
-					std::for_each(std::execution::par_unseq,
-						range.begin(),
-						range.end(),
-						[&](int64& idx)
-						{
-
-							lambdaFunc(block->GetComponent<TComponents>(idx, TComponentIndexer<TComponents>::index) ...);
-						});
-
-					block = block->Next;
-				}
-			}
-		}
-	}
 
 	int32 Count()
 	{
@@ -223,7 +202,7 @@ public:
 
 		for (auto& [archType, stack] : scene->EntWorld.EntMemory)
 		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
+			if (stack->BlockArchetype.Contains(Archetype))
 			{
 				auto block = stack->Top;
 				while (block)
@@ -238,26 +217,6 @@ public:
 	}
 
 
-	int32 CopyCount()
-	{
-		int32 entityCount = 0;
-
-		for (auto& [archType, stack] : scene->EntWorld.StageMemory)
-		{
-			if (stack->BlockArchetype.Contains(systemArchetype))
-			{
-				auto block = stack->Top;
-				while (block)
-				{
-					entityCount += block->NumEntities;
-					block = block->Next;
-				}
-			}
-		}
-
-		return entityCount;
-	}
-
-	FEntityArchetype systemArchetype;
+	FEntityArchetype Archetype;
 	friend class Scene;
 };

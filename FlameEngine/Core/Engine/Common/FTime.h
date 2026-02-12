@@ -24,10 +24,10 @@ public:
 	}
 
 	int64 GetPlatformTicks();
-	float GetSeconds();
-	float GetMilliseconds();
-	float GetHours();
-	float GetMinutes();
+	double GetSeconds();
+	double GetMilliseconds();
+	double GetHours();
+	double GetMinutes();
 
 
 	friend FTimeSpan operator-(const FTimeSpan& t1, const FTimeSpan& t2)

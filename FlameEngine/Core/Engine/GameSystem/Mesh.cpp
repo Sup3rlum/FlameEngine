@@ -1,31 +1,89 @@
 #include "Mesh.h"
 #include "Core/Engine/Renderer/Common/Geometry/VertexComponent.h"
 
-void Mesh::AddToRenderList(FRICommandList& cmdList, EFRIPrimitiveType topology) const
+void Mesh::AddToRenderList(FRICommandList& cmdList, EFRIPrimitiveType topology, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
 {
-	cmdList.SetGeometrySource(VertexBuffer);
-	cmdList.DrawPrimitivesIndexed(
-		topology,
-		IndexBuffer->IndexCount,
-		EFRIIndexType::UInt32,
-		IndexBuffer);
+	cmdList.SetGeometrySource(VertexBuffer, IndexBuffer, instanceBuffer);
+
+	if (!!instanceBuffer && HasInstanceAttributes)
+	{
+		cmdList.DrawInstancesIndexed(
+			topology,
+			IndexBuffer->IndexCount,
+			InstanceCount,
+			EFRIIndexType::UInt32);
+	}
+	else
+	{
+		cmdList.DrawPrimitivesIndexed(
+			topology,
+			IndexBuffer->IndexCount,
+			EFRIIndexType::UInt32);
+
+	}
 }
-
-void Mesh::AddToRenderListInstanced(FRICommandList& cmdList, EFRIPrimitiveType topology, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
-{
-	cmdList.SetInstancedGeometrySource(VertexBuffer, instanceBuffer);
-	cmdList.DrawInstancesIndexed(
-		topology,
-		IndexBuffer->IndexCount,
-		InstanceCount,
-		EFRIIndexType::UInt32,
-		IndexBuffer);
-
-}
-
-
+/*
 void Mesh::SetInstanceAttributes(
 	FRICommandList& cmdList, 
+	const FArray<FRIInputAttribute>& attributes,
+	FRIVertexShader* signatureShader)
+{
+	/*FArray<FRIInputDesc> LayoutDesc =
+	{
+		FRIInputDesc(InputLayouts::StaticLit,	0),
+		FRIInputDesc(attributes,				1)
+	};
+
+	auto inputLayout = cmdList.GetDynamic()->CreateInputLayout(LayoutDesc, signatureShader);
+	cmdList.GetDynamic()->AttachInputLayout(this->VertexBuffer, inputLayout);
+
+	if (inputLayout) 
+		HasInstanceAttributes = true;
+}*/
+
+void Model::AddToRenderList(FRICommandList& cmdList, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
+{
+	EFRIPrimitiveType primitiveTopology = EFRIPrimitiveType::Triangles;
+
+	if (DetailMode == Detail::Tessellation &&
+		TessellationMaxLevel > 0)
+	{
+		primitiveTopology = EFRIPrimitiveType::ControlPoint3;
+	}
+
+	Mesh.AddToRenderList(cmdList,
+		primitiveTopology,
+		instanceBuffer,
+		InstanceCount);
+}
+
+
+/* --------------------------- Skinned Model -------------------------------*/
+
+void RiggedMesh::AddToRenderList(FRICommandList& cmdList, EFRIPrimitiveType topology, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
+{
+	cmdList.SetGeometrySource(VertexBuffer, IndexBuffer, instanceBuffer);
+
+	if (!!instanceBuffer && HasInstanceAttributes)
+	{
+		cmdList.DrawInstancesIndexed(
+			topology,
+			IndexBuffer->IndexCount,
+			InstanceCount,
+			EFRIIndexType::UInt32);
+	}
+	else
+	{
+		cmdList.DrawPrimitivesIndexed(
+			topology,
+			IndexBuffer->IndexCount,
+			EFRIIndexType::UInt32);
+
+	}
+}
+/*
+void RiggedMesh::SetInstanceAttributes(
+	FRICommandList& cmdList,
 	const FArray<FRIInputAttribute>& attributes,
 	FRIVertexShader* signatureShader)
 {
@@ -35,42 +93,25 @@ void Mesh::SetInstanceAttributes(
 		FRIInputDesc(attributes,				1)
 	};
 
-	auto vDecl = cmdList.GetDynamic()->CreateVertexDeclaration(LayoutDesc, signatureShader);
-	cmdList.GetDynamic()->AttachVertexDeclaration(this->VertexBuffer, vDecl);
+	auto inputLayout = cmdList.GetDynamic()->CreateInputLayout(LayoutDesc, signatureShader);
+	cmdList.GetDynamic()->AttachInputLayout(this->VertexBuffer, inputLayout);
 
-}
+	if (inputLayout)
+		HasInstanceAttributes = true;
+}*/
 
-void Model::AddToRenderList(FRICommandList& cmdList) const
+void RiggedModel::AddToRenderList(FRICommandList& cmdList, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
 {
-	if (DetailMode == Detail::Tessellation && 
-		TessellationMaxLevel > 0)
-	{
-		Mesh.AddToRenderList(cmdList, 
-			EFRIPrimitiveType::ControlPoint3);
-	}
-	else
-	{
-		Mesh.AddToRenderList(cmdList,
-			EFRIPrimitiveType::Triangles);
-	}
-}
+	EFRIPrimitiveType primitiveTopology = EFRIPrimitiveType::Triangles;
 
-void Model::AddToRenderListInstanced(FRICommandList& cmdList, FRIInstanceBuffer* instanceBuffer, uint32 InstanceCount) const
-{
 	if (DetailMode == Detail::Tessellation &&
 		TessellationMaxLevel> 0)
 	{
-		Mesh.AddToRenderListInstanced(cmdList,
-			EFRIPrimitiveType::ControlPoint3,
-			instanceBuffer,
-			InstanceCount);
+		primitiveTopology = EFRIPrimitiveType::ControlPoint3;
+	}
 
-	}
-	else
-	{
-		Mesh.AddToRenderListInstanced(cmdList,
-			EFRIPrimitiveType::Triangles,
-			instanceBuffer,
-			InstanceCount);
-	}
+	Mesh.AddToRenderList(cmdList,
+		primitiveTopology,
+		instanceBuffer,
+		InstanceCount);
 }

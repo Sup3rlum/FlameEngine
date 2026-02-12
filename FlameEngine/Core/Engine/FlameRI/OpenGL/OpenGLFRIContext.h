@@ -32,7 +32,7 @@ public:
 	void ShowCursor();
 	void HideCursor();
 
-	void HandleEvents();
+	bool HandleEvents();
 
 	FVector2 GetCursorPosition();
 	void SetCursorPosition(FVector2 pos);

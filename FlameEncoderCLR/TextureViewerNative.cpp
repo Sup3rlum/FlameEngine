@@ -27,28 +27,28 @@ namespace FlameEncoderCLR
 		{
 			auto PerspMatrix = FPerspectiveMatrix(PI / 9, FriContext->GetViewport().AspectRatio(), 0.1f, 300.0f);
 
-			Entity cameraEnt = currentScene->CreateEntity<Camera>("camera");
+			Entity cameraEnt = CurrentScene->CreateEntity<Camera>("camera");
 
 			cameraEnt.Component<FTransform>().Position = FVector3(5, 1, 5);
 			cameraEnt.Component<FTransform>().Orientation = FQuaternion::FromEulerAngles(FVector3(0, PI, 0));
 			cameraEnt.Component<Camera>() = Camera(FViewMatrix(cameraEnt.Component<FTransform>().Position, FVector3(0), FVector3(0,1,0)), PerspMatrix);
 
-			currentScene->Elements["GameCamera"] = cameraEnt;
+			CurrentScene->Elements["GameCamera"] = cameraEnt;
 
-			currentScene->Elements["Sun"] = currentScene->CreateEntity<DirectionalLight>("Sun");
-			currentScene->Elements["Sun"].Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(0, -1.0f, -1.0f));
-			currentScene->Elements["Sun"].Component<DirectionalLight>().Color = Color::White;
-			currentScene->Elements["Sun"].Component<DirectionalLight>().Intensity = 5.0f;
+			CurrentScene->Elements["Sun"] = CurrentScene->CreateEntity<DirectionalLight>("Sun");
+			CurrentScene->Elements["Sun"].Component<DirectionalLight>().Direction = FVector3::Normalize(FVector3(0, -1.0f, -1.0f));
+			CurrentScene->Elements["Sun"].Component<DirectionalLight>().Color = Color::White;
+			CurrentScene->Elements["Sun"].Component<DirectionalLight>().Intensity = 5.0f;
 
 
-			sampleSphere = currentScene->CreateEntity<Model>("sampleSphere");
+			sampleSphere = CurrentScene->CreateEntity<Model>("sampleSphere");
 			sampleSphere.Component<Model>().Mesh = Content.Load<Mesh>("Models/uvSphere.fl3d");
 			sampleSphere.Component<Model>().Material = Content.Load<Material>("Materials/gold.flmt");
 			sampleSphere.Component<FTransform>() = FTransform();
 
 
-			currentScene->Elements["Environment"] = currentScene->CreateEntity<EnvironmentMap>("EnvMap");
-			currentScene->Elements["Environment"].Component<EnvironmentMap>() = Content.Load<EnvironmentMap>("Materials/forest_hdr.flenv");
+			CurrentScene->Elements["Environment"] = CurrentScene->CreateEntity<EnvironmentMap>("EnvMap");
+			CurrentScene->Elements["Environment"].Component<EnvironmentMap>() = Content.Load<EnvironmentMap>("Materials/forest_hdr.flenv");
 
 		}		
 
@@ -75,7 +75,8 @@ namespace FlameEncoderCLR
 
 		void SetMaterial(FArray<FKeyVal<IVector2,FRICreationDescriptor>> data)
 		{
-			Material::MapCollection maps;
+			FStaticArray<FRITexture2D*, (size_t)EMaterialMap::MAX_MAPS> maps;
+			auto sampler = FriContext->GetFRIDynamic()->CreateSamplerState(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat);
 
 			int counter = 0;
 			for (auto [mapDesc, mapData] : data)
@@ -83,16 +84,16 @@ namespace FlameEncoderCLR
 				auto friTex = FriContext->GetFRIDynamic()->CreateTexture2D(
 					mapDesc.x,
 					mapDesc.y,
-					0,
+					1,
+					EFRIAccess::Write,
 					EFRITextureFormat::RGBA8UNORM,
-					FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::UnsignedByte),
-					mapData
+					&mapData
 				);
 
-				maps[counter++] = MaterialMap(friTex);
+				maps[counter++] = friTex;
 			}
 
-			sampleSphere.Component<Model>().Material = Material(maps, FriContext);
+			sampleSphere.Component<Model>().Material = Material(maps, sampler);
 		}
 
 		void PollClose()
@@ -121,7 +122,7 @@ TextureViewerNative::TextureViewerNative(void* hwnd, int width, int height)
 
 	gameApp->Load();
 
-	gameApp->Renderer.AttachToScene(gameApp->currentScene);
+	gameApp->Renderer.AttachToScene(gameApp->CurrentScene);
 }
 
 

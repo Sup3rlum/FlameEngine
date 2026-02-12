@@ -2,7 +2,7 @@
 
 
 #include <FlameEngine/Core/Engine/ContentSystem/AssetManager.h>
-#include "Core/Engine/GameSystem/Material/MaterialComponent.h" 
+#include "Core/Engine/GameSystem/Material/Material.h" 
 #include "../Renderer/BitTexture.h"
 
 

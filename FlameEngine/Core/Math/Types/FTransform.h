@@ -52,9 +52,7 @@ public:
 	{
 		Position = matrix[3].xyz; // Get the XYZ components of the 3rd row
 		Orientation = FQuaternion(FMatrix4::ToMatrix3(matrix)); // Get the rotation component from the 3x3 submatrix
-
 	}
-
 
 	static FTransform Interp(const FTransform& t1, const FTransform& t2, float weight)
 	{
@@ -70,6 +68,6 @@ public:
 		FRotationMatrix rot(Orientation);
 		FTranslationMatrix trans(Position);
 
-		return trans * rot;
+		return rot * trans;
 	}
 };

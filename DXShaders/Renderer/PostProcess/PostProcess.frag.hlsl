@@ -18,7 +18,8 @@ float4 main(PSInput input) : SV_TARGET
     
     Color.rgb = ACESFilm(Color.rgb);
     //Color.rgb = ExposureTonemap(Color.rgb, 1.2f);
-    //Color.rgb = LinearToSRGB(Color.rgb);
+    Color.rgb = LinearToSRGB(Color.rgb);
+    //Color.rgb = pow(Color.rgb, 2.2);
     
     return Color;
 }

@@ -12,13 +12,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FlameEncoder.Windows
 {
     /// <summary>
     /// Interaction logic for ColorPicker.xaml
     /// </summary>
-    public partial class ColorPicker : Window
+    public partial class ColorPicker : Window, INotifyPropertyChanged
     {
         public ColorPicker()
         {
@@ -29,11 +31,33 @@ namespace FlameEncoder.Windows
         float Hue = 100.0f;
         float Saturation = 1.0f;
         float Value = 1.0f;
+        float Intensity = 1.0f;
 
 
         bool isSliderMoving = false;
         bool isColorMoving = false;
         bool isColorReady = false;
+
+
+        Point _palettePoint;
+        public Point palettePoint
+        {
+            get { return _palettePoint; }
+            set
+            {
+                _palettePoint = value;
+
+                //NotifyPropertyChanged("PaletteTop");
+                //NotifyPropertyChanged("PaletteLeft");
+
+            }
+        }
+
+        public int PaletteTop => (int)palettePoint.Y;
+        public int PaletteLeft => (int)palettePoint.X;
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public (int, int, int) HSVtoRGB(float h, float s, float v)
         {
@@ -59,10 +83,10 @@ namespace FlameEncoder.Windows
             return $"#{r.ToString("X")}{g.ToString("X")}{b.ToString("X")}";
         }
 
-        public void SetSlider()
-        {
-            WriteableBitmap bmp = new WriteableBitmap((int)hueSlider.Width, (int)hueSlider.Height, 96, 96, PixelFormats.Bgr32, null);
+        public delegate (int, int, int) WriteFunc(int x, int y);
 
+        public void WritePixelsToBmp(WriteableBitmap bmp, WriteFunc writeFunc)
+        {
             try
             {
                 // Reserve the back buffer for updates.
@@ -70,10 +94,9 @@ namespace FlameEncoder.Windows
 
                 unsafe
                 {
-
-                    for (int x = 0; x < hueSlider.Width; x++)
+                    for (int x = 0; x < bmp.Width; x++)
                     {
-                        for (int y = 0; y < hueSlider.Height; y++)
+                        for (int y = 0; y < bmp.Height; y++)
                         {
                             // Get a pointer to the back buffer.
                             IntPtr pBackBuffer = bmp.BackBuffer;
@@ -82,7 +105,7 @@ namespace FlameEncoder.Windows
                             pBackBuffer += y * bmp.BackBufferStride;
                             pBackBuffer += x * 4;
 
-                            (int R, int G, int B) = HSVtoRGB(360.0f * (float)(y / hueSlider.Height), 1.0f, 1.0f);
+                            (int R, int G, int B) = writeFunc(x, y);
 
                             // Compute the pixel's color.
                             int color_data = R << 16; // R
@@ -95,7 +118,7 @@ namespace FlameEncoder.Windows
                             // Specify the area of the bitmap that changed.
                         }
                     }
-                    bmp.AddDirtyRect(new Int32Rect(0, 0, (int)hueSlider.Width, (int)hueSlider.Height));
+                    bmp.AddDirtyRect(new Int32Rect(0, 0, (int)bmp.Width, (int)bmp.Height));
                 }
 
             }
@@ -104,55 +127,25 @@ namespace FlameEncoder.Windows
                 // Release the back buffer and make it available for display.
                 bmp.Unlock();
             }
+        }
 
+        public void GenerateHueSlider()
+        {
+            WriteableBitmap bmp = new WriteableBitmap((int)hueSlider.Width, (int)hueSlider.Height, 96, 96, PixelFormats.Bgr32, null);
+            WritePixelsToBmp(bmp, (x, y) => HSVtoRGB(360.0f * (float)(y / hueSlider.Height), 1.0f, 1.0f));
             hueSlider.Source = bmp;
         }
+
+
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public void SetCanvasHueSlice()
         {
             WriteableBitmap bmp = new WriteableBitmap((int)hsvPalette.Width, (int)hsvPalette.Height, 96, 96, PixelFormats.Bgr32, null);
-
-            try
-            {
-                // Reserve the back buffer for updates.
-                bmp.Lock();
-
-                unsafe
-                {
-
-                    for (int x = 0; x < hsvPalette.Width; x++)
-                    {
-                        for (int y = 0; y < hsvPalette.Height; y++)
-                        {
-                            // Get a pointer to the back buffer.
-                            IntPtr pBackBuffer = bmp.BackBuffer;
-
-                            // Find the address of the pixel to draw.
-                            pBackBuffer += y * bmp.BackBufferStride;
-                            pBackBuffer += x * 4;
-
-                            (int R, int G, int B) = HSVtoRGB(Hue, (float)(x / hsvPalette.Width), 1.0f - (float)(y / hsvPalette.Height));
-
-                            // Compute the pixel's color.
-                            int color_data = R << 16; // R
-                            color_data |= G << 8;   // G
-                            color_data |= B << 0;   // B
-
-                            // Assign the color data to the pixel.
-                            *((int*)pBackBuffer) = color_data;
-
-                            // Specify the area of the bitmap that changed.
-                        }
-                    }
-                    bmp.AddDirtyRect(new Int32Rect(0, 0, (int)hsvPalette.Width, (int)hsvPalette.Height));
-                }
-
-            }
-            finally
-            {
-                // Release the back buffer and make it available for display.
-                bmp.Unlock();
-            }
-
+            WritePixelsToBmp(bmp, (x, y) => HSVtoRGB(Hue, (float)(x / hsvPalette.Width), 1.0f - (float)(y / hsvPalette.Height)));
             hsvPalette.Source = bmp;
         }
 
@@ -170,43 +163,25 @@ namespace FlameEncoder.Windows
 
             textBox_Hex.Text = RGBtoHex(R, G, B);
 
-            WriteableBitmap bmp = new WriteableBitmap(1, 1, 96, 96, PixelFormats.Bgr32, null);
-            try
+            WriteableBitmap bmp = new WriteableBitmap(2, 2, 96, 96, PixelFormats.Bgr32, null);
+            WritePixelsToBmp(bmp, (x, y) =>
             {
-                // Reserve the back buffer for updates.
-                bmp.Lock();
-
-                unsafe
+                if (y == 0)
                 {
-                    // Get a pointer to the back buffer.
-                    IntPtr pBackBuffer = bmp.BackBuffer;
-
-
-                    // Compute the pixel's color.
-                    int color_data = R << 16; // R
-                    color_data |= G << 8;   // G
-                    color_data |= B << 0;   // B
-
-                    // Assign the color data to the pixel.
-                    *((int*)pBackBuffer) = color_data;
-
-                    // Specify the area of the bitmap that changed.
-                    bmp.AddDirtyRect(new Int32Rect(0, 0, 1, 1));
+                    return (Math.Min((int)(R*Intensity), 255), Math.Min((int)(G*Intensity), 255), Math.Min((int)(B*Intensity), 255));
                 }
-            }
-            finally
-            {
-                // Release the back buffer and make it available for display.
-                bmp.Unlock();
-            }
-
+                else
+                {
+                    return (R, G, B);
+                }
+            });
             hsvPreview.Source = bmp;
         }
 
         private void Canvas_Loaded(object sender, RoutedEventArgs e)
         {
             SetCanvasHueSlice();
-            SetSlider();
+            GenerateHueSlider();
         }
 
         private void hsvPalette_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -234,11 +209,11 @@ namespace FlameEncoder.Windows
             if (!isColorMoving)
                 return;
 
-            Point p = Mouse.GetPosition(hsvPalette);
+            palettePoint = Mouse.GetPosition(hsvPalette);
 
-            Saturation = (float)(p.X / hsvPalette.Width);
-            Value = 1.0f - (float)(p.Y / hsvPalette.Width);
 
+            Saturation = (float)(palettePoint.X / hsvPalette.Width);
+            Value = 1.0f - (float)(palettePoint.Y / hsvPalette.Width);
 
             SetPreviewColor();
         }
@@ -280,7 +255,7 @@ namespace FlameEncoder.Windows
             Close();
         }
 
-        public static bool GetColor(out Color color)
+        public static bool GetColor(out Color color, out float Intensity)
         {
             var picker = new ColorPicker();
             picker.ShowDialog();
@@ -290,12 +265,33 @@ namespace FlameEncoder.Windows
                 (int r, int g, int b) = picker.HSVtoRGB(picker.Hue, picker.Saturation, picker.Value);
 
                 color = Color.FromRgb((byte)r, (byte)g, (byte)b);
+                Intensity = picker.Intensity;
                 return true;
             }
             else
             {
+                color = new Color();
+                Intensity = 0;
                 return false;
             }
+        }
+
+        private void intensitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            float fVal = (float)intensitySlider.Value;
+
+            if (fVal < 50.0f)
+            {
+                Intensity = 0.02f * fVal;
+            }
+            else
+            {
+                Intensity = MathF.Exp(0.1f * (fVal - 50.0f));
+            }
+
+            textBox_Intensity.Text = Intensity.ToString();
+
+            SetPreviewColor();
         }
     }
 }

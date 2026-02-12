@@ -19,22 +19,24 @@ struct WorldRenderer : public RenderList, public WorldObserver
 	
 	ctpl::thread_pool threadPool;
 	FHashMap<IVector2, ChunkMesh*, ChunkIDHasher> meshes;
-	FRIVertexDeclaration* vertexDecl = NULL;
+	FRIInputLayout* vertexDecl = NULL;
 	FRIContext* FriContext;
 
 	FHashMap<IVector2, ChunkMeshFuture*, ChunkIDHasher> tasks;
 	FRITexture2D* windDisplacement;
 
 	GameTextureArray* gameTextures;
-	FRIShaderPipeline* chunkShader;
-	FRIShaderPipeline* chunkShaderWater;
-	FRIShaderPipeline* chunkShaderGrass;
+	FRIPipelineStateObject* chunkShader;
+	FRIPipelineStateObject* chunkShaderWater;
+	FRIPipelineStateObject* chunkShaderGrass;
 	FRIStageBuffer waveSettingsBuffer;
+	FRISamplerState* sampler;
 
 	void BlockChanged(Block oldBlock, Block newBlock, IVector3 globalPos) override;
 	void ChunkScheduledUpdate(IVector2 chunkCoord, bool threadpool) override;
 	void WorldTick() override;
 	void FlushFutures();
+	FRIPipelineStateObject* CreateChunkShaderPipeline(FRIDynamicAllocator* Allocator, const ShaderLibraryModule& Shaders);
 
 	WorldRenderer(FRIContext* friContext, World* world);
 	void AddToCmdList(FRICommandList& cmdList, GRenderMode mode) override;

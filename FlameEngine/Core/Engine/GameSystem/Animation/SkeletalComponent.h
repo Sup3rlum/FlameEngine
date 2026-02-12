@@ -39,64 +39,22 @@ struct Joint
 
 };
 
-struct Skeleton
+EXPORT(struct, Skeleton)
 {
 	Joint* RootJoint;
 	uint32 JointCount;
+	FHashMap<FString8, Joint*> Joints;
 
+	Skeleton(Joint* rootJoint, uint32 jointCount);
 
-	Skeleton(Joint* rootJoint, uint32 jointCount) :
-		RootJoint(rootJoint),
-		JointCount(jointCount)
-	{}
+	Skeleton(const Skeleton& other);
+	FArray<FMatrix4> GetJointTransforms();
 
-
-	Skeleton(const Skeleton& other) :
-		RootJoint(other.RootJoint),
-		JointCount(other.JointCount)
-	{
-
-	}
-
-	FArray<FMatrix4> GetJointTransforms()
-	{
-		FArray<FMatrix4> jointMatrices(JointCount);
-		AddJointTransformToArray(RootJoint, jointMatrices);
-		return jointMatrices;
-	}
-
-
-
-	void ApplyPose(const SkeletonPose& pose)
-	{
-		ApplyPoseToJoint(pose, RootJoint, FMatrix4(1));
-	}
-
-
-	void ApplyPoseToJoint(const SkeletonPose& pose, Joint* joint, const FMatrix4& parentTransform)
-	{
-		FMatrix4 currentTransform = pose.JointTransforms[joint->ID] * parentTransform;
-
-		for (auto j : joint->childrenJoints)
-		{
-			ApplyPoseToJoint(pose, j, currentTransform);
-		}
-
-		joint->animatedTransform = currentTransform * joint->inverseBindTransform;
-	}
-
-
+	void ApplyPose(const SkeletonPose& pose);
 
 private:
-
-	void AddJointTransformToArray(Joint* joint, FArray<FMatrix4>& jointMatrices)
-	{
-		jointMatrices[joint->ID] = joint->animatedTransform;
-
-		for (auto joint : joint->childrenJoints)
-		{
-			AddJointTransformToArray(joint, jointMatrices);
-		}
-	}
+	void AddJointToDict(Joint* joint);
+	void ApplyPoseToJoint(const SkeletonPose& pose, Joint* joint, const FMatrix4& parentTransform);
+	void AddJointTransformToArray(Joint* joint, FArray<FMatrix4>& jointMatrices);
 
 };

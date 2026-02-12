@@ -11,16 +11,28 @@ struct Block
 
 	Block() : Block(0)
 	{}
+
+	static Block AIR;
+	static Block STONE;
+	static Block GRASS_BLOCK;
+	static Block DIRT;
+	static Block COBBLE;
+	static Block PLANKS;
+	static Block SAND;
+	static Block OAK;
+	static Block LEAVES;
+	static Block WATER;
+	static Block GRASS;
+
+	friend static bool operator==(const Block& b1, const Block& b2)
+	{
+		return b1.ID == b2.ID;
+	}
+
+	bool IsTransparent() const
+	{
+		return *this == AIR || *this == WATER || *this == LEAVES || *this == GRASS;
+	}
+
 };
 
-#define BLOCK_AIR 0	
-#define BLOCK_STONE 1
-#define BLOCK_GRASS_BLOCK 2
-#define BLOCK_DIRT 3
-#define BLOCK_COBBLE 4
-#define BLOCK_PLANKS 5
-#define BLOCK_SAND 6
-#define BLOCK_OAK 7
-#define BLOCK_LEAVES 8
-#define BLOCK_WATER 9
-#define BLOCK_GRASS 10

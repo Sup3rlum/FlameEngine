@@ -11,6 +11,7 @@ using DPoint = System.Drawing.Point;
 using DColor = System.Drawing.Color;
 using WColor = System.Windows.Media.Color;
 using System.Windows.Controls;
+using FlameEncoder.Data;
 
 
 using FlameEncoder.NodeEditor.Nodes.Controls;
@@ -27,27 +28,27 @@ namespace FlameEncoder.NodeEditor.Nodes
 
             AddSocket("Red", OutputNodeSocket.Create<DColor>(this, (location) =>
             {
-                var color = (DColor)Inputs["Color"].Data(location);
-                return DColor.FromArgb(255, color.R, color.R, color.R);
+                var color = (Color32)Inputs["Color"].Data(location);
+                return new Color32(color.R, color.R, color.R, 1.0f);
             }));
 
             AddSocket("Green", OutputNodeSocket.Create<DColor>(this, (location) =>
             {
-                var color = (DColor)Inputs["Color"].Data(location);
-                return DColor.FromArgb(255, color.G, color.G, color.G);
+                var color = (Color32)Inputs["Color"].Data(location);
+                return new Color32(color.G, color.G, color.G, 1.0f);
             }));
 
             AddSocket("Blue", OutputNodeSocket.Create<DColor>(this, (location) =>
             {
-                var color = (DColor)Inputs["Color"].Data(location);
-                return DColor.FromArgb(255, color.B, color.B, color.B);
+                var color = (Color32)Inputs["Color"].Data(location);
+                return new Color32(color.B, color.B, color.B, 1.0f);
 
             }));
 
             AddSocket("Alpha", OutputNodeSocket.Create<DColor>(this, (location) =>
             {
-                var color = (DColor)Inputs["Color"].Data(location);
-                return DColor.FromArgb(255, color.A, color.A, color.A);
+                var color = (Color32)Inputs["Color"].Data(location);
+                return new Color32(color.A, color.A, color.A, 1.0f);
             }));
         }
 
@@ -60,20 +61,20 @@ namespace FlameEncoder.NodeEditor.Nodes
 
         public ChannelMixerNode() : base("Channel Mixer", new ColorNodeControl(), Colors.Yellow)
         {
-            AddSocket("Red", InputNodeSocket.Create<DColor>(this));
-            AddSocket("Green", InputNodeSocket.Create<DColor>(this));
-            AddSocket("Blue", InputNodeSocket.Create<DColor>(this));
-            AddSocket("Alpha", InputNodeSocket.Create<DColor>(this));
+            AddSocket("Red", InputNodeSocket.Create<Color32>(this));
+            AddSocket("Green", InputNodeSocket.Create<Color32>(this));
+            AddSocket("Blue", InputNodeSocket.Create<Color32>(this));
+            AddSocket("Alpha", InputNodeSocket.Create<Color32>(this));
 
-            AddSocket("Color", OutputNodeSocket.Create<DColor>(this,
+            AddSocket("Color", OutputNodeSocket.Create<Color32>(this,
                 (location) =>
                 {
-                    var colorR = ((DColor)Inputs["Red"].Data(location)).R;
-                    var colorG = ((DColor)Inputs["Green"].Data(location)).R;
-                    var colorB = ((DColor)Inputs["Blue"].Data(location)).R;
-                    var colorA = ((DColor)Inputs["Alpha"].Data(location)).R;
+                    var colorR = ((Color32)Inputs["Red"].Data(location)).R;
+                    var colorG = ((Color32)Inputs["Green"].Data(location)).R;
+                    var colorB = ((Color32)Inputs["Blue"].Data(location)).R;
+                    var colorA = ((Color32)Inputs["Alpha"].Data(location)).R;
 
-                    return DColor.FromArgb(colorA, colorR, colorG, colorG);
+                    return new Color32(colorR, colorG, colorB, colorA);
                 }));
         }
 
@@ -85,21 +86,20 @@ namespace FlameEncoder.NodeEditor.Nodes
 
         public DesaturateNode() : base("Desaturate", new ColorNodeControl(), Colors.Yellow)
         {
-            AddSocket("Color", InputNodeSocket.Create<DColor>(this));
+            AddSocket("Color", InputNodeSocket.Create<Color32>(this));
 
-            AddSocket("Color", OutputNodeSocket.Create<DColor>(this,
+            AddSocket("Color", OutputNodeSocket.Create<Color32>(this,
                 (location) =>
                 {
-                    var color = ((DColor)Inputs["Color"].Data(location));
+                    var color = ((Color32)Inputs["Color"].Data(location));
 
 
-                    float lum = (color.R / 255.0f) * 0.3f +
-                                (color.G / 255.0f) * 0.6f +
-                                (color.B / 255.0f) * 0.1f;
+                    float lum = color.R * 0.3f +
+                                color.G * 0.6f +
+                                color.B * 0.1f;
 
-                    int colorLum = (int)(lum * 255.0f);
 
-                    return DColor.FromArgb(255, colorLum, colorLum, colorLum);
+                    return new Color32(lum, lum, lum, 1.0f);
                 }));
         }
     }
@@ -110,18 +110,18 @@ namespace FlameEncoder.NodeEditor.Nodes
 
         public InvertNode() : base("Invert", new ColorNodeControl(), Colors.Yellow)
         {
-            AddSocket("Color", InputNodeSocket.Create<DColor>(this));
-            AddSocket("Color", OutputNodeSocket.Create<DColor>(this,
+            AddSocket("Color", InputNodeSocket.Create<Color32>(this));
+            AddSocket("Color", OutputNodeSocket.Create<Color32>(this,
                 (location) =>
                 {
-                    var color = ((DColor)Inputs["Color"].Data(location));
+                    var color = ((Color32)Inputs["Color"].Data(location));
 
-                    int invR = 255 - color.R;
-                    int invG = 255 - color.G;
-                    int invB = 255 - color.B;
+                    float invR = 1.0f - color.R;
+                    float invG = 1.0f - color.G;
+                    float invB = 1.0f - color.B;
 
 
-                    return DColor.FromArgb(color.A, invR, invG, invB);
+                    return new Color32(invR, invG, invB, color.A);
                 }));
         }
 

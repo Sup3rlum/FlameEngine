@@ -8,4 +8,3 @@ void FRICommandListBase::Flush()
 {
 	GCommandExecutor.Execute(*this);
 }
-

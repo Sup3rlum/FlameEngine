@@ -2,12 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestGame.cpp" />
-    <ClCompile Include="TestParticleSystem.cpp" />
-    <ClCompile Include="TestPlayerScript.cpp" />
-    <ClCompile Include="Coin.cpp" />
-    <ClCompile Include="RenderModel.cpp" />
+    <ClCompile Include="SteelCircus.cpp" />
+    <ClCompile Include="GameScripts\PlayerScript.cpp" />
+    <ClCompile Include="Planet\Planet.cpp" />
     <ClCompile Include="ImportScripts\IS_BitTexture.cpp" />
+    <ClCompile Include="Scenes\GameScene.cpp" />
+    <ClCompile Include="Spine\Spine.cpp" />
+    <ClCompile Include="Scenes\SpineScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -132,14 +133,16 @@
     <None Include="Assets\settings.html" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestGame.h" />
+    <ClInclude Include="SteelCircus.h" />
     <ClInclude Include="Assets\Shaders\util\SATGen.vert" />
-    <ClInclude Include="TestParticleSystem.h" />
-    <ClInclude Include="TestPlayerScript.h" />
-    <ClInclude Include="CoinScript.h" />
-    <ClInclude Include="RenderModel.h" />
+    <ClInclude Include="GameScripts\PlayerScript.h" />
+    <ClInclude Include="Planet\Planet.h" />
     <ClInclude Include="ImportScripts\BitTexture.h" />
     <ClInclude Include="Renderer\BitTexture.h" />
+    <ClInclude Include="Scenes\GameScene.h" />
+    <ClInclude Include="GameScripts\PlanetScript.h" />
+    <ClInclude Include="Spine\Spine.h" />
+    <ClInclude Include="Scenes\SpineScene.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Assets\Shaders\deferred\ShadowmapSkinned.vert.glsl" />

@@ -3,6 +3,6 @@
 #include "OpenGLFRIContext.h"
 #include "OpenGLFRICommand.h"
 #include "OpenGLFRIResource.h"
-#include "OpenGLFRIDynamic.h"
+#include "OpenGLFRIAllocator.h"
 
 

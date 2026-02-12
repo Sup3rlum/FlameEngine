@@ -1,0 +1,15 @@
+# CMake generation dependency list for this directory.
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/ConfigureFileMT.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/GetCompilerAndPlatform.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/NvidiaBuildOptions.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/SetOutputPaths.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetRender.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetTemplate.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetUtils.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetVehicleTemplate.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/windows/CMakeLists.txt
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetRender.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetTemplate.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetUtils.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetVehicleTemplate.cmake

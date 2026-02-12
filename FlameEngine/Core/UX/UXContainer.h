@@ -99,7 +99,6 @@ public:
 
 	}
 
-
 	virtual void OnFinishLoading(ultralight::View* caller,
 		uint64_t frame_id,
 		bool is_main_frame,
@@ -107,6 +106,14 @@ public:
 	{
 
 	}
+
+	virtual void OnAddConsoleMessage(ultralight::View* caller,
+		ultralight::MessageSource source,
+		ultralight::MessageLevel level,
+		const ultralight::String& message,
+		uint32_t line_number,
+		uint32_t column_number,
+		const ultralight::String& source_id) override;
 
 	virtual void OnDOMReady(ultralight::View* caller,
 		uint64_t frame_id,
@@ -135,43 +142,28 @@ public:
 
 	}
 
-	template<typename TReturn, typename...TArgs>
-	void SetCallback(const FString8& str, const FDelegate<TReturn(TArgs...)>& lambda)
-	{
-		if (!Callbacks.Contains(str))
-		{
-			Callbacks.Set(str, ultralight::JSCallback([=](const ultralight::JSObject& obj, const ultralight::JSArgs& arg)
-				{
-					auto indxr = []<typename...Ts>(size_t i, Ts... args) -> std::tuple<std::tuple<Ts, size_t>...>
-					{
-						size_t indx = 0;
-						std::tuple<std::tuple<Ts, size_t>...> t = { std::make_tuple(args, indx++) ... };
-						return t;
-					};
 
-					std::tuple<std::tuple<TArgs, size_t>...> tuple = indxr(0, TArgs{}...);
+	template <typename TReturn, typename... TArgs>
+	void SetCallback(const FString8& str, const FDelegate<TReturn(TArgs...)>& lambda) {
+		// Factory that generates indices [0,1,2,...,N-1]
+		auto makeWrapper = [=]<std::size_t... Is>(std::index_sequence<Is...>) {
+			return [=](const ultralight::JSObject&, const ultralight::JSArgs& args) {
+				// Expand args[Is] aligned with TArgs...
+				lambda(JSValueConverter<TArgs>{}(args[Is])...);
+				};
+		};
 
-					lambda(JSValueConverter<TArgs>{}(arg[std::get<1>(std::get<std::tuple<TArgs, size_t>, std::tuple<TArgs, size_t>...>(tuple))]) ...);
+		auto wrapper = makeWrapper(std::index_sequence_for<TArgs...>{});
 
-				}));
+		if (!Callbacks.Contains(str)) {
+			Callbacks.Set(str, ultralight::JSCallback(wrapper));
 		}
 
 		ultralight::JSObject global = ultralight::JSGlobalObject();
-		global[str.ToPlatformString()] = ultralight::JSCallback([=](const ultralight::JSObject& obj, const ultralight::JSArgs& arg) 
-			{ 
-				auto indxr = []<typename...Ts>(size_t i, Ts... args) -> std::tuple<std::tuple<Ts, size_t>...>
-				{
-					size_t indx = 0;
-					std::tuple<std::tuple<Ts, size_t>...> t = { std::make_tuple(args, indx++) ... };
-					return t;
-				};
-
-				std::tuple<std::tuple<TArgs, size_t>...> tuple = indxr(0, TArgs{}...);
-
-				lambda(JSValueConverter<TArgs>{}(arg[std::get<1>(std::get<std::tuple<TArgs, size_t>, std::tuple<TArgs, size_t>...>(tuple))]) ...);
-			});
-
+		global[str.ToPlatformString()] = ultralight::JSCallback(wrapper);
 	}
+
+
 
 
 	ultralight::RefPtr<ultralight::View> ContainerView;
@@ -179,9 +171,7 @@ public:
 	ultralight::RefPtr<ultralight::Renderer> SoftwareRenderer;
 	
 	FRIContext* FriContext;
-
 	FVector2 prevPosition;
-
 	bool wasLMB;
 	bool wasRMB;
 

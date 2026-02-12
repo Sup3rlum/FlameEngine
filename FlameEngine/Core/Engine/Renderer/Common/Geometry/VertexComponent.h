@@ -7,32 +7,32 @@
 class InputLayouts
 {
 public:
-	inline static FArray<FRIInputAttribute> StaticLit =
+	/*inline static FArray<FRIInputAttribute> StaticLit =
 	{
-		FRIInputAttribute("POSITION",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 0),
-		FRIInputAttribute("NORMAL",		3, EFRIAttributeType::Float, EFRIBool::False, 56, 12),
-		FRIInputAttribute("TANGENT",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 24),
-		FRIInputAttribute("BITANGENT",	3, EFRIAttributeType::Float, EFRIBool::False, 56, 36),
-		FRIInputAttribute("TEXCOORD",	2, EFRIAttributeType::Float, EFRIBool::False, 56, 48)
+		FRIInputAttribute("POSITION",	EFRIAttributeType::Float3, 56, 0),
+		FRIInputAttribute("NORMAL",		EFRIAttributeType::Float3, 56, 12),
+		FRIInputAttribute("TANGENT",	EFRIAttributeType::Float3, 56, 24),
+		FRIInputAttribute("BITANGENT",	EFRIAttributeType::Float3, 56, 36),
+		FRIInputAttribute("TEXCOORD",	EFRIAttributeType::Float2, 56, 48)
 	};
 
 	inline static FArray<FRIInputAttribute> SkinnedLit =
 	{
-		FRIInputAttribute("POSITION",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 0),
-		FRIInputAttribute("NORMAL",			3, EFRIAttributeType::Float, EFRIBool::False, 88, 12),
-		FRIInputAttribute("TANGENT",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 24),
-		FRIInputAttribute("BITANGENT",		3, EFRIAttributeType::Float, EFRIBool::False, 88, 36),
-		FRIInputAttribute("TEXCOORD",		2, EFRIAttributeType::Float, EFRIBool::False, 88, 48),
-		FRIInputAttribute("JOINT_INDICES",	4, EFRIAttributeType::Int,	 EFRIBool::False, 88, 56),
-		FRIInputAttribute("JOINT_WEIGHTS",	4, EFRIAttributeType::Float, EFRIBool::False, 88, 72)
+		FRIInputAttribute("POSITION",		EFRIAttributeType::Float3, 88, 0),
+		FRIInputAttribute("NORMAL",			EFRIAttributeType::Float3, 88, 12),
+		FRIInputAttribute("TANGENT",		EFRIAttributeType::Float3, 88, 24),
+		FRIInputAttribute("BITANGENT",		EFRIAttributeType::Float3, 88, 36),
+		FRIInputAttribute("TEXCOORD",		EFRIAttributeType::Float2, 88, 48),
+		FRIInputAttribute("JOINT_INDICES",	EFRIAttributeType::Int4,   88, 56),
+		FRIInputAttribute("JOINT_WEIGHTS",	EFRIAttributeType::Float4, 88, 72)
 
 	};
 
 	inline static FArray<FRIInputAttribute> PositionTexture =
 	{
-		FRIInputAttribute("POSITION", 3, EFRIAttributeType::Float, EFRIBool::False, 56, 0),
-		FRIInputAttribute("TEXCOORD", 2, EFRIAttributeType::Float, EFRIBool::False, 56, 48)
-	};
+		FRIInputAttribute("POSITION",EFRIAttributeType::Float3, 56, 0),
+		FRIInputAttribute("TEXCOORD",EFRIAttributeType::Float2, 56, 48)
+	};*/
 };
 
 

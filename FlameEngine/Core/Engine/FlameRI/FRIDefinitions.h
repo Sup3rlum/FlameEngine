@@ -32,8 +32,14 @@ enum class EFRIShaderType
 
 enum class EFRIAttributeType : unsigned int
 {
-	Float = 0x1406,
-	Int = 0x1404
+	Float,
+	Float2,
+	Float3,
+	Float4,
+	Int,
+	Int2,
+	Int3,
+	Int4
 };
 
 enum class EFRIPrimitiveType
@@ -77,30 +83,20 @@ public:
 
 };
 
-enum class EFRITextureWrapMode
+enum class EFRITextureAddress
 {
-	Repeat = 0x2901,
+	Repeat,
 	ClampEdge,
 	ClampBorder,
 	MirroredRepeat,
 	MirroredClampEdge
 };
 
-enum class EFRITextureParamName
+enum class EFRITextureFilter
 {
-	MagFilter = 0x2800,
-	MinFilter = 0x2801,
-	WrapS = 0x2802,
-	WrapT = 0x2803,
-	WrapR = 0x8702,
-	AnisotropyLevel = 0x84FE
-};
-
-enum class EFRITextureFilterMode
-{
-	Nearest = 0x2600,
-	Bilinear = 0x2601,
-	Trilinear = 0x2703,
+	Point,
+	Bilinear,
+	Trilinear,
 	Anisotropic4,
 	Anisotropic8
 };
@@ -198,7 +194,7 @@ enum class EFRICullMode
 	Back
 };
 
-enum class EFRIAlphaBlend
+enum class EFRIBlend
 {
 	Zero,
 	One,
@@ -225,7 +221,10 @@ enum class EFRIAccess
 
 enum class EFRIUsage
 {
-
+	Default,
+	Dynamic,
+	Staging,
+	Immutable
 };
 
 enum EFRIPipelineStage
@@ -236,4 +235,161 @@ enum EFRIPipelineStage
 	EFRI_Domain = 8,
 	EFRI_Hull = 16,
 	EFRI_Compute = 32
+};
+
+
+
+enum class EFRIShaderVisibility
+{
+	All = 0,
+	Vertex = 1,
+	Hull = 2,
+	Domain = 3,
+	Geometry = 4,
+	Pixel = 5,
+	Amplification = 6,
+	Mesh = 7
+};
+
+enum class EFRIRootParameterType
+{
+	DESCRIPTOR_TABLE = 0,
+	CONSTANTS = 1,
+	CBV = 2,
+	SRV = 3,
+	UAV = 4
+};
+
+enum class EState : uint32
+{
+	Common = 0,
+	VertexAndConstantBuffer = 0x1,
+	IndexBuffer = 0x2,
+	RenderTarget = 0x4,
+	UnorderedAccess = 0x8,
+	DepthWrite = 0x10,
+	DepthRead = 0x20,
+	NonPixelShaderResource = 0x40,
+	PixelShaderResource = 0x80,
+	StreamOut = 0x100,
+	IndirectArgument = 0x200,
+	CopyDest = 0x400,
+	CopySource = 0x800,
+	ResolveDest = 0x1000,
+	ResolveSource = 0x2000,
+	RaytracingAccelerationStructure = 0x400000,
+	ShadingRateSource = 0x1000000,
+	GenericRead = (((((0x1 | 0x2) | 0x40) | 0x80) | 0x200) | 0x800),
+	Present = 0,
+	Predication = 0x200,
+	VideoDecodeReaad = 0x10000,
+	VideoDecodeWrite = 0x20000,
+	VideoProcessRead = 0x40000,
+	VideoProcessWrite = 0x80000,
+	VideoEncodeRead = 0x200000,
+	VideoEncodeWrite = 0x800000
+};
+
+
+/* Table */
+
+enum class EFRIRootDescriptorRangeType
+{
+	SRV,
+	CBV,
+	UAV,
+	Sampler
+};
+
+struct FRIDescriptorRange
+{
+	EFRIRootDescriptorRangeType RangeType;
+	uint32 NumDescriptors;
+	uint32 BaseShaderRegister;
+	uint32 RegisterSpace;
+	uint32 OffsetInDescriptorsFromTableStart;
+};
+
+struct FRIRootDescriptorTable
+{
+	uint32 NumRanges;
+	FRIDescriptorRange* Ranges;
+};
+
+/* Descriptor */
+
+struct FRIRootDescriptor
+{
+	uint32 ShaderRegister;
+	uint32 RegisterSpace;
+
+};
+
+/* Constant */
+
+struct FRIRootConstants
+{
+
+};
+
+
+/* Parameter */
+
+struct FRIRootParameter
+{
+	EFRIRootParameterType ParamType;
+	EFRIShaderVisibility ShaderVisibility;
+
+	union
+	{
+		FRIRootDescriptorTable DescriptorTable;
+		FRIRootDescriptor Descriptor;
+		FRIRootConstants Constants;
+	};
+
+	FRIRootParameter(EFRIRootParameterType ParamType, EFRIShaderVisibility ShaderVisibility, FRIRootDescriptorTable DescriptorTable) :
+		ParamType(ParamType),
+		ShaderVisibility(ShaderVisibility),
+		DescriptorTable(DescriptorTable)
+	{}
+
+	FRIRootParameter(EFRIRootParameterType ParamType, EFRIShaderVisibility ShaderVisibility, FRIRootDescriptor Descriptor) :
+		ParamType(ParamType),
+		ShaderVisibility(ShaderVisibility),
+		Descriptor(Descriptor)
+	{}
+};
+
+/* Sampler */
+
+struct FRIStaticSampler
+{
+	EFRITextureFilter Filter;
+	EFRITextureAddress AddressU;
+	EFRITextureAddress AddressV;
+	EFRITextureAddress AddressW;
+	uint32 ShaderRegister;
+	uint32 RegisterSpace;
+	//Color32 BorderColor = Color32();
+
+	FRIStaticSampler(EFRITextureFilter Filter, EFRITextureAddress AddressU, EFRITextureAddress AddressV, EFRITextureAddress AddressW, uint32 ShaderRegister, uint32 RegisterSpace) :
+		Filter(Filter),
+		AddressU(AddressU),
+		AddressV(AddressV),
+		AddressW(AddressW),
+		ShaderRegister(ShaderRegister),
+		RegisterSpace(RegisterSpace)
+	{}
+
+};
+
+enum EShaderFrequency
+{
+	SF_Vertex = 0,
+	SF_Pixel = 1,
+	SF_Geometry = 2,
+	SF_Hull = 3,
+	SF_Domain = 4,
+	SF_Compute = 5,
+	SF_ShaderStages = 6
 };

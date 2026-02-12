@@ -51,6 +51,8 @@ float4 main(PSInput input) : SV_TARGET
         8 // Secondary ray steps
     );
     
+    //FinalColor = pow(FinalColor, 1/2.2);
+    
     return float4(FinalColor, 1.0f);
 }
 

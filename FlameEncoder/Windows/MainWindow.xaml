@@ -31,58 +31,70 @@
             Render
             </Button>
         </ToolBar>
-
-        <TreeView 
+        <DockPanel    
+            DockPanel.Dock="Left"
+            >
+            <TreeView 
             Width="300" 
             Name="projectTreeView" 
-            DockPanel.Dock="Left"
+            DockPanel.Dock="Top"
+            Height="500"
             SelectedItemChanged="TreeView_SelectedItemChanged"
             Margin="10" Background="#242424" Foreground="LightGray"
             Padding="10">
-            <TreeView.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                <TreeView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                       Color="#007ACC" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
                       Color="Black" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
                       Color="LightGray" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
                       Color="Black" />
 
-            </TreeView.Resources>
-            <TreeView.ItemTemplate>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type fli:BuildScript}" ItemsSource="{Binding MaterialGraphs}">
-                    <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
-                        <StackPanel.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Add New Graph.." Click="TreeView_AddGraph"/>
-                            </ContextMenu>
-                            
-                        </StackPanel.ContextMenu>
-                        <TextBlock Text="BuildScript" Foreground="LightGray" FontSize="15"/>
-                    </StackPanel>
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type fln:NodeGraph }">
-                            <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
-                                <StackPanel.ContextMenu>
-                                    <ContextMenu Tag="{ Binding Path=.}">
-                                        <MenuItem Header="Compile" Click="TreeView_CompileMaterialGraph" />
-                                    </ContextMenu>
-                                </StackPanel.ContextMenu>
-                                <Image Source="/tex4.png" 
-                                       Height="20"
+                    <HierarchicalDataTemplate DataType="{x:Type fli:BuildScript}" ItemsSource="{Binding MaterialGraphs}">
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add New Graph.." Click="TreeView_AddGraph"/>
+                                </ContextMenu>
+
+                            </StackPanel.ContextMenu>
+                            <TextBlock Text="BuildScript" Foreground="LightGray" FontSize="13"/>
+                        </StackPanel>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type fln:NodeGraph }">
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu Tag="{ Binding Path=.}">
+                                            <MenuItem Header="Compile" Click="TreeView_CompileMaterialGraph" />
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <Image Source="/tex4.png" 
+                                       Height="15"
                                        RenderOptions.BitmapScalingMode="Fant"/>
-                                <TextBlock Text=" " />
-                                <TextBlock Text="{Binding Name}" Foreground="LightGray" FontSize="15" Margin="10 0"/>
-                            </StackPanel> 
-                            
-                        </HierarchicalDataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+                                    <TextBlock Text=" " />
+                                    <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13" Margin="5 0"/>
+                                </StackPanel>
 
+                            </HierarchicalDataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+            <TreeView 
+            Width="300" 
+            Name="settingsTreeView" 
+            DockPanel.Dock="Bottom"
+            Margin="10" Background="#242424" Foreground="LightGray"
+            Padding="10">
+
+            </TreeView>
+        </DockPanel>
 
         <Grid Margin="10">
 
@@ -134,7 +146,7 @@
                     <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 20 0" Background="#242424">
                         <Canvas Name="mainCanvas"
                                 MouseMove="DockPanel_MouseMove"
-                                MouseLeftButtonUp="mainCanvas_MouseLeftButtonUp">
+                                MouseLeftButtonUp="mainCanvas_MouseLeftButtonUp" MouseWheel="mainCanvas_MouseWheel">
                             <Canvas.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Source">
@@ -151,11 +163,12 @@
                                         <MenuItem Header="Gaussian Blur" Click="Graph_AddGaussianBlurNode"/>
                                     </MenuItem>
                                     <MenuItem Header="Remap">
-                                        <MenuItem Header="Equirectangular to Face List"/>
+                                        <MenuItem Header="Face List to Cube Map" Click="Graph_AddFaceListToCubeMapNode"/>
+                                        <MenuItem Header="Equirectangular to Cube Map" Click="Graph_AddEquirectangularToCubeMapNode"/>
                                     </MenuItem>
                                     <MenuItem Header="Output">
                                         <MenuItem Header="Material"         Click="Graph_AddMaterialNode" />
-                                        <MenuItem Header="Environment Map"         Click="Graph_AddMaterialNode" />
+                                        <MenuItem Header="Environment Map"         Click="Graph_AddEnvironmentMapNode" />
                                     </MenuItem>
                                 </ContextMenu>
                             </Canvas.ContextMenu>
@@ -226,7 +239,7 @@
                                                                 <Rectangle Width="8" 
                                                                            Height="8" 
                                                                            Fill="White" 
-                                                                           Margin="0 0 10 0"
+                                                                           Margin="0 0 6 0"
                                                                            Tag="{Binding Value}"
                                                                            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"
                                                                            MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"
@@ -247,7 +260,7 @@
                                                                 <Rectangle Width="8" 
                                                                            Height="8" 
                                                                            Fill="White" 
-                                                                           Margin="10 0 0 0" 
+                                                                           Margin="6 0 0 0" 
                                                                            Tag="{Binding Value}"
                                                                            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"
                                                                            MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"

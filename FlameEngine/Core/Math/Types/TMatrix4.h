@@ -12,13 +12,9 @@ class TMatrix4
 protected:
 
 	typedef TVector4<GenType> RowType;
-
-
 	RowType value[4];
 
-public:
-
-		
+public:	
 	TMatrix4() : TMatrix4(1) {}
 
 	TMatrix4(GenType s) : 
@@ -53,6 +49,11 @@ public:
 		RowType(m[2], 0),
 		RowType(0)
 	} {}
+
+	FString ToString() const
+	{
+		return FString::Format("%0\n%1\n%2\n%3\n", value[0].ToString(), value[1].ToString(), value[2].ToString(), value[3].ToString());
+	}
 
 	static TMatrix3<GenType> ToMatrix3(const TMatrix4& m)
 	{
@@ -216,3 +217,4 @@ public:
 
 
 #include "TMatrix4.inl"
+#include "../SIMD/Matrix4.inl"

@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EF16FC5F-C907-3D46-8034-CA9EE2F31A13}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <Platform>x64</Platform>
+    <ProjectName>PhysXFoundation</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">PhysXFoundation.dir\debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">PhysXFoundation_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">PhysXFoundation.dir\checked\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='checked|x64'">PhysXFoundation_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='checked|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='checked|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">PhysXFoundation.dir\profile\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='profile|x64'">PhysXFoundation_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='profile|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='profile|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">PhysXFoundation.dir\release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='release|x64'">PhysXFoundation_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_DEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\PhysXFoundation_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"debug\";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/debug/PhysXFoundation_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/debug/PhysXFoundation_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="checked";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\PhysXFoundation_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"checked\";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/checked/PhysXFoundation_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/checked/PhysXFoundation_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="profile";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\PhysXFoundation_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"profile\";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/profile/PhysXFoundation_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/profile/PhysXFoundation_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_SUPPORT_PVD=0;CMAKE_INTDIR="release";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\PhysXFoundation_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_FOUNDATION_EXPORTS;PX_SUPPORT_PVD=0;CMAKE_INTDIR=\"release\";PhysXFoundation_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/release/PhysXFoundation_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/release/PhysXFoundation_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsAllocator.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsAssert.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsFoundation.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsMathUtils.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsString.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsTempAllocator.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\PsUtilities.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\Ps.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsAlignedMalloc.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsAlloca.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsAllocator.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsAoS.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsArray.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsAtomic.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsBasicTemplates.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsBitUtils.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsBroadcast.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsCpu.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsFoundation.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsFPU.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsHash.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsHashInternals.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsHashMap.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsHashSet.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsInlineAllocator.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsInlineAoS.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsInlineArray.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsIntrinsics.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsMathUtils.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsMutex.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsSList.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsSocket.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsSort.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsSortInternals.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsString.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsSync.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsTempAllocator.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsThread.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsTime.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsUserAllocated.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsUtilities.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecMath.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecMathAoSScalar.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecMathAoSScalarInline.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecMathSSE.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecMathUtilities.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecQuat.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\PsVecTransform.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\PxFoundation.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\foundation\PxAssert.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\foundation\PxFoundationConfig.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\foundation\PxMathUtils.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsAtomic.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsCpu.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsFPU.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsMutex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsPrintString.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsSList.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsSocket.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsSync.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsThread.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\src\windows\PsWindowsTime.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsAoS.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsFPU.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsInclude.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsInlineAoS.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsIntrinsics.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include\windows\PsWindowsTrigConstants.h" />
+    <ResourceCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\resource_x64\PhysXFoundation.rc" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\Px.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxAllocatorCallback.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxProfiler.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxSharedAssert.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxBitAndData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxBounds3.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxErrorCallback.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxErrors.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxFlags.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxIntrinsics.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxIO.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxMat33.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxMat44.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxMath.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxMemory.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxPlane.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxPreprocessor.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxQuat.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxSimpleTypes.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxStrideIterator.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxTransform.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxUnionCast.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxVec2.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxVec3.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\PxVec4.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\pxshared\include\foundation\windows\PxWindowsIntrinsics.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\ZERO_CHECK.vcxproj">
+      <Project>{39733626-3F61-3D8E-9F5D-12EA06F3B34C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

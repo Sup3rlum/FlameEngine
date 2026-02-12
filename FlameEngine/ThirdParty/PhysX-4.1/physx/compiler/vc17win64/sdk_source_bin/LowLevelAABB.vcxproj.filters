@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpAABBManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseABP.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseMBP.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseSap.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseSapAux.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseShared.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpMBPTasks.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpSAPTasks.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\include\BpAABBManager.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\include\BpAABBManagerTasks.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\include\BpBroadPhase.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\include\BpBroadPhaseUpdate.h">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseABP.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseMBP.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseMBPCommon.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseSap.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseSapAux.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpBroadPhaseShared.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpMBPTasks.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowlevelaabb\src\BpSAPTasks.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="includes">
+      <UniqueIdentifier>{4A222D5B-947B-3D07-8E3C-D255FF7411EF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2A644D53-10F0-3AFF-9620-5FC3EFFF1F94}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

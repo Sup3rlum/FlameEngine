@@ -15,22 +15,16 @@
 #include "../Physics/PhysicsService.h"
 #include "../Physics/PhysicsAllocator.h"
 #include "../LightingSystem/LightComponent.h"
-#include "../SkinnedMesh.h"
+#include "../Mesh.h"
 #include "../Animation/AnimationComponent.h"
-#include "../../Renderer/ParticleRenderer.h"
+#include "../../Renderer/Environment/ParticleRenderer.h"
 
 #include "../Environment/Level.h"
 #include "Core/UX/UXContainer.h"
 #include "../Behaviour.h"
+#include "Core/Engine/ContentSystem/Client/LocalAssetManager.h"
 
-struct PhysicsSceneDescription
-{
-	PhysicsScene* pScene;
-	PhysicsService* pService;
-	PhysicsAllocator* pAllocator;
-
-};
-
+#include "SceneDefinitions.h"
 
 enum class ECSExecutionFlag : uint32
 {
@@ -39,10 +33,12 @@ enum class ECSExecutionFlag : uint32
 };
 
 
-EXPORT(class,  Scene)
+
+
+EXPORT(class,  Scene) : IProperties
 {
 public:
-	Scene(PhysicsSceneDescription physDesc, FRIContext* renderContext);
+	Scene(FString Name, class GameApplication* Game, FRIContext* renderContext, PhysicsDescription physDesc);
 	~Scene();
 
 	template<typename... TComponents>
@@ -56,6 +52,7 @@ public:
 		{
 			entity.Component<Behaviour>().pEntity = entity;
 			entity.Component<Behaviour>().pScene = this;
+			entity.Component<Behaviour>().pGame = Game;
 		}
 		return entity;
 	}
@@ -80,18 +77,19 @@ public:
 		return pSystem;
 	}
 
-
 	FArray<Entity> QueryEntities(const FString& name);
-
 
 	AABB GetAABB() const;
 
-	void LoadSystems();
 	void Update(FGameTime gameTime);
 	void UpdateSystems();
 	void UpdateBehaviour(FGameTime gameTime);
 	void UpdateDirectionalLights();
 	void FinishUpdate();
+	virtual void OnCreateResources(FRIContext* FriContext, FAssetManager& Content) = 0;
+	virtual void OnDestroyResources() = 0;
+
+	FVector3 Raycast(FRay ray);
 
 	/* Physics */
 
@@ -99,10 +97,17 @@ public:
 	RigidBody CreateRigidBody(FTransform transform);
 	StaticRigidBody CreateStaticRigidBody(FTransform transform);
 	TriangleMeshGeometry CookTriangleMeshGeometry(PhysicsTriangleMeshDesc desc);
+	PhysicsAllocator* PhysicsWorld();
 
-	Level SceneLevel;
+	PropertyEnum(SceneBackgroundMode, SceneBackground, SceneBackgroundMode::EnvironmentMap);
+
+	// EnvironmentMap Properties
+	PropertyEnum(EnvironmentMapSelectionMode, EnvironmentMapSelection, EnvironmentMapSelectionMode::First);
+	PropertyColor32(BackgroundColor, Color32::CornflowerBlue)
+	
+
 	FHashMap<FString, Entity> Elements;
-
+	FString Name;
 	UXContainer* uxContainer;
 
 private:
@@ -113,12 +118,11 @@ private:
 	PhysicsService* physicsService;
 
 	FRIContext* FriContext;
-
 	EntityWorld EntWorld;
+	class GameApplication* Game;
 	
 	template<typename ...TComponents>
 	friend class FEntityComponentSystem;
-public:
-	FTimeSpan physTime, dynTime, behTime;
+
 };
 

@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\AcclaimLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\Dummy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\InputEventBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\PhysXSample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\PhysXSampleApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\Picking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RawLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RaycastCCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBaseActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBaseObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBoxActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderCapsuleActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderGridActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderMeshActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderPhysX3Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderSphereActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCharacterHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleInputMappingAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleMouseFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleRandomPrecomputed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleStepper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestGeometryHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestMotionGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\wavefront.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\AcclaimLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\InputEventBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\PhysXSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\PhysXSampleApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\Picking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RawLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RaycastCCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBaseActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBaseObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderBoxActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderCapsuleActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderGridActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderMeshActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderPhysX3Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderSphereActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\RenderTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleAllocatorSDKClasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleBaseInputEventIds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleCharacterHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleInputMappingAsset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleMouseFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SamplePreprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleRandomPrecomputed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleStepper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleUserInputDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\SampleUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestGeometryHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\TestMotionGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebase\wavefront.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{415FF51A-E270-3E97-916A-B718F91EE756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{495CEB08-332B-335F-938C-B26CE1F0AB04}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

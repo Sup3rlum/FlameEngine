@@ -6,12 +6,12 @@ AnimationComponent::AnimationComponent(const AnimationComponent& other) :
 	AnimationSequences(other.AnimationSequences),
 	CurrentSequenceName(other.CurrentSequenceName),
 	CurrentSequenceRef(other.CurrentSequenceRef),
-	animationTime(other.animationTime),
+	CurrentAnimationTime(other.CurrentAnimationTime),
 	CurrentAnimationPose(other.CurrentAnimationPose)
 {
 }
 AnimationComponent::AnimationComponent() :
-	animationTime(0.0f),
+	CurrentAnimationTime(0.0f),
 	CurrentSequenceRef(NULL)
 {
 
@@ -30,22 +30,20 @@ void AnimationComponent::AddSequence(const FString8& seqName, const AnimationSeq
 	}
 }
 
-void AnimationComponent::PlaySequence(const FString8& seqName)
+void AnimationComponent::PlaySequence(const FString8& seqName, bool repeat, float length)
 {
-
-	auto b = AnimationSequences.Begin();
-	auto e = AnimationSequences.End();
-
 	if (AnimationSequences.Contains(seqName))
 	{
+
+
 		CurrentSequenceName = seqName;
 		CurrentSequenceRef = &AnimationSequences.Get(seqName);
 
-		animationTime = 0.0f;
+		CurrentAnimationTime = 0.0f;
 	}
 	else
 	{
-		//std::wcout << L"Unrecognized sequence: " << seqName.ToPlatformString() << std::endl;
+
 
 	}
 }
@@ -54,15 +52,14 @@ void AnimationComponent::Step(float dt)
 {
 	if (CurrentSequenceRef)
 	{
-		animationTime += dt;
-		if (animationTime > CurrentSequenceRef->Length)
+		CurrentAnimationTime += dt;
+		if (CurrentAnimationTime > CurrentSequenceRef->Length)
 		{
-			animationTime = fmod(animationTime, CurrentSequenceRef->Length);
+			CurrentAnimationTime = fmod(CurrentAnimationTime, CurrentSequenceRef->Length);
 		}
 
 
 		CurrentAnimationPose.JointTransforms = CalculatePoseJointTransforms();
-
 	}
 }
 
@@ -77,9 +74,9 @@ FArray<FMatrix4> AnimationComponent::CalculatePoseJointTransforms()
 		auto& prevKeyFrame = CurrentSequenceRef->KeyFrames[i];
 		auto& nextKeyFrame = CurrentSequenceRef->KeyFrames[i + 1];
 
-		if (prevKeyFrame.timeStamp <= animationTime && animationTime < nextKeyFrame.timeStamp)
+		if (prevKeyFrame.timeStamp <= CurrentAnimationTime && CurrentAnimationTime < nextKeyFrame.timeStamp)
 		{
-			float progression = (animationTime - prevKeyFrame.timeStamp) / (nextKeyFrame.timeStamp - prevKeyFrame.timeStamp);
+			float progression = (CurrentAnimationTime - prevKeyFrame.timeStamp) / (nextKeyFrame.timeStamp - prevKeyFrame.timeStamp);
 
 			for (int i = 0; i < numTransforms; i++)
 			{

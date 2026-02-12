@@ -61,14 +61,10 @@ struct TComponentType : public FComponentType
 
 EXPORT(struct, FEntityArchetype)
 {
-	template<typename TComponent>
-	struct FComponentIndexer
-	{
-		inline static int32 index = -1;
-	};
+	typedef FDelegate<void(byte*)> DeallocType;
+	typedef FKeyVal<FComponentType, DeallocType> CompDescrType;
 
-	FComponentType* ComponentTypes;
-	uint32 NumComponentTypes;
+	FArray<CompDescrType> ComponentTypes;
 	uint32 MemColumnSize;
 	uint32 MemAlignment;
 
@@ -77,6 +73,7 @@ EXPORT(struct, FEntityArchetype)
 	template<typename TComponent>
 	FEntityArchetype& AddComponent()
 	{
+		/*
 		// Resize Array
 		FComponentType* compTypes = new FComponentType[NumComponentTypes + 1];
 		Memory::CopyArray(compTypes, ComponentTypes, NumComponentTypes);
@@ -93,19 +90,19 @@ EXPORT(struct, FEntityArchetype)
 		ComponentTypes = compTypes;
 		MemColumnSize += sizeof(TComponent);
 
-		MemAlignment = max(MemAlignment, alignof(TComponent));
+		MemAlignment = max(MemAlignment, alignof(TComponent));*/
 
 		return *this;
 	}
 
 	friend static bool operator==(const FEntityArchetype& left, const FEntityArchetype& right)
 	{
-		if (left.NumComponentTypes != right.NumComponentTypes)
+		if (left.ComponentTypes.Length() != right.ComponentTypes.Length())
 			return false;
 
-		for (int i = 0; i < left.NumComponentTypes; i++)
+		for (int i = 0; i < left.ComponentTypes.Length(); i++)
 		{
-			if (left.ComponentTypes[i] != right.ComponentTypes[i])
+			if (left.ComponentTypes[i].Key != right.ComponentTypes[i].Key)
 				return false;
 		}
 
@@ -117,9 +114,9 @@ EXPORT(struct, FEntityArchetype)
 	{
 		FComponentType cmp = TComponentType<TComponent>();
 
-		for (int i = 0; i < NumComponentTypes; i++)
+		for (int i = 0; i < ComponentTypes.Length(); i++)
 		{
-			if (cmp == ComponentTypes[i])
+			if (cmp == ComponentTypes[i].Key)
 			{
 				return i;
 			}
@@ -133,7 +130,7 @@ EXPORT(struct, FEntityArchetype)
 	FEntityArchetype(const FEntityArchetype& archetypeCopy);
 	~FEntityArchetype();
 protected:
-	FEntityArchetype(uint32 numComponents, FComponentType* cds, uint32 columnByteSize, uint32 columnAlignment);
+	FEntityArchetype(uint32 columnByteSize, uint32 columnAlignment);
 	FEntityArchetype() = delete;
 
 };
@@ -152,30 +149,44 @@ constexpr uint64 _Flame_CExpr_MulAlignof()
 template<typename...TComponentArgs>
 struct TEntityArchetype : public FEntityArchetype
 {
+
+	template<typename TComponent>
+	DeallocType CreateDealloc()
+	{
+		// If component has Release() method, add it to the deallocator
+		constexpr bool has_Release = requires(TComponent comp)
+		{
+			comp.Release();
+		};
+		if constexpr (has_Release)
+		{
+			return DeallocType::Make([=](byte* pData) { ((TComponent*)pData)->Release(); });
+		}
+		return DeallocType::Make([=](byte* pData) {});
+	}
+
 	TEntityArchetype() :
-		FEntityArchetype(0, NULL, (sizeof(TComponentArgs) + ...), _Flame_CExpr_MulAlignof<TComponentArgs...>())
+		FEntityArchetype((sizeof(TComponentArgs) + ...), _Flame_CExpr_MulAlignof<TComponentArgs...>())
 	{
 		constexpr uint32 componentNum = sizeof...(TComponentArgs);
 
-		/* Create an array of the component type descriptionsand sort it by ID */
-		/* This makes algorithms on archetypes*/
+		/* Create an array of the component type descriptions and sort it by ID */
 
-		FComponentType* compTypes = new FComponentType[]{ TComponentType<TComponentArgs>() ... };
-
-		Sort::Insertion(compTypes, componentNum, [](FComponentType& componentType) -> typename FComponentType::_InternalId&
+		CompDescrType* compTypes = new CompDescrType[]{ CompDescrType(TComponentType<TComponentArgs>(), CreateDealloc<TComponentArgs>()) ...};
+		Sort::Insertion(compTypes, componentNum, [](CompDescrType& componentType) -> typename FComponentType::_InternalId&
 			{
-				return componentType._TypeId;
+				return componentType.Key._TypeId;
 			});
 
-		this->NumComponentTypes = componentNum;
-		this->ComponentTypes = compTypes;
+		//this->NumComponentTypes = componentNum;
+		this->ComponentTypes = FArray<CompDescrType>(compTypes, componentNum);
 
 		/* Compute Hash code */
 
 		HashCode = 0;
-		for (int i = 0; i < NumComponentTypes; i++)
+		for (int i = 0; i < ComponentTypes.Length(); i++)
 		{
-			HashCode += ComponentTypes[i]._TypeId;
+			HashCode += ComponentTypes[i].Key._TypeId;
 		}
 	}
 };

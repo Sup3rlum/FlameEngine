@@ -13,6 +13,7 @@ class FPXService : public PhysicsService
 {
 public:
 	FPXService();
+	~FPXService();
 
 	PhysicsScene* CreateScene(FVector3 gravity);
 

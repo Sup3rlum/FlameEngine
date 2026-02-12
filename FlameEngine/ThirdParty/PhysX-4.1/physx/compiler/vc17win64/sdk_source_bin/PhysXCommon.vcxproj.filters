@@ -1,0 +1,1112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmCollection.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmMathUtils.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPtrTable.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSort.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSortBuffered.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderOutput.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmVisualization.cpp">
+      <Filter>common\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows\CmWindowsModuleUpdateLoader.cpp">
+      <Filter>common\src\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows\CmWindowsDelayLoadHook.cpp">
+      <Filter>common\src\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBounds.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBox.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCapsule.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCCTSweepTests.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryQuery.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryUnion.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuInternal.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMeshFactory.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMetaData.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMTD.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuOverlapTests.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuRaycastTests.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSerialize.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepMTD.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepSharedTests.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepTests.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeBuild.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHStructure.cpp">
+      <Filter>geomutils\src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepConvexMesh.cpp">
+      <Filter>geomutils\src\ccd</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepPrimitives.cpp">
+      <Filter>geomutils\src\ccd</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBarycentricCoordinates.cpp">
+      <Filter>geomutils\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuSeparatingAxes.cpp">
+      <Filter>geomutils\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactBoxBox.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleBox.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleCapsule.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleConvex.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleMesh.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactConvexConvex.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactConvexMesh.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneBox.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneCapsule.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneConvex.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPolygonPolygon.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereBox.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereCapsule.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereMesh.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSpherePlane.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereSphere.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuFeatureCode.cpp">
+      <Filter>geomutils\src\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexHelper.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMesh.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexSupportTable.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexUtilsInternal.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuHillClimbing.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuShapeConvex.cpp">
+      <Filter>geomutils\src\convex</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointBox.cpp">
+      <Filter>geomutils\src\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangle.cpp">
+      <Filter>geomutils\src\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentBox.cpp">
+      <Filter>geomutils\src\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentSegment.cpp">
+      <Filter>geomutils\src\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangle.cpp">
+      <Filter>geomutils\src\distance</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPA.cpp">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKSimplex.cpp">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKTest.cpp">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightField.cpp">
+      <Filter>geomutils\src\hf</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldUtil.cpp">
+      <Filter>geomutils\src\hf</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuOverlapTestsHF.cpp">
+      <Filter>geomutils\src\hf</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuSweepsHF.cpp">
+      <Filter>geomutils\src\hf</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionBoxBox.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionCapsuleTriangle.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionEdgeEdge.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBox.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayCapsule.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRaySphere.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionSphereBox.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionTriangleBox.cpp">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Build.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_AABBSweep.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxOverlap.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweep.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweepAA.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_OBBSweep.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Raycast.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_SphereOverlap.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_SphereSweep.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseBV4.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMeshQuery.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseRTree.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuOverlapTestsMesh.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTree.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTreeQueries.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepsMesh.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMesh.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshBV4.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshRTree.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32Build.cpp">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactBoxBox.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactBoxConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleBox.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleCapsule.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleHeightField.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleMesh.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexCommon.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexHeightField.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexMesh.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenBoxConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenSphereCapsule.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneBox.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneCapsule.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereBox.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereCapsule.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereHeightField.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereMesh.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSpherePlane.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereSphere.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMShapeConvex.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMTriangleContactGen.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPersistentContactManifold.cpp">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxBox.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxSphere.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_FeatureBased.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_SAT.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleBox.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleCapsule.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleTriangle.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereCapsule.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereSphere.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereTriangle.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepTriangleUtils.cpp">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmBitMap.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmBlockArray.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmCollection.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmConeLimitHelper.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmFlushPool.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmIDPool.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmIO.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmMatrix34.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPhysXCommon.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPool.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPreallocatingPool.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPriorityQueue.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPtrTable.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmQueue.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSort.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSortBuffered.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRefCountable.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderBuffer.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderOutput.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmScaling.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmSpatialVector.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTask.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTaskPool.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTmpMem.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTransformUtils.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmUtils.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmVisualization.h">
+      <Filter>common\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxBase.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxCollection.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxCoreUtilityTypes.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxMetaData.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxMetaDataFlags.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxPhysicsInsertionCallback.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxPhysXCommonConfig.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxRenderBuffer.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxSerialFramework.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxSerializer.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxStringTable.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxTolerancesScale.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxTypeInfo.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxProfileZone.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxBoxGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxCapsuleGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxConvexMesh.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxConvexMeshGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometryHelpers.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometryQuery.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightField.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldDesc.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldFlag.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldSample.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxMeshQuery.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxMeshScale.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxPlaneGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxSimpleTriangleMesh.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxSphereGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangle.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangleMesh.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangleMeshGeometry.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxBVHStructure.h">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geomutils\GuContactBuffer.h">
+      <Filter>geomutils\include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geomutils\GuContactPoint.h">
+      <Filter>geomutils\include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\collision\PxCollisionDefs.h">
+      <Filter>include\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include\windows\CmWindowsLoadLibrary.h">
+      <Filter>common\include\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include\windows\CmWindowsModuleUpdateLoader.h">
+      <Filter>common\include\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuBox.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuDistanceSegmentBox.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuDistanceSegmentSegment.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionBoxBox.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionTriangleBox.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionTriangleBoxRef.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuRaycastTests.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuSegment.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuSIMDHelpers.h">
+      <Filter>geomutils\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBounds.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCapsule.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCenterExtents.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryUnion.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuInternal.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMeshFactory.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMTD.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuOverlapTests.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSerialize.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSphere.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepMTD.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepSharedTests.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepTests.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeBuild.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeQuery.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHStructure.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHTestsSIMD.h">
+      <Filter>geomutils\src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepConvexMesh.h">
+      <Filter>geomutils\src\ccd</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBarycentricCoordinates.h">
+      <Filter>geomutils\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBoxConversion.h">
+      <Filter>geomutils\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuEdgeCache.h">
+      <Filter>geomutils\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuEdgeListData.h">
+      <Filter>geomutils\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuSeparatingAxes.h">
+      <Filter>geomutils\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactMethodImpl.h">
+      <Filter>geomutils\src\contact</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPolygonPolygon.h">
+      <Filter>geomutils\src\contact</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuFeatureCode.h">
+      <Filter>geomutils\src\contact</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData2.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexEdgeFlags.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexHelper.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMesh.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMeshData.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexSupportTable.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexUtilsInternal.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuCubeIndex.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuHillClimbing.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuShapeConvex.h">
+      <Filter>geomutils\src\convex</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointBox.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointSegment.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangle.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangleSIMD.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentSegmentSIMD.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangle.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangleSIMD.h">
+      <Filter>geomutils\src\distance</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPA.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPAFacet.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJK.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKPenetration.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKRaycast.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKSimplex.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKTest.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKType.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKUtil.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecBox.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecCapsule.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvex.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvexHull.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvexHullNoScale.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecPlane.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecSphere.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecTriangle.h">
+      <Filter>geomutils\src\gjk</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuEntityReport.h">
+      <Filter>geomutils\src\hf</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightField.h">
+      <Filter>geomutils\src\hf</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldData.h">
+      <Filter>geomutils\src\hf</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldUtil.h">
+      <Filter>geomutils\src\hf</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionCapsuleTriangle.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionEdgeEdge.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRay.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBox.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBoxSIMD.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayCapsule.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayPlane.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRaySphere.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayTriangle.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionSphereBox.h">
+      <Filter>geomutils\src\intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32Build.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Build.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Settings.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_AABBAABBSweepTest.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxBoxOverlapTest.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxOverlap_Internal.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxSweep_Internal.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxSweep_Params.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweep_Internal.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Common.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Internal.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_OBBOBB.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB_Inflated.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SphereAABB.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_OBBOBB.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB_Inflated.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_KajiyaNoOrder.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_KajiyaOrdered.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_SwizzledNoOrder.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_SwizzledOrdered.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBVConstants.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMeshData.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseInterface.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTree.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepConvexTri.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepMesh.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangle32.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleCache.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMesh.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshBV4.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshRTree.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleVertexPointers.h">
+      <Filter>geomutils\src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexCommon.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGen.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenUtil.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactMeshCallback.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMShapeConvex.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMTriangleContactGen.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPersistentContactManifold.h">
+      <Filter>geomutils\src\pcm</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxBox.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxSphere.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_FeatureBased.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_SAT.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleBox.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleCapsule.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleTriangle.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereCapsule.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereSphere.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereTriangle.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepTriangleUtils.h">
+      <Filter>geomutils\src\sweep</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\resource_x64\PhysXCommon.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{A73AFBD6-C02E-32E2-8E79-28D25A2333E0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\include">
+      <UniqueIdentifier>{1B012E02-B27B-3C11-B31B-42906A0DFA7F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\include\windows">
+      <UniqueIdentifier>{6A7E9A99-9F96-3784-BD9F-0FF086B4B730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\src">
+      <UniqueIdentifier>{E7DBB17E-5672-35E8-9C14-73D5EC44ED6E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\src\windows">
+      <UniqueIdentifier>{C39B1522-8415-38D0-8562-6AEC038AE8FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils">
+      <UniqueIdentifier>{423C02F0-8A33-34E7-820B-E63D78ABF9A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\headers">
+      <UniqueIdentifier>{382D0A54-5EF2-3B32-B0D5-4B6B0FF29F80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\include">
+      <UniqueIdentifier>{4EB98480-F3AB-3D2E-9D00-218C8BDCE56F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src">
+      <UniqueIdentifier>{159FE35C-E978-3E9D-A300-3B1D4A140651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\ccd">
+      <UniqueIdentifier>{9AD76D52-7C97-3F40-BBCE-BB7D094F7E49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\common">
+      <UniqueIdentifier>{A42492D4-6A21-39D1-BB67-F0668125C1C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\contact">
+      <UniqueIdentifier>{CAB7D90C-2B2D-313E-B70B-E06F201EC401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\convex">
+      <UniqueIdentifier>{9BE4C067-E08F-387B-9B81-B5FAD4753D43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\distance">
+      <UniqueIdentifier>{44F8958D-66CC-3FF7-938C-513B5C69A643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\gjk">
+      <UniqueIdentifier>{B3BE6E2A-06C9-301D-BC28-76F2D7000899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\hf">
+      <UniqueIdentifier>{F3809BBF-D887-3217-AE72-8EA232BF056A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\intersection">
+      <UniqueIdentifier>{A03808C2-4B12-34A6-A37B-F6B3E69C7A91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\mesh">
+      <UniqueIdentifier>{F5A6AA08-3654-36EF-A8AE-5A5F1C65AECC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\pcm">
+      <UniqueIdentifier>{0B5FD797-9E0E-3AF4-B664-0FAC1C2D25BB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geomutils\src\sweep">
+      <UniqueIdentifier>{D7F10385-DF1D-3352-8A91-BB5B34920F76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{A2C4980D-E792-3B20-BA25-B1C904468D9A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\collision">
+      <UniqueIdentifier>{CE06B832-047A-3262-B6CD-53B964C7C15A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\common">
+      <UniqueIdentifier>{800DABD8-49D5-3CBF-9029-E113FB6D6DB8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\geometry">
+      <UniqueIdentifier>{4D002543-4878-32B4-B15E-1826D492F741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{9060F968-04AF-3EFE-BA6F-4D909B82B14B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,13 +1,9 @@
 #include "AnimationSequence.h"
 
 
-void PrintDebugMatrix2(const FMatrix4& a)
+void PrintDebugQuat(const FQuaternion& q)
 {
-
-	for (int j = 0; j < 4; j++)
-	{
-		printf("\t{ %f %f %f %f }\n", a[j].x, a[j].y, a[j].z, a[j].w);
-	}
+	printf("%f %f %f %f\n", q.r, q.i, q.j, q.k);
 }
 
 AnimationSequence TContentSerializer<AnimationSequence>::Serialize(Stream& fileStream)
@@ -27,14 +23,14 @@ AnimationSequence TContentSerializer<AnimationSequence>::Serialize(Stream& fileS
 
 		keyFrame.PoseTransforms = FArray<FTransform>(numTransforms);
 
-		//printf("Frame: %f\n", keyFrame.timeStamp);
+		printf("Frame: %f\n", keyFrame.timeStamp);
 
 		for (int i = 0; i < numTransforms; i++)
 		{
 			FMatrix4 tr = fileStream.Read<FMatrix4>();
 
-			//printf("Joint: %d\n", i);
-			//PrintDebugMatrix2(tr);
+			printf("Joint: %d\n", i);
+			wprintf(L"%s", tr.ToString().ToPlatformString());
 
 			keyFrame.PoseTransforms[i] = FTransform(tr);
 		}

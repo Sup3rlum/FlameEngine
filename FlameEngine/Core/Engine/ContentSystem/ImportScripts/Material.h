@@ -4,7 +4,7 @@
 #include "../AssetManager.h"
 
 
-#include "Core/Engine/GameSystem/Material/MaterialComponent.h" 
+#include "Core/Engine/GameSystem/Material/Material.h" 
 #include "Core/Engine/FlameRI/FRI.h"
 
 template<>

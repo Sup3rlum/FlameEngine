@@ -7,7 +7,7 @@
 
 
 
-struct FRenderUtil
+struct FLAME_API FRenderUtil
 {
 	
 #define GLX
@@ -23,7 +23,7 @@ struct FRenderUtil
 	};
 #else
 	
-	inline static FArray<FVertex_PositionTexture> quadVData =
+	inline static FArray<FVertex_PositionTexture> quadVertices =
 	{
 		FVertex_PositionTexture(FVector3(-1,1,0), FVector2(0,0)),
 		FVertex_PositionTexture(FVector3(1,1,0), FVector2(1,0)),
@@ -33,28 +33,25 @@ struct FRenderUtil
 	};
 #endif
 
-	inline static FArray<FIndexComponent> quadElementData = { 0,2,1,0,3,2 };
+	inline static FArray<FIndexComponent> quadIndices = { 0,2,1,0,3,2 };
 
 
 	inline static FRIVertexBuffer* VertexBuffer = NULL;
 	inline static FRIIndexBuffer* IndexBuffer = NULL;
-	inline static FRIVertexDeclaration* VertexDeclaration = NULL;
-
-	inline static FArray<FRIInputAttribute> VertexDeclComp =
-	{
-		FRIInputAttribute("POSITION", 3, EFRIAttributeType::Float, EFRIBool::False, 20, 0),
-		FRIInputAttribute("TEXCOORD", 2, EFRIAttributeType::Float, EFRIBool::False, 20, 12)
-	};
-
-
-
+	inline static FRIInputLayout* VertexDeclaration = NULL;
 	inline static FOrthographicMatrix ScreenSpaceMatrix;
 
-	static void DrawScreenQuad(FRICommandList& cmdList)
-	{
-		cmdList.SetGeometrySource(VertexBuffer);
-		cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, 6, EFRIIndexType::UInt32, IndexBuffer);
-	}
+	static void CreateResources(FRIDynamicAllocator* Allocator);
+	static void DrawScreenQuad(FRICommandList& cmdList);
+};
+
+struct FLAME_API FDefaultSamplers
+{
+	inline static FRISamplerState* Point;
+	inline static FRISamplerState* Bilinear;
+	inline static FRISamplerState* Trilinear;
+	inline static FRISamplerState* Anisotropic4;
+	inline static FRISamplerState* Anisotropic8;
 };
 
 

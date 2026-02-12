@@ -2,27 +2,29 @@
 #include "FlameCraft.h"
 #include "FlameEngine/Core/Engine/ContentSystem/ImportScripts/Common.h"
 
-
+#include "Scenes/GameScene.h" 
 #include "World/World.h"
 
 void PlayerScript::Load()
 {
 
-	CurrentScene().uxContainer->LoadURL("file:///welcome.html");
+	/*CurrentScene().uxContainer->LoadURL("file:///welcome.html");
 
 	CurrentScene().uxContainer->SetCallback("ExitButton", FDelegate<void(void)>::Make<FlameCraft, &FlameCraft::Close>(game));
 	CurrentScene().uxContainer->SetCallback("BackButton", FDelegate<void(void)>::Make<PlayerScript, &PlayerScript::ReturnToGame>(this));
-	CurrentScene().uxContainer->SetCallback("SetFloat", FDelegate<void(float)>::Make<PlayerScript, &PlayerScript::SetFloat>(this));
+	CurrentScene().uxContainer->SetCallback("SetFloat", FDelegate<void(float)>::Make<PlayerScript, &PlayerScript::SetFloat>(this));*/
+
+	auto Content = ((FlameCraft*)Game())->Content;
 
 	Component<Input>().BindKeyEvent<PlayerScript, &PlayerScript::KeyEvent>(this);
 	Component<Input>().BindMouseEvent<PlayerScript, &PlayerScript::MouseEvent>(this);
 
 
-	ballMesh = game->Content.Load<Mesh>("Models/sphere.fl3d");
-	ballMaterial = game->Content.Load<Material>("Materials/default2.flmt");
-	metal = game->Content.Load<Material>("Materials/perfMetal.flmt");
-	plastic = game->Content.Load<Material>("Materials/gold.flmt");
-	metal2 = game->Content.Load<Material>("Materials/metal_wall.flmt");
+	ballMesh = Content.Load<Mesh>("Models/sphere.fl3d");
+	ballMaterial = Content.Load<Material>("Materials/default2.flmt");
+	metal = Content.Load<Material>("Materials/perfMetal.flmt");
+	plastic = Content.Load<Material>("Materials/gold.flmt");
+	metal2 = Content.Load<Material>("Materials/metal_wall.flmt");
 }
 
 void PlayerScript::SetFloat(float f)
@@ -113,14 +115,14 @@ void PlayerScript::Update(float dt)
 	fps.Up = fps.Right ^ fps.LookDirection;
 
 	UpdateMovement(dt);
-	UpdateChunks(transformComponent.Position);
+	//UpdateChunks(transformComponent.Position);
 
 	FVector3 viewPos = phys.GetViewpoint(0.9f);
 	cam.View = FViewMatrix(viewPos, viewPos + fps.LookDirection, fps.Up);
 
-	_world->Tick();
+	/*_world->Tick();
 	_world->playerPos = transformComponent.Position;
-	_world->playerLookDir = fps.LookDirection;
+	_world->playerLookDir = fps.LookDirection;*/
 }
 
 

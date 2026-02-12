@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 
@@ -28,7 +27,7 @@ namespace FlameEncoder.Compilers
         readonly byte[] Signature = { (byte)'F', (byte)'L', (byte)'M', (byte)'T' };
 
 
-        public static byte[] ImageToByteArray32(Image<Rgba64> imageIn)
+        public static byte[] ImageToByteArray32(Image imageIn)
         {
             var img = imageIn.CloneAs<Rgba32>();
 
@@ -36,10 +35,11 @@ namespace FlameEncoder.Compilers
             img.CopyPixelDataTo(pixels);
             return MemoryMarshal.AsBytes<Rgba32>(pixels).ToArray();
         }
-        public static byte[] ImageToByteArray64(Image<Rgba64> img)
+        public static byte[] ImageToByteArray64(Image imageIn)
         {
-            Rgba64[] pixels = new Rgba64[img.Width * img.Height];
+            var img = imageIn.CloneAs<Rgba64>();
 
+            Rgba64[] pixels = new Rgba64[img.Width * img.Height];
             img.CopyPixelDataTo(pixels);
             return MemoryMarshal.AsBytes<Rgba64>(pixels).ToArray();
         }
@@ -58,13 +58,10 @@ namespace FlameEncoder.Compilers
             return result;
         }
 
-        public static Image<Rgba64> ResizeImage(Image<Rgba64> image, int width, int height)
+        public static Image<RgbaVector> ResizeImage(Image<RgbaVector> image, int width, int height)
         {
-            if (image.Width != width || image.Height != height)
-            {
-                image.Mutate(x => x.Resize(width, height));
-            }
-            return image;
+            Image<RgbaVector> newImg = image.Clone(i => i.Resize(width, height));
+            return newImg;
         }
 
 

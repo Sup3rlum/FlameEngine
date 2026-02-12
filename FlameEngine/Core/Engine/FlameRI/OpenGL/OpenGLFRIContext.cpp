@@ -1,6 +1,6 @@
 
 #include "OpenGLFRIContext.h"
-#include "OpenGLFRIDynamic.h"
+#include "OpenGLFRIAllocator.h"
 
 
 #include <GL/wglew.h>
@@ -156,7 +156,7 @@ bool OpenGLFRIContext::InitializeOpenGL()
 	wglSwapIntervalEXT(0);
 
 
-	dynamicAllocator = new OpenGLFRIDynamicAllocator();
+	dynamicAllocator = NULL;// new OpenGLFRIDynamicAllocator();
 
 
 	InitializeOpenGLStates();
@@ -169,7 +169,7 @@ void OpenGLFRIContext::SwapBuffers()
 }
 
 
-void OpenGLFRIContext::HandleEvents()
+bool OpenGLFRIContext::HandleEvents()
 {
 	MSG msg;
 	while (PeekMessage(&msg, win32Context->hWindow, 0, 0, PM_REMOVE))
@@ -186,6 +186,7 @@ void OpenGLFRIContext::HandleEvents()
 		}
 	}
 
+	return false;
 }
 
 

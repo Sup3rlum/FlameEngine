@@ -20,7 +20,7 @@ TextureCube environmentMap : register(t0);
 SamplerState EnvSampler : register(s0);
 
 
-const float PI = 3.14159265359;
+static float PI = 3.14159265359;
 
 // ----------------------------------------------------------------------------
 float DistributionGGX(float3 N, float3 H, float roughness)

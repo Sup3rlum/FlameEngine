@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{BDAD9355-B952-4BD1-ABE2-32D4AAE21181}</ProjectGuid>
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{E3858DD4-F1BD-45FF-96E9-1154F2EA97F1}</ProjectGuid>
     <Keyword>NetCoreCProj</Keyword>
     <RootNamespace>FlameEditorCLR</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,19 +73,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\x64\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\FlameEngine;$(SolutionDir)\FlameEngine\ThirdParty\ultralight-1.2.1-winx64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>FlameEngine.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -122,32 +124,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="app.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="App\Native\NativeEditorApp.h" />
-    <ClInclude Include="App\CLR\ManagedObject.h" />
-    <ClInclude Include="App\Native\FirstPersonComponent.h" />
-    <ClInclude Include="App\Native\PackagedApp.h" />
+    <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="EditorAppNative.h" />
+    <ClInclude Include="EditorViewerScript.h" />
+    <ClInclude Include="EntityAgent.h" />
+    <ClInclude Include="ManagedObject.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="App\EditorApp.h" />
+    <ClInclude Include="SceneEntityBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="App\Native\NativeEditorApp.cpp" />
-    <ClCompile Include="App\CLR\ManagedObject.cpp" />
-    <ClCompile Include="App\EditorApp.cpp" />
-    <ClCompile Include="App\Native\PackagedApp.cpp">
+    <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="EditorAppNative.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlameEngine\FlameEngine.vcxproj">
-      <Project>{21536f76-055b-4ec3-ac49-fe98570105b1}</Project>
-    </ProjectReference>
+    <ClCompile Include="EditorViewerScript.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="EntityAgent.cpp" />
+    <ClCompile Include="ManagedObject.cpp" />
+    <ClCompile Include="SceneEntityBehaviour.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

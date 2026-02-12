@@ -36,10 +36,9 @@ struct World
 	Block GetBlock(IVector3 pos);
 	void SetBlock(Block block, IVector3 pos, bool lazyUpdate = false);
 	void UpdateChunk(IVector2 chunkCoord);
-
-
-	void GenerateStructure(Chunk* chunk, IVector3 position);
+	bool IsChunkLoaded(IVector2 vector);
 	void Tick();
+	void GenerateArea(IVector2 start, IVector2 end, bool immediate = false);
 
 
 	void ScheduleUpdate(IVector2 position, bool threadPool);
@@ -71,6 +70,7 @@ struct World
 	{
 		return IVector3(chunkPos.x * CHUNK_WIDTH, 0, chunkPos.y * CHUNK_DEPTH);
 	}
+
 
 	~World();
 };

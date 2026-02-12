@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulation.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationContactPrep.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationContactPrepPF.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationHelper.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationScalar.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationSIMD.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFeatherstoneArticulation.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFeatherstoneForwardDynamic.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFeatherstoneInverseDynamic.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyConstraintPartition.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyConstraintSetup.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyConstraintSetupBlock.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrep.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrep4.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrep4PF.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrepPF.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyDynamics.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFrictionCorrelation.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyRigidBodyToSolverBody.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraints.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraintsBlock.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverControl.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverControlPF.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverPFConstraints.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverPFConstraintsBlock.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyThreadContext.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyThresholdTable.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyTGSDynamics.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyTGSContactPrep.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyTGSContactPrepBlock.cpp">
+      <Filter>Dynamics Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyArticulationCore.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyVArticulation.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyArticulation.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyFeatherstoneArticulation.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyFeatherstoneArticulationJointData.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyFeatherstoneArticulationUtils.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyConstraint.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyConstraintWriteBack.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyContext.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DySleepingConfigulation.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyThresholdTable.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\include\DyArticulationJointCore.h">
+      <Filter>Dynamics Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraint1DStep.h">
+      <Filter>Dynamics Source</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationContactPrep.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationFnsDebug.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationFnsScalar.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationFnsSimd.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationHelper.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationPImpl.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationReference.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationScalar.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyArticulationUtils.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFeatherstoneArticulationLink.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyBodyCoreIntegrator.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyConstraintPartition.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyConstraintPrep.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrep.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactPrepShared.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyContactReduction.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyCorrelationBuffer.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyDynamics.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFrictionPatch.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyFrictionPatchStreamPair.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverBody.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraint1D.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraint1D4.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraintDesc.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraintExtShared.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraintsShared.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverConstraintTypes.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverContact.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverContact4.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverContactPF.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverContactPF4.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverContext.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverControl.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverControlPF.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverCore.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySolverExt.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DySpatial.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyThreadContext.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyTGSDynamics.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\lowleveldynamics\src\DyTGSContactPrep.h">
+      <Filter>Dynamics Internal Includes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Dynamics Includes">
+      <UniqueIdentifier>{706158B4-4C4D-326D-8350-DBBFBFCEF209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dynamics Internal Includes">
+      <UniqueIdentifier>{A0A0C56E-7730-35A8-BA00-5A6AD469944E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dynamics Source">
+      <UniqueIdentifier>{5FC1A32C-0570-35C3-85AF-90EFCF2A5726}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

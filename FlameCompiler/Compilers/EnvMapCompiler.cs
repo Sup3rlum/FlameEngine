@@ -49,6 +49,12 @@ namespace FlameCompiler.Compilers
         private void EncodeEnvMap(EnvMap envmap, MemoryStream memory)
         {
 
+            // Specular Original 
+            for (int i = 0; i < 6; i++)
+            {
+                WriteMap(memory, envmap.Faces[(EnvMapFaceName)i + 6], envmap.Faces[(EnvMapFaceName)i + 6].Data[0].Width);
+            }
+
             // Specular
             for (int i = 0; i < 6; i++)
             {
@@ -116,11 +122,11 @@ namespace FlameCompiler.Compilers
             return result;
         }
 
-        void WriteMap(MemoryStream memory, TextureMap map)
+        void WriteMap(MemoryStream memory, TextureMap map, int dim=256)
         {
 
-            int width = 256;
-            int height = 256;
+            int width = dim;
+            int height = dim;
 
             memory.Write(BitConverter.GetBytes(width));   // Map Width
             memory.Write(BitConverter.GetBytes(height));  // Map Height

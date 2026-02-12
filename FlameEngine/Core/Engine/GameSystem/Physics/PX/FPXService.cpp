@@ -33,6 +33,10 @@ FPXService::FPXService() :
 
 	mPxPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mPxFoundation, PxTolerancesScale(), false, gPvd);
 	mPxCooking = PxCreateCooking(PX_PHYSICS_VERSION, * mPxFoundation, PxCookingParams(PxTolerancesScale()));
+	auto mPxVehicleSdk = PxInitVehicleSDK(*mPxPhysics);
+
+	PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
+	PxVehicleSetUpdateMode(PxVehicleUpdateMode::eACCELERATION);
 
 	if (mPxPhysics == NULL)
 	{
@@ -42,13 +46,16 @@ FPXService::FPXService() :
 	{
 		// TODO: Error PhysX Cooking
 	}
+	if (!mPxVehicleSdk)
+	{
+		// TODO:: Error Vehicle SDK 
+	}
 
 }
 
 
 PhysicsScene* FPXService::CreateScene(FVector3 gravity)
 {
-
 	mPxDispatcher = PxDefaultCpuDispatcherCreate(4);
 
 	PxSceneDesc sceneDesc(mPxPhysics->getTolerancesScale());
@@ -64,3 +71,12 @@ PhysicsScene* FPXService::CreateScene(FVector3 gravity)
 	return new FPXScene(mPxPhysics->createScene(sceneDesc));
 }
 
+FPXService::~FPXService()
+{
+
+	PxCloseVehicleSDK();
+
+	mPxPhysics->release();
+	mPxCooking->release();
+	mPxFoundation->release();
+}

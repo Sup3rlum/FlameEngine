@@ -3,14 +3,14 @@
 #include "FlameEngine/Core/Engine/GameSystem/Behaviour.h"
 #include "FlameEngine/Core/Math/Module.h"
 #include "FlameEngine/Core/Engine/GameSystem/InputComponent.h"
-#include "FlameEngine/Core/Engine/GameSystem/Material/MaterialComponent.h"
+#include "FlameEngine/Core/Engine/GameSystem/Material/Material.h"
 #include "FlameEngine/Core/Engine/GameSystem/Mesh.h"
 
 #include "World/Block.h"
 
 class FlameCraft;
 class FRIContext;
-
+class GameScene;
 
 struct FPComponent
 {
@@ -41,7 +41,7 @@ class PlayerScript : public BehaviourScript
 {
 public:
 
-	PlayerScript(FRIContext* FriContext, FlameCraft* game) :
+	PlayerScript(FRIContext* FriContext, GameScene* game) :
 		FriContext(FriContext),
 		game(game)
 	{}
@@ -77,7 +77,7 @@ public:
 	void UpdateInventory();
 
 	FRIContext* FriContext;
-	FlameCraft* game;
+	GameScene* game;
 
 	FVector3 Velocity = 0;
 	Mesh ballMesh;

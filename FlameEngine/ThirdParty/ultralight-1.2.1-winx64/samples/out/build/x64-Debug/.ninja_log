@@ -1,0 +1,41 @@
+# ninja log v5
+21	205	6674830557484736	Sample 6 - Intro to C API/CMakeFiles/Sample6.dir/main.c.obj	479dbfa2b0ed7ef9
+10	506	6674830560337107	Sample 3 - Resizable App/CMakeFiles/Sample3.dir/main.cpp.obj	5796d4bff39dd239
+2	514	6674830560536573	Sample 2 - Basic App/CMakeFiles/Sample2.dir/main.cpp.obj	5c69a62f86438bcb
+30	520	6674830560267295	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/glfw/deps/glad.c.obj	36839bb82394eb8b
+51	631	6674830561663562	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/input.c.obj	ad2823a6adc66e0a
+17	639	6674830561773260	Sample 5 - File Loading/CMakeFiles/Sample5.dir/main.cpp.obj	837ec01144a82930
+55	648	6674830561982711	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/init.c.obj	c7a0217b3713c56f
+13	682	6674830562251985	Sample 4 - JavaScript/CMakeFiles/Sample4.dir/main.cpp.obj	2eddaec4082b0e95
+48	993	6674830565283872	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/src/Window.cpp.obj	76205b6353d847bb
+43	1051	6674830565642913	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/src/WebTile.cpp.obj	2c86bfb136d4a361
+521	1102	6674830566490650	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/context.c.obj	c712dec6d5521355
+25	1146	6674830566899560	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/src/main.cpp.obj	58a01b923c8a2acc
+6	1192	6674830567188775	Sample 1 - Render to PNG/CMakeFiles/Sample1.dir/main.cpp.obj	5c900956243792a3
+632	1212	6674830567428142	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj	517ed860b0f75965
+649	1227	6674830567527881	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/window.c.obj	24854cc043156762
+39	1296	6674830568385577	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/src/GLTextureSurface.cpp.obj	471df4b1dc8fddbb
+34	1638	6674830571836343	Sample 7 - OpenGL Integration/CMakeFiles/Sample7.dir/src/Sample.cpp.obj	d812244a8f5a5fb2
+1051	1647	6674830571886208	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj	eb0b810f00dbe5ff
+1146	1665	6674830572045798	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	6ab7787d6774eaf0
+993	1686	6674830572354966	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj	d93471dc4344bec6
+1212	1717	6674830572554427	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj	ea5ac7b1d4824a8
+1102	1730	6674830572444721	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj	d4bd369407888833
+1229	1738	6674830572694075	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj	ebd7d4fac7d5ef45
+1297	1910	6674830574409461	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj	2eb52eab5fb9306a
+1666	2180	6674830577291752	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj	93774fde9be5bba3
+1638	2187	6674830577351594	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj	c01e6721d166b68e
+1647	2197	6674830577471279	Sample 7 - OpenGL Integration/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	8344e7338084d86e
+1718	2266	6674830578149720	Sample 8 - Web Browser/CMakeFiles/Sample8.dir/src/Browser.cpp.obj	4f11c00b6df4765a
+1739	2315	6674830578666415	Sample 8 - Web Browser/CMakeFiles/Sample8.dir/src/main.cpp.obj	c8c687950edcbfac
+2197	2371	6674830578686362	Sample 7 - OpenGL Integration/glfw/src/glfw3.lib	c8e4010dbd82f713
+1730	2422	6674830579705725	Sample 8 - Web Browser/CMakeFiles/Sample8.dir/src/UI.cpp.obj	caf21ecbf526d27a
+1687	2538	6674830580858056	Sample 8 - Web Browser/CMakeFiles/Sample8.dir/src/Tab.cpp.obj	2776a9a29743b7e7
+682	3064	6674830574678737	Sample 4 - JavaScript/Sample4.exe	8f7f5d3821fc658
+507	3064	6674830571656828	Sample 3 - Resizable App/Sample3.exe	41343fb0c2e43f91
+514	3064	6674830572205361	Sample 2 - Basic App/Sample2.exe	570403e810ba0969
+1202	3064	6674830576952658	Sample 1 - Render to PNG/Sample1.exe	4823bffbd12bc7d1
+206	3123	6674830572504581	Sample 6 - Intro to C API/Sample6.exe	8cc2e3211dec3d00
+639	3146	6674830574858258	Sample 5 - File Loading/Sample5.exe	8a280422f47b9f56
+2371	3525	6674830587054210	Sample 7 - OpenGL Integration/Sample7.exe	f3a76cf04ebdae6e
+2538	20827	6674830587428365	Sample 8 - Web Browser/Sample8.exe	65a50bc2ad38a581

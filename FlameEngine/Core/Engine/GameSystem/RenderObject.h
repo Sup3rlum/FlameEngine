@@ -6,7 +6,9 @@ enum class GRenderMode
 {
 	Shadow,
 	Material,
-	Transluscent
+	Transluscent,
+	PreLighting,
+	PostLighting
 };
 
 struct RenderList
@@ -16,5 +18,5 @@ struct RenderList
 
 struct RenderObject
 {
-	RenderList* list = NULL;
+	RenderList* RenderList = NULL;
 };

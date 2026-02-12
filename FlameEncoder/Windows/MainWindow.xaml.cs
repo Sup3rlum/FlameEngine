@@ -23,7 +23,7 @@ using System.Windows.Forms.Integration;
 
 using Microsoft.Win32;
 
-using FlameEncoderCLR;
+//using FlameEncoderCLR;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -102,14 +102,13 @@ namespace FlameEncoder
     {
 
         public BuildScript OpenProject { get; set; }
-        public TextureViewer editorApp;
+        //public TextureViewer editorApp;
 
         public NodeGraph displNodeGraph { get; set; }
 
         public MainWindow()
         {
             ElementHost.EnableModelessKeyboardInterop(this);
-
 
             InitializeComponent();
 
@@ -122,17 +121,17 @@ namespace FlameEncoder
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            editorApp = new TextureViewer(enginePanel.Handle, enginePanel.Width, enginePanel.Height);
+          //  editorApp = new TextureViewer(enginePanel.Handle, enginePanel.Width, enginePanel.Height);
 
-            while (editorApp.IsContextActive())
-            {
-                editorApp.Frame();
-                System.Windows.Forms.Application.DoEvents();
-            }
+          //  while (editorApp.IsContextActive())
+           // {
+          //      editorApp.Frame();
+          ////      System.Windows.Forms.Application.DoEvents();
+           // }
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            editorApp.PollClose();
+          //  editorApp.PollClose();
         }
 
 
@@ -216,7 +215,7 @@ namespace FlameEncoder
 
             new CompilerTask()
             {
-                TextureMaps = graph.RenderMaterial(),
+                TextureMaps = graph.Output is MaterialNode ? graph.RenderMaterial() : graph.RenderEnvMap(),
                 OutputFileName = graph.OutputFileName
             }.Execute();    
         }
@@ -271,6 +270,22 @@ namespace FlameEncoder
             node.Position = Mouse.GetPosition(mainCanvas);
         }
 
+        private void Graph_AddFaceListToCubeMapNode(object sender, RoutedEventArgs e)
+        {
+            var pos = Mouse.GetPosition(mainCanvas);
+
+            var node = displNodeGraph.CreateNode<FaceListToCubeMapNode>();
+            node.Position = Mouse.GetPosition(mainCanvas);
+        }
+
+        private void Graph_AddEquirectangularToCubeMapNode(object sender, RoutedEventArgs e)
+        {
+            var pos = Mouse.GetPosition(mainCanvas);
+
+            var node = displNodeGraph.CreateNode<EquirectangularToCubeMapNode>();
+            node.Position = Mouse.GetPosition(mainCanvas);
+        }
+
         private void Graph_AddMaterialNode(object sender, RoutedEventArgs e)
         {
             if (displNodeGraph.Output != null)
@@ -279,6 +294,20 @@ namespace FlameEncoder
                 displNodeGraph.Output = null;
             }
             var node = displNodeGraph.CreateNode<MaterialNode>();
+            node.Position = Mouse.GetPosition(mainCanvas);
+
+            displNodeGraph.Output = node;
+        }
+
+
+        private void Graph_AddEnvironmentMapNode(object sender, RoutedEventArgs e)
+        {
+            if (displNodeGraph.Output != null)
+            {
+                displNodeGraph.DeleteNode(displNodeGraph.Output);
+                displNodeGraph.Output = null;
+            }
+            var node = displNodeGraph.CreateNode<EnvironmentMapNode>();
             node.Position = Mouse.GetPosition(mainCanvas);
 
             displNodeGraph.Output = node;
@@ -295,7 +324,7 @@ namespace FlameEncoder
             {
                 new CompilerTask()
                 {
-                    TextureMaps = graph.RenderMaterial(),
+                    TextureMaps = graph.Output is MaterialNode ? graph.RenderMaterial() : graph.RenderEnvMap(),
                     OutputFileName = graph.OutputFileName
                 }.Execute();
 
@@ -324,7 +353,7 @@ namespace FlameEncoder
 
         private void Toolbar_Render(object sender, RoutedEventArgs e)
         {
-            var result = displNodeGraph.RenderMaterial();
+            TextureMapCollection result = displNodeGraph.Output is MaterialNode ? displNodeGraph.RenderMaterial() : displNodeGraph.RenderEnvMap();
             SetDisplayMaterial(result);
         }
 
@@ -343,18 +372,22 @@ namespace FlameEncoder
 
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDraggin = true;
 
-            movingNode = (sender as DockPanel).Tag as Node;
-            var click = Mouse.GetPosition(mainCanvas);
-            offset = click - movingNode.Position;
-            
-            foreach (var node in displNodeGraph.Nodes)
-                node.IsSelected = 0;
+            if (e.OriginalSource is TextBlock)
+            {
 
-            movingNode.IsSelected = 1;
+                isDraggin = true;
 
-            movingNode.Control.Focus();
+                movingNode = (sender as DockPanel).Tag as Node;
+                var click = Mouse.GetPosition(mainCanvas);
+                offset = click - movingNode.Position;
+
+                foreach (var node in displNodeGraph.Nodes)
+                    node.IsSelected = 0;
+
+                movingNode.IsSelected = 1;
+                movingNode.Control.Focus();
+            }
         }
 
         private void DockPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -370,12 +403,10 @@ namespace FlameEncoder
             {
                 movingNode.Position = point - offset;
             }
-
             if (isCreatingLink && connection != null)
             {
 
             }
-
         }
 
 
@@ -391,19 +422,10 @@ namespace FlameEncoder
 
         private void mainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //isCreatingLink = false;
-        }
+            isDraggin = false;
 
-        public static IEnumerable<T> FindVisualChilds<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj == null) yield return (T)Enumerable.Empty<T>();
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                DependencyObject ithChild = VisualTreeHelper.GetChild(depObj, i);
-                if (ithChild == null) continue;
-                if (ithChild is T t) yield return t;
-                foreach (T childOfChild in FindVisualChilds<T>(ithChild)) yield return childOfChild;
-            }
+            /*if (isCreatingLink)
+                SetCreatingLink(false);*/
         }
 
         private void DockPanel_Loaded(object sender, RoutedEventArgs e)
@@ -453,6 +475,23 @@ namespace FlameEncoder
             border.Child = null;
         }
 
+
+        public void SetCreatingLink(bool creating)
+        {
+            if (startingRect != null)
+            {
+                if (creating)
+                {
+                    startingRect.Fill = new SolidColorBrush(Colors.LightBlue);
+                }
+                else
+                {
+                    startingRect.Fill = new SolidColorBrush(Colors.White);
+                }
+            }
+            isCreatingLink = creating;
+        }
+
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var rect = sender as System.Windows.Shapes.Rectangle;
@@ -461,26 +500,34 @@ namespace FlameEncoder
             if (isCreatingLink)
             {
                 if (socket is InputNodeSocket)
+                {
+                    if (connection.Input != null || connection.Output.Parent == socket.Parent)
+                    {
+                        return;
+                    }
                     connection.Input = (InputNodeSocket)socket;
+                }
 
                 else if (socket is OutputNodeSocket)
+                {
+                    if (connection.Output != null || connection.Input.Parent == socket.Parent)
+                    {
+                        return;
+                    }
                     connection.Output = (OutputNodeSocket)socket;
-
+                }
                 connection.Input.Connections.Add(connection);
                 connection.Output.Connections.Add(connection);
 
                 displNodeGraph.Connections.Add(connection);
 
-                startingRect.Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
-
-                isCreatingLink = false;
+                SetCreatingLink(false);
             }
             else
             {
+
                 connection = new NodeConnection();
                 startingRect = rect;
-
-                startingRect.Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.LightBlue); 
 
                 if (socket is InputNodeSocket)
                     connection.Input = (InputNodeSocket)socket;
@@ -488,7 +535,8 @@ namespace FlameEncoder
                 else if (socket is OutputNodeSocket)
                     connection.Output = (OutputNodeSocket)socket;
 
-                isCreatingLink = true;
+                SetCreatingLink(true);
+
             }
         }
 
@@ -501,7 +549,7 @@ namespace FlameEncoder
 
         public void SetFlameMaterial(Material result)
         {
-            TextureDesc[] descs = new TextureDesc[4];
+        /*    TextureDesc[] descs = new TextureDesc[4];
 
             var diffuse = result.Maps["Diffuse"].Data[0];
             var data = MaterialCompiler.ImageToByteArray32(diffuse);
@@ -570,15 +618,15 @@ namespace FlameEncoder
             descs[3].width = emissive.Width;
             descs[3].height = emissive.Height;
 
-            editorApp.SetMaterial(descs);
+            editorApp.SetMaterial(descs);*/
         }
 
-        public void SetDisplayMaterial(Material result)
+        public void SetDisplayMaterial(TextureMapCollection result)
         {
             var display = result.Maps.Select(x => new TextureView(x.Value) { Name = x.Key });
             matListBox.ItemsSource = display;
 
-            SetFlameMaterial(result);
+            //SetFlameMaterial(result);
         }
 
 
@@ -606,6 +654,23 @@ namespace FlameEncoder
             foreach (var conn in connections)
             {
                 displNodeGraph.DeleteConnection(conn);
+            }
+        }
+
+        private void mainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+        }
+
+        public static IEnumerable<T> FindVisualChilds<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) yield return (T)Enumerable.Empty<T>();
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                DependencyObject ithChild = VisualTreeHelper.GetChild(depObj, i);
+                if (ithChild == null) continue;
+                if (ithChild is T t) yield return t;
+                foreach (T childOfChild in FindVisualChilds<T>(ithChild)) yield return childOfChild;
             }
         }
     }

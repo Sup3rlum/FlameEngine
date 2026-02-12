@@ -17,66 +17,57 @@ struct FViewFrustumInfo
 };
 
 
-
-
-struct DirectionalLight
+struct DirectionalLight : RenderStruct<FVector4, FVector4>
 {
-	FStaticArray<FViewFrustumInfo, SM_CASCADES> FrustumInfo;
+	FStaticArray<FViewFrustumInfo, SM_CASCADES> FrustumData;
 
 	FVector3 Direction;
-	Color Color;
 	float Intensity;
+	Color32 Color;
 
 
-	void StageMemory(FRIMemoryMap& memory)
+	void StageMemory(FRIMemoryMap& GPUMemory, const FMatrix4& View)
 	{
-		memory << FVector4(Direction, 0);			// Pad to 16 bytes
-		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
+		GPUMemory << FVector4(Direction, 0);			// Pad to 16 bytes
+		GPUMemory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
 	}
-
-	ENTITY_STAGE(FVector4, FVector4)
 };
 
 
-struct PointLight
+struct PointLight : RenderStruct<FVector4, FVector4, float>
 {
 	FVector3 Position;
-	Color Color;
+	Color32 Color;
 	float Intensity;
 	float Radius;
 
-	void StageMemory(FRIMemoryMap& memory)
+	void StageMemory(FRIMemoryMap& GPUMemory, const FMatrix4& View)
 	{
-		memory << FVector4(Position, 1.0f);				// Pad to 16 bytes
-		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
-		memory << Radius;	
+		GPUMemory << FVector4(Position, 1.0f);				// Pad to 16 bytes
+		GPUMemory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
+		GPUMemory << Radius;	
 
 	}
-
-	ENTITY_STAGE(FVector4, FVector4, float)
 };
 
 
-struct SpotLight
+struct SpotLight : RenderStruct<FVector4, FVector4, FVector3>
 {
 	FVector3 Position;
 	FVector3 Direction;
-	Color Color;
+	Color32 Color;
 	float Intensity;
 	float Radius;
 	float ApertureSize;
 	float ApertureSharpness;
 
-	void StageMemory(FRIMemoryMap& memory)
+	void StageMemory(FRIMemoryMap& GPUMemory, const FMatrix4& View)
 	{
-		memory << FVector4(Position, 1);				// Pad to 16 bytes
-		memory << FVector4(Direction, 0);			// Pad to 16 bytes
-		memory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
-		memory << Radius;
-		memory << ApertureSize;
-		memory << ApertureSharpness;
-
+		GPUMemory << FVector4(Position, 1);				// Pad to 16 bytes
+		GPUMemory << FVector4(Direction, 0);			// Pad to 16 bytes
+		GPUMemory << FVector4(Color.rgb, Intensity);	// Pad to 16 bytes
+		GPUMemory << Radius;
+		GPUMemory << ApertureSize;
+		GPUMemory << ApertureSharpness;
 	}
-
-	ENTITY_STAGE(FVector4, FVector4, float, float, float)
 };

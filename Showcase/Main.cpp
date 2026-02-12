@@ -1,8 +1,14 @@
 
-#include "TestGame.h"
+#define _CRTDBG_MAP_ALLOC
+
+#include "SteelCircus.h"
+
+
 
 #include <iostream>
 #include <string>
+
+#include <crtdbg.h>
 
 int main()
 {
@@ -26,8 +32,9 @@ int main()
 	contextDescription.Width = width;
 	contextDescription.Height = height;
 	contextDescription.SampleCount = 0;
-	contextDescription.RenderFramework = EFRIRendererFramework::DX11;
+	contextDescription.RenderFramework = EFRIRendererFramework::DX12;
 	contextDescription.WinContext = NULL;
+	contextDescription.BackBufferCount = 3;
 
 	if (c == 'y')
 		contextDescription.IsFullscreen = true;
@@ -37,7 +44,7 @@ int main()
 		return 0;
 
 
-	TestGameApplication app(L"Test");
+	SteelCircus app(L"SteelCircus");
 	app.CreateContext(contextDescription);
 	
 	if (!app.Content.Connect("./Assets/"))
@@ -47,8 +54,11 @@ int main()
 
 	app.Load();
 	app.Run();
-	
 
+
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtDumpMemoryLeaks();
+	
 	return 0;
 }
 

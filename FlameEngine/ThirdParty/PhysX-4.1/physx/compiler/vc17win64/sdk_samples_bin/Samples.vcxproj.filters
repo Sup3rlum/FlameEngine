@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebridges\SampleBridges.cpp">
+      <Filter>SampleBridges</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesCCT.cpp">
+      <Filter>SampleBridges</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\Planet.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity_CCT.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityBuilder.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityCameraController.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityFilterShader.cpp">
+      <Filter>SampleCustomGravity</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplehelloworld\SampleHelloWorld.cpp">
+      <Filter>SampleHelloWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\ChunkLoader.cpp">
+      <Filter>SampleLargeWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\MeshBuilder.cpp">
+      <Filter>SampleLargeWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorld.cpp">
+      <Filter>SampleLargeWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorldCCT.cpp">
+      <Filter>SampleLargeWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPole.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleBuilder.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCameraController.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCCT.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleDynamics.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleFilterShader.cpp">
+      <Filter>SampleNorthPole</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\Crab.cpp">
+      <Filter>SampleSubmarine</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarine.cpp">
+      <Filter>SampleSubmarine</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleDebugRender.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleTerrain.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_CameraController.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_ControlInputs.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_GameLogic.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_SceneQuery.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleController.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleCooking.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleManager.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_WheelQueryResults.cpp">
+      <Filter>SampleVehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\KinematicPlatform.cpp">
+      <Filter>CCTShared</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTActor.cpp">
+      <Filter>CCTShared</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTCameraController.cpp">
+      <Filter>CCTShared</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTJump.cpp">
+      <Filter>CCTShared</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebridges\SampleBridges.h">
+      <Filter>SampleBridges</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesInputEventIds.h">
+      <Filter>SampleBridges</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesSettings.h">
+      <Filter>SampleBridges</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\Planet.h">
+      <Filter>SampleCustomGravity</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity.h">
+      <Filter>SampleCustomGravity</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityCameraController.h">
+      <Filter>SampleCustomGravity</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityInputEventIds.h">
+      <Filter>SampleCustomGravity</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplehelloworld\SampleHelloWorld.h">
+      <Filter>SampleHelloWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\ChunkLoader.h">
+      <Filter>SampleLargeWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\MeshBuilder.h">
+      <Filter>SampleLargeWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorld.h">
+      <Filter>SampleLargeWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorldInputEventIds.h">
+      <Filter>SampleLargeWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPole.h">
+      <Filter>SampleNorthPole</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCameraController.h">
+      <Filter>SampleNorthPole</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleInputEventIds.h">
+      <Filter>SampleNorthPole</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\Crab.h">
+      <Filter>SampleSubmarine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarine.h">
+      <Filter>SampleSubmarine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarineInputEventIds.h">
+      <Filter>SampleSubmarine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplesubmarine\SubmarineCameraController.h">
+      <Filter>SampleSubmarine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleInputEventIds.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_CameraController.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_ControlInputs.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_GameLogic.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_SceneQuery.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleController.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleCooking.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleManager.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_WheelQueryResults.h">
+      <Filter>SampleVehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\KinematicPlatform.h">
+      <Filter>CCTShared</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTActor.h">
+      <Filter>CCTShared</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTCameraController.h">
+      <Filter>CCTShared</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTJump.h">
+      <Filter>CCTShared</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\samples\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CCTShared">
+      <UniqueIdentifier>{6F5AB281-D5B1-33F8-9D74-7C0BE0A1DE4D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleBridges">
+      <UniqueIdentifier>{134EFC99-9C31-3B98-93D5-2FD410E2DC95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleCustomGravity">
+      <UniqueIdentifier>{7DCC9BB4-2075-3E5D-BF9E-01564EB25336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleHelloWorld">
+      <UniqueIdentifier>{183198B6-CE65-357F-B5DF-754481C9F616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleLargeWorld">
+      <UniqueIdentifier>{041DDF2A-5E5A-39CE-BDDC-47DC709585B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleNorthPole">
+      <UniqueIdentifier>{FBC417FE-499C-3245-8E46-5EF3B7EDEA11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleSubmarine">
+      <UniqueIdentifier>{24B54E38-7B0F-3012-A5A2-F91D73B59D1E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleVehicle">
+      <UniqueIdentifier>{E83622EE-9F66-3B88-A613-69DA7F9D70F5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

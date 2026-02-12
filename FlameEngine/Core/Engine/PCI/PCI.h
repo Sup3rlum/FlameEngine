@@ -2,6 +2,9 @@
 
 
 #include "Core/Common/CoreCommon.h"
+#include "Core/Math/Module.h"
+
+struct FRIMemoryMap;
 
 struct IProperty
 {
@@ -159,7 +162,18 @@ public:
 		return Properties.Get(name);
 	}
 
+	friend class FHashMap<FString, IProperty>;
 	virtual ~IProperties() {}
+};
+
+class GPUProperties : public IProperties
+{
+	size_t TotalSize = 0;
+	void* Start = NULL;
+
+public:
+
+	FORCEINLINE void Serialize(FRIMemoryMap& GPUMemory);
 };
 
 #define PropertyValue(type, propertyName, defaultValue)      \
@@ -168,6 +182,24 @@ type propertyName = __Init##propertyName();				\
 private:												\
 type __Init##propertyName()							    \
 {														\
+this->Init(#propertyName, &propertyName);				\
+return defaultValue;									\
+}														\
+														\
+public:													\
+
+
+#define GPUPropertyValue(type, propertyName, defaultValue)	\
+														\
+type propertyName = __Init##propertyName();				\
+private:												\
+type __Init##propertyName()							    \
+{														\
+if (!this->Start)										\
+{														\
+	this->Start = &propertyName							\
+}														\
+this->TotalSize += sizeof(type)							\
 this->Init(#propertyName, &propertyName);				\
 return defaultValue;									\
 }														\
@@ -185,5 +217,18 @@ public:													\
 #define PropertyVector3(propertyName, defaultValue) PropertyValue(FVector3, propertyName, defaultValue)
 #define PropertyVector4(propertyName, defaultValue) PropertyValue(FVector4, propertyName, defaultValue)
 
+#define PropertyColor(propertyName, defaultValue) PropertyValue(Color, propertyName, defaultValue)
+#define PropertyColor32(propertyName, defaultValue) PropertyValue(Color32, propertyName, defaultValue)
+
+
+
+#define GPUPropertyBool(propertyName, defaultValue) GPUPropertyValue(bool, propertyName, defaultValue)
+#define GPUPropertyInt(propertyName, defaultValue) GPUPropertyValue(int32, propertyName, defaultValue)
+#define GPUPropertyInt64(propertyName, defaultValue) GPUPropertyValue(int64, propertyName, defaultValue)
+#define GPUPropertyFloat(propertyName, defaultValue) GPUPropertyValue(float, propertyName, defaultValue)
+
+#define GPUPropertyVector2(propertyName, defaultValue) GPUPropertyValue(FVector2, propertyName, defaultValue)
+#define GPUPropertyVector3(propertyName, defaultValue) GPUPropertyValue(FVector3, propertyName, defaultValue)
+#define GPUPropertyVector4(propertyName, defaultValue) GPUPropertyValue(FVector4, propertyName, defaultValue)
 
 #define ThisProperty(a) this->a

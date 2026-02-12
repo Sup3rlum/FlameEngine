@@ -1,78 +1,144 @@
 #pragma once
 
 
-#include "FRIDefinitions.h"
 #include "../Renderer/Common/Color.h"
 #include "Core/Math/Module.h"
 #include "Core/Common/CoreCommon.h"
+#include "FRIDefinitions.h"
 
+
+typedef void* FRI_RESOURCE;
+
+#if __cplusplus >= 202002L
+template<class U, class T>
+concept Derived = std::is_base_of<U, T>::value;
+#endif
+
+struct FRIResource
+{
+
+};
 
 struct FRIResourceObject
 {
-	virtual bool IsValidResource() { return false; };
 
+	virtual FRIResource* GetResource() { return NULL; };
 	virtual ~FRIResourceObject() {}
-};
-
-struct FRIBuffer
-{
-
+	virtual void Rename(const FString& Name) {};
 };
 
 
-struct FRITexture2D : public FRIResourceObject
+
+struct FRIUnorderedAccessView : public FRIResourceObject
 {
-	uint32 Width;
-	uint32 Height;
-	uint32 SampleCount;
-
-	FRITexture2D(uint32 Width, uint32 Height, uint32 SampleCount) :
-		Width(Width),
-		Height(Height),
-		SampleCount(SampleCount)
-	{
-
-	}
-};
-struct FRITexture3D : public FRIResourceObject
-{
-	uint32 Width;
-	uint32 Height;
-	uint32 Depth;
-
-	FRITexture3D(uint32 Width, uint32 Height, uint32 Depth) :
-		Width(Width),
-		Height(Height),
-		Depth(Depth)
+	FRIUnorderedAccessView()
 	{
 
 	}
 };
 
-struct FRITextureCubeMap : public FRIResourceObject
+struct FRIShaderResourceView : public FRIResourceObject
+{
+	FRIShaderResourceView()
+	{
+
+	}
+};
+
+struct FRIRenderTargetView : public FRIResourceObject
+{
+	FRIRenderTargetView()
+	{
+
+	}
+
+	virtual class FRITexture2D* GetDepthBuffer() = 0;
+};
+
+struct FRIDepthStencilView : public FRIResourceObject
+{
+	FRIDepthStencilView()
+	{
+
+	}
+
+};
+
+struct FRIConstantBufferView : public FRIResourceObject
+{
+	FRIConstantBufferView()
+	{
+
+	}
+};
+
+struct FRIComputeResource
+{
+//	virtual FRIUnorderedAccessView* ComputeView() = 0;
+};
+struct FRITextureBase : FRIComputeResource
+{
+	//virtual FRIShaderResourceView* View() = 0;
+};
+
+struct FRITexture2D : public FRIResourceObject, FRITextureBase
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 MipLevels;
 
-	FRITextureCubeMap(uint32 Width, uint32 Height, uint32 SampleCount) :
+	FRITexture2D(uint32 Width, uint32 Height, uint32 MipLevels) :
 		Width(Width),
 		Height(Height),
-		MipLevels(SampleCount)
+		MipLevels(MipLevels)
+	{
+
+	}
+
+};
+struct FRITexture3D : public FRIResourceObject, FRITextureBase
+{
+	uint32 Width;
+	uint32 Height;
+	uint32 Depth;
+	uint32 MipLevels;
+
+	FRITexture3D(uint32 Width, uint32 Height, uint32 Depth, uint32 MipLevels) :
+		Width(Width),
+		Height(Height),
+		Depth(Depth),
+		MipLevels(MipLevels)
 	{
 
 	}
 };
-struct FRITexture2DArray : public FRIResourceObject
+
+struct FRITextureCubeMap : public FRIResourceObject, FRITextureBase
+{
+	uint32 Width;
+	uint32 Height;
+	uint32 MipLevels;
+
+	FRITextureCubeMap(uint32 Width, uint32 Height, uint32 MipLevels) :
+		Width(Width),
+		Height(Height),
+		MipLevels(MipLevels)
+	{
+
+	}
+};
+struct FRITexture2DArray : public FRIResourceObject, FRITextureBase
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 NumLayers;
+	uint32 MipLevels;
 
-	FRITexture2DArray(uint32 Width, uint32 Height, uint32 NumLayers) :
+	FRITexture2DArray(uint32 Width, uint32 Height, uint32 NumLayers, uint32 MipLevels) :
 		Width(Width),
 		Height(Height),
-		NumLayers(NumLayers)
+		NumLayers(NumLayers),
+		MipLevels(MipLevels)
 	{
 
 	}
@@ -84,104 +150,108 @@ struct FRITexture2DArray : public FRIResourceObject
 
 struct FRIVertexBuffer : public FRIResourceObject
 {
-	uint32 ByteSize;
-	uint32 Usage;
+	uint32 VertexCount;
+	uint32 VertexSize;
+	EFRIUsage Usage;
 	EFRIAccess Access;
 
-	FRIVertexBuffer(uint32 ByteSize, uint32 Usage, EFRIAccess Access) :
-		ByteSize(ByteSize),
+	FRIVertexBuffer(uint32 VertexCount, uint32 VertexSize, EFRIUsage Usage, EFRIAccess Access) :
+		VertexCount(VertexCount),
+		VertexSize(VertexSize),
 		Usage(Usage),
 		Access(Access)
 	{
 
 	}
-
+	uint32 GetByteSize() const
+	{
+		return VertexCount * VertexSize;
+	}
 };
 
 
 struct FRIIndexBuffer : public FRIResourceObject
 {
 	uint32 IndexCount;
-	uint32 Usage;
+	EFRIUsage Usage;
 	EFRIAccess Access;
 
-	FRIIndexBuffer(uint32 IndexCount, uint32 Usage, EFRIAccess Access) :
+	FRIIndexBuffer(uint32 IndexCount, EFRIUsage Usage, EFRIAccess Access) :
 		IndexCount(IndexCount),
 		Usage(Usage),
 		Access(Access)
 	{
 
 	}
-
+	uint32 GetByteSize() const
+	{
+		return IndexCount * sizeof(uint32);
+	}
 };
 
 struct FRIInstanceBuffer : public FRIResourceObject
 {
+	uint32 InstanceCount;
 	uint32 Stride;
-	uint32 ByteSize;
-	uint32 Usage;
+	EFRIUsage Usage;
 	EFRIAccess Access;
 
-	FRIInstanceBuffer(uint32 Size, uint32 Stride, uint32 Usage, EFRIAccess Access) : 
+	FRIInstanceBuffer(uint32 InstanceCount, uint32 Stride, EFRIUsage Usage, EFRIAccess Access) : 
+		InstanceCount(InstanceCount),
 		Stride(Stride),
-		ByteSize(ByteSize),
 		Usage(Usage),
 		Access(Access)
 	{
 
 	}
+
+	uint32 GetByteSize() const
+	{
+		return InstanceCount * Stride;
+	}
 };
 
-struct FRIUniformBuffer : public FRIResourceObject
+struct FRIConstantBuffer : public FRIResourceObject
 {
 	uint32 ByteSize;
-	uint32 Usage;
+	EFRIUsage Usage;
 	EFRIAccess Access;
 
-	FRIUniformBuffer(uint32 Size, uint32 Stride, uint32 Usage, EFRIAccess Access) :
+	FRIConstantBuffer(uint32 ByteSize, uint32 Stride, EFRIUsage Usage, EFRIAccess Access) :
 		ByteSize(ByteSize),
 		Usage(Usage),
 		Access(Access)
 	{
 	}
+
+	virtual FRIConstantBufferView* GetView()
+	{
+		return 0;
+	}
+
 };
 
-struct FRIComputeBuffer : public FRIResourceObject
+struct FRIComputeBuffer : public FRIResourceObject, FRIComputeResource
 {
+	uint32 StructureCount;
 	size_t StructureStride;
-	uint32 ByteSize;
-	uint32 Usage;
+	EFRIUsage Usage;
 	EFRIAccess Access;
 
-	FRIComputeBuffer(uint32 Size, uint32 Stride, uint32 Usage, EFRIAccess Access) :
-		StructureStride(StructureStride),
-		ByteSize(ByteSize),
+	FRIComputeBuffer(uint32 Count, uint32 Stride, EFRIUsage Usage, EFRIAccess Access) :
+		StructureCount(Count),
+		StructureStride(Stride),
 		Usage(Usage),
 		Access(Access)
 	{
 	}
-};
-
-
-struct FRIFrameBuffer : public FRIResourceObject
-{
-	uint32 Size;
-	uint32 Usage;
-
-	FRIFrameBuffer(uint32 Size, uint32 Usage) :
-		Size(Size),
-		Usage(Usage)
+	uint32 GetByteSize() const
 	{
-
+		return StructureCount * StructureStride;
 	}
-
-	virtual FRITexture2D* GetDepthBuffer() = 0;
-
 };
 
-
-
-struct FRISampler
+struct FRISampler2
 {
 	uint32 Unit;
 	EFRISamplerType samplerType;
@@ -195,56 +265,25 @@ struct FRISampler
 	};
 
 
-	FRISampler(uint32 unit, FRITexture2D* val) : Unit(unit), samplerType(EFRISamplerType::TSampler2D), Param2D(val) {}
-	FRISampler(uint32 unit, FRITexture3D* val) : Unit(unit), samplerType(EFRISamplerType::TSampler3D), Param3D(val) {}
-	FRISampler(uint32 unit, FRITextureCubeMap* val) : Unit(unit), samplerType(EFRISamplerType::TSamplerCube), ParamCube(val) {}
-	FRISampler(uint32 unit, FRITexture2DArray* val) : Unit(unit), samplerType(EFRISamplerType::TSampler2DArray), Param2DArray(val) {}
-	FRISampler(uint32 unit) : Unit(unit), Param2D(NULL), samplerType(EFRISamplerType::MaxSamplerTypes) {  }
+	FRISampler2(uint32 unit, FRITexture2D* val) : Unit(unit), samplerType(EFRISamplerType::TSampler2D), Param2D(val) {}
+	FRISampler2(uint32 unit, FRITexture3D* val) : Unit(unit), samplerType(EFRISamplerType::TSampler3D), Param3D(val) {}
+	FRISampler2(uint32 unit, FRITextureCubeMap* val) : Unit(unit), samplerType(EFRISamplerType::TSamplerCube), ParamCube(val) {}
+	FRISampler2(uint32 unit, FRITexture2DArray* val) : Unit(unit), samplerType(EFRISamplerType::TSampler2DArray), Param2DArray(val) {}
+	FRISampler2(uint32 unit) : Unit(unit), Param2D(NULL), samplerType(EFRISamplerType::MaxSamplerTypes) {  }
 
 private:
-	FRISampler();
+	FRISampler2();
 };
 
-
-
-
-
-struct FTextureParameterBufferParameter
+struct FRISamplerState : public FRIResourceObject
 {
-	uint32 ParamName;
-	union
-	{
-		int32 EnumParam;
-		float FloatParam;
-	};
-	EFRITextureParameterBufferParameterType paramType;
+	FRISamplerState(
 
-	FTextureParameterBufferParameter(EFRITextureParamName ParamName, EFRITextureWrapMode mode)		: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Enum), EnumParam((int32)mode) {}
-	FTextureParameterBufferParameter(EFRITextureParamName ParamName, EFRITextureFilterMode mode)	: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Enum), EnumParam((int32)mode) {}
-	FTextureParameterBufferParameter(EFRITextureParamName ParamName, float value)					: ParamName((uint32)ParamName), paramType(EFRITextureParameterBufferParameterType::Float), FloatParam(value) {}
+	)
+	{}
 
-private:
-	FTextureParameterBufferParameter();
 };
 
-
-struct FRITextureParameterBuffer : public FRIResourceObject
-{
-
-
-	FArray<FTextureParameterBufferParameter> Data;
-
-	FRITextureParameterBuffer(const FArray<FTextureParameterBufferParameter>& Data) :
-		Data(Data)
-	{
-
-	}
-	FRITextureParameterBuffer(const FRITextureParameterBuffer& other) :
-		Data(other.Data)
-	{
-
-	}
-};
 
 
 struct FRIRenderQuery : public FRIResourceObject
@@ -271,9 +310,6 @@ struct FRIShaderBase : public FRIResourceObject
 	{
 
 	}
-
-	virtual uint32 GetResource() const = 0;
-
 };
 
 
@@ -306,35 +342,42 @@ struct FRIShaderPipeline : FRIResourceObject
 	}
 };
 
-struct FRIRasterizerState
-{
-	
-};
 
-struct FRIBlendState
+struct FRIPipelineStateObject : FRIResourceObject
 {
 
 };
 
-struct FRIDepthStencilState
+struct FRIRasterizerState : FRIResourceObject
 {
+	EFRICullMode CullMode;
+	EFRIFillMode FillMode;
 
+	FRIRasterizerState(EFRICullMode cullMode, EFRIFillMode fillMode) : CullMode(cullMode), FillMode(fillMode) {}
 };
 
-
-struct FRIArrayInterface
+struct FRIBlendState : FRIResourceObject
 {
+	EFRIBlend SrcBlend;
+	EFRIBlend DstBlend;
 
+	FRIBlendState(EFRIBlend srcBlend, EFRIBlend dstBlend) : SrcBlend(srcBlend), DstBlend(dstBlend) {}
 };
 
+struct FRIDepthStencilState : FRIResourceObject
+{
+	EFRIBool EnableDepth;
+
+	FRIDepthStencilState(EFRIBool enableDepth) : EnableDepth(enableDepth) {}
+};
 
 
 struct FRICreationDescriptor
 {
 public:
 	FRICreationDescriptor() : FRICreationDescriptor(0, 0) {}
-	FRICreationDescriptor(size_t ByteSize) : FRICreationDescriptor(0, ByteSize) {}
-	FRICreationDescriptor(void* DataArray, size_t ByteSize) :
+	explicit FRICreationDescriptor(size_t ByteSize) : FRICreationDescriptor(0, ByteSize) {}
+	explicit FRICreationDescriptor(void* DataArray, size_t ByteSize) :
 		DataArray(DataArray),
 		ByteSize(ByteSize)
 	{
@@ -350,16 +393,26 @@ public:
 struct FRIUpdateDescriptor
 {
 public:
-	FRIUpdateDescriptor(void* DataArray, size_t position, size_t ByteSize) :
+	FRIUpdateDescriptor(const void* DataArray, size_t position, size_t ByteSize, size_t RowPitch) :
 		DataArray(DataArray),
 		ByteSize(ByteSize),
-		Position(position)
+		Position(position),
+		RowPitch(RowPitch)
+	{
+
+	}
+	FRIUpdateDescriptor(const void* DataArray, size_t position, size_t ByteSize) :
+		DataArray(DataArray),
+		ByteSize(ByteSize),
+		Position(position),
+		RowPitch(ByteSize)
 	{
 
 	}
 	size_t Position;
 	size_t ByteSize;
-	void* DataArray;
+	size_t RowPitch;
+	const void* DataArray;
 };
 
 
@@ -387,84 +440,32 @@ struct FRIInputSemantic
 
 };
 
+/* Input Layout */
 
-
-
-struct FRIInputAttribute
+struct FRIInputElementDesc
 {
 	FRIInputSemantic Semantic;
-	uint32 Length;
 	EFRIAttributeType Type;
-	EFRIBool Normalized;
-	uint32 Stride;
-	uint32 Offset;
+	uint32 InputSlot;
 	EFRIAttribUsage Usage;
 
-	FRIInputAttribute(FRIInputSemantic Semantic, uint32 length, EFRIAttributeType type, EFRIBool norm, uint32 stride, uint32 offset, EFRIAttribUsage Usage = EFRIAttribUsage::PerVertex) :
-		Semantic(Semantic),
-		Type(type),
-		Normalized(norm),
-		Stride(stride),
-		Offset(offset),
-		Length(length),
+
+	FRIInputElementDesc(FRIInputSemantic Semantic, EFRIAttributeType Type, uint32 InputSlot, EFRIAttribUsage Usage)
+		: Semantic(Semantic),
+		Type(Type),
+		InputSlot(InputSlot),
 		Usage(Usage)
-	{
-	}
-
-	FRIInputAttribute(const FRIInputAttribute& other) :
-		Semantic(other.Semantic),
-		Type(other.Type),
-		Normalized(other.Normalized),
-		Stride(other.Stride),
-		Offset(other.Offset),
-		Length(other.Length),
-		Usage(other.Usage)
-	{
-
-	}
-
+	{}
 };
 
-
-typedef FArray<FRIInputAttribute> InputAttributeArray;
-
-struct FRIInputDesc
+struct FRIInputLayout 
 {
-	FArray<FRIInputAttribute> Components;
-	uint32 InputSlot;
-
-	FRIInputDesc() :
-		InputSlot(0)
-	{
-
-	}
-
-	FRIInputDesc(const FArray<FRIInputAttribute>& Components, uint32 InputSlot) :
-		Components(Components),
-		InputSlot(InputSlot)
-	{
-
-	}
-
-	FRIInputDesc(const FRIInputDesc& other) :
-		Components(other.Components),
-		InputSlot(other.InputSlot)
-	{
-
-	}
-
+	uint32 NumElements;
+	FRIInputElementDesc* DeclarationElements;
 };
 
+/* Render Targets */
 
-struct FRIVertexDeclaration
-{
-	FArray<FRIInputDesc> DeclarationElements;
-
-	FRIVertexDeclaration(const FArray<FRIInputDesc>& decl) :
-		DeclarationElements(decl)
-	{
-	}
-};
 
 struct FRIFrameBufferAttachment
 {
@@ -494,14 +495,10 @@ struct FRIFrameBufferArrayAttachment
 
 
 
-
-
 struct FRIColorDataFormat
 {
 	EFRIChannels channelFormat;
 	EFRIPixelStorage pixelStorage;
-
-
 
 	FRIColorDataFormat(EFRIChannels channelFormat, EFRIPixelStorage pixelStorage) :
 		channelFormat(channelFormat),
@@ -509,15 +506,10 @@ struct FRIColorDataFormat
 	{
 
 	}
-
 };
 
 
-struct FRIByte : FRIArrayInterface
-{
-	byte _Internal;
-};
-
+typedef byte FRIByte;
 
 
 struct FRIMemoryMap
@@ -542,7 +534,13 @@ struct FRIMemoryMap
 	{
 		Load(type);
 
-		return *this;
+		return *this; 
+	}
+
+	template<typename ...Types>
+	void LoadMulti(const Types& ... args)
+	{
+		(*this << ... << args);
 	}
 
 	~FRIMemoryMap()
@@ -560,7 +558,7 @@ struct FRIMemoryMap
 
 	FRIMemoryMap()
 	{
-		MemoryPtr = (byte*)_aligned_malloc(4096, 16);
+		MemoryPtr = (byte*)_aligned_malloc(8192, 16);
 	}
 
 };
@@ -568,14 +566,11 @@ struct FRIMemoryMap
 
 struct FRIStageBuffer
 {
-	FRIUniformBuffer* GPU;
+	FRIConstantBuffer* GPU;
 	FRIMemoryMap Stage;
 };
 
 typedef FDelegate<void(FRIMemoryMap&)> FRIMemoryStageDelegate;
-
-
-
 
 
 typedef FRefPtr<FRITexture2D> FRITexture2DRef;
@@ -585,10 +580,41 @@ typedef FRefPtr<FRIDepthStencilState> FRIDepthStencilStateRef;
 typedef FRefPtr<FRIBlendState> FRIBlendStateRef;
 typedef FRefPtr<FRITextureCubeMap> FRITextureCubeMapRef;
 		
-typedef FRefPtr<FRIFrameBuffer> FRIFrameBufferRef;
+typedef FRefPtr<FRIRenderTargetView> FRIRenderTargetViewRef;
 typedef FRefPtr<FRIVertexBuffer> FRIVertexBufferRef;
 typedef FRefPtr<FRIIndexBuffer> FRIIndexBufferRef;
 typedef FRefPtr<FRIInstanceBuffer> FRIInstanceBufferRef;
-typedef FRefPtr<FRIUniformBuffer> FRIUniformBufferRef;
-typedef FRefPtr<FRIVertexDeclaration> FRIVertexDeclarationRef;
+typedef FRefPtr<FRIConstantBuffer> FRIConstantBufferRef;
+typedef FRefPtr<FRIInputLayout> FRIInputLayoutRef;
 typedef FRefPtr<FRIShaderPipeline> FRIShaderPipelineRef;
+
+/*
+template<size_t ResourceSize>
+struct RenderStruct
+{
+	inline static size_t GetStageMemorySize()
+	{
+		return sizeof(float) * ResourceSize;
+	}
+};*/
+
+template<typename...TArgs>
+struct RenderStruct
+{
+	inline static size_t GetStageMemorySize()
+	{
+		return SumSizes<TArgs...>();
+	}
+};
+
+/*
+#define Float4 FVector4
+#define Int4 IVector4
+#define Float3 FVector3
+#define Int3 IVector3
+#define Float2 FVector2
+#define Int2 IVector2
+
+#define Float float
+#define Int int
+#define Matrix FMatrix4*/

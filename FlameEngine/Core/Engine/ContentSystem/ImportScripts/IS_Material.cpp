@@ -8,11 +8,22 @@ struct FMaterialMapHeader
 	uint64 ByteSize;
 };
 
+
+const FString LayerNames[4] = {
+	"Albedo",
+	"Normal",
+	"Detail"
+	"Emissive"
+};
+
 Material TContentSerializer<Material>::Serialize(Stream& fileStream)
 {
 	FRIDynamicAllocator* allocator = renderContext->GetFRIDynamic();
-	Material::MapCollection maps;
+	FStaticArray<MaterialLayer, 4> layers;
 
+	FRICommandList cmdList(renderContext->GetCommandContext(0));
+	cmdList.Open();
+	
 	for (int i = 0; i < 4; i++)
 	{
 
@@ -25,16 +36,21 @@ Material TContentSerializer<Material>::Serialize(Stream& fileStream)
 		auto friTex = allocator->CreateTexture2D(
 			mapHeader.DimX,
 			mapHeader.DimY,
-			0,
+			1,
+			EFRIAccess::None,
 			EFRITextureFormat::RGBA8UNORM,
-			FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::UnsignedByte),
-			FRICreationDescriptor(mapData.Begin(), mapData.ByteSize())
+			new FRICreationDescriptor(mapData.Begin(), mapData.ByteSize())
 		);
 
-		maps[i] = MaterialMap(friTex);
-		//allocator->FlushMipMaps(friTex);
+		layers[i].Handle = friTex;
+		layers[i].View = allocator->CreateShaderResourceView(friTex);
+		layers[i].Sampler = allocator->CreateSamplerState(EFRITextureFilter::Anisotropic8, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat);
+
+		//friTex->Rename(LayerNames[i]);
+
+		//allocator->FlushMipMaps(friTex->View());
 	}
 
-
-	return Material(maps, renderContext);
+	cmdList.CloseAndExecute();
+	return Material(layers);
 }

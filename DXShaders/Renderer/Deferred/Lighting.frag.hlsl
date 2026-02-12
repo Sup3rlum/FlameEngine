@@ -37,13 +37,16 @@ SamplerState EnvSampler : register(s8);
 SamplerState IrradianceSampler : register(s9);
 
 
-cbuffer LightingPassBuffer : register(b4)
+cbuffer CameraMatrixBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
     matrix InverseView;
     matrix InverseProjection;
-    
+}
+
+cbuffer LightingPassBuffer : register(b4)
+{    
     float4 CameraPosition; 
     float zNear;
     float zFar;
@@ -128,7 +131,7 @@ float VarianceShadow(float2 moments, float compare)
     else
     {
         float variance = fAvgZ2 - (fAvgZ * fAvgZ);
-        variance = max(variance, 0.00001f);
+        variance = max(variance, 0.000001f);
 
         float d = compare - fAvgZ;
         float pMax = smoothstep(0.0, 1.0, variance / (variance + d * d));
@@ -159,6 +162,8 @@ float ShadowCalculation(float4 fragPosLightSpace, float cascadeIndex)
 float3 CalcPointLight(PointLight pLight, PBRData pbr)
 {  
     float3 LightPosViewSpace = mul(View, float4(pLight.Position.xyz, 1.0)).xyz;
+    
+    //float3 LightPosViewSpace = pLight.Position.xyz;
     pbr.LightDir = normalize(LightPosViewSpace - pbr.FragPos);
     
     // Calculate point light attenuation
@@ -166,6 +171,12 @@ float3 CalcPointLight(PointLight pLight, PBRData pbr)
     float attDenom      = (distance / max(pLight.Radius, 0.001) + 1.0);
     float attenuation   = pLight.Radiance.a / (attDenom * attDenom);
     float3 radianceIn   = pLight.Radiance.rgb * attenuation;
+      
+    if (attenuation < 0.05)
+    {
+        return 0;
+    }
+    
     
     // Multiply radiance coeff by BRDF factor
     float3 radianceOut = BRDF(pbr) * radianceIn;
@@ -176,11 +187,17 @@ float3 CalcSpotLight(SpotLight sLight, PBRData pbr)
 {
     float3 vsLightPosition = mul(View, float4(sLight.Position.xyz, 1.0)).xyz;
     float3 vsLightDirection = mul((float3x3)View, sLight.Direction.xyz);
+    
+    
+    /*float3 vsLightPosition = sLight.Position.xyz;
+    float3 vsLightDirection = sLight.Direction.xyz;*/
+    
     pbr.LightDir = normalize(vsLightPosition - pbr.FragPos);
     
     // Calculate spot light aperture incidence
     float DdotL = dot(vsLightDirection, -pbr.LightDir);
-    float apertureFactor = DdotL >= sLight.ApertureSize;
+    //float apertureFactor = DdotL >= sLight.ApertureSize;
+    float apertureFactor = clamp((DdotL - sLight.ApertureSize) / (1.0 - sLight.ApertureSharpness), 0.0, 1.0f);
     
     // Calculate point light attenuation
     float distance = length(vsLightPosition - pbr.FragPos);
@@ -188,12 +205,25 @@ float3 CalcSpotLight(SpotLight sLight, PBRData pbr)
     float attenuation = sLight.Radiance.a / (attDenom * attDenom);
     float3 radianceIn = sLight.Radiance.rgb * attenuation * apertureFactor;
    
+    if (attenuation < 0.05)
+    {
+        return 0;
+    }
     
     // Multiply radiance coeff by BRDF factor
     float3 radianceOut = BRDF(pbr) * radianceIn;
     return radianceOut;
 }
 
+
+static float3 colors[5] =
+{
+    float3(1,0,0),
+    float3(0,1,0),
+    float3(0,0,1),
+    float3(1,1,0),
+    float3(1,0,1)
+};
 
 
 float3 CalcDirectionalLight(DirectionalLight dLight, PBRData pbr)
@@ -215,10 +245,11 @@ float3 CalcDirectionalLight(DirectionalLight dLight, PBRData pbr)
     float4 wsPosition = mul(InverseView, float4(pbr.FragPos, 1.0));
     float4 lsVPosition = mul(SunCascades[cascadeIdx].LView, wsPosition);
     float4 lsPosition = mul(SunCascades[cascadeIdx].LProjection, lsVPosition);
-    float Shadow = ShadowCalculation(lsPosition, cascadeIdx);
+    float Shadow = 0;//ShadowCalculation(lsPosition, cascadeIdx);
 
     pbr.LightDir = -normalize(mul((float3x3) View, dLight.Direction.xyz));  
-    float3 radianceIn = dLight.Radiance.rgb * dLight.Radiance.a * Shadow;
+    //pbr.LightDir = -dLight.Direction.xyz;  
+    float3 radianceIn = dLight.Radiance.rgb * dLight.Radiance.a;// * Shadow;
 
     float3 radianceOut = BRDF(pbr) * radianceIn;       
     return radianceOut;
@@ -289,13 +320,13 @@ float4 main(PSInput input) : SV_Target0
     float3 Normal       = UnpackNormal(input.TexCoord);
     float Roughness     = packedDetail.r;
     float Metallic      = packedDetail.g;
-    float MaterialAO    = packedDetail.b;
+    float MaterialAO    = 1.0; //packedDetail.b;
     
     float3 Albedo = packedAlbedoOpacity.rgb;
     float Opacity = packedAlbedoOpacity.a;
     
     float4 Emissive         = gEmissive.Sample(EmissiveSampler, input.TexCoord);
-    float AmbientOcclusion  = gHbao.Sample(HbaoSampler, input.TexCoord).r;
+    float AmbientOcclusion  = 1.0f;//gHbao.Sample(HbaoSampler, input.TexCoord).r;
 
     float3 ViewVector = -Position.xyz;
     float3 ViewDir = normalize(ViewVector);
@@ -333,7 +364,7 @@ float4 main(PSInput input) : SV_Target0
         brdfRadiance += CalcSpotLight(SpotLights[k], pbr);
     }
     
-    brdfRadiance += CalcAmbientLight(pbr);
+    //brdfRadiance += CalcAmbientLight(pbr);
 
     float3 FinalColor = brdfRadiance + Emissive.rgb * 5.0f;
     FinalColor = ExpSqFog(FinalColor, ViewVector);

@@ -1,0 +1,716 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5DA512E8-65E0-3186-8F0F-80A78DAE52F2}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <Platform>x64</Platform>
+    <ProjectName>PhysXCommon</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">PhysXCommon.dir\debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">PhysXCommon_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">PhysXCommon.dir\checked\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='checked|x64'">PhysXCommon_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='checked|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='checked|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">PhysXCommon.dir\profile\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='profile|x64'">PhysXCommon_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='profile|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='profile|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">PhysXCommon.dir\release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='release|x64'">PhysXCommon_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_DEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\PhysXCommon_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"debug\";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>PhysXFoundation_64.dll</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/debug/PhysXCommon_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/debug/PhysXCommon_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="checked";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\PhysXCommon_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"checked\";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>PhysXFoundation_64.dll</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/checked/PhysXCommon_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/checked/PhysXCommon_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="profile";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\PhysXCommon_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"profile\";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>PhysXFoundation_64.dll</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/profile/PhysXCommon_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/profile/PhysXCommon_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_SUPPORT_PVD=0;CMAKE_INTDIR="release";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\PhysXCommon_64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_COMMON_EXPORTS;PX_SUPPORT_PVD=0;CMAKE_INTDIR=\"release\";PhysXCommon_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxgpu\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>PhysXFoundation_64.dll</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/release/PhysXCommon_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/bin/win.x86_64.vc142.md/release/PhysXCommon_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmCollection.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmMathUtils.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPtrTable.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSort.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSortBuffered.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderOutput.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmVisualization.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmBitMap.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmBlockArray.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmCollection.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmConeLimitHelper.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmFlushPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmIDPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmIO.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmMatrix34.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPhysXCommon.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPreallocatingPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPriorityQueue.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmPtrTable.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmQueue.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSort.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRadixSortBuffered.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRefCountable.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderBuffer.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmRenderOutput.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmScaling.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmSpatialVector.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTask.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTaskPool.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTmpMem.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmTransformUtils.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmUtils.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\CmVisualization.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxBase.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxCollection.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxCoreUtilityTypes.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxMetaData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxMetaDataFlags.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxPhysicsInsertionCallback.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxPhysXCommonConfig.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxRenderBuffer.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxSerialFramework.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxSerializer.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxStringTable.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxTolerancesScale.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxTypeInfo.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\common\PxProfileZone.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxBoxGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxCapsuleGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxConvexMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxConvexMeshGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometryHelpers.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxGeometryQuery.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightField.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldDesc.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldFlag.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxHeightFieldSample.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxMeshQuery.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxMeshScale.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxPlaneGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxSimpleTriangleMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxSphereGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangleMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxTriangleMeshGeometry.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geometry\PxBVHStructure.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geomutils\GuContactBuffer.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\geomutils\GuContactPoint.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\collision\PxCollisionDefs.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include\windows\CmWindowsLoadLibrary.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\include\windows\CmWindowsModuleUpdateLoader.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows\CmWindowsModuleUpdateLoader.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\common\src\windows\CmWindowsDelayLoadHook.cpp" />
+    <ResourceCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\resource_x64\PhysXCommon.rc" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuDistanceSegmentBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuDistanceSegmentSegment.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionBoxBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionTriangleBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuIntersectionTriangleBoxRef.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuRaycastTests.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuSegment.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\include\GuSIMDHelpers.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBounds.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCCTSweepTests.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryQuery.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryUnion.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuInternal.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMeshFactory.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMetaData.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMTD.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuOverlapTests.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuRaycastTests.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSerialize.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepMTD.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepSharedTests.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepTests.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBounds.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCapsule.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuCenterExtents.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuGeometryUnion.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuInternal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMeshFactory.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuMTD.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuOverlapTests.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSerialize.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSphere.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepMTD.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepSharedTests.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuSweepTests.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeBuild.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeBuild.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuAABBTreeQuery.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHStructure.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHStructure.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\GuBVHTestsSIMD.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepConvexMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepPrimitives.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\ccd\GuCCDSweepConvexMesh.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBarycentricCoordinates.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuSeparatingAxes.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBarycentricCoordinates.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuBoxConversion.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuEdgeCache.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuEdgeListData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\common\GuSeparatingAxes.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactBoxBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactCapsuleMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactConvexConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactConvexMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPlaneConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPolygonPolygon.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSpherePlane.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactSphereSphere.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuFeatureCode.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactMethodImpl.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuContactPolygonPolygon.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\contact\GuFeatureCode.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexHelper.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexSupportTable.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexUtilsInternal.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuHillClimbing.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuShapeConvex.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuBigConvexData2.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexEdgeFlags.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexHelper.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexMeshData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexSupportTable.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuConvexUtilsInternal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuCubeIndex.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuHillClimbing.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\convex\GuShapeConvex.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangle.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentSegment.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangle.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointSegment.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistancePointTriangleSIMD.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentSegmentSIMD.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\distance\GuDistanceSegmentTriangleSIMD.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPA.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKSimplex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKTest.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPA.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuEPAFacet.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJK.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKPenetration.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKRaycast.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKSimplex.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKTest.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKType.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuGJKUtil.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecCapsule.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvex.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvexHull.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecConvexHullNoScale.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecPlane.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecSphere.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\gjk\GuVecTriangle.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightField.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldUtil.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuOverlapTestsHF.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuSweepsHF.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuEntityReport.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightField.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\hf\GuHeightFieldUtil.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionBoxBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionCapsuleTriangle.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionEdgeEdge.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRaySphere.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionSphereBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionTriangleBox.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionCapsuleTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionEdgeEdge.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRay.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayBoxSIMD.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayCapsule.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayPlane.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRaySphere.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionRayTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\intersection\GuIntersectionSphereBox.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Build.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_AABBSweep.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxOverlap.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweep.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweepAA.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_OBBSweep.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Raycast.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_SphereOverlap.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_SphereSweep.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseBV4.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMeshQuery.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseRTree.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuOverlapTestsMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTree.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTreeQueries.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepsMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshBV4.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshRTree.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32Build.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV32Build.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Build.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4Settings.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_AABBAABBSweepTest.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxBoxOverlapTest.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxOverlap_Internal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxSweep_Internal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_BoxSweep_Params.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_CapsuleSweep_Internal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Common.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Internal.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_OBBOBB.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB_Inflated.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamNoOrder_SphereAABB.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_OBBOBB.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB_Inflated.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_KajiyaNoOrder.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_KajiyaOrdered.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_SwizzledNoOrder.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBV4_Slabs_SwizzledOrdered.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuBVConstants.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMeshData.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuMidphaseInterface.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuRTree.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepConvexTri.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuSweepMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangle32.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleCache.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMesh.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshBV4.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleMeshRTree.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\mesh\GuTriangleVertexPointers.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactBoxBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactBoxConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleHeightField.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactCapsuleMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexCommon.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexHeightField.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenBoxConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenSphereCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactPlaneConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereHeightField.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereMesh.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSpherePlane.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactSphereSphere.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMShapeConvex.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMTriangleContactGen.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPersistentContactManifold.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactConvexCommon.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGen.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactGenUtil.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMContactMeshCallback.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMShapeConvex.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPCMTriangleContactGen.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\pcm\GuPersistentContactManifold.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxSphere.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_FeatureBased.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_SAT.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleBox.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleTriangle.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereCapsule.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereSphere.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereTriangle.cpp" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepTriangleUtils.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxSphere.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_FeatureBased.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepBoxTriangle_SAT.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleBox.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleCapsule.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepCapsuleTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereCapsule.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereSphere.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepSphereTriangle.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\geomutils\src\sweep\GuSweepTriangleUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\ZERO_CHECK.vcxproj">
+      <Project>{39733626-3F61-3D8E-9F5D-12EA06F3B34C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\PhysXFoundation.vcxproj">
+      <Project>{EF16FC5F-C907-3D46-8034-CA9EE2F31A13}</Project>
+      <Name>PhysXFoundation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

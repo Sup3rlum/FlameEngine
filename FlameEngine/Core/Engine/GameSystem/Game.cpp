@@ -1,7 +1,8 @@
 #include "Game.h"
 
 #include "Core/Engine/FlameRI/OpenGL/OpenGLFRI.h"
-#include "Core/Engine/FlameRI/DX11/D3D11FRI.h"
+#include "Core/Engine/FlameRI/D3D11/D3D11FRI.h"
+#include "Core/Engine/FlameRI/D3D12/D3D12FRI.h"
 
 
 #include "Physics/PX/FPXService.h"
@@ -11,9 +12,14 @@
 #include <future>
 
 
+
+FGameTime updateGameTime;
+FTimeSpan updateLastTick = FTime::GetTimestamp();
+
 GameApplication::GameApplication(const FString& Name) :
-	applicationName(Name),
-	FriContext(nullptr)
+	ApplicationName(Name),
+	FriContext(nullptr),
+	currentScene(NULL)
 {
 }
 
@@ -21,11 +27,15 @@ void GameApplication::CreateContext(FRIRenderingContextDescription desc)
 {
 	if (desc.RenderFramework == EFRIRendererFramework::OpenGL)
 	{
-		FriContext = new OpenGLFRIContext(desc, NULL);
+		//FriContext = new OpenGLFRIContext(desc, NULL);
 	}
 	else if (desc.RenderFramework == EFRIRendererFramework::DX11)
 	{
-		FriContext = new D3D11FRIContext(desc, NULL);
+		//FriContext = new D3D11FRIContext(desc, NULL);
+	}
+	else if (desc.RenderFramework == EFRIRendererFramework::DX12)
+	{
+		FriContext = new D3D12FRIContext(desc, NULL);
 	}
 
 	FriContext->InputHandlerDelegate = FKeyEventBindingDelegate::Make<GameApplication, &GameApplication::InputHandlerFunc>(this);
@@ -34,105 +44,56 @@ void GameApplication::CreateContext(FRIRenderingContextDescription desc)
 
 	Content.RenderContext = FriContext;
 
+	FriContext->CreateCommandContext();
+	auto CmdContext = FriContext->GetCommandContext(0);
+
 	Renderer.CreateResources(FriContext);
 	UXRenderer.LoadResources(FriContext);
 
-
-	currentScene = new Scene(CreatePhysicsSceneDescription(), FriContext);
-	currentScene->LoadSystems();
 }
 
 
-
-#define AVERAGE(a) a.GetSeconds() * 1000.0f / (float)updateGameTime.TotalTicks
-#define PROFILE_START(name, a) auto now_##a = FTime::GetTimestamp()
-#define PROFILE_END(a) a += FTime::GetTimestamp() - now_##a
-
-
-FGameTime updateGameTime;
-FTimeSpan updateLastTick = FTime::GetTimestamp();
-
 GameApplication::~GameApplication()
 {
-	delete currentScene;
 
-	printf("\nPhysics time:         %fms\n", AVERAGE(currentScene->physTime));
-	printf("Dynamic time:         %fms\n", AVERAGE(currentScene->dynTime));
-	printf("Behaviour time:         %fms\n", AVERAGE(currentScene->behTime));
-	printf("Update time:         %fms\n", AVERAGE(upTime));
-	printf("------------------------------------\n");
-	printf("Stage time:         %fms\n", AVERAGE(Renderer.stageTime));
-	printf("GI time:            %fms\n", AVERAGE(Renderer.giTime));
-	printf("SM time:            %fms\n", AVERAGE(Renderer.smTime));
-	printf("GBuffer time:       %fms\n", AVERAGE(Renderer.gTime));
-	printf("Test time:          %fms\n", AVERAGE(Renderer.testTime));
-	printf("Lighting time:      %fms\n", AVERAGE(Renderer.lightTime));
-	printf("PostProcess time:   %fms\n", AVERAGE(Renderer.ppTime));
-	printf("UXtime:             %fms\n", AVERAGE(uxTime));
-	printf("End time:           %fms\n", AVERAGE(endTime));
-	printf("Swap	time:       %fms\n", AVERAGE(swapTime));
-	printf("Message	time:       %fms\n", AVERAGE(msgTime));
-	printf("------------------------------------\n");
-	printf("total	time:       %fms\n", AVERAGE(totalTime));
 }
 
 void GameApplication::Frame()
 {
-
+	if (FriContext->HandleEvents())
+		return;
 
 	auto TimeStamp = FTime::GetTimestamp();
 	updateGameTime.TotalTicks++;
 	updateGameTime.DeltaTime = TimeStamp - updateLastTick;
 	updateLastTick = TimeStamp;
 
-	PROFILE_START("Total", totalTime);
 
-	/*auto renderTask = std::async(std::launch::async, [&]()
-		{*/
-		//if (firstLoop) continue;
+	FRICommandList cmdList(FriContext->GetCommandContext(0));
 
-	FRICommandList cmd(FriContext->GetFRIDynamic(), true);
-	BeginRender(cmd);
+	BeginRender(cmdList);
 	{
-		PROFILE_START("Scene Update", upTime);
-
-		PROFILE_END(upTime);
-
-		currentScene->Update(updateGameTime);
-		currentScene->FinishUpdate();
-		this->Update(updateGameTime);
-
-		Renderer.Render(cmd);
-
-		PROFILE_START("UX", uxTime);
-
-		if (currentScene->uxContainer)
+		if (CurrentScene())
 		{
-			UXRenderer.Render(cmd, currentScene->uxContainer->GetSurface());
+			CurrentScene()->Update(updateGameTime);
+			CurrentScene()->FinishUpdate();
+			this->Update(updateGameTime);
+
+			Renderer.Render(cmdList);
+
+
+			if (CurrentScene()->uxContainer)
+			{
+				UXRenderer.Render(cmdList, CurrentScene()->uxContainer->GetSurface());
+			}
 		}
-		PROFILE_END(uxTime);
 	}
+	
+	EndRender(cmdList);
 
-	PROFILE_START("End", endTime);
-	EndRender(cmd);
-	PROFILE_END(endTime);
 
-	//cmd.Flush();
-
-	PROFILE_START("SwapBuffers", swapTime);
 	FriContext->SwapBuffers();
-	PROFILE_END(swapTime);
-
-	PROFILE_START("Msg Time", msgTime);
-	FriContext->HandleEvents();
-	PROFILE_END(msgTime);
-	//});
-	PROFILE_END(totalTime);
-
-	//renderTask.wait();
 }
-
-float timeFrame = 1000.0f / 128.0f;
 
 void GameApplication::LaunchGameThread()
 {
@@ -173,38 +134,26 @@ void GameApplication::LaunchGameThread()
 
 void GameApplication::LaunchRenderThread()
 {
-	//FGameTime updateGameTime;
-	//FTimeSpan updateLastTick = FTime::GetTimestamp();
-
 	bool firstLoop = true;
 
 	while (FriContext->IsActive())
 	{
 		Frame();
-		//std::cout << "Render: " << updateGameTime.DeltaTime.GetSeconds() * 1000.0f << "ms" << std::endl;
-
-		if (firstLoop) firstLoop = false;
+		firstLoop = false;
 	}
 }
 
 void GameApplication::Run()
 {
-	Renderer.AttachToScene(currentScene);
-
-	//renderThread = std::thread([&] {
-		this->LaunchRenderThread();
-		//});
-
-	//LaunchGameThread();
-
-	//renderThread.join();
+	Renderer.AttachToScene(CurrentScene());
+	this->LaunchRenderThread();
 }
 
 void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent)
 {
-	currentScene->uxContainer->HandleInput(key, keyEvent);
+	CurrentScene()->uxContainer->HandleInput(key, keyEvent);
 
-	currentScene->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
+	CurrentScene()->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
 		{
 			for (auto& binding : inputRef.KeyEventBindings)
 			{
@@ -216,7 +165,7 @@ void GameApplication::InputHandlerFunc(FKeyboardKeys key, FKeyEvent keyEvent)
 
 void GameApplication::MouseInputHandlerFunc(FMouseButton key, FKeyEvent keyEvent)
 {
-	currentScene->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
+	CurrentScene()->System<Input>()->ForEach([&](Entity ent, Input& inputRef)
 		{
 			for (auto& binding : inputRef.MouseEventBindings)
 			{
@@ -239,21 +188,29 @@ void GameApplication::EndRender(FRICommandList& cmdList)
 	cmdList.EndFrame();
 }
 
-
-PhysicsSceneDescription GameApplication::CreatePhysicsSceneDescription()
-{
-	PhysicsSceneDescription pDesc;
-	FPXService* fpxService = new FPXService();
-	PhysicsScene* fpxScene = fpxService->CreateScene(FVector3(0, -10.0f, 0));
-
-	pDesc.pService = fpxService;
-	pDesc.pScene = fpxScene;
-	pDesc.pAllocator = new FPXAllocator(fpxService, static_cast<FPXScene*>(fpxScene));
-	
-	return pDesc;
-}
-
 bool GameApplication::IsContextActive()
 {
 	return FriContext->IsActive();
+}
+
+void GameApplication::TransitionToScene(Scene* scene)
+{
+	if (scene)
+	{
+		if (currentScene)
+			currentScene->OnDestroyResources();
+		currentScene = scene;
+		scene->OnCreateResources(FriContext, Content);
+		Renderer.AttachToScene(CurrentScene());
+	}
+	else
+	{
+		currentScene = NULL;
+	}
+
+}
+
+Scene* GameApplication::CurrentScene()
+{
+	return currentScene;
 }

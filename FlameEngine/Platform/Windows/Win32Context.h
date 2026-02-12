@@ -42,6 +42,8 @@ public:
 	void GetCursorPosition(int* x, int* y);
 	~Win32Context();
 
+	HWND GetHWND() const;
+
 private:
 
 	static LRESULT CALLBACK Win32MessageProcSignature(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);

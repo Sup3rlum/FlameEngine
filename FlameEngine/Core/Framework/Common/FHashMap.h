@@ -2,40 +2,9 @@
 
 #include "FString.h"
 #include "FHash.h"
+#include "FLinkedList.h"
+#include "FKeyVal.h"
 
-template<typename TKey, typename TValue>
-struct FKeyVal
-{
-public:
-	TKey Key;
-	TValue Value;
-
-	FKeyVal(const TKey& key, const TValue& value) : Key(key), Value(value)
-	{}
-
-	FKeyVal(const FKeyVal& kv) :
-		Key(kv.Key),
-		Value(kv.Value)
-	{}
-
-
-
-	FKeyVal& operator=(const FKeyVal& other)
-	{
-		Key = other.Key;
-		Value = other.Value;
-
-		return *this;
-	}
-
-	operator FKeyVal<const TKey, TValue>()
-	{
-		return FKeyVal<const TKey, TValue>(Key, Value);
-	}
-
-	virtual ~FKeyVal()
-	{}
-};
 
 struct FHashMapAllocator
 {
@@ -46,122 +15,8 @@ struct FHashMapAllocator
 };
 
 
-template<typename Ty>
-struct FLinkedListNode
-{
-	typedef Ty _Type;
-
-	FLinkedListNode(const Ty& value) :
-		kv(value)
-	{
-	}
-	~FLinkedListNode()
-	{
-		if (Next)
-		{
-			delete Next;
-		}
-	}
-
-	Ty kv;
-	FLinkedListNode* Next = NULL;
-};
-
 template<typename _TKey, typename TValue, typename THasher>
 struct FHashMap;
-
-template<typename _TKey, typename TValue, typename THasher>
-struct FHashMapConstIterator
-{
-private:
-	typedef FRemoveConst<_TKey> TKey;
-
-	typedef FKeyVal<TKey, TValue> ConstKvType;
-	typedef FLinkedListNode<ConstKvType> _ConstBucketType;
-
-	typedef FHashMap<TKey, TValue, THasher> _MapType;
-
-	FHashMapConstIterator& End()
-	{
-		bucketIndex = map->bucketList.Length();
-		currentElement = NULL;
-		return *this;
-	}
-
-public:
-
-	FHashMapConstIterator(const _MapType* map) : FHashMapConstIterator(map, NULL, 0)
-	{}
-
-	FHashMapConstIterator(const _MapType* map, _ConstBucketType* element, size_t bucketIndex) :
-		currentElement(element),
-		bucketIndex(bucketIndex),
-		map(map)
-	{}
-
-	FHashMapConstIterator(const FHashMapConstIterator& it) : FHashMapConstIterator(it.map, it.currentElement, it.bucketIndex)
-	{}
-
-	FHashMapConstIterator& operator++(int)
-	{
-		FHashMapConstIterator pre = *this;
-		++(*this);
-		return pre;
-	}
-	FHashMapConstIterator& operator++()
-	{
-		if (currentElement)
-		{
-			auto nextElem = currentElement->Next;
-
-			while (!nextElem)
-			{
-				if (bucketIndex >= map->bucketList.Length() - 1)
-					return End();
-
-				nextElem = map->bucketList[++bucketIndex];
-			}
-
-			currentElement = nextElem;
-
-			return *this;
-		}
-
-		return End();
-	}
-	FHashMapConstIterator& operator=(const FHashMapConstIterator& other)
-	{
-		map = other.map;
-		bucketIndex = other.bucketIndex;
-		currentElement = other.currentElement;
-
-		return *this;
-	}
-
-	ConstKvType* operator->()
-	{
-		return &currentElement->kv;
-	}
-	ConstKvType& operator*()
-	{
-		return (*currentElement).kv;
-	}
-	friend bool operator==(const FHashMapConstIterator& it1, const FHashMapConstIterator& it2)
-	{
-		return it1.currentElement == it2.currentElement;
-	}
-
-	friend bool operator!=(const FHashMapConstIterator& it1, const FHashMapConstIterator& it2)
-	{
-		return !(it1 == it2);
-	}
-
-private:
-	const _MapType* map;
-	_ConstBucketType* currentElement;
-	size_t bucketIndex;
-};
-
 
 
 template<typename _TKey, typename TValue, typename THasher>
@@ -185,11 +40,11 @@ private:
 
 public:
 
-	FHashMapIterator(_MapType* map) : FHashMapIterator(map, NULL, 0)
+	FHashMapIterator(const _MapType* map) : FHashMapIterator(map, NULL, 0)
 	{}
 
 
-	FHashMapIterator(_MapType* map, _BucketType* element, size_t bucketIndex) :
+	FHashMapIterator(const _MapType* map, _BucketType* element, size_t bucketIndex) :
 		currentElement(element),
 		bucketIndex(bucketIndex),
 		map(map)
@@ -237,11 +92,11 @@ public:
 
 	KvType* operator->()
 	{
-		return &currentElement->kv;
+		return &currentElement->Value;
 	}
 	KvType& operator*()
 	{
-		return (*currentElement).kv;
+		return (*currentElement).Value;
 	}
 	friend bool operator==(const FHashMapIterator& it1, const FHashMapIterator& it2)
 	{
@@ -263,9 +118,8 @@ public:
 		return it;
 	}
 
-
 private:
-	_MapType* map;
+	const _MapType* map;
 	_BucketType* currentElement;
 	size_t bucketIndex;
 };
@@ -287,7 +141,7 @@ class FHashMap
 public:
 
 	typedef FHashMapIterator<TKey, TValue, THasher> Iterator;
-	typedef FHashMapConstIterator<const TKey, TValue, THasher> ConstIterator;
+	typedef FHashMapIterator<const TKey, TValue, THasher> ConstIterator;
 
 
 
@@ -373,9 +227,9 @@ public:
 
 		while (*elemPtr)
 		{
-			if ((*elemPtr)->kv.Key == kv.Key)
+			if ((*elemPtr)->Value.Key == kv.Key)
 			{
-				(*elemPtr)->kv.Value = kv.Value;
+				(*elemPtr)->Value.Value = kv.Value;
 				return *this;
 			}
 
@@ -402,11 +256,10 @@ public:
 
 		while (elemPtr)
 		{
-			if (elemPtr->kv.Key == key)
+			if (elemPtr->Value.Key == key)
 			{
-				return elemPtr->kv.Value;
+				return elemPtr->Value.Value;
 			}
-
 			elemPtr = elemPtr->Next;
 		}
 
@@ -421,11 +274,10 @@ public:
 
 		while (elemPtr)
 		{
-			if (elemPtr->kv.Key == key)
+			if (elemPtr->Value.Key == key)
 			{
-				return elemPtr->kv.Value;
+				return elemPtr->Value.Value;
 			}
-
 			elemPtr = elemPtr->Next;
 		}
 
@@ -439,7 +291,7 @@ public:
 
 		while ((*elemRef))
 		{
-			if ((*elemRef)->kv.Key == key)
+			if ((*elemRef)->Value.Key == key)
 			{
 				auto elemNext = (*elemRef)->Next;
 				auto elemPtr = (*elemRef);
@@ -474,7 +326,7 @@ public:
 
 		while (elemPtr)
 		{
-			if (elemPtr->kv.Key == key)
+			if (elemPtr->Value.Key == key)
 			{
 				return true;
 			}
@@ -496,7 +348,7 @@ public:
 
 			while (elemPtr)
 			{
-				keyArr.Add(elemPtr->kv.Key);
+				keyArr.Add(elemPtr->Value.Key);
 
 				elemPtr = elemPtr->Next;
 			}
@@ -511,12 +363,11 @@ public:
 
 		for (int i = 0; i < bucketList.Length(); i++)
 		{
-
 			_BucketType* elemPtr = bucketList[i];
 
 			while (elemPtr)
 			{
-				keyValArr.Add(elemPtr->kv);
+				keyValArr.Add(elemPtr->Value);
 
 				elemPtr = elemPtr->Next;
 			}
@@ -662,7 +513,7 @@ private:
 			auto b = bucket;
 			while (b)
 			{
-				Set(b->kv);
+				Set(b->Value);
 				b = b->Next;
 			}
 
@@ -670,3 +521,4 @@ private:
 		}
 	}
 };
+

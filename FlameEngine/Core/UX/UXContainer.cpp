@@ -115,7 +115,8 @@ void UXContainer::OnFailLoading(ultralight::View* caller,
 	int error_code) 
 {
 
-	int a = 5;
+	LogMessage(ultralight::kLogLevel_Error, url.utf16());
+	LogMessage(ultralight::kLogLevel_Error, description.utf16());
 
 }
 
@@ -136,6 +137,25 @@ void UXContainer::OnDOMReady(ultralight::View* caller,
 	}
 }
 
+
+void UXContainer::OnAddConsoleMessage(ultralight::View* caller,
+	ultralight::MessageSource source,
+	ultralight::MessageLevel level,
+	const ultralight::String& message,
+	uint32_t line_number,
+	uint32_t column_number,
+	const ultralight::String& source_id)
+{
+
+	std::cout << "[OnAddConsoleMessage]\n\t"
+		<< "\n\tsource:\t" << (uint32_t)source
+		<< "\n\tlevel:\t" << (uint32_t)level
+		<< "\n\tmessage:\t" << message.utf8().data()
+		<< "\n\tline_number:\t" << line_number
+		<< "\n\tcolumn_number:\t" << column_number
+		<< "\n\tsource_id:\t" << source_id.utf8().data() << std::endl;
+
+}
 
 void UXContainer::HandleInput(FKeyboardKeys key, FKeyEvent keyEvent)
 {

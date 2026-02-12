@@ -1,8 +1,8 @@
 #pragma once
 
 
-
-class FRICommandList;
+template<bool Stuff>
+class TFRICommandList;
 class FRICommandBase;
 
 

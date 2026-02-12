@@ -5,6 +5,6 @@
 
 struct RenderOutputLayer
 {
-	FRIFrameBuffer* FrameBuffer;
+	FRIRenderTargetView* FrameBuffer;
 	FString8 Name;
 };

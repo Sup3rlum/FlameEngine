@@ -6,6 +6,7 @@
 #include "EntityComponent/Entity.h"
 
 class Scene;
+class GameApplication;
 
 EXPORT(class, BehaviourScript)
 {
@@ -19,6 +20,7 @@ protected:
 	Entity& AttachedEntity();
 	const Entity& AttachedEntity() const;
 
+	GameApplication* Game();
 
 	template<typename TComponent>
 	FORCEINLINE TComponent& Component()
@@ -34,6 +36,7 @@ protected:
 private:
 	Entity* pEntity;
 	Scene* pScene;
+	GameApplication* pGame;
 };
 
 
@@ -42,7 +45,7 @@ class Behaviour
 
 public:
 	template<typename TBScript, typename ...TArgs>
-	void Attach(TArgs... args)
+	void AttachNew(TArgs... args)
 	{
 		//if (pScript)
 			//delete pScript;
@@ -50,6 +53,7 @@ public:
 		pScript = new TBScript(args...);
 		pScript->pEntity = &pEntity;
 		pScript->pScene = pScene;
+		pScript->pGame = pGame;
 		pScript->Load();
 	}
 
@@ -63,6 +67,7 @@ private:
 	BehaviourScript* pScript = NULL;
 	Entity pEntity;
 	Scene* pScene;
+	GameApplication* pGame;
 
 	friend class Scene;
 };

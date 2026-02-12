@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/Projects/_Libraries/ultralight-1.2.1-winx64/samples/out/build/x64-Debug/Sample 5 - File Loading/CMakeFiles/Sample5.dir/embed.manifest"

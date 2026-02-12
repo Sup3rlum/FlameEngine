@@ -27,8 +27,9 @@ int main()
 	contextDescription.Width = width;
 	contextDescription.Height = height;
 	contextDescription.SampleCount = 0;
-	contextDescription.RenderFramework = EFRIRendererFramework::DX11;
+	contextDescription.RenderFramework = EFRIRendererFramework::DX12;
 	contextDescription.WinContext = NULL;
+	contextDescription.BackBufferCount = 3;
 
 	if (c == 'y')
 		contextDescription.IsFullscreen = true;

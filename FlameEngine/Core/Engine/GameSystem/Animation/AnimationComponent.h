@@ -64,7 +64,8 @@ EXPORT(struct, AnimationComponent)
 	FString8 CurrentSequenceName;
 	AnimationSequence* CurrentSequenceRef;
 
-	float animationTime;
+	float CurrentAnimationTime;
+	float AnimationLength;
 	SkeletonPose CurrentAnimationPose;
 
 
@@ -72,8 +73,7 @@ EXPORT(struct, AnimationComponent)
 	AnimationComponent();
 
 	void AddSequence(const FString8& seqName, const AnimationSequence& seq);
-
-	void PlaySequence(const FString8& seqName);
+	void PlaySequence(const FString8& seqName, bool repeat = true, float AnimationLength = 0.0f);
 	void Step(float dt);
 
 	FArray<FMatrix4> CalculatePoseJointTransforms();

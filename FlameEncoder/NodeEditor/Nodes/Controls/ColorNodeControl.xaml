@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlameEncoder.NodeEditor.Nodes.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="100" Height="20">
+             d:DesignHeight="35" d:DesignWidth="100" Height="35">
     <Grid Name="bg" Background="Black" MouseDown="Grid_MouseDown">
 
     </Grid>

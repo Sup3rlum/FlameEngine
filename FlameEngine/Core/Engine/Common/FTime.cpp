@@ -21,21 +21,21 @@ int64 FTimeSpan::GetPlatformTicks()
 	return Data;
 }
 
-float FTimeSpan::GetSeconds()
+double FTimeSpan::GetSeconds()
 {
-	return (float)Data / (float)FTime::PlatformTickFrequency().Data;
+	return (double)Data / (double)(FTime::PlatformTickFrequency().Data);
 }
 
-float FTimeSpan::GetMilliseconds()
+double FTimeSpan::GetMilliseconds()
 {
 	return GetSeconds() * 1000.0f;
 }
 
-float FTimeSpan::GetMinutes()
+double FTimeSpan::GetMinutes()
 {
 	return GetSeconds() / 60.0f;
 }
-float FTimeSpan::GetHours()
+double FTimeSpan::GetHours()
 {
 	return GetSeconds() / 3600.0f;
 }

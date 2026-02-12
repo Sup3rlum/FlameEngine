@@ -3,106 +3,96 @@
 
 #define IMPL_CMD(cmd) void FRICommand##cmd::Execute(FRICommandListBase& cmdList)
 
-#define ALLOCATOR cmdList.FriDynamic
+#define ALLOCATOR cmdList.GetContext()
 
 
-IMPL_CMD(SetViewport)
+void FRICommandSetViewport::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetViewport(x, y, width, height);
+	ALLOCATOR.SetViewport(x, y, width, height);
 }
 
-IMPL_CMD(BindFrameBuffer)
+void FRICommandBindRenderTargets::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->BindFrameBuffer(frameBuffer);
+	ALLOCATOR.BindRenderTargets(renderTargets.Length(), renderTargets.Begin(), NULL);
 }
 
-IMPL_CMD(SetGeometrySource)
+void FRICommandSetGeometrySource::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetGeometrySource(vertexBuffer);
+	ALLOCATOR.SetGeometrySource(vertexBuffer, indexBuffer);
 }
-IMPL_CMD(DrawPrimitives)
+void FRICommandDrawPrimitives::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->DrawPrimitives(primitiveType, vertexCount);
+	ALLOCATOR.DrawPrimitives(primitiveType, vertexCount);
 }
-IMPL_CMD(DrawPrimitivesIndexed)
+void FRICommandDrawPrimitivesIndexed::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->DrawPrimitivesIndexed(primitiveType, indexCount, indexType, indexBuffer);
+	ALLOCATOR.DrawPrimitivesIndexed(primitiveType, indexCount, indexType);
 }
-IMPL_CMD(SetShaderPipeline)
+void FRICommandSetShaderPipeline::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetShaderPipeline(shader);
-}
-
-IMPL_CMD(BeginFrame)
-{
-	ALLOCATOR->BeginFrame();
+	//ALLOCATOR.SetShaderPipeline(shader);
 }
 
-IMPL_CMD(EndFrame)
+void FRICommandBeginFrame::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->EndFrame();
+	//ALLOCATOR.BeginFrame();
 }
 
-IMPL_CMD(ClearBuffer)
+void FRICommandEndFrame::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->ClearBuffer(frameBuffer, clearcolor);
+	ALLOCATOR.EndFrame();
 }
 
-IMPL_CMD(DrawInstancesIndexed)
+void FRICommandClearRenderTarget::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->DrawInstancesIndexed(primitiveType, indexCount, instanceCount, indexType, indexBuffer);
+	ALLOCATOR.ClearRenderTarget(renderTarget, clearColor);
 }
 
-IMPL_CMD(SetShaderUniformBuffer)
+void FRICommandDrawInstancesIndexed::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetShaderUniformBuffer(slot, uniformBuffer);
-}
-IMPL_CMD(UnbindFrameBuffer)
-{
-	ALLOCATOR->UnbindFrameBuffer();
+	ALLOCATOR.DrawInstancesIndexed(primitiveType, indexCount, instanceCount, indexType);
 }
 
-IMPL_CMD(SetDepthStencilState)
+void FRICommandSetShaderConstantBuffer::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetDepthStencilState(depth);
+//	ALLOCATOR.SetShaderConstantBuffer(slot, uniformBuffer);
+}
+void FRICommandUnbindFrameBuffer::Execute(FRICommandListBase& cmdList)
+{
+//	ALLOCATOR.UnbindFrameBuffer();
 }
 
-IMPL_CMD(SetRasterizerState)
+void FRICommandSetDepthStencilState::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetRasterizerState(rasterizer);
-}
-IMPL_CMD(SetBlendState)
-{
-	ALLOCATOR->SetBlendState(blend);
+	//ALLOCATOR.SetDepthStencilState(depth);
 }
 
-IMPL_CMD(SetShaderSampler)
+void FRICommandSetRasterizerState::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetShaderSampler(sampler);
+	//ALLOCATOR.SetRasterizerState(rasterizer);
+}
+void FRICommandSetBlendState::Execute(FRICommandListBase& cmdList)
+{
+	//ALLOCATOR.SetBlendState(blend);
 }
 
-
-IMPL_CMD(UniformBufferSubdata)
+void FRICommandSetShaderSamplerState::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->UniformBufferSubdata(buffer, data);
+	//ALLOCATOR.SetShaderSamplerState(slot, sampler);
 }
 
-IMPL_CMD(StageResources)
+void FRICommandSetShaderResourceView::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->UniformBufferSubdata(buffer, update);
+	//ALLOCATOR.SetShaderResource(slot, resource);
 }
 
-IMPL_CMD(SetTextureParameterBuffer<FRITexture2D>)
+void FRICommandResourceSubdata::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetTextureParameterBuffer(texture, parameterBuffer);
+	ALLOCATOR.ResourceSubdata(resource, data);
 }
 
-IMPL_CMD(SetTextureParameterBuffer<FRITexture2DArray>)
+void FRICommandStageResources::Execute(FRICommandListBase& cmdList)
 {
-	ALLOCATOR->SetTextureParameterBuffer(texture, parameterBuffer);
+	ALLOCATOR.ResourceSubdata(buffer, update);
 }
 
-IMPL_CMD(SetFrameBufferTextureLayer)
-{
-	ALLOCATOR->SetFramebufferTextureLayer(frameBuffer, layer);
-}

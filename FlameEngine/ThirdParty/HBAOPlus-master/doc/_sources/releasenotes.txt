@@ -1,0 +1,32 @@
+.. Replace existing content with product specific content. Layout for this page should be consistent for all products. 
+
+Release Notes 
+=======================================
+
+|PRODUCTNAMEDOCRELEASEBOLD|
+
+NVIDIA HBAO+ improves upon existing Ambient Occlusion techniques to add richer, more detailed, more realistic shadows around objects that occlude rays of light. Compared to previous techniques, HBAO+ is faster, more efficient, and significantly better.
+
+
+What's New
+-----------------------
+
+**General**
+
+|VERSIONBOLD|
+
+* Added support for a second input depth texture (to reduce halo artifacts behind foreground objects)
+* Removed support for OpenGL.
+
+.. -----------------------
+
+.. * `Forums`_
+
+.. * `Report a bug`_
+
+.. If links above are used, replace URL below. 
+.. _Forums: http://devtalk.nvidia.com
+.. _Report a bug: http://developer.nvidia.com/contact
+
+.. toctree::
+   :maxdepth: 1

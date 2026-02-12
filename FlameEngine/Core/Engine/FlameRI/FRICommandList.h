@@ -2,6 +2,7 @@
 
 #include "FRIResource.h"
 #include "FRIContext.h"
+#include "FRICommandContext.h"
 #include "Core/Runtime/Common/MemoryStack.h"
 
 /*
@@ -24,10 +25,7 @@
 
 #define FTEMPLATETYPENAME(genType) typename genType
 
-
 #define _GET_NTH_ARG(_1, _2, _3, _4, _5, N, ...) N
-
-
 #define _fe_0(_call, ...)
 #define _fe_1(_call, x) _call(x)
 #define _fe_2(_call, x, ...) _call(x) _fe_1(_call, __VA_ARGS__)
@@ -39,19 +37,13 @@
     _fe_4, _fe_3, _fe_2, _fe_1, _fe_0)(x, ##__VA_ARGS__)
 
 
-#define FRegisterFRICommand(cmdName) struct FRICommand##cmdName : FRICommand<FRICommand##cmdName>
-
-#define FRegisterFRICommandMultiTemplate(cmdName, ...) template<CALL_MACRO_X_FOR_EACH(FTEMPLATETYPENAME, __VA_ARGS__)> \
+#define RegisterFRICmd(cmdName) struct FRICommand##cmdName : FRICommand<FRICommand##cmdName>
+#define RegisterFRICmdMulti(cmdName, ...) template<CALL_MACRO_X_FOR_EACH(FTEMPLATETYPENAME, __VA_ARGS__)> \
 														struct FRICommand##cmdName : FRICommand<FRICommand##cmdName<__VA_ARGS__>>
-
 
 #define FRICmdInit(name) FORCEINLINE FRICommand##name
 
-
 struct FRICommandListBase;
-
-
-
 
 struct FRICommandBase
 {
@@ -68,7 +60,8 @@ struct FRICommandListBase
 		First(0),
 		CommandLink(0),
 		NumCommands(0),
-		FriDynamic(0)
+		Context(0),
+		ComputeContext(0)
 	{
 		CommandLink = &First;
 	}
@@ -87,10 +80,9 @@ struct FRICommandListBase
 		return AllocCommand(sizeof(TCmd), alignof(TCmd));
 	}
 
-
-	FRIDynamicAllocator* GetDynamic() const
+	FRICommandContext& GetContext()
 	{
-		return FriDynamic;
+		return *Context;
 	}
 	void Flush();
 
@@ -99,12 +91,9 @@ struct FRICommandListBase
 	FRICommandBase** CommandLink;
 	uint32 NumCommands;
 
-
-	FRIDynamicAllocator* FriDynamic;
+	FRICommandContext* Context;
+	FRICommandContext* ComputeContext;
 };
-
-
-
 
 
 template<typename FCmdParam>
@@ -128,7 +117,7 @@ struct FRICommand : FRICommandBase
 * 
 */
 
-FRegisterFRICommand(SetViewport)
+RegisterFRICmd(SetViewport)
 {
 	uint32 x;
 	uint32 y;
@@ -154,25 +143,23 @@ FRegisterFRICommand(SetViewport)
 */
 
 
-FRegisterFRICommand(BindFrameBuffer)
+RegisterFRICmd(BindRenderTargets)
 {
-	FRIFrameBuffer* frameBuffer;
+	FArray<FRIRenderTargetView*> renderTargets;
 
-	FRICmdInit(BindFrameBuffer)(FRIFrameBuffer* frameBuffer) :
-		frameBuffer(frameBuffer)
+	FRICmdInit(BindRenderTargets)(FArray<FRIRenderTargetView*> renderTargets) :
+		renderTargets(renderTargets)
 	{
-
 	}
 
 	void Execute(FRICommandListBase& cmdList);
 
 };
 
-FRegisterFRICommand(UnbindFrameBuffer)
+RegisterFRICmd(UnbindFrameBuffer)
 {
 	FRICmdInit(UnbindFrameBuffer)()
 	{
-
 	}
 
 	void Execute(FRICommandListBase & cmdList);
@@ -180,30 +167,14 @@ FRegisterFRICommand(UnbindFrameBuffer)
 };
 
 
-FRegisterFRICommand(ClearBufferColor)
+RegisterFRICmd(ClearRenderTarget)
 {
-	FRIFrameBuffer* frameBuffer;
-	Color color;
+	FRIRenderTargetView* renderTarget;
+	Color clearColor;
 
-	FRICmdInit(ClearBufferColor)(FRIFrameBuffer* frameBuffer, Color color) :
-		frameBuffer(frameBuffer),
-		color(color)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-
-};
-
-FRegisterFRICommand(ClearBuffer)
-{
-	FRIFrameBuffer* frameBuffer;
-	Color clearcolor;
-
-	FRICmdInit(ClearBuffer)(FRIFrameBuffer* frameBuffer, Color clearcolor) :
-		frameBuffer(frameBuffer),
-		clearcolor(clearcolor)
+	FRICmdInit(ClearRenderTarget)(FRIRenderTargetView* renderTarget, Color clearColor) :
+		renderTarget(renderTarget),
+		clearColor(clearColor)
 	{
 
 	}
@@ -213,66 +184,7 @@ FRegisterFRICommand(ClearBuffer)
 };
 
 
-FRegisterFRICommandMultiTemplate(CopyBufferData, GenFrameBufferPtr)
-{
-	GenFrameBufferPtr frameBufferSource;
-	GenFrameBufferPtr frameBufferDest;
-	uint32 clearbit;
-
-	FRICmdInit(CopyBufferData)(GenFrameBufferPtr frameBufferSource, GenFrameBufferPtr frameBufferDest, uint32 clearbit) :
-		frameBufferSource(frameBufferSource),
-		frameBufferDest(frameBufferDest),
-		clearbit(clearbit)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-
-};
-
-
-FRegisterFRICommand(SetDepthCompareFunc)
-{
-	uint32 depthfunc;
-	FRICmdInit(SetDepthCompareFunc)(uint32 depthfunc) :
-		depthfunc(depthfunc)
-	{
-
-	}
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-
-FRegisterFRICommand(SetAlphaBlendFunc)
-{
-	uint32 blendfunc;
-	FRICmdInit(SetAlphaBlendFunc)(uint32 blendfunc) :
-		blendfunc(blendfunc)
-	{
-
-	}
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-
-FRegisterFRICommand(SetPrimitiveCullMode)
-{
-	uint32 cullmode;
-	FRICmdInit(SetPrimitiveCullMode)(uint32 cullmode) :
-		cullmode(cullmode)
-	{
-
-	}
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-
-
-FRegisterFRICommand(BeginFrame)
+RegisterFRICmd(BeginFrame)
 {
 	FRICmdInit(BeginFrame)()
 	{
@@ -282,7 +194,7 @@ FRegisterFRICommand(BeginFrame)
 };
 
 
-FRegisterFRICommand(EndFrame)
+RegisterFRICmd(EndFrame)
 {
 	FRICmdInit(EndFrame)()
 	{
@@ -291,7 +203,7 @@ FRegisterFRICommand(EndFrame)
 	void Execute(FRICommandListBase& cmdList);
 };
 
-FRegisterFRICommand(BeginScene)
+RegisterFRICmd(BeginScene)
 {
 	FRICmdInit(BeginScene)()
 	{
@@ -300,7 +212,7 @@ FRegisterFRICommand(BeginScene)
 	void Execute(FRICommandListBase& cmdList);
 };
 
-FRegisterFRICommand(EndScene)
+RegisterFRICmd(EndScene)
 {
 	FRICmdInit(EndScene)()
 	{
@@ -317,12 +229,16 @@ FRegisterFRICommand(EndScene)
 */
 
 
-FRegisterFRICommand(SetGeometrySource)
+RegisterFRICmd(SetGeometrySource)
 {
 	FRIVertexBuffer* vertexBuffer;
+	FRIIndexBuffer* indexBuffer;
+	FRIInstanceBuffer* instanceBuffer;
 
-	FRICmdInit(SetGeometrySource)(FRIVertexBuffer * vertexBuffer) :
-		vertexBuffer(vertexBuffer)
+	FRICmdInit(SetGeometrySource)(FRIVertexBuffer* vertexBuffer, FRIIndexBuffer* indexBuffer, FRIInstanceBuffer* instanceBuffer) :
+		vertexBuffer(vertexBuffer),
+		indexBuffer(indexBuffer),
+		instanceBuffer(instanceBuffer)
 	{
 
 	}
@@ -332,7 +248,7 @@ FRegisterFRICommand(SetGeometrySource)
 
 
 
-FRegisterFRICommand(DrawPrimitives)
+RegisterFRICmd(DrawPrimitives)
 {
 	EFRIPrimitiveType primitiveType;
 	uint32 vertexCount;
@@ -348,7 +264,7 @@ FRegisterFRICommand(DrawPrimitives)
 
 };
 
-FRegisterFRICommand(DrawPrimitivesIndexed)
+RegisterFRICmd(DrawPrimitivesIndexed)
 {
 
 	EFRIPrimitiveType primitiveType;
@@ -356,11 +272,10 @@ FRegisterFRICommand(DrawPrimitivesIndexed)
 	EFRIIndexType indexType;
 	FRIIndexBuffer* indexBuffer;
 
-	FRICmdInit(DrawPrimitivesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer) :
+	FRICmdInit(DrawPrimitivesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, EFRIIndexType indexType) :
 		primitiveType(primitiveType),
 		indexCount(indexCount),
-		indexType(indexType),
-		indexBuffer(indexBuffer)
+		indexType(indexType)
 	{
 
 	}
@@ -371,7 +286,7 @@ FRegisterFRICommand(DrawPrimitivesIndexed)
 
 
 
-FRegisterFRICommand(DrawInstances)
+RegisterFRICmd(DrawInstances)
 {
 	EFRIPrimitiveType primitiveType;
 	uint32 vertexCount;
@@ -389,7 +304,7 @@ FRegisterFRICommand(DrawInstances)
 
 };
 
-FRegisterFRICommand(DrawInstancesIndexed)
+RegisterFRICmd(DrawInstancesIndexed)
 {
 
 	EFRIPrimitiveType primitiveType;
@@ -398,33 +313,17 @@ FRegisterFRICommand(DrawInstancesIndexed)
 	EFRIIndexType indexType;
 	FRIIndexBuffer* indexBuffer;
 
-	FRICmdInit(DrawInstancesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer * indexBuffer) :
+	FRICmdInit(DrawInstancesIndexed)(EFRIPrimitiveType primitiveType, uint32 indexCount, uint32 instanceCount, EFRIIndexType indexType) :
 		primitiveType(primitiveType),
 		indexCount(indexCount),
 		instanceCount(instanceCount),
-		indexType(indexType),
-		indexBuffer(indexBuffer)
+		indexType(indexType)
 	{
 
 	}
 
 	void Execute(FRICommandListBase & cmdList);
 
-};
-
-FRegisterFRICommand(SetFrameBufferTextureLayer)
-{
-	FRIFrameBuffer* frameBuffer;
-	uint32 layer;
-
-	FRICmdInit(SetFrameBufferTextureLayer)(FRIFrameBuffer * frameBuffer, uint32 layer) :
-		frameBuffer(frameBuffer),
-		layer(layer)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
 };
 
 
@@ -436,7 +335,7 @@ FRegisterFRICommand(SetFrameBufferTextureLayer)
 
 
 
-FRegisterFRICommand(SetShaderPipeline)
+RegisterFRICmd(SetShaderPipeline)
 {
 	FRIShaderPipeline* shader;
 
@@ -450,12 +349,12 @@ FRegisterFRICommand(SetShaderPipeline)
 };
 
 
-FRegisterFRICommand(SetShaderUniformBuffer)
+RegisterFRICmd(SetShaderConstantBuffer)
 {
 	uint32 slot;
-	FRIUniformBuffer* uniformBuffer;
+	FRIConstantBuffer* uniformBuffer;
 
-	FRICmdInit(SetShaderUniformBuffer)(uint32 slot, FRIUniformBuffer* uniformBuffer) :
+	FRICmdInit(SetShaderConstantBuffer)(uint32 slot, FRIConstantBuffer* uniformBuffer) :
 		slot(slot),
 		uniformBuffer(uniformBuffer)
 	{
@@ -466,17 +365,34 @@ FRegisterFRICommand(SetShaderUniformBuffer)
 };
 
 
-FRegisterFRICommand(SetShaderSampler)
+RegisterFRICmd(SetShaderResourceView)
 {
-	FRISampler sampler;
+	uint32 slot;
+	FRIShaderResourceView* resource;
 
-	FRICmdInit(SetShaderSampler)(FRISampler sampler) :
-		sampler(sampler)
+	FRICmdInit(SetShaderResourceView)(uint32 slot, FRIShaderResourceView* resource) :
+		slot(slot),
+		resource(resource)
 	{
 
 	}
 
 	void Execute(FRICommandListBase& cmdList);
+};
+
+RegisterFRICmd(SetShaderSamplerState)
+{
+	uint32 slot;
+	FRISamplerState* sampler;
+
+	FRICmdInit(SetShaderSamplerState)(uint32 slot, FRISamplerState* sampler) :
+		slot(slot),
+		sampler(sampler)
+	{
+
+	}
+
+	void Execute(FRICommandListBase & cmdList);
 };
 
 /*
@@ -486,64 +402,12 @@ FRegisterFRICommand(SetShaderSampler)
 */
 
 
-FRegisterFRICommand(SetTextureStorage2D)
+RegisterFRICmd(FlushMipMaps)
 {
-	uint32 innerColorFormat;
-	uint32 coverColorFormat;
-	uint32 dataColorFormat;
+	FRIShaderResourceView* resource;
 
-	FRICmdInit(SetTextureStorage2D)(uint32 innerColorFormat, uint32 coverColorFormat, uint32 dataColorFormat) :
-		innerColorFormat(innerColorFormat),
-		coverColorFormat(coverColorFormat),
-		dataColorFormat(dataColorFormat)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-FRegisterFRICommand(SetTextureStorage3D)
-{
-	uint32 innerColorFormat;
-	uint32 coverColorFormat;
-	uint32 dataColorFormat;
-
-	FRICmdInit(SetTextureStorage3D)(uint32 innerColorFormat, uint32 coverColorFormat, uint32 dataColorFormat):
-		innerColorFormat(innerColorFormat),
-		coverColorFormat(coverColorFormat),
-		dataColorFormat(dataColorFormat)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-FRegisterFRICommandMultiTemplate(SetTextureParameterBuffer, GenResourceTexture)
-{
-	GenResourceTexture* texture;
-	FRITextureParameterBuffer parameterBuffer;
-
-	FRICmdInit(SetTextureParameterBuffer)(GenResourceTexture* texture, FRITextureParameterBuffer parameterBuffer) :
-		texture(texture),
-		parameterBuffer(parameterBuffer)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-FRegisterFRICommandMultiTemplate(FlushMipMaps, GenResourceTexture)
-{
-	GenResourceTexture* texture;
-
-	FRICmdInit(FlushMipMaps)(GenResourceTexture * texture) :
-		texture(texture)
+	FRICmdInit(FlushMipMaps)(FRIShaderResourceView* resource) :
+		resource(resource)
 	{
 
 	}
@@ -573,35 +437,9 @@ FRegisterFRICommandMultiTemplate(FlushMipMaps, GenResourceTexture)
 */
 
 
-FRegisterFRICommandMultiTemplate(BeginOcclusionQuery, GenOcclusionQueryPtr)
-{
-	GenOcclusionQueryPtr occlusionQuery;
-
-	FRICmdInit(BeginOcclusionQuery)(GenOcclusionQueryPtr occlusionQuery) :
-		occlusionQuery(occlusionQuery)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-};
 
 
-FRegisterFRICommandMultiTemplate(EndOcclusionQuery, GenOcclusionQueryPtr)
-{
-	GenOcclusionQueryPtr occlusionQuery;
-
-	FRICmdInit(EndOcclusionQuery)(GenOcclusionQueryPtr occlusionQuery) :
-		occlusionQuery(occlusionQuery)
-	{
-
-	}
-
-	void Execute(FRICommandListBase& cmdList);
-};
-
-
-FRegisterFRICommand(SetRasterizerState)
+RegisterFRICmd(SetRasterizerState)
 {
 	FRIRasterizerState* rasterizer;
 	
@@ -614,7 +452,7 @@ FRegisterFRICommand(SetRasterizerState)
 };
 
 
-FRegisterFRICommand(SetBlendState)
+RegisterFRICmd(SetBlendState)
 {
 	FRIBlendState* blend;
 
@@ -626,7 +464,7 @@ FRegisterFRICommand(SetBlendState)
 	void Execute(FRICommandListBase & cmdList);
 };
 
-FRegisterFRICommand(SetDepthStencilState)
+RegisterFRICmd(SetDepthStencilState)
 {
 	FRIDepthStencilState* depth;
 
@@ -638,13 +476,13 @@ FRegisterFRICommand(SetDepthStencilState)
 	void Execute(FRICommandListBase & cmdList);
 };
 
-FRegisterFRICommand(UniformBufferSubdata)
+RegisterFRICmd(ResourceSubdata)
 {
-	FRIUniformBuffer* buffer;
+	FRIResourceObject* resource;
 	FRIUpdateDescriptor data;
 
-	FRICmdInit(UniformBufferSubdata)(FRIUniformBuffer* buffer, FRIUpdateDescriptor desc) :
-		buffer(buffer),
+	FRICmdInit(ResourceSubdata)(FRIResourceObject* resource, FRIUpdateDescriptor desc) :
+		resource(resource),
 		data(desc)
 	{
 
@@ -652,21 +490,23 @@ FRegisterFRICommand(UniformBufferSubdata)
 	void Execute(FRICommandListBase & cmdList);
 };
 
-FRegisterFRICommand(StageResources)
+RegisterFRICmd(StageResources)
 {
-	FRIUniformBuffer* buffer;
+	FRIConstantBuffer* buffer;
 	FRIMemoryStageDelegate delegate;
+	byte* DataOwner;
 
 	FRIUpdateDescriptor update;
 
-	FRICmdInit(StageResources)(FRIUniformBuffer* buffer, FRIMemoryStageDelegate delegate) :
+	FRICmdInit(StageResources)(FRIConstantBuffer* buffer, FRIMemoryStageDelegate delegate) :
 		buffer(buffer),
 		delegate(delegate),
 		update(0,0,0)
 	{
 
 		FRIMemoryMap memory;
-		memory.MemoryPtr = Memory::Alloc<byte>(1024);
+		DataOwner = Memory::Alloc<byte>(1024);
+		memory.MemoryPtr = DataOwner;
 		delegate(memory);
 
 		update = FRIUpdateDescriptor(memory.MemoryPtr, 0, memory.Head);
@@ -675,7 +515,7 @@ FRegisterFRICommand(StageResources)
 
 	~FRICommandStageResources()
 	{
-		Memory::Free(update.DataArray);
+		Memory::Free(DataOwner);
 	}
 };
 
@@ -683,467 +523,461 @@ FRegisterFRICommand(StageResources)
 
 //#define ALLOC_COMMAND(...) new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
 //#define ALLOC_COMMAND(...) auto pCmd = new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
-#define ALLOC_COMMAND(...) auto pCmd = new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__
-							
+#define ALLOC_COMMAND(...) auto pCmd = new ( AllocCommand(sizeof(__VA_ARGS__), alignof(__VA_ARGS__)) ) __VA_ARGS__ 						
 
-
-class FRICommandList : public FRICommandListBase
+template<bool ExecuteOnFRIThread>
+class FLAME_API TFRICommandList : public FRICommandListBase
 {
-	bool IsImmediate;
-
 public:
 
-	bool Bypass() const
+	TFRICommandList(FRICommandContext* commandContext)
 	{
-		return IsImmediate;
+		Context = commandContext;
 	}
-
-	FRICommandList(FRIDynamicAllocator* allocator, bool IsImmediate = true) :
-		IsImmediate(IsImmediate)
-	{
-		this->FriDynamic = allocator;
-	}
-
-	FRICommandList(bool IsImmediate = true) : IsImmediate(IsImmediate) {}
-
 
 	FORCEINLINE void SetViewport(const FViewportRect& viewport)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
+			GetContext().SetViewport(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandSetViewport)(viewport.X, viewport.Y, viewport.Width, viewport.Height);
-
-		//pCmd->CommandIdx = NumCommands;
+		ALLOC_COMMAND(FRICommandSetViewport)(viewport.X, viewport.Y, viewport.Width, viewport.Height);
 	}
 
 
 	FORCEINLINE void DrawPrimitives(EFRIPrimitiveType primitiveType, uint32 vertexCount)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->DrawPrimitives(primitiveType, vertexCount);
+			GetContext().DrawPrimitives(primitiveType, vertexCount);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawPrimitives)(primitiveType, vertexCount);
-
-		//pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandDrawPrimitives)(primitiveType, vertexCount);
 	}
 
-	FORCEINLINE void DrawPrimitivesIndexed(EFRIPrimitiveType primitiveType, uint32 vertextCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
+	FORCEINLINE void DrawPrimitivesIndexed(EFRIPrimitiveType primitiveType, uint32 vertextCount, EFRIIndexType indexType)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->DrawPrimitivesIndexed(primitiveType, vertextCount, indexType,  indexBuffer);
+			GetContext().DrawPrimitivesIndexed(primitiveType, vertextCount, indexType);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(primitiveType, vertextCount, indexType, indexBuffer);
-
-		//pCmd->CommandIdx = NumCommands;
+		ALLOC_COMMAND(FRICommandDrawPrimitivesIndexed)(primitiveType, vertextCount, indexType);
 	}
-
-
-
 
 	FORCEINLINE void DrawInstances(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->DrawInstances(primitiveType, vertexCount, instanceCount);
+			GetContext().DrawInstances(primitiveType, vertexCount, instanceCount);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawInstances)(primitiveType, vertexCount, instanceCount);
-
-		//pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandDrawInstances)(primitiveType, vertexCount, instanceCount);
 	}
 
-	FORCEINLINE void DrawInstancesIndexed(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType, FRIIndexBuffer* indexBuffer)
+	FORCEINLINE void DrawInstancesIndexed(EFRIPrimitiveType primitiveType, uint32 vertexCount, uint32 instanceCount, EFRIIndexType indexType)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->DrawInstancesIndexed(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
+			GetContext().DrawInstancesIndexed(primitiveType, vertexCount, instanceCount, indexType);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandDrawInstancesIndexed)(primitiveType, vertexCount, instanceCount, indexType, indexBuffer);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandDrawInstancesIndexed)(primitiveType, vertexCount, instanceCount, indexType);
 	}
 
-
-
-
-
-
+	FORCEINLINE void DispatchCompute(uint32 x, uint32 y, uint32 z)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().DispatchCompute(x, y, z);
+			return;
+		}
+	}
 
 	FORCEINLINE void SetShaderPipeline(FRIShaderPipeline* shaderPipeline)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetShaderPipeline(shaderPipeline);
+			//GetContext().SetShaderPipeline(shaderPipeline);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
-
-		//pCmd->CommandIdx = NumCommands;
-
-	}
-	FORCEINLINE void SetGeometrySource(FRIVertexBuffer* vertexBuffer)
-	{
-		if (Bypass())
-		{
-			GetDynamic()->SetGeometrySource(vertexBuffer);
-			return;
-		}
-	//	ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
-
-	//	pCmd->CommandIdx = NumCommands;
-
-	}
-
-	FORCEINLINE void SetInstancedGeometrySource(FRIVertexBuffer* vertexBuffer, FRIInstanceBuffer* instanceBuffer)
-	{
-		if (Bypass())
-		{
-			GetDynamic()->SetInstancedGeometrySource(vertexBuffer, instanceBuffer);
-			return;
-		}
-	//	ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetShaderPipeline)(shaderPipeline);
 	}
 
 
-	FORCEINLINE void BindFrameBuffer(FRIFrameBuffer* frameBuffer)
+	FORCEINLINE void SetGeometrySource(FRIVertexBuffer* vertexBuffer, FRIIndexBuffer* indexBuffer, FRIInstanceBuffer* instanceBuffer = nullptr)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->BindFrameBuffer(frameBuffer);
+			GetContext().SetGeometrySource(vertexBuffer, indexBuffer, instanceBuffer);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandBindFrameBuffer)(frameBuffer);
+		ALLOC_COMMAND(FRICommandSetGeometrySource)(vertexBuffer, indexBuffer, instanceBuffer);
+	}
 
-	//	pCmd->CommandIdx = NumCommands;
 
+	FORCEINLINE void BindRenderTargets(const FArray<FRIRenderTargetView*>& renderTargetViews, FRIDepthStencilView* DSV)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().BindRenderTargets(renderTargetViews.Length(), renderTargetViews.Begin(), DSV);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandBindRenderTargets)(renderTargetViews);
 	}
 
 
 	FORCEINLINE void UnbindFrameBuffer()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->UnbindFrameBuffer();
+			GetContext().UnbindFrameBuffer();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandUnbindFrameBuffer)();
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandUnbindFrameBuffer)();
 	}
 
 
 	FORCEINLINE void BeginScene()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->BeginScene();
+			GetContext().BeginScene();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandBeginScene)();
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandBeginScene)();
 	}
 	FORCEINLINE void BeginFrame()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->BeginFrame();
+			GetContext().BeginFrame();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandBeginFrame)();
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandBeginFrame)();
 	}
 	FORCEINLINE void EndScene()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->EndScene();
+			GetContext().EndScene();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandEndScene)();
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandEndScene)();
 	}
 	FORCEINLINE void EndFrame()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->EndFrame();
+			GetContext().EndFrame();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandEndFrame)();
-
-	//	pCmd->CommandIdx = NumCommands;
-
-	}
-	FORCEINLINE void SetShaderUniformBuffer(uint32 slot, FRIUniformBuffer* buffer, uint32 attachFlags = 63)
-	{
-		if (Bypass())
-		{
-			GetDynamic()->SetShaderUniformBuffer(slot, buffer, attachFlags);
-			return;
-		}
-	//	ALLOC_COMMAND(FRICommandSetShaderUniformBuffer)(slot, buffer);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandEndFrame)();
 	}
 
-
-
-	FORCEINLINE void ClearBuffer(FRIFrameBuffer* buffer, Color color)
+	FORCEINLINE void BeginCompute()
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->ClearBuffer(buffer, color);
+			GetContext().BeginCompute();
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandClearBuffer)(buffer, color);
+		//ALLOC_COMMAND(FRICommandBeginFrame)();
+	}
+	FORCEINLINE void EndCompute()
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().EndCompute();
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandBeginFrame)();
+	}
 
-	//	pCmd->CommandIdx = NumCommands;
+	FORCEINLINE void SetShaderConstantBuffer(uint32 slot, FRIConstantBuffer* buffer, uint32 attachFlags = 63)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			//GetContext().SetShaderConstantBuffer(slot, buffer, attachFlags);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderConstantBuffer)(slot, buffer);
+	}
 
+
+
+	FORCEINLINE void ClearRenderTarget(FRIRenderTargetView* renderTarget, Color color)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().ClearRenderTarget(renderTarget, color);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandClearRenderTarget)(renderTarget, color);
+	}
+
+	FORCEINLINE void ClearDepthStencil(FRIDepthStencilView* depthTarget, float value)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().ClearDepthStencil(depthTarget, value);
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandClearRenderTarget)(renderTarget, color);
 	}
 	
+	/* Set Shader Resource View */
 
-	FORCEINLINE void SetShaderSampler(FRISampler param)
+	FORCEINLINE void SetShaderResourceViewVS(uint32 slot, FRIShaderResourceView* param)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetShaderSampler(param);
+			GetContext().SetShaderResourceViewVS(slot, param);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetShaderSampler)(param);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
 	}
-	FORCEINLINE void SetTextureParameterBuffer(FRITexture2D* tex, FRITextureParameterBuffer param)
+
+	FORCEINLINE void SetShaderResourceViewPS(uint32 slot, FRIShaderResourceView* param)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetTextureParameterBuffer(tex, param);
+			GetContext().SetShaderResourceViewPS(slot, param);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2D>)(tex, param);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
 	}
 
-	FORCEINLINE void SetTextureParameterBuffer(FRITexture2DArray* tex, FRITextureParameterBuffer param)
+	FORCEINLINE void SetShaderResourceViewGS(uint32 slot, FRIShaderResourceView* param)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetTextureParameterBuffer(tex, param);
+			GetContext().SetShaderResourceViewGS(slot, param);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetTextureParameterBuffer<FRITexture2DArray>)(tex, param);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
 	}
 
-	FORCEINLINE void SetFramebufferTextureLayer(FRIFrameBuffer* fbo, uint32 layer)
+	FORCEINLINE void SetShaderResourceViewHS(uint32 slot, FRIShaderResourceView* param)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetFramebufferTextureLayer(fbo, layer);
+			GetContext().SetShaderResourceViewHS(slot, param);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetFrameBufferTextureLayer)(fbo, layer);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
 	}
+
+	FORCEINLINE void SetShaderResourceViewDS(uint32 slot, FRIShaderResourceView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderResourceViewDS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
+	}
+
+	FORCEINLINE void SetShaderResourceViewCS(uint32 slot, FRIShaderResourceView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderResourceViewCS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderResourceView)(slot, param);
+	}
+
+	/* Set Shader Sampler */
+
+	FORCEINLINE void SetShaderSamplerVS(uint32 slot, FRISamplerState* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderSamplerVS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	FORCEINLINE void SetShaderSamplerPS(uint32 slot, FRISamplerState* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderSamplerPS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	FORCEINLINE void SetShaderSamplerGS(uint32 slot, FRISamplerState* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderSamplerGS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	FORCEINLINE void SetShaderSamplerHS(uint32 slot, FRISamplerState* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderSamplerHS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	FORCEINLINE void SetShaderSamplerDS(uint32 slot, FRISamplerState* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetShaderSamplerDS(slot, param);
+			return;
+		}
+		ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	// CBVs
+
+	FORCEINLINE void SetConstantBufferViewVS(uint32 slot, FRIConstantBufferView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetConstantBufferViewVS(slot, param);
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+	FORCEINLINE void SetConstantBufferViewPS(uint32 slot, FRIConstantBufferView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetConstantBufferViewPS(slot, param);
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+	FORCEINLINE void SetConstantBufferViewCS(uint32 slot, FRIConstantBufferView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetConstantBufferViewCS(slot, param);
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	// UAVs
+
+	FORCEINLINE void SetUnorderedAccessViewCS(uint32 slot, FRIUnorderedAccessView* param)
+	{
+		if constexpr (ExecuteOnFRIThread)
+		{
+			GetContext().SetUnorderedAccessViewCS(slot, param);
+			return;
+		}
+		//ALLOC_COMMAND(FRICommandSetShaderSamplerState)(slot, param);
+	}
+
+	// Other Stuff
 
 	FORCEINLINE void SetRasterizerState(FRIRasterizerState* rasterizer)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetRasterizerState(rasterizer);
+			//GetContext().SetRasterizerState(rasterizer);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetRasterizerState)(rasterizer);
-
-		//pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetRasterizerState)(rasterizer);
 	}
 
 	FORCEINLINE void SetBlendState(FRIBlendState* blend)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetBlendState(blend);
+			//GetContext().SetBlendState(blend);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandSetBlendState)(blend);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetBlendState)(blend);
 	}
 
 	FORCEINLINE void SetDepthStencilState(FRIDepthStencilState* depth)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->SetDepthStencilState(depth);
+			//GetContext().SetDepthStencilState(depth);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandSetDepthStencilState)(depth);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandSetDepthStencilState)(depth);
 	}
 
-	FORCEINLINE void FlushMipMaps(FRITexture2D* tex)
+	FORCEINLINE void FlushMipMaps(FRIShaderResourceView* tex)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->FlushMipMaps(tex);
+			GetContext().FlushMipMaps(tex);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2D>)(tex);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		ALLOC_COMMAND(FRICommandFlushMipMaps)(tex);
 	}
 
 
-	FORCEINLINE void FlushMipMaps(FRITexture2DArray* tex)
+	FORCEINLINE void ResourceSubdata(FRIResourceObject* resource, FRIUpdateDescriptor data)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->FlushMipMaps(tex);
+			GetContext().ResourceSubdata(resource, data);
 			return;
 		}
-		//ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture2DArray>)(tex);
-
-	//	pCmd->CommandIdx = NumCommands;
-
-
+		ALLOC_COMMAND(FRICommandResourceSubdata)(resource, data);
 	}
 
-
-	FORCEINLINE void FlushMipMaps(FRITexture3D* tex)
+	FORCEINLINE void SetPipelineState(FRIPipelineStateObject* pipelineState)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->FlushMipMaps(tex);
+			GetContext().SetPipelineState(pipelineState);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandFlushMipMaps<FRITexture3D>)(tex);
-
-	//	pCmd->CommandIdx = NumCommands;
-
+		//ALLOC_COMMAND(FRICommandResourceSubdata)(resource, data);
 	}
 
-	FORCEINLINE void UniformBufferSubdata(FRIUniformBuffer* buffer, FRIUpdateDescriptor resource)
+	FORCEINLINE void UpdateSubresources(FRIConstantBuffer* resource)
 	{
-		if (Bypass())
+		if constexpr (ExecuteOnFRIThread)
 		{
-			GetDynamic()->UniformBufferSubdata(buffer, resource);
 			return;
 		}
-	//	ALLOC_COMMAND(FRICommandUniformBufferSubdata)(buffer, resource);
-
-	//	pCmd->CommandIdx = NumCommands;
-
 	}
 
 	template<typename TLambda>
-	FORCEINLINE void StageResourcesLambda(FRIStageBuffer& ubo, TLambda&& lambda)
+	FORCEINLINE void StageResources(FRIConstantBuffer* Buffer, TLambda lambda)
 	{
-		if (Bypass())
-		{
-			ubo.Stage.Head = 0;
-			lambda(ubo.Stage);
+		FRIMemoryMap Map;
+		lambda(Map);
 
-			GetDynamic()->UniformBufferSubdata(ubo.GPU, FRIUpdateDescriptor(ubo.Stage.MemoryPtr, 0, ubo.Stage.Head));
-			return;
-		}
-	}
-	/*
-
-	template<typename TLambda>
-	FORCEINLINE void StageResourcesLambda(FRIUniformBuffer* ubo, TLambda&& lambda)
-	{
-
-		if (Bypass())
-		{
-			GetDynamic()->StageResources(ubo, FRIMemoryStageDelegate::Make(lambda));
-			return;
-		}
-		/*else
-		{
-			FRIMemoryMap memory;
-			memory.MemoryPtr = Memory::Alloc<byte>(512);
-			lambda(memory);
-
-			FRIUpdateDescriptor update(memory.MemoryPtr, 0, memory.Head);
-
-			ALLOC_COMMAND(FRICommandUniformBufferSubdata)(ubo, update);
-
-			//ALLOC_COMMAND(FRICommandStageResources)(ubo, FRIMemoryStageDelegate::Make(lambda));
-			pCmd->CommandIdx = NumCommands;
-		}
-
-		ALLOC_COMMAND(FRICommandStageResources)(ubo, FRIMemoryStageDelegate::Make(lambda));
-		pCmd->CommandIdx = NumCommands;
-
+		auto Update = FRIUpdateDescriptor(Map.MemoryPtr, 0, Buffer->ByteSize);
+		GetContext().ResourceSubdata(Buffer, Update);
 	}
 
-	template<typename TStageableResource>
-	FORCEINLINE void StageResource(FRIUniformBuffer* ubo, const TStageableResource& resource)
+	FORCEINLINE void Open()
 	{
-		if (Bypass())
-		{
-			GetDynamic()->StageResources(ubo, FRIMemoryStageDelegate::Make([&](FRIMemoryMap& mem) {
-				resource.StageMemory(mem);
-				}));
+		Context->OpenCommandList();
+	}
 
-			return;
-		}
-		/*else
-		{
-			FRIMemoryMap memory;
-			memory.MemoryPtr = Memory::Alloc<byte>(512);
-			resource.StageMemory(memory);
+	FORCEINLINE void CloseAndExecute()
+	{
+		Context->CloseCommandList();
+	}
 
-			FRIUpdateDescriptor update(memory.MemoryPtr, 0, memory.Head);
-
-			ALLOC_COMMAND(FRICommandUniformBufferSubdata)(ubo, update);
-			pCmd->CommandIdx = NumCommands;
-
-		}
-		ALLOC_COMMAND(FRICommandStageResources)(ubo, FRIMemoryStageDelegate::Make([&](FRIMemoryMap& mem) {
-			resource.StageMemory(mem);
-			}));
-
-
-	}*/
 };
 
 
-
-
+typedef TFRICommandList<true> FRICommandList;
+typedef TFRICommandList<false> FRITaskCommandList;
 
 #include "FRICommandList.inl"

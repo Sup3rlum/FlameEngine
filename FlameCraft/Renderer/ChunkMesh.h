@@ -105,8 +105,8 @@ public:
 	void RenderWater(FRICommandList& cmdList);
 	void RenderGrass(FRICommandList& cmdList);
 	ChunkMeshDescription RegenerateGeometry(Chunk* chunk);
-	void StageGeometry(FRICommandList& cmdList, ChunkMeshDescription desc, FRIVertexDeclaration* vDecl);
-	void StageGeometryMesh(FRICommandList& cmdList, GeometryMesh& mesh, MeshDesc& meshdesc, FRIVertexDeclaration* vDecl);
+	void StageGeometry(FRIContext* context, ChunkMeshDescription desc, FRIInputLayout* vDecl);
+	void StageGeometryMesh(FRIContext* context, GeometryMesh& mesh, MeshDesc& meshdesc, FRIInputLayout* vDecl);
 
 
 	FORCEINLINE void WriteBlock(

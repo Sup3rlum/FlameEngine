@@ -15,14 +15,13 @@ struct PSInput
     float3 vDirection : VDIRECTION0;
 };
 
-
 cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
-};
-
-
+    matrix InverseView;
+    matrix InverseProjection;
+}
 
 
 
@@ -30,9 +29,10 @@ PSInput main(VSInput input)
 {
     PSInput output;
     
-    float4 viewPos = mul(View, float4(input.Position, 0));
-    output.Position = mul(Projection, float4(viewPos.xyz, 1));
-    output.vDirection = input.Position;
+    output.Position = float4(input.Position, 1);
+    
+    float4 ViewPos = mul(InverseProjection, float4(input.Position, 1.0));
+    output.vDirection = mul(InverseView, float4(ViewPos.xyz, 0)).xyz;
     
     return output;
 }

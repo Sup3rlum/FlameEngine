@@ -20,7 +20,7 @@ protected:
 
     }
 public:
-    virtual FRITexture2D* GetTexture() = 0;
+    virtual FRIShaderResourceView* GetView() = 0;
 
     uint32_t Width;
     uint32_t Height;
@@ -30,6 +30,7 @@ public:
 
 
     FRITexture2D* TextureBuffer;
+    FRIShaderResourceView* SurfaceSRV;
 };
 
 class UltraLightFRISurface : public ultralight::Surface , public UXFRISurface
@@ -51,7 +52,6 @@ public:
 	virtual uint32_t row_bytes() const override { return RowBytes; }
 	virtual size_t size() const override { return ByteSize; }
 
-
     virtual void* LockPixels() override 
     {
         return UlBitmap->LockPixels();
@@ -64,8 +64,9 @@ public:
 
     virtual void Resize(uint32_t width, uint32_t height) override 
     {
-
-        FRICommandList cmdList(renderContext->GetFRIDynamic());
+        FRICommandList cmdList(renderContext->GetCommandContext(0));
+        auto Allocator = renderContext->GetFRIDynamic();
+        cmdList.Open();
 
         if (TextureBuffer && Width == width && Height == height)
             return;
@@ -75,31 +76,38 @@ public:
             delete TextureBuffer;
             TextureBuffer = NULL;
         }
+        if (SurfaceSRV)
+        {
+            delete SurfaceSRV;
+            SurfaceSRV = NULL;
+        }
 
         Width = width;
         Height = height;
         RowBytes = Width * 4;
         ByteSize = RowBytes * Height;
         
-        TextureBuffer = cmdList.GetDynamic()->CreateTexture2D(Width, Height, 1, EFRITextureFormat::RGBA8UNORM, FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::UnsignedByte), FRICreationDescriptor(NULL, ByteSize), true);
-
+        TextureBuffer = Allocator->CreateTexture2D(Width, Height, 1, EFRIAccess::Write, EFRITextureFormat::RGBA8UNORM);
+        SurfaceSRV = Allocator->CreateShaderResourceView(TextureBuffer);
         UlBitmap = ultralight::Bitmap::Create(Width, Height, ultralight::kBitmapFormat_BGRA8_UNORM_SRGB);
+
+        cmdList.CloseAndExecute();
     }
 
-    FRITexture2D* GetTexture()
+    FRIShaderResourceView* GetView()
     {
         if (!dirty_bounds().IsEmpty()) 
         {
-            FRICommandList cmdList(renderContext->GetFRIDynamic());
 
             void* pixels = UlBitmap->LockPixels();         
-            cmdList.GetDynamic()->Texture2DSubdata(TextureBuffer, FRIUpdateDescriptor(pixels, 0, ByteSize));
+            FRICommandList cmdList(renderContext->GetCommandContext(0));
+            cmdList.ResourceSubdata(TextureBuffer, FRIUpdateDescriptor(pixels, 0, ByteSize, RowBytes));
             UlBitmap->UnlockPixels();
 
             ClearDirtyBounds();
         }
 
-        return TextureBuffer;
+        return SurfaceSRV;
     }
 
 

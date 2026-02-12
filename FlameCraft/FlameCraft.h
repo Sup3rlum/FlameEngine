@@ -18,11 +18,5 @@ public:
 	void Shoot();
 
 	void CreateParticleSystem();
-
-
-	World world;
-	Entity playerEntity;
-	FProjectionMatrix PerspMatrix;
-
 };
 

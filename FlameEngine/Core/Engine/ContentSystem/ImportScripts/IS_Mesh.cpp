@@ -23,7 +23,7 @@ struct FMeshGeometryHeader
 TContentSerializer<Mesh>::TContentSerializer(IAssetManager* manager)
 	: renderContext(manager->RenderContext) 
 {
-	FRICommandList cmdList(renderContext->GetFRIDynamic(), true);
+	/*FRICommandList cmdList(renderContext->GetFRIDynamic(), true);
 
 	FRIVertexShader* signatureShader = NULL;
 	if (renderContext->InstanceDescription.RenderFramework == EFRIRendererFramework::DX11)
@@ -31,11 +31,11 @@ TContentSerializer<Mesh>::TContentSerializer(IAssetManager* manager)
 		signatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("Assets/Shaders/signature/dx/bin/Mesh.signature.cso").ReadBytes());
 	}
 
-	vertexDeclaration = cmdList.GetDynamic()->CreateVertexDeclaration(
+	vertexDeclaration = cmdList.GetDynamic()->CreateInputLayout(
 		{ FRIInputDesc(InputLayouts::StaticLit, 0) },
 		signatureShader);
 
-	delete signatureShader;
+	delete signatureShader;*/
 }
 
 Mesh TContentSerializer<Mesh>::Serialize(Stream& fileStream)
@@ -50,17 +50,19 @@ Mesh TContentSerializer<Mesh>::Serialize(Stream& fileStream)
 	FArray<byte> iData;
 	FMeshGeometryHeader geomHeader = fileStream.Read<FMeshGeometryHeader>();
 
+	FRICommandList cmdList(renderContext->GetCommandContext(0));
+	cmdList.Open();
+
+
 	vData.Resize(geomHeader.vLength * geomHeader.elementSize);
 	iData.Resize(geomHeader.iLength * sizeof(uint32));
 
 	fileStream.Read(vData);
 	fileStream.Read(iData);
 
-	vBuffer = allocator->CreateVertexBuffer(geomHeader.vLength, 0, FRICreationDescriptor((FRIArrayInterface*)vData.Begin(), vData.ByteSize()));
-	iBuffer = allocator->CreateIndexBuffer(geomHeader.iLength, 0, FRICreationDescriptor((FRIArrayInterface*)iData.Begin(), iData.ByteSize()));
+	vBuffer = allocator->CreateVertexBuffer(geomHeader.vLength, geomHeader.elementSize, EFRIAccess::None, EFRIUsage::Default, FRICreationDescriptor(vData.Begin(), vData.ByteSize()));
+	iBuffer = allocator->CreateIndexBuffer(geomHeader.iLength, EFRIAccess::None, EFRIUsage::Default, FRICreationDescriptor(iData.Begin(), iData.ByteSize()));
 
-	allocator->AttachVertexDeclaration(vBuffer, vertexDeclaration);
-
-
+	cmdList.CloseAndExecute();
 	return Mesh(vBuffer, iBuffer);
 }

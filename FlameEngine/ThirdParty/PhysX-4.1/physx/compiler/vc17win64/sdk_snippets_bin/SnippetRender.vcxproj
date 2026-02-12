@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A24E268D-C1E2-365F-B8E0-1021AD9D6C91}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <Platform>x64</Platform>
+    <ProjectName>SnippetRender</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">SnippetRender.dir\debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">SnippetRender_static_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">SnippetRender.dir\checked\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='checked|x64'">SnippetRender_static_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='checked|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">SnippetRender.dir\profile\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='profile|x64'">SnippetRender_static_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='profile|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">SnippetRender.dir\release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='release|x64'">SnippetRender_static_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_DEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\debug\SnippetRender_static__64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="checked"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\checked\SnippetRender_static__64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"checked\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="profile"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\profile\SnippetRender_static__64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"profile\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Full</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_SUPPORT_PVD=0;CMAKE_INTDIR="release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\bin\win.x86_64.vc142.md\release\SnippetRender_static__64.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;GLUT_NO_LIB_PRAGMA;PX_SUPPORT_PVD=0;CMAKE_INTDIR=\"release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\Graphics\include\win32\GL;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\..\pxshared\include;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/public -BE:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64 --check-stamp-file E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/compiler/vc17win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\snippetrender\SnippetCamera.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\snippetrender\SnippetCamera.h" />
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\snippetrender\SnippetRender.cpp" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\snippetrender\SnippetRender.h" />
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\snippets\graphics\include\win32\GL\glut.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\ZERO_CHECK.vcxproj">
+      <Project>{39733626-3F61-3D8E-9F5D-12EA06F3B34C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\PhysXFoundation.vcxproj">
+      <Project>{EF16FC5F-C907-3D46-8034-CA9EE2F31A13}</Project>
+      <Name>PhysXFoundation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

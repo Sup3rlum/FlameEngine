@@ -8,8 +8,8 @@ const int MAX_WEIGHTS = 4;
 struct VSInput
 {
     float3 Position : POSITION0;
-    int4 JointIndices : POSITION1;
-    float4 JointWeights : POSITION2;
+    int4 JointIndices : BLENDINDICES0;
+    float4 JointWeights : BLENDWEIGHTS0;
 };
 
 struct PSInput
@@ -30,7 +30,7 @@ cbuffer TransformBuffer : register(b1)
     matrix WorldInverseTranspose;
 }
 
-cbuffer JointsBuffer : register(b3)
+cbuffer JointsBuffer : register(b2)
 {
     matrix JointTransforms[32];
 }

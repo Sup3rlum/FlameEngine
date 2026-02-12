@@ -1,0 +1,22 @@
+#pragma once
+
+#include "Core/Common/CoreCommon.h"
+#include "../FRIContext.h"
+#include "../FRICommandContext.h"
+#include "../FRIResource.h"
+#include "D3D12.h"
+
+#include "D3D12FRIProxyTypes.h"
+#include "D3D12FRIDevice.h"
+#include "D3D12FRIResource.h"
+#include "D3D12FRIFormats.h"
+#include "D3D12FRIDevice.h"
+#include "D3D12FRIHeapAllocator.h"
+#include "D3D12FRICache.h"
+#include "D3D12FRIView.h"
+#include "D3D12FRICommandContext.h"
+#include "D3D12FRIBuffer.h"
+#include "D3D12FRIPipelineStateObject.h"
+#include "D3D12FRITexture.h"
+#include "D3D12FRIAllocator.h"
+#include "D3D12FRISampler.h"

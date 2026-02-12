@@ -25,11 +25,11 @@ void UxComponent::SetParent(UxContainer* p)
 	mParent = p;
 }
 
-void UxComponent::SetVisibility(bool visible)
+void UxComponent::SetVisible(bool visible)
 {
 	mVisible = visible;
 }
-bool UxComponent::GetVisibility()
+bool UxComponent::GetVisible()
 {
 	return	mVisible;
 }

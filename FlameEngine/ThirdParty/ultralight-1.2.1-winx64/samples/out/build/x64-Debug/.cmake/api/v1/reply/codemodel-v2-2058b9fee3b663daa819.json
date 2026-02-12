@@ -1,0 +1,309 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						10
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "Sample 1 - Render to PNG",
+					"jsonFile" : "directory-Sample 1 - Render to PNG-Debug-2e036fe2e13442203d52.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 1 - Render to PNG",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Sample 2 - Basic App",
+					"jsonFile" : "directory-Sample 2 - Basic App-Debug-bd45eed6e79dc2d936fe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 2 - Basic App",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "Sample 3 - Resizable App",
+					"jsonFile" : "directory-Sample 3 - Resizable App-Debug-8779dbac6d9bdbcb03ac.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 3 - Resizable App",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Sample 4 - JavaScript",
+					"jsonFile" : "directory-Sample 4 - JavaScript-Debug-d0b3046d3d156009f6b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 4 - JavaScript",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "Sample 5 - File Loading",
+					"jsonFile" : "directory-Sample 5 - File Loading-Debug-2e15cb3d79cc93e4b144.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 5 - File Loading",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Sample 6 - Intro to C API",
+					"jsonFile" : "directory-Sample 6 - Intro to C API-Debug-6e7c77d217df6baab853.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 6 - Intro to C API",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "Sample 7 - OpenGL Integration",
+					"childIndexes" : 
+					[
+						8
+					],
+					"jsonFile" : "directory-Sample 7 - OpenGL Integration-Debug-cedee1526764f46d9fb7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 7 - OpenGL Integration",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "Sample 7 - OpenGL Integration/glfw",
+					"childIndexes" : 
+					[
+						9
+					],
+					"jsonFile" : "directory-Sample 7 - OpenGL Integration.glfw-Debug-8017bfdc8238fbcda950.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 1,
+					"source" : "Sample 7 - OpenGL Integration/glfw"
+				},
+				{
+					"build" : "Sample 7 - OpenGL Integration/glfw/src",
+					"jsonFile" : "directory-Sample 7 - OpenGL Integration.glfw.src-Debug-c6e313b305c0338d9c9b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 1,
+					"source" : "Sample 7 - OpenGL Integration/glfw/src",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Sample 8 - Web Browser",
+					"jsonFile" : "directory-Sample 8 - Web Browser-Debug-b131c527866658382c26.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Sample 8 - Web Browser",
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						10
+					],
+					"name" : "Samples",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8,
+						9
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "Sample1::@cabcc9bfc2df0cdbcd5f",
+					"jsonFile" : "target-Sample1-Debug-1e2ce0cea6c941649f04.json",
+					"name" : "Sample1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "Sample2::@e4816af81a328b09354e",
+					"jsonFile" : "target-Sample2-Debug-fb88232551bcc9276996.json",
+					"name" : "Sample2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Sample3::@6956455d7e7ac730bb3e",
+					"jsonFile" : "target-Sample3-Debug-01d93c4f89dfad0ea74e.json",
+					"name" : "Sample3",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "Sample4::@badf50b5f6071d45c1ed",
+					"jsonFile" : "target-Sample4-Debug-a899509a3456642da65f.json",
+					"name" : "Sample4",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Sample5::@f15938f295b12b35795e",
+					"jsonFile" : "target-Sample5-Debug-28bd3a28eb8300e1fb41.json",
+					"name" : "Sample5",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Sample6::@96d7304e824a55a2a895",
+					"jsonFile" : "target-Sample6-Debug-6fff3867a331bf701416.json",
+					"name" : "Sample6",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "Sample7::@f8922d75c24dc0f58188",
+					"jsonFile" : "target-Sample7-Debug-0e017be32549c9b85456.json",
+					"name" : "Sample7",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "Sample8::@30c6de138ca8bd62b531",
+					"jsonFile" : "target-Sample8-Debug-9d7ccedf1cd3aa34b8db.json",
+					"name" : "Sample8",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "glfw::@dd4f75f4a7b90a4d764c",
+					"jsonFile" : "target-glfw-Debug-dd7790994dca4e0c4c65.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Projects/_Libraries/ultralight-1.2.1-winx64/samples/out/build/x64-Debug",
+		"source" : "D:/Projects/_Libraries/ultralight-1.2.1-winx64/samples"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

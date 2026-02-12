@@ -40,6 +40,7 @@ namespace FlameEncoder.NodeEditor.Nodes.Controls
         public void SetTexture(TextureView textureView)
         {
             this.bgImage.Source = textureView.Image;
+            this.Height = this.Width * textureView.Image.Height / textureView.Image.Height;
         }
     }
 }

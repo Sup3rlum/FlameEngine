@@ -1,12 +1,12 @@
 
-
 struct PSInput
 {
     float4 Position : SV_Position;
     float3 Normal : NORMAL0;
+    float3 Tangent : TANGENT0;
+    float3 Bitangent : BITANGENT0;
     float3 TexCoord : TEXCOORD0;
 };
-
 struct PSOutput
 {
     float4 Normal : SV_Target0;
@@ -24,6 +24,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
@@ -36,10 +38,6 @@ cbuffer MaterialPropertiesBuffer : register(b5)
     uint HasTransluscent;
 }
 
-static float maxPOMDistance = 100;
-
-
-
 float3 PackNormal(float3 n)
 {
     return normalize(n) * 0.5f + 0.5f;
@@ -50,7 +48,7 @@ PSOutput main(PSInput input)
 {
     PSOutput output;
 
-    output.Albedo = DiffuseMap.Sample(DiffuseSampler, input.TexCoord);
+    output.Albedo = pow(DiffuseMap.Sample(DiffuseSampler, input.TexCoord), 2.2);
     
     if (output.Albedo.a < 0.1f)
         discard;

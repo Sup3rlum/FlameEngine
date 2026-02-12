@@ -18,13 +18,13 @@ struct GEntityID;
 struct Entity;
 
 
-struct FEntityMemoryStack
+EXPORT(struct, FEntityMemoryStack)
 {
 
-	struct FEntityMemoryBlock
+	EXPORT(struct, FMemBlock)
 	{
 		FEntityMemoryStack* Parent;
-		FEntityMemoryBlock* Next;
+		FMemBlock* Next;
 		uint64 ColumnSize;
 		uint64 Columns;
 		uint64 Rows;
@@ -34,33 +34,66 @@ struct FEntityMemoryStack
 
 		byte* Data;
 
-		FORCEINLINE void SetDataPtr(uint64 Alignment)
+		void SetDataPtr(uint64 Alignment);
+		byte* GetColumn(uint64 column) const;
+		uint64 GetSize() const;
+		byte* GetMemPtr(uint64 column, uint32 row) const;
+
+		template<typename TComponent>
+		FORCEINLINE TComponent* GetComponentPtr(uint64 column, int32 row)
 		{
-			Data = Align(((byte*)this) + sizeof(FEntityMemoryBlock), Alignment);
+			return (TComponent*)GetMemPtr(column, row);
 		}
 
-		FORCEINLINE byte* GetColumn(uint64 column) const
+		template<typename TComponent>
+		FORCEINLINE TComponent* GetComponentPtr(uint64 column, int32 row) const
 		{
-			return Data + column * ColumnSize;
+			return (TComponent*)GetMemPtr(column, row);
 		}
 
-		FORCEINLINE uint64 GetSize() const
+		template<typename TComponent>
+		FORCEINLINE TComponent* GetComponentPtr(uint64 column)
 		{
-			return sizeof(FEntityMemoryBlock) + ColumnSize * Columns;
+			int32 row = Parent->BlockArchetype.GetIndex<TComponent>();
+			return GetComponentPtr<TComponent>(column, row);
 		}
+
+		template<typename TComponent>
+		FORCEINLINE const TComponent* GetComponentPtr(uint64 column) const
+		{
+			int32 row = Parent->BlockArchetype.GetIndex<TComponent>();
+			return GetComponentPtr<TComponent>(column, row);
+		}
+
+
+
+
+		template<typename TComponent>
+		FORCEINLINE TComponent& GetComponent(uint64 column, int32 row)
+		{
+			return *GetComponentPtr<TComponent>(column, row);
+		}
+
+
+		template<typename TComponent>
+		FORCEINLINE const TComponent& GetComponent(uint64 column, int32 row) const
+		{
+			return *GetComponentPtr<TComponent>(column, row);
+		}
+
 
 		template<typename TComponent>
 		FORCEINLINE TComponent& GetComponent(uint64 column)
 		{
 			int32 row = Parent->BlockArchetype.GetIndex<TComponent>();
-
-			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
+			return GetComponent<TComponent>(column, row);
 		}
 
 		template<typename TComponent>
-		FORCEINLINE TComponent& GetComponent(uint64 column, int32 row)
+		FORCEINLINE const TComponent& GetComponent(uint64 column) const
 		{
-			return *(TComponent*)(GetColumn(column) + Parent->Offsets[row]);
+			int32 row = Parent->BlockArchetype.GetIndex<TComponent>();
+			return GetComponent<TComponent>(column, row);
 		}
 
 		FORCEINLINE bool IsFull() const
@@ -69,22 +102,19 @@ struct FEntityMemoryStack
 		}
 	};
 
-	FEntityArchetype BlockArchetype;
-	FEntityMemoryBlock* Top;
-	uint64* Offsets;
-
 	FEntityMemoryStack(FEntityArchetype archetype, uint32 initialCapacity);
 	Entity AllocEntity(const FString&);
 	void AllocBlock(uint32 blockCapacity);
-
+	void EnsureCapacity();
 	void FreeEntity(GEntityID entity);
 	void Flush();
+	//void AllocEntityMemory();
+	void CleanBlocks();
+	~FEntityMemoryStack();
 
-	~FEntityMemoryStack()
-	{
-		Flush();
-		delete Offsets;
-	}
 
-	void AllocEntityMemory();
+	FEntityArchetype BlockArchetype;
+	FMemBlock* Top;
+	uint64* Offsets;
+
 };

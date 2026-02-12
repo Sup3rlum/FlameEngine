@@ -18,7 +18,7 @@ using System.Drawing.Imaging;
 using Microsoft.Win32;
 
 using FlameEncoder.Data;
-
+using FlameEncoder.ImportScripts;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -44,15 +44,15 @@ namespace FlameEncoder
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            openFileDialog.Filter = "Image Files (*.jpg, *.png, *.tif, *.bmp, *.tga)|*.jpg, *.png, *.tif, *.bmp, *.tga| PNG Images (*.png)|*.png| JPEG images (*.jpg)|*.jpg";
+            openFileDialog.Filter = "Image Files (*.jpg, *.png, *.tif, *.bmp, *.tga, *.exr)|*.jpg; *.png; *.tif; *.tiff; *.bmp; *.tga; *exr| PNG Images (*.png)|*.png| JPEG images (*.jpg)|*.jpg| TIFF images (*.tiff, *.tif)|*.tiff; *.tif| OpenEXR Radiance maps| *.exr";
             if (openFileDialog.ShowDialog() == true)
             {
-                Image<Rgba64> im = Image<Rgba64>.Load(openFileDialog.FileName).CloneAs<Rgba64>();
+                Image<RgbaVector> im = SourceImage.LoadImage(openFileDialog.FileName);
                 pathBox.Text = openFileDialog.FileName;
 
                 textureView = new TextureView(new TextureMap()
                 {
-                    Data = new List<Image<Rgba64>>() { im }
+                    Data = new List<Image<RgbaVector>>() { im }
                 });
 
 
@@ -74,10 +74,10 @@ namespace FlameEncoder
 
         private void Import_Click(object sender, RoutedEventArgs e)
         {
-            if (textureView == null || pathBox.Text == "")
-                return;
-
-            textureView.TextureMap.Path = pathBox.Text;
+            if (textureView != null && pathBox.Text != "")
+            {
+                textureView.TextureMap.Path = pathBox.Text;
+            }
             Close();
         }
         private void Cancel_Click(object sender, RoutedEventArgs e)

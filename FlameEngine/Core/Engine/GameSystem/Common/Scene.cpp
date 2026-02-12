@@ -1,9 +1,14 @@
 #include "Scene.h"
-#include "SceneSystems.h"
 #include "Core/Math/Geometry/Volumes/AABB.h"
 
 
+#include "../Physics/PX/FPXService.h"
+#include "../Physics/PX/FPXScene.h"
+#include "../Physics/PX/FPXAllocator.h"
+
 float cascadeBias = 35.0f;
+
+
 
 
 void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& out, float maxSplits, float splitIndex)
@@ -24,24 +29,21 @@ void SplitFrustum(FStaticArray<FVector3, 8>& source, FStaticArray<FVector3, 8>& 
 }
 
 
-Scene::Scene(PhysicsSceneDescription desc, FRIContext* renderContext) : 
-	Physics(desc.pAllocator),
-	physicsScene(desc.pScene),
-	physicsService(desc.pService),
-	FriContext(renderContext)
+Scene::Scene(FString Name, class GameApplication* Game, FRIContext* renderContext, PhysicsDescription desc) :
+	FriContext(renderContext),
+	Game(Game)
 {
 
 	uxContainer = new UXContainer(FriContext);
+
+	FPXService* fpxService = new FPXService();
+	PhysicsScene* fpxScene = fpxService->CreateScene(FVector3(0, -10.0f, 0));
+
+	physicsService = fpxService;
+	physicsScene = fpxScene;
+	Physics = new FPXAllocator(fpxService, static_cast<FPXScene*>(fpxScene));
+
 }
-
-
-void Scene::LoadSystems()
-{
-}
-
-#define PROFILE_(name, a, code) auto now_##a = FTime::GetTimestamp(); \
-							code \
-							a += FTime::GetTimestamp() - now_##a; \
 
 
 void Scene::UpdateSystems()
@@ -50,8 +52,6 @@ void Scene::UpdateSystems()
 		{
 			transform = body.GetGlobalTransform();
 		});
-
-
 }
 
 void Scene::UpdateBehaviour(FGameTime gameTime)
@@ -63,24 +63,28 @@ void Scene::UpdateBehaviour(FGameTime gameTime)
 				behaviour.pScript->Update(gameTime.DeltaTime.GetSeconds());
 			}
 		});
+
+	this->System<AnimationComponent>()->ParallelForEach([&](Entity ent, AnimationComponent& animation)
+		{
+			animation.Step(gameTime.DeltaTime.GetSeconds());
+		});
+
+	this->System<RiggedModel, AnimationComponent>()->ParallelForEach([&](Entity ent, RiggedModel& skinnedModel, AnimationComponent& animation)
+		{
+			skinnedModel.Mesh.MeshSkeleton.ApplyPose(animation.CurrentAnimationPose);
+		});
+
 }
 
 void Scene::Update(FGameTime gameTime)
 {
 
-	PROFILE_("Physics", physTime,
-		uxContainer->UpdateContainer();
-		physicsScene->Step(gameTime.DeltaTime.GetSeconds());
-	)
+	uxContainer->UpdateContainer();
+	physicsScene->Step(gameTime.DeltaTime.GetSeconds());
 
-	PROFILE_("Behaviour", behTime,
-		UpdateBehaviour(gameTime);
-	)
+	UpdateBehaviour(gameTime);
 
-	PROFILE_("Dyn", dynTime,
-		UpdateSystems();
-	)
-
+	UpdateSystems();
 	for (auto sysPtr : Systems)
 	{
 		sysPtr->Tick();
@@ -110,14 +114,14 @@ void Scene::UpdateDirectionalLights()
 			{
 				// Create an orthonormal basis describing the light's local coordinate system
 
+				FViewMatrix viewMatrix(FVector3(0), dirLight.Direction, FVector3(0, 1, 0));
+
+				FMatrix3 toGlobalSpace = FMatrix4::ToMatrix3(viewMatrix);
+				FMatrix3 toLocalSpace = FMatrix3::Transpose(toGlobalSpace);
+
 				for (int i = 0; i < SM_CASCADES; i++)
 				{
 					SplitFrustum(frustumCorners, frustumSplitCorners, SM_CASCADES, i);
-
-					FViewMatrix viewMatrix(FVector3(0), dirLight.Direction, FVector3(0, 1, 0));
-
-					FMatrix3 toGlobalSpace = FMatrix4::ToMatrix3(viewMatrix);
-					FMatrix3 toLocalSpace = FMatrix3::Transpose(toGlobalSpace);
 
 					// Create the AABB enveloping the users view frustum in the light's basis space
 					AABB aabb;
@@ -132,23 +136,20 @@ void Scene::UpdateDirectionalLights()
 					// Get the position of the camera as being in the middle of the -Z plane of the AABB, add bias, and then turn it into global space
 					FVector3 position = toGlobalSpace * (aabb.Center() - FVector3(0, 0, aabb.LengthZ() / 2.0f + cascadeBias));
 
-
 					float halfLengthX = aabb.LengthX() / 2.0f;
 					float halfLengthY = aabb.LengthY() / 2.0f;
-
 
 					//Get the up component required to reorient the AABB into global space
 					FVector3 aabbUp = toGlobalSpace * FVector3(0, 1, 0);
 
-
 					// Create the view and projection matrices for the light's camera that envelops the user view frustum
-					dirLight.FrustumInfo[i].View = FViewMatrix(position, position + dirLight.Direction, aabbUp);
-					dirLight.FrustumInfo[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
+					dirLight.FrustumData[i].View = FViewMatrix(position, position + dirLight.Direction, aabbUp);
+					dirLight.FrustumData[i].Projection = FOrthographicMatrix(-halfLengthX, halfLengthX, -halfLengthY, halfLengthY, 0.0f, aabb.LengthZ() + cascadeBias);
 
-					float zFar = 500.0f;
-					float zNear = 0.1f;
+					float zFar = camera.FarPlane();
+					float zNear = camera.NearPlane();
 
-					dirLight.FrustumInfo[i].Depth = (zFar - zNear) * ((float)(i + 1) / (float)SM_CASCADES) + zNear;
+					dirLight.FrustumData[i].Depth = (zFar - zNear) * ((float)(i + 1) / (float)SM_CASCADES) + zNear;
 				}
 			}
 		});
@@ -157,8 +158,6 @@ void Scene::UpdateDirectionalLights()
 
 AABB Scene::GetAABB() const
 {
-	if (SceneLevel.LevelGeometry.Root)
-		return SceneLevel.LevelGeometry.Root->BoundingBox;
 
 	return AABB(0, 0);
 }
@@ -195,7 +194,7 @@ FArray<Entity> Scene::QueryEntities(const FString& name)
 
 void Scene::FinishUpdate()
 {
-	EntWorld.CopyEntMemory();
+	//EntWorld.CopyEntMemory();
 }
 
 CharacterBody Scene::CreateCharacterBody(FTransform transorm)
@@ -218,7 +217,12 @@ TriangleMeshGeometry Scene::CookTriangleMeshGeometry(PhysicsTriangleMeshDesc des
 	return Physics->CookTriangleMeshGeometry(desc);
 }
 
+
+
 Scene::~Scene()
 {
 
 }
+
+
+PhysicsAllocator* Scene::PhysicsWorld() { return  this->Physics; }

@@ -1,6 +1,6 @@
 
 
-const int MAX_JOINTS = 32;
+const int MAX_JOINTS = 128;
 const int MAX_WEIGHTS = 4;
 
 struct VSInput
@@ -29,6 +29,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
@@ -40,7 +42,7 @@ cbuffer TransformationBuffer : register(b1)
 
 cbuffer JointsBuffer : register(b3)
 {
-    matrix JointTransforms[32];
+    matrix JointTransforms[128];
 }
 
 PSInput main(VSInput input)

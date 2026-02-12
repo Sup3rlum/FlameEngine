@@ -39,106 +39,47 @@ void World::SetBlock(Block block, IVector3 pos, bool lazyUpdate)
 	}
 }
 
-void World::GenerateStructure(Chunk* chunk, IVector3 position)
-{
-	int treeHeight = 5;
-
-	for (int dx = -2; dx <= 2; dx++)
-	{
-		for (int dz = -2; dz <= 2; dz++)
-		{
-			chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(dx, 2, dz));
-			chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(dx, 3, dz));
-		}
-	}
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(1, 4, 0));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(-1, 4, 0));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(0, 4, 1));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(0, 4, -1));
-	
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(1, 5, 0));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(-1, 5, 0));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(0, 5, 1));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(0, 5, -1));
-	chunk->SetBlock(Block(BLOCK_LEAVES), position + IVector3(0, 5, 0));
-
-
-	for (int i = 0; i < treeHeight; i++)
-	{
-		chunk->SetBlock(Block(BLOCK_OAK), position + IVector3(0, i, 0));
-	}
-}
 
 void World::GenerateChunk(IVector2 chunkPos)
 {
 	if (ChunkData.Contains(chunkPos))
 		return;
 
-	auto newChunk = new Chunk();
-	newChunk->Position = chunkPos;
+	auto newChunk = worldGenerator->GenerateChunk(chunkPos);
+	ChunkData[chunkPos] = newChunk;
+	ScheduleUpdate(chunkPos, true);
+}
 
 
-	for (int x = 0; x < CHUNK_WIDTH; x++)
+void World::GenerateArea(IVector2 start, IVector2 end, bool immediate)
+{
+	int minX = min(start.x, end.x);
+	int minY = min(start.y, end.y);
+
+	int maxX = max(start.x, end.x);
+	int maxY = max(start.y, end.y);
+
+	for (int x = minX; x < maxX; x++)
 	{
-		for (int z = 0; z < CHUNK_DEPTH; z++)
+		for (int y = minY; y < maxY; y++)
 		{
-			float blockX = x + chunkPos.x * 16.0f;
-			float blockZ = z + chunkPos.y * 16.0f;
+			IVector2 chunkPos(x, y);
 
-			int height = worldGenerator->GenerateTerrain(FVector2(blockX, blockZ));
+			if (ChunkData.Contains(chunkPos))
+				return;
 
-			for (int y = 0; y < height; y++)
-			{
-				Block block(BLOCK_AIR);
-
-				if (height > 20)
-				{
-					if (y == height - 1)
-						block.ID = BLOCK_GRASS_BLOCK;
-					else if (y > height - 3)
-						block.ID = BLOCK_DIRT;
-					else
-						block.ID = BLOCK_STONE;
-
-				}
-				else
-				{
-					if (y == height - 1)
-						block.ID = BLOCK_SAND;
-					else
-						block.ID = BLOCK_STONE;
-				}
-
-				newChunk->SetBlock(block, IVector3(x, y, z));
-			}
-
-			for (int y = height; y < 20; y++)
-			{
-				newChunk->SetBlock(BLOCK_WATER, IVector3(x, y, z));
-			}
-			
-			if (rand() % 500 == 1 && height > 20)
-			{
-				GenerateStructure(newChunk, IVector3(x, height, z));
-			}
-			if (rand() % 30 == 1 && height > 20)
-			{
-				newChunk->SetBlock(BLOCK_GRASS, IVector3(x, height, z));
-			}
+			auto newChunk = worldGenerator->GenerateChunk(chunkPos);
+			ChunkData[chunkPos] = newChunk;
+			ScheduleUpdate(chunkPos, true);
 		}
 	}
 
-	ChunkData[chunkPos] = newChunk;
-
-	ScheduleUpdate(chunkPos, true);
 }
 
 void World::ScheduleUpdate(IVector2 chunkPos, bool threadPool)
 {
 	OBSERVERS_NOTIFY->ChunkScheduledUpdate(chunkPos, threadPool);
 }
-
-
 
 void World::Tick()
 {
@@ -147,7 +88,8 @@ void World::Tick()
 
 
 World::World() :
-	worldGenerator(new WorldGenerator(12345))
+	worldGenerator(new WorldGenerator(12345)),
+	scene(0)
 {
 }
 
@@ -155,4 +97,9 @@ World::~World()
 {
 	for (auto [chunkPos, chunk] : ChunkData)
 		delete chunk;
+}
+
+bool World::IsChunkLoaded(IVector2 vector)
+{
+	return ChunkData.Contains(vector);
 }

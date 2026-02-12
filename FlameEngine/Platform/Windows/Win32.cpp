@@ -8,9 +8,8 @@ LRESULT CALLBACK Win32Context::Win32MessageProcSignature(HWND hwnd, UINT umessag
 	Win32Context* pInstance;
     if (umessage == WM_NCCREATE)
     {
-        pInstance = static_cast<Win32Context*>(reinterpret_cast<CREATESTRUCT*>(lparam)->lpCreateParams);
-
         SetLastError(0);
+        pInstance = static_cast<Win32Context*>(reinterpret_cast<CREATESTRUCT*>(lparam)->lpCreateParams);
         if (!SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pInstance)))
         {
             if (GetLastError() != 0)
@@ -22,12 +21,10 @@ LRESULT CALLBACK Win32Context::Win32MessageProcSignature(HWND hwnd, UINT umessag
         pInstance = reinterpret_cast<Win32Context*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
     }
 
-
 	if (pInstance)
 	{
 		return pInstance->MessageHandler.Handler(hwnd, umessage, wparam, lparam);
 	}
-
 
 	return DefWindowProc(hwnd, umessage, wparam, lparam);
 }
@@ -163,7 +160,6 @@ void Win32Context::GetCursorPosition(int* x, int* y)
 
 		GetCursorPos(&point);
 
-
 		*x = point.x;
 		*y = point.y;
 	}
@@ -173,4 +169,9 @@ Win32Context::~Win32Context()
 {
 	ReleaseDC(hWindow, hDeviceContext);
 	DestroyWindow(hWindow);
+}
+
+HWND Win32Context::GetHWND() const
+{
+	return hWindow;
 }

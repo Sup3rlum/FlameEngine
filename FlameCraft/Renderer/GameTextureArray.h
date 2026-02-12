@@ -8,5 +8,6 @@
 struct GameTextureArray
 {
 	FRITexture2DArray* friTexture;
-	GameTextureArray(FRICommandList& cmdList, FAssetManager& Content);
+	FRIShaderResourceView* view;
+	GameTextureArray(FRIContext* context, FAssetManager& Content);
 };

@@ -106,7 +106,7 @@ int faceIDs[11][6]
 	{12, 12, 12, 12, 12, 12}	// GRASS
 };
 
-#define IS_TRANSPARENT(b) (b.ID == BLOCK_AIR || b.ID == BLOCK_LEAVES || b.ID == BLOCK_WATER || b.ID == BLOCK_GRASS) && (b.ID != block.ID)
+#define IS_TRANSPARENT(b) b.IsTransparent() && (b.ID != block.ID)
 
 
 
@@ -277,10 +277,10 @@ ChunkMeshDescription ChunkMesh::RegenerateGeometry(Chunk* chunk)
 
 				auto block = chunk->GetBlock(blockPosChunk);
 
-				if (block.ID == BLOCK_AIR)
+				if (block == Block::AIR)
 					continue;
 
-				if (block.ID == BLOCK_WATER)
+				if (block == Block::WATER)
 				{
 					WriteBlock(
 						block, 
@@ -290,7 +290,7 @@ ChunkMeshDescription ChunkMesh::RegenerateGeometry(Chunk* chunk)
 						chunk, 
 						desc.waterGeometry);
 				}
-				else if (block.ID == BLOCK_GRASS)
+				else if (block == Block::GRASS)
 				{
 					WriteTessPatch(
 						block,
@@ -325,28 +325,28 @@ ChunkMeshDescription ChunkMesh::RegenerateGeometry(Chunk* chunk)
 	return desc;
 }
 
-void ChunkMesh::StageGeometry(FRICommandList& cmdList, ChunkMeshDescription desc,  FRIVertexDeclaration* vDecl)
+void ChunkMesh::StageGeometry(FRIContext* context, ChunkMeshDescription desc,  FRIInputLayout* vDecl)
 {
 
 	rigidBody.RemoveShapes();
 	rigidBody.SetShape(PhysShape(PhysicsMaterial(0.8f, 0.8f, 0.1f), desc.PhysicsGeom));
 
 
-	StageGeometryMesh(cmdList, staticGeometry, desc.staticGeometry, vDecl);
-	StageGeometryMesh(cmdList, waterGeometry, desc.waterGeometry, vDecl);
-	StageGeometryMesh(cmdList, grassGeometry, desc.grassGeometry, vDecl);
+	StageGeometryMesh(context, staticGeometry, desc.staticGeometry, vDecl);
+	StageGeometryMesh(context, waterGeometry, desc.waterGeometry, vDecl);
+	StageGeometryMesh(context, grassGeometry, desc.grassGeometry, vDecl);
 
 }
 
-void ChunkMesh::StageGeometryMesh(FRICommandList& cmdList, GeometryMesh& mesh, MeshDesc& meshdesc, FRIVertexDeclaration* vDecl)
+void ChunkMesh::StageGeometryMesh(FRIContext* context, GeometryMesh& mesh, MeshDesc& meshdesc, FRIInputLayout* vDecl)
 {
 	if (!meshdesc.IsValid())
 		return;
 
-	mesh.vertexBuffer = cmdList.GetDynamic()->CreateVertexBuffer(meshdesc.VerticesData.Length(), 0, meshdesc.VerticesData.GetFRIDescriptor());
-	mesh.indexBuffer = cmdList.GetDynamic()->CreateIndexBuffer(meshdesc.IndexData.Length(), 0, meshdesc.IndexData.GetFRIDescriptor());
+	auto allocator = context->GetFRIDynamic();
 
-	cmdList.GetDynamic()->AttachVertexDeclaration(mesh.vertexBuffer, vDecl);
+	mesh.vertexBuffer = allocator->CreateVertexBuffer(meshdesc.VerticesData.Length(), sizeof(FVertex), EFRIAccess::None, EFRIUsage::Default, meshdesc.VerticesData.GetFRIDescriptor());
+	mesh.indexBuffer = allocator->CreateIndexBuffer(meshdesc.IndexData.Length(), EFRIAccess::None, EFRIUsage::Default, meshdesc.IndexData.GetFRIDescriptor());
 
 	meshdesc.Free();
 }
@@ -364,8 +364,8 @@ void ChunkMesh::RenderStatic(FRICommandList& cmdList)
 	if (!staticGeometry.IsValid())
 		return;
 
-	cmdList.SetGeometrySource(staticGeometry.vertexBuffer);
-	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, staticGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32, staticGeometry.indexBuffer);
+	cmdList.SetGeometrySource(staticGeometry.vertexBuffer, staticGeometry.indexBuffer, NULL);
+	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, staticGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32);
 }
 
 void ChunkMesh::RenderWater(FRICommandList& cmdList)
@@ -373,8 +373,8 @@ void ChunkMesh::RenderWater(FRICommandList& cmdList)
 	if (!waterGeometry.IsValid())
 		return;
 
-	cmdList.SetGeometrySource(waterGeometry.vertexBuffer);
-	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, waterGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32, waterGeometry.indexBuffer);
+	cmdList.SetGeometrySource(waterGeometry.vertexBuffer, waterGeometry.indexBuffer, NULL);
+	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, waterGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32);
 }
 
 
@@ -383,8 +383,8 @@ void ChunkMesh::RenderGrass(FRICommandList& cmdList)
 	if (!grassGeometry.IsValid())
 		return;
 
-	cmdList.SetGeometrySource(grassGeometry.vertexBuffer);
-	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, grassGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32, grassGeometry.indexBuffer);
+	cmdList.SetGeometrySource(grassGeometry.vertexBuffer, grassGeometry.indexBuffer, NULL);
+	cmdList.DrawPrimitivesIndexed(EFRIPrimitiveType::Triangles, grassGeometry.indexBuffer->IndexCount, EFRIIndexType::UInt32);
 }
 
 

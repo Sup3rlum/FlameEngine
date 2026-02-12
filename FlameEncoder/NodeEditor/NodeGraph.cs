@@ -1,15 +1,5 @@
 ﻿
 
-/*
-*  Copyright 2022 Julia Mackata
-*  
-*  #define YOUR_SELF(word1, word2, wordIII) [](word1, word2, wordIII) { return word1 + word2 + wordIII; };
-* 
-using namespace std;
-
-std::cout <<  "Hello World" << endl;*/
-
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +16,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Xml.Linq;
@@ -41,7 +30,7 @@ using FlameEncoder.ImportScripts;
 using FlameEncoder.Compilers;
 using FlameEncoder.Data;
 
-using FlameEncoderCLR;
+//using FlameEncoderCLR;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -54,11 +43,14 @@ using DColor = System.Drawing.Color;
 
 
 using FlameEncoder.NodeEditor.Nodes;
+using System.Windows.Media.Media3D;
+
+using SharpEXR;
 
 namespace FlameEncoder.NodeEditor
 {
 
-    public delegate object DataTranform(System.Windows.Point location);
+    public delegate object DataTranform(PixelPosition location);
 
     
 
@@ -115,11 +107,26 @@ namespace FlameEncoder.NodeEditor
 
     }
 
+    public struct PixelPosition
+    {
+        public double X;
+        public double Y;
+        public int Layer;
+
+        public PixelPosition(double x, double y, int layer=0)
+        {
+            X = x;
+            Y = y;
+            Layer = layer;
+        }
+
+    }
+
     public class InputNodeSocket : NodeSocket
     {
         public object Default;
 
-        public object Data(System.Windows.Point location)
+        public object Data(PixelPosition location)
         {
             if (Connections.Count == 0)
             {
@@ -163,6 +170,17 @@ namespace FlameEncoder.NodeEditor
 
     public class NodeGraph
     {
+        public string[] FaceNames =
+        {
+            "+X",
+            "-X",
+            "+Y",
+            "-Y",
+            "+Z",
+            "-Z"
+        };
+
+
         public string Name { get; set; }
         public string OutputFileName { get; set; }
         public ObservableCollection<Node> Nodes { get; set; }
@@ -254,13 +272,12 @@ namespace FlameEncoder.NodeEditor
 
         public static TextureView LoadTextureMap(string path)
         {
-            if (path == "")
-                return null;
+            var im = SourceImage.LoadImage(path);
 
-            Image<Rgba64> im = Image<Rgba64>.Load(path).CloneAs<Rgba64>();
+
             return new TextureView(new TextureMap()
             {
-                Data = new List<Image<Rgba64>>() { im },
+                Data = new List<Image<RgbaVector>>() { im },
                 Path = path
             });         
         }
@@ -287,9 +304,12 @@ namespace FlameEncoder.NodeEditor
                 {
                     "Texture"       => new TextureNode() { Texture = LoadTextureMap(nodedata) },
                     "Channel Splitter" => new ChannelSplitterNode(),
-                    "Channel Mixer"     => new ChannelSplitterNode(),
-                    "Color"             => new ColorNode(DColor.FromArgb(int.Parse(nodedata))),
+                    "Channel Mixer"     => new ChannelMixerNode(),
+                    "Color"             => new ColorNode(Color32.FromString(nodedata)),
                     "Material"          => new MaterialNode(new NodeEditor.Nodes.Controls.MaterialProperties() { Width = int.Parse(nodedata.Split(":")[0]), Height = int.Parse(nodedata.Split(":")[1]) }),
+                    "Environment Map"   => new EnvironmentMapNode(int.Parse(nodedata.Split(":")[0])),
+                    "Face List To Cube Map" => new FaceListToCubeMapNode(),
+                    "Equirectagular To Cube Map" => new EquirectangularToCubeMapNode(),
                     "Desaturate"          => new DesaturateNode(),
                     "Invert"                => new InvertNode(),
                     "Gaussian Blur"          => new GaussianBlurNode(),
@@ -316,12 +336,12 @@ namespace FlameEncoder.NodeEditor
                 nodeGraph.Connections.Add(connection);
             }
 
-            nodeGraph.Output = nodeGraph.Nodes.First(x => x is MaterialNode);
+            nodeGraph.Output = nodeGraph.Nodes.First(x => x is MaterialNode || x is EnvironmentMapNode);
 
             return nodeGraph;
         }
 
-        public Material RenderMaterial()
+        public FlameEncoder.Data.Material RenderMaterial()
         {
             var maps = new Dictionary<string, TextureMap>();
 
@@ -334,7 +354,7 @@ namespace FlameEncoder.NodeEditor
                 var name = kv.Key;
                 var socket = kv.Value;
 
-                var image = new Image<Rgba64>(width, height);
+                var image = new Image<RgbaVector>(width, height);
 
 
                 Parallel.For(0, width * height, idx =>
@@ -342,28 +362,107 @@ namespace FlameEncoder.NodeEditor
                       int x = idx / width;
                       int y = idx % height;
 
-                      var finalColor = (DColor)socket.Data(new System.Windows.Point(x / (double)width, y / (double)height));
+                      var finalColor = (Color32)socket.Data(new PixelPosition(x / (float)width, y / (float)height, 0));
 
-                      image[x, y] = new Rgba64(
-                          (ushort)(finalColor.R * 255),
-                          (ushort)(finalColor.G * 255),
-                          (ushort)(finalColor.B * 255),
-                          (ushort)(finalColor.A * 255));
+                      image[x, y] = new RgbaVector(
+                          finalColor.R,
+                          finalColor.G,
+                          finalColor.B,
+                          finalColor.A);
 
                   });
 
                 maps[name] = new TextureMap()
                 {
-                    Data = new List<Image<Rgba64>>() { image },
+                    Data = new List<Image<RgbaVector>>() { image },
                 };
             }
 
-            var material = new Material();
+            var material = new FlameEncoder.Data.Material();
 
             foreach (var (k,v) in Output.Inputs)
                 material.AddMap(k, maps[k]);
 
             return material;
+        }
+
+        public FlameEncoder.Data.EnvMap RenderEnvMap()
+        {
+            var maps = new Dictionary<string, TextureMap>();
+
+
+            int width = (Output as EnvironmentMapNode).properties.Width;
+            int height = width;
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                var socket = Output.Inputs["Specular"];
+                var image = new Image<RgbaVector>(width, height);
+
+                Parallel.For(0, width * height, idx =>
+                {
+                    int x = idx / width;
+                    int y = idx % height;
+
+                    var finalColor = (Color32)socket.Data(new PixelPosition(x / (float)width, y / (float)height, i));
+
+                    image[x, y] = new RgbaVector(
+                        finalColor.R,
+                        finalColor.G,
+                        finalColor.B,
+                        finalColor.A);
+
+                });
+
+                maps[$"Skymap {FaceNames[i]}"] = new TextureMap()
+                {
+                    Data = new List<Image<RgbaVector>>() { image },
+                };
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                maps[$"Specular {FaceNames[i]}"] = new TextureMap()
+                {
+                    Data = new List<Image<RgbaVector>>() { EnvMapCompiler.ResizeImage(maps[$"Skymap {FaceNames[i]}"].Data[0], 256, 256) },
+                };
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                var socket = Output.Inputs["Irradiance"];
+                var image = new Image<RgbaVector>(256, 256);
+
+                Parallel.For(0, 256 * 256, idx =>
+                {
+                    int x = idx / 256;
+                    int y = idx % 256;
+
+                    var finalColor = (Color32)socket.Data(new PixelPosition(x / (float)256, y / (float)256, i));
+
+                    image[x, y] = new RgbaVector(
+                        finalColor.R,
+                        finalColor.G,
+                        finalColor.B,
+                        finalColor.A);
+
+                });
+
+                maps[$"Irradiance {FaceNames[i]}"] = new TextureMap()
+                {
+                    Data = new List<Image<RgbaVector>>() { image },
+                };
+            }
+
+            var envMap = new FlameEncoder.Data.EnvMap();
+
+            foreach (var (name, map) in maps)
+            {
+                envMap.AddMap(name, map);
+            }
+
+            return envMap;
         }
 
     }

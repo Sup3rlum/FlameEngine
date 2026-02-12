@@ -33,9 +33,7 @@ public:
 		struct { GenType s; TVector3<GenType> tpq; };
 
 		struct { GenType data[4]; };
-		struct { __m128 mmv; };
-
-;
+		struct { FMMVec4Type<GenType> mmv; };
 	};
 
 	 TVector4() : 
@@ -81,11 +79,9 @@ public:
 
 	}
 
-
-
 	FString ToString() const
 	{
-		return FString::Format("{ X:%0 Y:%1 Z:%2 W:%3 }", x, y, z, w);
+		return FString::Format("{ %0 %1 %2 %3 }", x, y, z, w);
 	}
 
 
@@ -104,7 +100,8 @@ public:
 
 	static GenType Dot(const TVector4& l, const TVector4& r)
 	{
-		return l.x * r.x + l.y * r.y + l.z * r.z + l.w * r.w;
+		auto res = l * r;
+		return res.x + res.y + res.z + res.w;
 	}
 
 
@@ -123,14 +120,12 @@ public:
 	GenType& operator[](size_t _index)
 	{
 		assert(_index < 4);
-
 		return data[_index];
 	}
 
 	const GenType& operator[](size_t _index) const
 	{
 		assert(_index < 4);
-
 		return data[_index];
 	}
 
@@ -160,49 +155,31 @@ public:
 
 	TVector4& operator+=(const TVector4& v)
 	{
-		this->x += v.x;
-		this->y += v.y;
-		this->z += v.z;
-		this->w += v.w;
-
+		*this = *this + v;
 		return *this;
 	}
 	TVector4& operator-=(const TVector4& v)
 	{
-		this->x -= v.x;
-		this->y -= v.y;
-		this->z -= v.z;
-		this->w -= v.w;
-
+		*this = *this - v;
 		return *this;
 	}
 
 	TVector4& operator*=(const GenType& s)
 	{
-		this->x *= s;
-		this->y *= s;
-		this->z *= s;
-		this->w *= s;
-
+		*this = *this * s;
 		return *this;
 	}
 	TVector4& operator/=(const GenType& s)
 	{
-		this->x /= s;
-		this->y /= s;
-		this->z /= s;
-		this->w /= s;
-
+		*this = *this / s;
 		return *this;
 	}
-	operator __m128()
+	operator FMMVec4Type<GenType>()
 	{
 		return mmv;
 	}
 
 };
 
-
-
-
-#include  "TVector4.inl"
+#include "TVector4.inl"
+#include "../SIMD/Vector4.inl"

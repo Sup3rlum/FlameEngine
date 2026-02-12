@@ -41,10 +41,12 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
-cbuffer MaterialPropertiesBuffer : register(b5)
+cbuffer MaterialPropertiesBuffer : register(b1)
 {
     uint HasNormalMap;
     uint HasPOMEnabled;
@@ -52,9 +54,6 @@ cbuffer MaterialPropertiesBuffer : register(b5)
     uint HasEmissive;
     uint HasTransluscent;
 }
-
-static float maxPOMDistance = 100;
-
 
 
 float3 PackNormal(float3 n)
@@ -96,7 +95,7 @@ PSOutput main(PSInput input)
         output.Normal = float4(PackNormal(input.Normal), 1.0f);
 
     
-    output.Albedo = DiffuseMap.Sample(DiffuseSampler, texCoords);
+    output.Albedo = pow(DiffuseMap.Sample(DiffuseSampler, texCoords), 2.2);
     if (HasAOMap)
     {
         output.Albedo.rgb *= lerp(0.3, 1, AO);

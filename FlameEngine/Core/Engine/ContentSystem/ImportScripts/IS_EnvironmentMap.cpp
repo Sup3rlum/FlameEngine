@@ -17,13 +17,13 @@ struct FEnvironmentMapFaceHeader
 {
 	uint32 DimX;
 	uint32 DimY;
-	uint32 MipCount;
+	uint64 ByteSize;
 };
 
 void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITextureCubeMap* specularIrradiance, int envSize)
 {
 
-	FAssetManager Content;
+	/*FAssetManager Content;
 	Content.RenderContext = renderContext;
 	Content.Connect("./Assets/");
 
@@ -54,16 +54,19 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 	for (int i = 0; i < 8; i++)
 	{
 		frameBufferSpec[i] = cmdList.GetDynamic()->CreateFrameBuffer(specularIrradiance, true, i);
+
+		int a = 5;
 	}
 
 	FRIStageBuffer uniBuff;
 	FRIStageBuffer uniBuff2;
-	uniBuff.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 2));
-	uniBuff2.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, sizeof(FMatrix4) * 2 + sizeof(FVector4)));
+	uniBuff.GPU = cmdList.GetDynamic()->CreateConstantBuffer(sizeof(FMatrix4) * 2, EFRIAccess::Write, EFRIUsage::Dynamic);
+	uniBuff2.GPU = cmdList.GetDynamic()->CreateConstantBuffer(sizeof(FMatrix4) * 2 + sizeof(FVector4), EFRIAccess::Write, EFRIUsage::Dynamic);
 
-	auto DefaultBlend = cmdList.GetDynamic()->CreateBlendState(EFRIAlphaBlend::Src, EFRIAlphaBlend::OneMinusSrc);
+	auto DefaultBlend = cmdList.GetDynamic()->CreateBlendState(EFRIBlend::Src, EFRIBlend::OneMinusSrc, EFRIBlend::Src, EFRIBlend::Dst);
 	auto DisableDepth = cmdList.GetDynamic()->CreateDepthStencilState(EFRIBool::False, EFRIBool::False);
 	auto SMRasterizer = cmdList.GetDynamic()->CreateRasterizerState(EFRICullMode::None, EFRIFillMode::Solid);
+	auto linearSampler = cmdList.GetDynamic()->CreateSamplerState(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat);
 
 	cmdList.SetRasterizerState(SMRasterizer);
 	cmdList.SetBlendState(DefaultBlend);
@@ -71,7 +74,7 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 
 	/*
 	cmdList.SetViewport(FViewportRect(0, 0, envSize, envSize));
-	cmdList.SetShaderUniformBuffer(0, uniBuff.GPU);
+	cmdList.SetShaderConstantBuffer(0, uniBuff.GPU);
 	cmdList.ClearBuffer(frameBuffer, Color::Black);
 	{
 		cmdList.SetShaderPipeline(irrShader);
@@ -92,7 +95,9 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 
 		}
 	}
-	cmdList.UnbindFrameBuffer();*/
+	cmdList.UnbindFrameBuffer();
+
+	cmdList.SetShaderSamplerState(0, linearSampler);
 
 	for (int mip = 0; mip < 8; mip++)
 	{
@@ -100,14 +105,14 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 
 		cmdList.SetViewport(FViewportRect(0, 0, mipSize, mipSize));
 
-		cmdList.SetShaderUniformBuffer(0, uniBuff2.GPU);
+		cmdList.SetShaderConstantBuffer(0, uniBuff2.GPU);
 		cmdList.ClearBuffer(frameBufferSpec[mip], Color::Black);
 		{
 			cmdList.SetShaderPipeline(irrSpecShader);
 
 			for (int i = 0; i < 6; i++)
 			{
-				cmdList.SetFramebufferTextureLayer(frameBufferSpec[mip], i);
+				cmdList.SetFramebufferActiveLayer(frameBufferSpec[mip], i);
 				cmdList.StageResourcesLambda(uniBuff2, [=](FRIMemoryMap& stageMemory)
 					{
 						stageMemory << captureViews[i];
@@ -118,7 +123,7 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 						stageMemory << (float)mip / 7.0f;
 					});
 
-				cmdList.SetShaderSampler(FRISampler(0, data));
+				cmdList.SetShaderResource(0, data->View());
 				mesh.AddToRenderList(cmdList, EFRIPrimitiveType::Triangles);
 
 			}
@@ -128,19 +133,22 @@ void RenderIrradiance(FRIContext* renderContext, FRITextureCubeMap* data, FRITex
 
 	for (int i = 0; i <= 3; i++)
 	{
-		cmdList.SetShaderSampler(FRISampler(i));
-	}
+		cmdList.SetShaderResource(i, NULL);
+	}*/
 }
 
-FRICreationDescriptor TContentSerializer<EnvironmentMap>::ReadMap(Stream& fileStream)
+FRICreationDescriptor TContentSerializer<EnvironmentMap>::ReadMap(Stream& fileStream, int& width, int& height)
 {
 	FRICreationDescriptor mapData;
-	size_t byteSize = fileStream.Read<uint64>();
+	FEnvironmentMapFaceHeader mapHeader = fileStream.Read<FEnvironmentMapFaceHeader>();
 
-	mapData.ByteSize = byteSize;
-	mapData.DataArray = Memory::Alloc<void>(byteSize);
+	mapData.ByteSize = mapHeader.ByteSize;
+	mapData.DataArray = Memory::Alloc<void>(mapHeader.ByteSize);
 
 	fileStream._InternalRead(mapData.DataArray, mapData.ByteSize);
+
+	width = mapHeader.DimX;
+	height = mapHeader.DimY;
 	
 	return mapData;
 }
@@ -155,19 +163,23 @@ EnvironmentMap TContentSerializer<EnvironmentMap>::Serialize(Stream& fileStream)
 	int irrWidth = 0;
 	int irrHeight = 0;
 
+	int origWidth = 0;
+	int origHeight = 0;
+
 	const int envMipCount = 8;
 
+	FRICreationDescriptor envSkyMapData[6];
 	FRICreationDescriptor envSpecData[6 * envMipCount];
 	FRICreationDescriptor envIrrData[6];
 
 	for (int face = 0; face < 6; face++)
 	{
-		FEnvironmentMapFaceHeader mapHeader = fileStream.Read<FEnvironmentMapFaceHeader>();
+		envSkyMapData[face] = ReadMap(fileStream, origWidth, origHeight); // Read face
+	}
 
-		baseWidth = mapHeader.DimX;
-		baseHeight = mapHeader.DimY;
-
-		envSpecData[face * 8] = ReadMap(fileStream); // Read Base evel Mip data
+	for (int face = 0; face < 6; face++)
+	{
+		envSpecData[face * 8] = ReadMap(fileStream, baseWidth, baseHeight); // Read Base evel Mip data
 
 		for (int mip = 1; mip < envMipCount; mip++)
 		{
@@ -179,23 +191,17 @@ EnvironmentMap TContentSerializer<EnvironmentMap>::Serialize(Stream& fileStream)
 		}
 	}
 
-
 	for (int i = 0; i < 6; i++)
 	{
-		FEnvironmentMapFaceHeader mapHeader = fileStream.Read<FEnvironmentMapFaceHeader>();
-
-		irrWidth = mapHeader.DimX;
-		irrHeight = mapHeader.DimY;
-
-		envIrrData[i] = ReadMap(fileStream); // Read face
+		envIrrData[i] = ReadMap(fileStream, irrWidth, irrHeight); // Read face
 	}
 
 	auto envBaseCubeMap = allocator->CreateTextureCubeMap(
 		baseWidth,
 		baseHeight,
 		8,
+		EFRIAccess::None,
 		EFRITextureFormat::RGBA16UNORM,
-		FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::UnsignedByte),
 		envSpecData
 	);
 
@@ -203,8 +209,8 @@ EnvironmentMap TContentSerializer<EnvironmentMap>::Serialize(Stream& fileStream)
 		irrWidth,
 		irrHeight,
 		1,
+		EFRIAccess::None,
 		EFRITextureFormat::RGBA16UNORM,
-		FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Half),
 		envIrrData
 	);
 
@@ -212,10 +218,20 @@ EnvironmentMap TContentSerializer<EnvironmentMap>::Serialize(Stream& fileStream)
 		baseWidth,
 		baseHeight,
 		8,
+		EFRIAccess::None,
 		EFRITextureFormat::RGBA16F
 	);
 
-	allocator->FlushMipMaps(envBaseCubeMap);
+	auto envSkyCubeMap = allocator->CreateTextureCubeMap(
+		origWidth,
+		origHeight,
+		1,
+		EFRIAccess::None,
+		EFRITextureFormat::RGBA32F,
+		envSkyMapData
+	);
+
+	//allocator->FlushMipMaps(envBaseCubeMap->View());
 
 	RenderIrradiance(renderContext, envBaseCubeMap, envSpecFilteredCubeMap, baseWidth);
 
@@ -224,5 +240,8 @@ EnvironmentMap TContentSerializer<EnvironmentMap>::Serialize(Stream& fileStream)
 	for (auto idx : FRange(6))
 		Memory::Free(envIrrData[idx].DataArray);
 
-	return EnvironmentMap(envSpecFilteredCubeMap, envIrrCubeMap);
+	for (auto idx : FRange(6))
+		Memory::Free(envSkyMapData[idx].DataArray);
+
+	return EnvironmentMap(envSkyCubeMap, envSpecFilteredCubeMap, envIrrCubeMap);
 }

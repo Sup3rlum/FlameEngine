@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using FlameEncoder.Windows;
+using FlameEncoder.Data;
 
 namespace FlameEncoder.NodeEditor.Nodes.Controls
 {
@@ -24,7 +25,7 @@ namespace FlameEncoder.NodeEditor.Nodes.Controls
 
     public partial class ColorNodeControl : UserControl
     {
-        public UpdateDataDelegate<Color> UpdateData;
+        public UpdateDataDelegate<Color32> UpdateData;
 
         public ColorNodeControl()
         {
@@ -34,15 +35,16 @@ namespace FlameEncoder.NodeEditor.Nodes.Controls
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Color c = new Color();
-            if (ColorPicker.GetColor(out c))
+            float Intensity = 0;
+            if (ColorPicker.GetColor(out c, out Intensity))
             {
-                SetColor(c);
+                SetColor(c, Intensity);
             }
         }
-        public void SetColor(Color color)
+        public void SetColor(Color color, float Intensity)
         {
             bg.Background = new SolidColorBrush(color);
-            UpdateData(color);
+            UpdateData(new Color32(color.R / 255.0f * Intensity, color.G / 255.0f * Intensity, color.B / 255.0f * Intensity, color.A / 255.0f));
             
         }
     }

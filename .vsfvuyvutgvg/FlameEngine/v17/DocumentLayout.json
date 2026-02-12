@@ -1,0 +1,391 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Dev\\FlameEngine\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|solutionrelative:FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|solutionrelative:FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\World\\Chunk.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\World\\Chunk.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{21536F76-055B-4EC3-AC49-FE98570105B1}|FlameEngine\\FlameEngine.vcxproj|solutionrelative:FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|solutionrelative:DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C381D5AF-F2B7-4322-8A3F-0ED78733F467}|Showcase\\Showcase.vcxproj|E:\\Dev\\FlameEngine\\Showcase\\Scenes\\GameScene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C381D5AF-F2B7-4322-8A3F-0ED78733F467}|Showcase\\Showcase.vcxproj|solutionrelative:Showcase\\Scenes\\GameScene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|solutionrelative:DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\PlayerScript.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\PlayerScript.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\World\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\World\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Scenes\\GameScene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\WorldRenderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Scenes\\GameScene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\FlameCraft.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\FlameCraft.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\ChunkMesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\World\\WorldGenerator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\World\\WorldGenerator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\GameTextureArray.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\GameTextureArray.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\WorldRenderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|E:\\Dev\\FlameEngine\\DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{55286FD0-4336-45A6-9A73-E59B5A488E8F}|DXShaders\\DXShaders.vcxproj|solutionrelative:DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFFE3A10-6254-4663-824B-FD3D85AAD0F2}|FlameCraft\\FlameCraft.vcxproj|solutionrelative:FlameCraft\\Renderer\\ChunkMesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DeferredRenderer.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp",
+              "RelativeDocumentMoniker": "FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp",
+              "RelativeToolTip": "FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwDYEAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-20T20:04:53.25Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PostProcess.frag.hlsl",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl",
+              "RelativeDocumentMoniker": "DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl",
+              "ToolTip": "E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl",
+              "RelativeToolTip": "DXShaders\\Renderer\\PostProcess\\PostProcess.frag.hlsl",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2025-01-18T18:49:27.082Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Lighting.frag.hlsl",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl",
+              "RelativeDocumentMoniker": "DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl",
+              "ToolTip": "E:\\Dev\\FlameEngine\\DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl",
+              "RelativeToolTip": "DXShaders\\Renderer\\Deferred\\Lighting.frag.hlsl",
+              "ViewState": "AQIAAE0BAAAAAAAAAAAAAGgBAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2025-01-18T18:28:00.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Scene.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp",
+              "RelativeDocumentMoniker": "FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp",
+              "RelativeToolTip": "FlameEngine\\Core\\Engine\\GameSystem\\Common\\Scene.cpp",
+              "ViewState": "AQIAACkAAAAAAAAAAIAxwD4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T18:23:47.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "World.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\World.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\World\\World.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\World.cpp",
+              "RelativeToolTip": "FlameCraft\\World\\World.cpp",
+              "ViewState": "AQIAAEAAAAAAAAAAAIAxwFUAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T18:23:31.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PlayerScript.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\PlayerScript.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\PlayerScript.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\PlayerScript.cpp",
+              "RelativeToolTip": "FlameCraft\\PlayerScript.cpp",
+              "ViewState": "AQIAAFcAAAAAAAAAAIAxwHwAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T18:21:43.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GameScene.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\Showcase\\Scenes\\GameScene.cpp",
+              "RelativeDocumentMoniker": "Showcase\\Scenes\\GameScene.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\Showcase\\Scenes\\GameScene.cpp",
+              "RelativeToolTip": "Showcase\\Scenes\\GameScene.cpp",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAACYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T18:20:51.239Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GameScene.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.h",
+              "RelativeDocumentMoniker": "FlameCraft\\Scenes\\GameScene.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.h",
+              "RelativeToolTip": "FlameCraft\\Scenes\\GameScene.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-18T18:18:04.334Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GameScene.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\Scenes\\GameScene.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Scenes\\GameScene.cpp",
+              "RelativeToolTip": "FlameCraft\\Scenes\\GameScene.cpp",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwBsAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:29:01.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "WorldRenderer.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\WorldRenderer.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.cpp",
+              "RelativeToolTip": "FlameCraft\\Renderer\\WorldRenderer.cpp",
+              "ViewState": "AQIAADAAAAAAAAAAAAAAAPwAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:45:44.216Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "WorldRenderer.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.h",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\WorldRenderer.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\WorldRenderer.h",
+              "RelativeToolTip": "FlameCraft\\Renderer\\WorldRenderer.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-18T14:17:50.015Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ChunkMesh.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.h",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\ChunkMesh.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.h",
+              "RelativeToolTip": "FlameCraft\\Renderer\\ChunkMesh.h",
+              "ViewState": "AQIAAE4AAAAAAAAAAAAAAGQAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-18T14:11:21.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ChunkMesh.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\ChunkMesh.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\ChunkMesh.cpp",
+              "RelativeToolTip": "FlameCraft\\Renderer\\ChunkMesh.cpp",
+              "ViewState": "AQIAAFgBAAAAAAAAAAAawHcBAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:35:15.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "WorldGenerator.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\WorldGenerator.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\World\\WorldGenerator.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\WorldGenerator.cpp",
+              "RelativeToolTip": "FlameCraft\\World\\WorldGenerator.cpp",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T14:09:29.015Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GameTextureArray.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\GameTextureArray.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.cpp",
+              "RelativeToolTip": "FlameCraft\\Renderer\\GameTextureArray.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:48:56.644Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GameTextureArray.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.h",
+              "RelativeDocumentMoniker": "FlameCraft\\Renderer\\GameTextureArray.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\Renderer\\GameTextureArray.h",
+              "RelativeToolTip": "FlameCraft\\Renderer\\GameTextureArray.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-18T13:49:01.953Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FlameCraft.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\FlameCraft.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\FlameCraft.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\FlameCraft.cpp",
+              "RelativeToolTip": "FlameCraft\\FlameCraft.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:26:40.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ChunkGeometry.frag.hlsl",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl",
+              "RelativeDocumentMoniker": "DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl",
+              "ToolTip": "E:\\Dev\\FlameEngine\\DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl",
+              "RelativeToolTip": "DXShaders\\FlameCraft\\ChunkGeometry.frag.hlsl",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAACcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
+              "WhenOpened": "2025-01-18T14:25:51.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Chunk.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.h",
+              "RelativeDocumentMoniker": "FlameCraft\\World\\Chunk.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.h",
+              "RelativeToolTip": "FlameCraft\\World\\Chunk.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-18T13:45:33.795Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Chunk.cpp",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.cpp",
+              "RelativeDocumentMoniker": "FlameCraft\\World\\Chunk.cpp",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameCraft\\World\\Chunk.cpp",
+              "RelativeToolTip": "FlameCraft\\World\\Chunk.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-18T13:45:32.323Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "31705066-e7d3-49da-88ba-cc8d3bd1b968",
+        "Display": 1,
+        "X": 78,
+        "Y": 19,
+        "Width": 1847,
+        "Height": 1018,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DeferredRenderer.h",
+              "DocumentMoniker": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h",
+              "RelativeDocumentMoniker": "FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h",
+              "ToolTip": "E:\\Dev\\FlameEngine\\FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h",
+              "RelativeToolTip": "FlameEngine\\Core\\Engine\\Renderer\\Deferred\\DeferredRenderer.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-20T20:04:47.293Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

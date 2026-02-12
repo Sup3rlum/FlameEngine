@@ -83,6 +83,14 @@
     <FxCompile Include="Renderer\PostProcess\Additive.frag.hlsl" />
     <FxCompile Include="FlameCraft\SmokeParticle.frag.hlsl" />
     <FxCompile Include="FlameCraft\SmokeParticle.vert.hlsl" />
+    <FxCompile Include="Renderer\Deferred\ViewSpaceDecal.vert.hlsl" />
+    <FxCompile Include="Renderer\Deferred\ViewSpaceDecal.frag.hlsl" />
+    <FxCompile Include="Planetary\PlanetGenerator.comp.hlsl" />
+    <FxCompile Include="Planetary\PlanetGBuffer.frag.hlsl" />
+    <FxCompile Include="Planetary\PlanetGBuffer.vert.hlsl" />
+    <FxCompile Include="Planetary\PlanetRecomputeNormals.comp.hlsl" />
+    <FxCompile Include="Planetary\PlanetRecomputeNormals2.comp.hlsl" />
+    <FxCompile Include="Raymarching\Raymarch.frag.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Utilities\ACES.hlsl" />
@@ -94,5 +102,6 @@
     <None Include="Renderer\VXGI\VXGIBuffers.hlsl" />
     <None Include="Utilities\LightData.hlsl" />
     <None Include="Renderer\Atmosphere\Scattering.hlsl" />
+    <None Include="Planetary\Perlin.hlsl" />
   </ItemGroup>
 </Project>

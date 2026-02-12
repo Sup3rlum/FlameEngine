@@ -3,7 +3,7 @@
 
 #include "Core/Math/Module.h"
 #include "../EntityComponent/EntityComponent.h"
-
+#include "../../FlameRI/FRI.h"
 
 EXPORT(struct,  Camera)
 {
@@ -23,6 +23,10 @@ public:
 
 	
 	void GetFrustumCorners(FStaticArray<FVector3, 8>& corners);
+	void StageMemory(FRIMemoryMap& GPUMemory) const;
+	float NearPlane() const;
+	float FarPlane() const;
+	FRay ScreenPointToRay(FVector2 screenPoint) const;
 
 	FViewMatrix View;
 	FProjectionMatrix Projection;

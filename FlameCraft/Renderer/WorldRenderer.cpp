@@ -10,39 +10,89 @@ WorldRenderer::WorldRenderer(FRIContext* friContext, World* world) :
 	FriContext(friContext),
 	threadPool(ctpl::thread_pool(std::thread::hardware_concurrency() / 2))
 {
-	FRICommandList cmdList(friContext->GetFRIDynamic());
-
-	FRIVertexShader* signatureShader = NULL;
-	signatureShader = cmdList.GetDynamic()->CreateVertexShader(IOFileStream("Assets/Shaders/signature/dx/bin/ChunkGeometry.signature.cso").ReadBytes());
-
-	FArray<FRIInputAttribute> DeclCompArray =
-	{
-		FRIInputAttribute("POSITION",		3, EFRIAttributeType::Float, EFRIBool::False, 60, 0),
-		FRIInputAttribute("NORMAL",		3, EFRIAttributeType::Float, EFRIBool::False, 60, 12),
-		FRIInputAttribute("TANGENT",		3, EFRIAttributeType::Float, EFRIBool::False, 60, 24),
-		FRIInputAttribute("BITANGENT",	3, EFRIAttributeType::Float, EFRIBool::False, 60, 36),
-		FRIInputAttribute("TEXCOORD",		3, EFRIAttributeType::Float, EFRIBool::False, 60, 48)
-	};
-
-	vertexDecl = cmdList.GetDynamic()->CreateVertexDeclaration({ FRIInputDesc(DeclCompArray, 0) }, signatureShader);
+	auto allocator = friContext->GetFRIDynamic();
 
 	FAssetManager Content;
 	Content.RenderContext = friContext;
 	Content.Connect("./Assets/");
 
-	gameTextures = new GameTextureArray(cmdList, Content);
+	gameTextures = new GameTextureArray(friContext, Content);
 
 	ShaderLibrary lib = Content.Load<ShaderLibrary>("Shaders/mc.fslib");
-	chunkShader = cmdList.GetDynamic()->CreateShaderPipeline(lib.Modules["ChunkGeometry"]);
-	chunkShaderWater = cmdList.GetDynamic()->CreateShaderPipeline(lib.Modules["ChunkGeometryWater"]);
+	chunkShader			= CreateChunkShaderPipeline(allocator, lib.Modules["ChunkGeometry"]);
+	//chunkShaderWater	= CreateChunkShaderPipeline(allocator, lib.Modules["ChunkGeometryWater"]);
+	//chunkShaderGrass	= CreateChunkShaderPipeline(allocator, lib.Modules["Grass"]);
 
-	auto& libmod = lib.Modules["Grass"];
-	chunkShaderGrass = cmdList.GetDynamic()->CreateShaderPipeline(libmod);
-
-	waveSettingsBuffer.GPU = cmdList.GetDynamic()->CreateUniformBuffer(FRICreationDescriptor(NULL, 16));
+	waveSettingsBuffer.GPU = allocator->CreateConstantBuffer(16, EFRIAccess::Write, EFRIUsage::Dynamic);
 
 	BitTexture bitTexture = Content.Load<BitTexture>("Materials/mc/grass_displ.flmt");
-	windDisplacement = cmdList.GetDynamic()->CreateTexture2D(256, 256, 0, EFRITextureFormat::RGBA8UNORM, FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::UnsignedByte), bitTexture.DataDescriptor);
+	windDisplacement = allocator->CreateTexture2D(256, 256, 1, EFRIAccess::None, EFRITextureFormat::RGBA8UNORM, &bitTexture.DataDescriptor);
+	sampler = allocator->CreateSamplerState(EFRITextureFilter::Point, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat);
+
+}
+
+FRIPipelineStateObject* WorldRenderer::CreateChunkShaderPipeline(FRIDynamicAllocator* Allocator, const ShaderLibraryModule& Shaders)
+{
+	FRIInputLayout StaticLitLayout = {
+	.NumElements = 5,
+	.DeclarationElements = new FRIInputElementDesc[5]
+	{
+		FRIInputElementDesc("POSITION", EFRIAttributeType::Float3, 0, EFRIAttribUsage::PerVertex),
+		FRIInputElementDesc("NORMAL", EFRIAttributeType::Float3, 1, EFRIAttribUsage::PerVertex),
+		FRIInputElementDesc("TANGENT", EFRIAttributeType::Float3, 2, EFRIAttribUsage::PerVertex),
+		FRIInputElementDesc("BITANGENT", EFRIAttributeType::Float3, 3, EFRIAttribUsage::PerVertex),
+		FRIInputElementDesc("TEXCOORD", EFRIAttributeType::Float3, 4, EFRIAttribUsage::PerVertex)
+	}
+	};
+
+	// Texture 0
+
+	FRIDescriptorRange Texture0Range;
+	Texture0Range.NumDescriptors = 4;
+	Texture0Range.BaseShaderRegister = 0;
+	Texture0Range.RegisterSpace = 0;
+	Texture0Range.OffsetInDescriptorsFromTableStart = 0xffffffff;
+	Texture0Range.RangeType = EFRIRootDescriptorRangeType::SRV;
+
+	FRIRootDescriptorTable Textures;
+	Textures.NumRanges = 1;
+	Textures.Ranges = &Texture0Range;
+
+	// CBV
+
+	FRIDescriptorRange ConstantBuffer1Range;
+	ConstantBuffer1Range.NumDescriptors = 2;
+	ConstantBuffer1Range.BaseShaderRegister = 0;
+	ConstantBuffer1Range.RegisterSpace = 0;
+	ConstantBuffer1Range.OffsetInDescriptorsFromTableStart = 0xffffffff;
+	ConstantBuffer1Range.RangeType = EFRIRootDescriptorRangeType::CBV;
+
+	FRIRootDescriptorTable ConstantBufferTable;
+	ConstantBufferTable.NumRanges = 1;
+	ConstantBufferTable.Ranges = &ConstantBuffer1Range;
+
+	return Allocator->CreatePipelineStateObject(
+		StaticLitLayout,
+		{
+			FRIRootParameter(EFRIRootParameterType::DESCRIPTOR_TABLE, EFRIShaderVisibility::Vertex, ConstantBufferTable),
+			FRIRootParameter(EFRIRootParameterType::DESCRIPTOR_TABLE, EFRIShaderVisibility::Pixel, ConstantBufferTable),
+			FRIRootParameter(EFRIRootParameterType::DESCRIPTOR_TABLE, EFRIShaderVisibility::Pixel, Textures),
+		},
+		{
+			FRIStaticSampler(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, 0, 0),
+			FRIStaticSampler(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, 1, 0),
+			FRIStaticSampler(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, 2, 0),
+			FRIStaticSampler(EFRITextureFilter::Bilinear, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, EFRITextureAddress::Repeat, 3, 0),
+		},
+		Shaders,
+		{
+			EFRITextureFormat::RGBA8UNORM,
+			EFRITextureFormat::RGBA8UNORM,
+			EFRITextureFormat::RGBA8UNORM,
+			EFRITextureFormat::RGBA8UNORM
+		},
+		4
+		);
 
 }
 
@@ -50,23 +100,31 @@ void WorldRenderer::AddToCmdList(FRICommandList& cmdList, GRenderMode renderMode
 {
 	if (renderMode == GRenderMode::Material)
 	{
-		cmdList.SetShaderPipeline(chunkShader);
-		cmdList.SetShaderSampler(FRISampler(0, gameTextures->friTexture));
+		cmdList.SetPipelineState(chunkShader);
+		cmdList.SetShaderResourceViewPS(0, gameTextures->view);
+		//cmdList.SetShaderSamplerState(0, sampler);
 	}
-	else if (renderMode == GRenderMode::Transluscent)
+	/*else if (renderMode == GRenderMode::Transluscent)
 	{
 		cmdList.SetShaderPipeline(chunkShaderWater);
 		cmdList.StageResourcesLambda(waveSettingsBuffer, [&](FRIMemoryMap& memory)
 			{
 				auto time = FTime::GetTimestamp();
-				memory << time.GetSeconds();
-				memory << time.GetSeconds();
-				memory << time.GetSeconds();
-				memory << time.GetSeconds();
+
+				auto lt = time.GetSeconds();
+				if (lt > 2000000)
+				{
+					lt -= 2000000.0;
+				}
+
+				memory << (float)lt;
+				memory << (float)lt;
+				memory << (float)lt;
+				memory << (float)lt;
 			});
 
-		cmdList.SetShaderUniformBuffer(12, waveSettingsBuffer.GPU);
-	}
+		cmdList.SetShaderConstantBuffer(12, waveSettingsBuffer.GPU);
+	}*/
 
 	for (auto& [chunkPos, mesh] : meshes)
 	{
@@ -80,7 +138,7 @@ void WorldRenderer::AddToCmdList(FRICommandList& cmdList, GRenderMode renderMode
 		{
 			if (renderMode == GRenderMode::Transluscent)
 			{
-				mesh->RenderWater(cmdList);
+				//mesh->RenderWater(cmdList);
 			}
 			else
 			{
@@ -89,11 +147,11 @@ void WorldRenderer::AddToCmdList(FRICommandList& cmdList, GRenderMode renderMode
 		}
 	}
 
-	if (renderMode != GRenderMode::Transluscent)
+	/*if (renderMode != GRenderMode::Transluscent)
 	{
 		cmdList.SetShaderPipeline(chunkShaderGrass);
-		cmdList.SetShaderSampler(FRISampler(0, gameTextures->friTexture));
-		cmdList.SetShaderSampler(FRISampler(1, windDisplacement));
+		cmdList.SetShaderResource(0, gameTextures->friTexture->View());
+		cmdList.SetShaderResource(1, windDisplacement->View());
 
 
 		cmdList.StageResourcesLambda(waveSettingsBuffer, [&](FRIMemoryMap& memory)
@@ -105,7 +163,7 @@ void WorldRenderer::AddToCmdList(FRICommandList& cmdList, GRenderMode renderMode
 				memory << time.GetSeconds();
 			});
 
-		cmdList.SetShaderUniformBuffer(12, waveSettingsBuffer.GPU);
+		cmdList.SetShaderConstantBuffer(12, waveSettingsBuffer.GPU);
 
 		for (auto& [chunkPos, mesh] : meshes)
 		{
@@ -120,7 +178,7 @@ void WorldRenderer::AddToCmdList(FRICommandList& cmdList, GRenderMode renderMode
 				mesh->RenderGrass(cmdList);
 			}
 		}
-	}
+	}*/
 }
 
 void WorldRenderer::BlockChanged(Block oldBlock, Block newBlock, IVector3 globalPos)
@@ -174,8 +232,6 @@ void WorldRenderer::ChunkScheduledUpdate(IVector2 chunkCoord, bool execInThreadP
 
 void WorldRenderer::FlushFutures()
 {
-
-	FRICommandList cmdList(FriContext->GetFRIDynamic());
 	FArray<IVector2> iTaskDeleteQueue;
 
 	for (auto& [chunkCoord, future] : tasks)
@@ -183,7 +239,7 @@ void WorldRenderer::FlushFutures()
 		if (future->_Is_ready())
 		{
 			auto desc = future->get();
-			desc.mesh->StageGeometry(cmdList, desc, vertexDecl);
+			desc.mesh->StageGeometry(FriContext, desc, vertexDecl);
 			if (desc.loaded)
 				meshes[desc.mesh->position] = desc.mesh;
 

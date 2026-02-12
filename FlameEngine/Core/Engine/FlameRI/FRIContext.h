@@ -1,27 +1,24 @@
 #pragma once
 
-
 #include "Core/Common/CoreCommon.h"
-
 #include "Core/Engine/GameSystem/KeyInputBinding.h"
 #include "Viewport.h"
 #include "FRIDynamicAllocator.h"
+
+
+class FRICommandContext;
 
 enum class ERenderingContextPixelFormat
 {
 	
 };
 
-
-
-
-
-
 struct FRIRenderingContextDescription
 {
 	uint32 Width;
 	uint32 Height;
 	uint32 SampleCount;
+	uint32 BackBufferCount;
 
 	EFRIRendererFramework RenderFramework;
 	ERenderingContextPixelFormat PixelFormat;
@@ -37,7 +34,6 @@ protected:
 
 	bool isActive;
 	FRIDynamicAllocator* dynamicAllocator;
-
 
 	FRIContext(FRIRenderingContextDescription description, FRIContext* contextToCopy = NULL) :
 		InstanceDescription(description),
@@ -74,10 +70,10 @@ public:
 
 	virtual void Initialize() = 0;
 	virtual void* GetPlatformSpecificHandle() = 0;
-	virtual void HandleEvents() = 0;
+	virtual bool HandleEvents() = 0;
 	virtual void SwapBuffers() = 0;
-
-
+	virtual FRICommandContext* GetCommandContext(uint32 ThreadIdx) = 0;
+	virtual void CreateCommandContext() = 0;
 
 	virtual FVector2 GetCursorPosition() = 0;
 	virtual void SetCursorPosition(FVector2 pos) = 0;

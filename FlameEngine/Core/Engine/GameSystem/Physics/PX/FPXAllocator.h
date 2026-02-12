@@ -4,7 +4,7 @@
 
 #include "../PhysicsAllocator.h"
 
-class FPXAllocator : public PhysicsAllocator
+EXPORT(class, FPXAllocator) : public PhysicsAllocator
 {
 public:
 	class FPXService* fpxService;
@@ -20,5 +20,8 @@ public:
 	RigidBody CreateDynamic(FTransform transform);
 	StaticRigidBody CreateStatic(FTransform transform);
 	CharacterBody CreateCharacter(FTransform transform);
+	VehicleBody CreateVehicle(FTransform transform);
+
+	bool RayCast(FRay ray, float distance, FVector3& outPosition, FVector3& outNormal) override;
 
 };

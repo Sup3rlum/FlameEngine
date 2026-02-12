@@ -83,8 +83,8 @@
       </PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Projects\_Libraries\ultralight-1.2.1-winx64\include;$(SolutionDir)\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\FlameEngine\ThirdParty\ultralight-1.2.1-winx64\include;$(SolutionDir)\FlameEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>FlameEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>

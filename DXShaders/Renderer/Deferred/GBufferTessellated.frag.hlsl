@@ -41,6 +41,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
@@ -98,7 +100,7 @@ PSOutput main(PSInput input)
         output.Normal = float4(PackNormal(input.Normal), 1.0f);
 
     
-    output.Albedo = DiffuseMap.Sample(DiffuseSampler, texCoords);
+    output.Albedo = pow(DiffuseMap.Sample(DiffuseSampler, texCoords), 2.2);
     if (HasAOMap)
     {
         output.Albedo.rgb *= lerp(0.3, 1, AO);

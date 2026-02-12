@@ -6,28 +6,53 @@
         xmlns:local="clr-namespace:FlameEncoder.Windows"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
+        x:Name="colorPickerWindow"
         Title="ColorPicker" Height="450" Width="700" Background="#2a2a2a" ResizeMode="NoResize">
     <Grid>
 
         <DockPanel LastChildFill="True">
-            <Image Name="hsvPalette" Loaded="Canvas_Loaded" Margin="10" Width="400" Height="413" DockPanel.Dock="Left" 
-                   MouseLeftButtonDown="hsvPalette_MouseLeftButtonDown"
-                   MouseLeftButtonUp="hsvPalette_MouseLeftButtonUp"
-                   MouseMove="hsvPalette_MouseMove"
-                   MouseLeave="hsvPalette_MouseLeave"/>
+            <Canvas Name="paletteCanvas" DockPanel.Dock="Left" Width="400" Height="413" Margin="10" >
+                <Image Name="hsvPalette" Loaded="Canvas_Loaded"  Width="400" Height="413" 
+                       MouseLeftButtonDown="hsvPalette_MouseLeftButtonDown"
+                       MouseLeftButtonUp="hsvPalette_MouseLeftButtonUp"
+                       MouseMove="hsvPalette_MouseMove"
+                       MouseLeave="hsvPalette_MouseLeave"/>
+
+                <Rectangle Name="hsvPalette_ptr" 
+                           Canvas.Top="{Binding ElementName=colorPickerWindow, Path=PaletteTop}" 
+                           Canvas.Left="{Binding ElementName=colorPickerWindow, Path=PaletteLeft}"
+                           Width="10"
+                           Height="10"
+                           Fill="Red"
+                           >
+                </Rectangle>
+
+            </Canvas>
             <Image Name="hueSlider" Width="30" Height="413" Margin="0 10" 
                    MouseLeftButtonDown="hueSlider_MouseLeftButtonDown"
                    MouseLeftButtonUp="hueSlider_MouseLeftButtonUp"
                    MouseMove="hueSlider_MouseMove"
                    MouseLeave="hueSlider_MouseLeave"/>
             <DockPanel Margin="10">
-                <Image Name="hsvPreview" DockPanel.Dock="Top" Margin="50" Width="100" Height="100"></Image>
+                <Image Name="hsvPreview" RenderOptions.BitmapScalingMode="NearestNeighbor" DockPanel.Dock="Top" Margin="20" Width="120" Height="120"></Image>
 
+                <Slider Name="intensitySlider" ValueChanged="intensitySlider_ValueChanged" DockPanel.Dock="Top" Margin="10 0" Maximum="100"></Slider>
+                
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                     <Button Name="acceptBtn" Width="80" Margin="5" Click="acceptBtn_Click">Accept</Button>
                     <Button Name="cancelBtn" Width="80" Margin="5" Click="cancelBtn_Click">Cancel</Button>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center">
+                        <TextBlock Text="Intensity:" Foreground="LightGray"/>
+                        <TextBox Margin="7 0 5 0" Name="textBox_Intensity" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="140" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center">
+                        <TextBlock Text="Base Hex:" Foreground="LightGray"/>
+                        <TextBox Margin="7 0" Name="textBox_Hex" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="140" HorizontalAlignment="Left"/>
+                    </StackPanel>
+
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical" Margin="10">
                             <StackPanel Orientation="Horizontal" Margin="5">
@@ -58,10 +83,6 @@
                                 <TextBox Margin="7 0" Name="textBox_Value" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="60" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                        <TextBlock Text="Hex:" Foreground="LightGray"/>
-                        <TextBox Margin="7 0" Name="textBox_Hex" IsReadOnly="True" Background="#2a2a2a" Foreground="LightGray" Width="140" HorizontalAlignment="Left"/>
                     </StackPanel>
                 </StackPanel>
             </DockPanel>

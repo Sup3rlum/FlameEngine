@@ -62,7 +62,26 @@ CharacterBody FPXAllocator::CreateCharacter(FTransform transform)
 	return CharacterBody(static_cast<CharacterBody::PhysXControllerProxy*>(controllerPtr), this);
 }
 
+VehicleBody FPXAllocator::CreateVehicle(FTransform transform)
+{
+/*	const PxU32 numWheels = 4;
 
+	PxVehicleWheelsSimData* wheelsSimData = PxVehicleWheelsSimData::allocate(numWheels);
+	setupWheelsSimulationData(wheelsSimData);
+
+	PxVehicleDriveSimData4W driveSimData;
+	setupDriveSimData(driveSimData);
+
+	PxRigidDynamic* vehActor = myPhysics.createRigidDynamic(startPose);
+	setupVehicleActor(vehActor);
+	myScene.addActor(*vehActor);
+
+	PxVehicleDrive4W* vehDrive4W = PxVehicleDrive4W::allocate(numWheels);
+	vehDrive4W->setup(physics, veh4WActor, *wheelsSimData, driveSimData, numWheels - 4);
+	wheelsSimData->free();*/
+
+	return VehicleBody(NULL, NULL);
+}
 
 TriangleMeshGeometry FPXAllocator::CookTriangleMeshGeometry(const PhysicsTriangleMeshDesc& desc)
 {
@@ -88,4 +107,25 @@ TriangleMeshGeometry FPXAllocator::CookTriangleMeshGeometry(const PhysicsTriangl
 	trMesh.FPXGeometry = static_cast<PhysicsGeometry::FPXGeometryProxy*>(pxPtr);
 
 	return trMesh;
+}
+
+bool FPXAllocator::RayCast(FRay ray, float distance, FVector3& outPosition, FVector3& outNormal)
+{
+	PxVec3 downDir(0, -1, 0);
+	PxRaycastBuffer hit;
+
+	bool status = fpxScene->sceneHandle->raycast(
+		physx_cast(ray.Origin),
+		physx_cast(ray.Direction),
+		distance,
+		hit
+	);
+
+	if (status)
+	{
+		outPosition = physx_cast(hit.block.position);
+		outNormal = physx_cast(hit.block.normal);
+	}
+
+	return status;
 }

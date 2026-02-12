@@ -16,7 +16,7 @@ EXPORT(struct, TContentSerializer<EnvironmentMap>)
 
 private:
 
-	FRICreationDescriptor ReadMap(Stream& fileStream);
+	FRICreationDescriptor ReadMap(Stream& fileStream, int& width, int& height);
 	FRIContext* renderContext;
 };
 

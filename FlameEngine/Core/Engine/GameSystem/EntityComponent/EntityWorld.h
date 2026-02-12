@@ -22,12 +22,7 @@ public:
 	Entity CreateEntityFromArchetype(const FString& name, const FEntityArchetype& archetype);
 	~EntityWorld();
 
-
-	void CopyEntMemory();
-
-	FHashMap<FEntityArchetype, FEntityMemoryStack*, FEntityArchetypeHasher> StageMemory;
 	FHashMap<FEntityArchetype, FEntityMemoryStack*, FEntityArchetypeHasher> EntMemory;
-
 
 	friend class Entity;
 };

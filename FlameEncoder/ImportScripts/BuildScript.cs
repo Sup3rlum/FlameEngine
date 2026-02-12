@@ -25,19 +25,19 @@ namespace FlameEncoder.ImportScripts
 
             foreach (var graphElem in doc.Element("buildscript").Elements("material"))
             {
-                try
-                {
+               /* try
+                {*/
                     var graph = NodeGraph.Deserialize(graphElem);
 
                     if (!Path.IsPathRooted(graph.OutputFileName))
                         graph.OutputFileName = Path.Combine(ScriptDirectory, graph.OutputFileName);
 
                     MaterialGraphs.Add(graph);
-                }
+              /*  }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                }
+                }*/
             }
         }
 

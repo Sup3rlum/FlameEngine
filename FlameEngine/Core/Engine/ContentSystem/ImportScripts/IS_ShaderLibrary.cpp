@@ -15,7 +15,6 @@ struct FLibHeader
 };
 
 
-
 ShaderLibrary TContentSerializer<ShaderLibrary>::Serialize(Stream& fileStream)
 {
 	ShaderLibrary lib;
@@ -28,7 +27,6 @@ ShaderLibrary TContentSerializer<ShaderLibrary>::Serialize(Stream& fileStream)
 
 		lib.Modules.Set(moduleName, ShaderLibraryModule());
 		auto& libModule = lib.Modules[moduleName];
-
 
 		for (int i = 0; i < shaderNum; i++)
 		{

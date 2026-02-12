@@ -15,5 +15,5 @@ public:
 
 	FRIContext* FriContext;
 	FRIDepthStencilState* DepthStencilState;
-	FRIShaderPipeline* shader;
+	FRIPipelineStateObject* pso;
 };

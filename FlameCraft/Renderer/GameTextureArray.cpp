@@ -3,7 +3,7 @@
 
 #define TEXTURES_NUM 13
 
-GameTextureArray::GameTextureArray(FRICommandList& cmdList, FAssetManager& Content)
+GameTextureArray::GameTextureArray(FRIContext* friContext, FAssetManager& Content)
 {
 	FString blockTextures[TEXTURES_NUM] =
 	{
@@ -33,5 +33,6 @@ GameTextureArray::GameTextureArray(FRICommandList& cmdList, FAssetManager& Conte
 		textureData[i] = tex.DataDescriptor;
 	}
 
-	this->friTexture = cmdList.GetDynamic()->CreateTexture2DArray(width, height, TEXTURES_NUM, EFRITextureFormat::RGBA8UNORM, FRIColorDataFormat(EFRIChannels::RGBA, EFRIPixelStorage::Byte), textureData);
+	friTexture = friContext->GetFRIDynamic()->CreateTexture2DArray(width, height, TEXTURES_NUM, 1, EFRIAccess::None, EFRITextureFormat::RGBA8UNORM, textureData);
+	view = friContext->GetFRIDynamic()->CreateShaderResourceView(friTexture);
 }

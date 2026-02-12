@@ -22,6 +22,7 @@
     <ClCompile Include="ImportScripts\IS_BitTexture.cpp" />
     <ClCompile Include="Renderer\ChunkMesh.cpp" />
     <ClCompile Include="Renderer\GameTextureArray.cpp" />
+    <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="World\SmokeParticle.cpp" />
     <ClCompile Include="World\World.cpp" />
     <ClCompile Include="World\Block.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Renderer\ChunkMesh.h" />
     <ClInclude Include="Renderer\GameTextureArray.h" />
     <ClInclude Include="Renderer\GeometryStream.h" />
+    <ClInclude Include="Scenes\GameScene.h" />
     <ClInclude Include="World\ctpl.h" />
     <ClInclude Include="World\Perlin.h" />
     <ClInclude Include="World\SmokeParticle.h" />

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Remove="close.png" />
+    <None Remove="equirect_thumbnail.png" />
     <None Remove="sphere.png" />
     <None Remove="tex.png" />
     <None Remove="tex2.png" />
@@ -20,15 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="SharpEXR" Version="1.0.0.19" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlameEncoderCLR\FlameEncoderCLR.vcxproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="close.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="equirect_thumbnail.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="sphere.png">

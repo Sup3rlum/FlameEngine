@@ -16,7 +16,10 @@ public:
 
 	virtual RigidBody CreateDynamic(FTransform transform) = 0;
 	virtual StaticRigidBody CreateStatic(FTransform transform) = 0;
-
 	virtual CharacterBody CreateCharacter(FTransform transform) = 0;
+	virtual VehicleBody CreateVehicle(FTransform transform) = 0;
+
+
+	virtual bool RayCast(FRay ray, float distance, FVector3& outPoisition, FVector3& outNormal) = 0;
 
 };

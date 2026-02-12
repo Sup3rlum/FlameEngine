@@ -2,7 +2,7 @@
 
 
 #include "Mesh.h"
-#include "SkinnedMesh.h"
+#include "RiggedMesh.h"
 #include "Material.h"
 #include "AnimationSequence.h"
 #include "PhysicsTriangleMesh.h"

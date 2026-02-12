@@ -7,12 +7,11 @@ using System.Drawing;
 using SixLabors.ImageSharp;
 
 using DPoint = System.Drawing.Point;
-using DColor = System.Drawing.Color;
 using WColor = System.Windows.Media.Color;
 using WPoint = System.Windows.Point;
 
 using FlameEncoder.NodeEditor.Nodes.Controls;
-
+using FlameEncoder.Data;
 
 namespace FlameEncoder.NodeEditor.Nodes
 {
@@ -48,14 +47,15 @@ namespace FlameEncoder.NodeEditor.Nodes
 
         public GaussianBlurNode() : base("Gaussian Blur", new ColorNodeControl(), Colors.Yellow)
         {
-            AddSocket("Color", InputNodeSocket.Create<DColor>(this));
-            AddSocket("Color", OutputNodeSocket.Create<DColor>(this, location =>
+            AddSocket("Color", InputNodeSocket.Create<Color32>(this));
+            AddSocket("Color", OutputNodeSocket.Create<Color32>(this, location =>
                     {
                         float pDelta = 1.0f / 1024.0f;
 
                         float totalR = 0;
                         float totalG = 0;
                         float totalB = 0;
+                        float totalA = 0;
 
                         var weights = GenerateWeights(Strength);
 
@@ -67,17 +67,18 @@ namespace FlameEncoder.NodeEditor.Nodes
                                 var locX = ClampNorm(location.X + pDelta * (double)x);
                                 var locY = ClampNorm(location.Y + pDelta * (double)y);
 
-                                var sample = (DColor)Inputs["Color"].Data(new WPoint(locX, locY));
+                                var sample = (Color32)Inputs["Color"].Data(new PixelPosition(locX, locY, location.Layer));
 
                                 float weight = weights[x + dim, y + dim];
-                                totalR += (float)sample.R * weight;
-                                totalG += (float)sample.G * weight;
-                                totalB += (float)sample.B * weight;
+                                totalR += sample.R * weight;
+                                totalG += sample.G * weight;
+                                totalB += sample.B * weight;
+                                totalA += sample.B * weight;
                             }
                         }
 
-                        
-                        return DColor.FromArgb(255, (int)totalR, (int)totalG, (int)totalB);
+
+                        return new Color32(totalR, totalG, totalB, totalA);
                     }
                 ));
         }

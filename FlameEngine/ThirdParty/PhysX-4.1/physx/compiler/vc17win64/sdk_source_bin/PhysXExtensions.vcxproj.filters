@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtBroadPhase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtCollection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtConvexMeshExt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtCpuWorkerThread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtD6Joint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtD6JointCreate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDefaultCpuDispatcher.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDefaultErrorCallback.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDefaultSimulationFilterShader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDefaultStreams.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDistanceJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtContactJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtExtensions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtFixedJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtMetaData.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPrismaticJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPvd.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPxStringTable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtRaycastCCD.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtRevoluteJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtRigidBodyExt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtRigidActorExt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSceneQueryExt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSimpleFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSmoothNormals.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSphericalJoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtTriangleMeshExt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxmetadata\extensions\src\PxExtensionAutoGeneratedMetaDataObjects.cpp">
+      <Filter>src\metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\SnSerialization.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\SnSerializationRegistry.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\SnSerialUtils.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnJointRepXSerializer.cpp">
+      <Filter>serialization\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXCoreSerializer.cpp">
+      <Filter>serialization\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXUpgrader.cpp">
+      <Filter>serialization\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlSerialization.cpp">
+      <Filter>serialization\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnBinaryDeserialization.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnBinarySerialization.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Align.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Convert.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Error.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_MetaData.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Output.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Union.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnSerializationContext.cpp">
+      <Filter>serialization\binary</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtConstraintHelper.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtCpuWorkerThread.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtD6Joint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDefaultCpuDispatcher.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtDistanceJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtContactJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtFixedJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtInertiaTensor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtJointData.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtJointMetaDataExtensions.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPlatform.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPrismaticJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtPvd.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtRevoluteJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSerialization.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSharedQueueEntryPool.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtSphericalJoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\ExtTaskQueueHelper.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxmetadata\extensions\include\PxExtensionAutoGeneratedMetaDataObjectNames.h">
+      <Filter>src\metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxmetadata\extensions\include\PxExtensionAutoGeneratedMetaDataObjects.h">
+      <Filter>src\metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxmetadata\extensions\include\PxExtensionMetaDataObjects.h">
+      <Filter>src\metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxBinaryConverter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxBroadPhaseExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxCollectionExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxConstraintExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxContactJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxConvexMeshExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxD6Joint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxD6JointCreate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDefaultAllocator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDefaultCpuDispatcher.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDefaultErrorCallback.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDefaultSimulationFilterShader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDefaultStreams.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxDistanceJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxExtensionsAPI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxFixedJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxJointLimit.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxMassProperties.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxPrismaticJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRaycastCCD.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRepXSerializer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRepXSimpleType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRevoluteJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRigidActorExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxRigidBodyExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxSceneQueryExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxSerialization.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxShapeExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxSimpleFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxSmoothNormals.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxSphericalJoint.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxStringTableExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\extensions\PxTriangleMeshExt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\include\filebuf\PxFileBuf.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\SnSerializationRegistry.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\SnSerialUtils.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnJointRepXSerializer.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnPxStreamOperators.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepX1_0Defaults.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepX3_1Defaults.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepX3_2Defaults.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXCollection.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXCoreSerializer.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXSerializerImpl.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnRepXUpgrader.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnSimpleXmlWriter.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlDeserializer.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlImpl.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlMemoryAllocator.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlMemoryPool.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlMemoryPoolStreams.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlReader.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlSerializer.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlSimpleXmlWriter.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlStringToType.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlVisitorReader.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlVisitorWriter.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Xml\SnXmlWriter.h">
+      <Filter>serialization\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\File\SnFile.h">
+      <Filter>serialization\file</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Align.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Common.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_MetaData.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Output.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnConvX_Union.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\physxextensions\src\serialization\Binary\SnSerializationContext.h">
+      <Filter>serialization\binary</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="E:\Dev\FlameEngine\FlameEngine\ThirdParty\PhysX-4.1\physx\compiler\vc17win64\sdk_source_bin\FastXml.dir\$(Configuration)\PsFastXml.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{CF913DCF-A4E8-3691-AFAE-4F77F8DBDE0D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{A2C4980D-E792-3B20-BA25-B1C904468D9A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization">
+      <UniqueIdentifier>{A65289C3-C50C-3777-915C-8D7B1AF4D095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\binary">
+      <UniqueIdentifier>{7744495C-2877-3F4E-8052-7EA8EDD3E4C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\file">
+      <UniqueIdentifier>{3B7D68F7-33C6-3FBC-8EF0-6475B8C82A9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\xml">
+      <UniqueIdentifier>{4FFC4C6C-C058-3E24-AF6D-1B343853B017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2A644D53-10F0-3AFF-9620-5FC3EFFF1F94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\metadata">
+      <UniqueIdentifier>{D064E148-7C51-3710-AA78-6DD0A552A99B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

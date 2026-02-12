@@ -13,6 +13,7 @@
     <ClCompile Include="ImportScripts\IS_BitTexture.cpp" />
     <ClCompile Include="World\WorldGenerator.cpp" />
     <ClCompile Include="World\SmokeParticle.cpp" />
+    <ClCompile Include="Scenes\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FlameCraft.h" />
@@ -32,5 +33,6 @@
     <ClInclude Include="World\ctpl.h" />
     <ClInclude Include="Renderer\GeometryStream.h" />
     <ClInclude Include="World\SmokeParticle.h" />
+    <ClInclude Include="Scenes\GameScene.h" />
   </ItemGroup>
 </Project>

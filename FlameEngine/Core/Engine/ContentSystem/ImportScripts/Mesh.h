@@ -10,7 +10,7 @@ template<>
 EXPORT(struct, TContentSerializer<Mesh>)
 {
 private:
-	FRIVertexDeclaration* vertexDeclaration;
+	FRIInputLayout* vertexDeclaration;
 	FRIContext* renderContext;
 
 public:

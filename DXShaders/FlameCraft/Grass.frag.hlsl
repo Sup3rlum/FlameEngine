@@ -2,7 +2,7 @@ struct PSInput
 {
     float4 Position : SV_Position;
     float3 Normal : NORMAL0;
-    float3 TexCoord : TEXCORD0;
+    float3 TexCoord : TEXCOORD0;
     
 };
 
@@ -24,6 +24,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 float3 PackNormal(float3 n)
@@ -35,7 +37,7 @@ PSOutput main(PSInput input)
 {
     PSOutput output;
    
-    output.Albedo = DiffuseMap.Sample(DiffuseSampler, input.TexCoord);
+    output.Albedo = pow(DiffuseMap.Sample(DiffuseSampler, input.TexCoord), 2.2);
     
     if (output.Albedo.a < 0.1f)
         discard;

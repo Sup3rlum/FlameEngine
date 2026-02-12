@@ -2,7 +2,7 @@
 
 
 #include "Core/Engine/FlameRI/FRI.h"
-#include "../Material/MaterialComponent.h"
+#include "../Material/Material.h"
 #include "Core/Framework/Algorithm/BVH.h"
 #include "../Physics/PhysicsComponent.h"
 

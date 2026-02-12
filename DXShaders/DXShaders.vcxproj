@@ -131,7 +131,7 @@
     <CustomBuildStep>
       <Command>cd $(OutputPath)
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/deferred_library.xml"
-$(OutputPath)fslink.exe -i "$(OutputPath)shaderc/vxgi.xml"
+$(OutputPath)fslink.exe -i "$(OutputPath)shaderc/spinal.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/ux.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/atmosphere.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/irradiance.xml"
@@ -139,8 +139,10 @@ $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/mc.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/showcase.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/blur.xml"
 $(OutputPath)fslink.exe -i "$(OutputPath)shaderc/smoke_particle.xml"
+$(OutputPath)fslink.exe -i "$(OutputPath)shaderc/planetary.xml"
 copy "$(OutputPath)*.fslib" "$(SolutionDir)\Showcase\Assets\Shaders\"
-copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameCraft\Assets\Shaders\"</Command>
+copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameCraft\Assets\Shaders\"
+copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameEditor\bin\Debug\net6.0-windows\Assets\Shaders"</Command>
       <Message>Building shader library</Message>
       <TreatOutputAsContent>false</TreatOutputAsContent>
       <Outputs>$(OutputPath)deferred_dx.fslib;%(Outputs)</Outputs>
@@ -176,6 +178,12 @@ copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameCraft\Assets\Shaders\"</Command
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <None Include="Planetary\Perlin.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <FxCompile Include="Planetary\PlanetGenerator.comp.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
     </FxCompile>
     <FxCompile Include="Renderer\Atmosphere\AtmosphereBasic.frag.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -240,6 +248,18 @@ copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameCraft\Assets\Shaders\"</Command
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Renderer\Deferred\GBufferTessellatedSkinned.vert.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Renderer\Deferred\ViewSpaceDecal.frag.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Renderer\Deferred\ViewSpaceDecal.vert.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -703,6 +723,35 @@ copy "$(OutputPath)*.fslib" "$(SolutionDir)\FlameCraft\Assets\Shaders\"</Command
     <None Include="Renderer\PostProcess\SMAA.hlsl" />
     <None Include="Utilities\Spaces.hlsl" />
     <None Include="Renderer\VXGI\VXGIBuffers.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Planetary\PlanetGBuffer.frag.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Planetary\PlanetGBuffer.vert.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Planetary\PlanetRecomputeNormals.comp.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Planetary\PlanetRecomputeNormals2.comp.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Raymarching\Raymarch.frag.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

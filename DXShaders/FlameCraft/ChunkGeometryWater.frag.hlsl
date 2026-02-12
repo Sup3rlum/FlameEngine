@@ -28,6 +28,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
@@ -43,11 +45,6 @@ cbuffer MaterialPropertiesBuffer : register(b5)
 
 cbuffer LightingPassBuffer : register(b4)
 {
-    matrix LView;
-    matrix LProjection;
-    matrix InverseView;
-    matrix InverseProjection;
-    
     float4 CameraPosition;
     float zNear;
     float zFar;
@@ -76,6 +73,7 @@ float ViewToProjDepth(float vsDepth)
 
 }
 
+static float4 baseDistances = float4(1.0f, 2.0f, 3.0f, 4.0f);
 
 #define SSR_STEP_ITERATIONS 4
 #define SSR_MAX_DISTANCE 100.0f
@@ -93,7 +91,6 @@ float2 SSR_ThirdSearch(float2 startFrag, float2 endFrag, float startDepth, float
     float4 comp = 0;
     float4 hit = 0;
     float4 distances = 0;
-    float4 baseDistances = float4(1.0f, 2.0f, 3.0f, 4.0f);
     
     [unroll]
     for (int i = 0; i < SSR_STEP_ITERATIONS; i++)
@@ -140,7 +137,6 @@ float2 SSR_SecondSearch(float2 startFrag, float2 endFrag, float startDepth, floa
     float4 comp = 0;
     float4 hit = 0;
     float4 distances = 0;
-    float4 baseDistances = float4(1.0f, 2.0f, 3.0f, 4.0f);
     
     [unroll]
     for (int i = 0; i < SSR_STEP_ITERATIONS; i++)
@@ -211,8 +207,7 @@ float2 SSR(float3 vsPos, float3 vsViewDir, float3 vsNormal)
     float4 comp = 0;
     float4 hit = 0;
     float4 distances = 0;
-    float4 baseDistances = float4(1.0f, 2.0f, 3.0f, 4.0f);
-    
+
     [unroll]
     for (int i = 0; i < SSR_STEP_ITERATIONS;i++)
     {
@@ -272,20 +267,29 @@ float4 main(PSInput input) : SV_Target0
     float3 H = normalize(LightDir + viewDir);
     float NdotH = max(0.0, dot(input.Normal, H));
     float NdotL = max(0.0, dot(input.Normal, LightDir));
-    float NdotV = dot(viewDir, input.Normal);
+
     
     float3 vsViewDir = mul((float3x3) View, viewDir);
-    float3 vsNormal = mul((float3x3) View, input.Normal);
+    float NdotV = dot(vsViewDir, input.Normal);
     
     float3 reflColor = 1;
+    float2 ssrCoords = SSR(input.ViewPos, -vsViewDir, input.Normal);
     
-    if (NdotV < 0.7)
+
+    reflColor = gAlbedo.Sample(AlbedoSampler, ssrCoords).rgb;
+    
+    
+    float reflDepth = gDepth.Sample(DepthSampler, ssrCoords).r;
+    float currDepth = ViewToProjDepth(input.ViewPos.z);
+    
+    if (ssrCoords.x > 1 || ssrCoords.y > 1 || ssrCoords.x < 0 || ssrCoords.y < 0 || reflDepth < currDepth)
     {
-        float2 ssrCoords = SSR(input.ViewPos, -vsViewDir, vsNormal);
-        reflColor = gAlbedo.Sample(AlbedoSampler, ssrCoords).rgb;
+        reflColor = float3(1, 0, 0);
     }
-    
-    float3 refrDir = refract(-vsViewDir, vsNormal, 0.15f);
+        
+    reflColor = lerp(reflColor, 1, pow(NdotV, 2.0f));
+
+    float3 refrDir = refract(-vsViewDir, input.Normal, 0.15f);
     float2 refrDelta = -(normalize(refrDir) * vsDepthDifference).xy * 2 / float2(2560.0f, 1440.0f);
     float3 refrColor = gAlbedo.Sample(DiffuseSampler, screenCoord + refrDelta).rgb;
     
@@ -300,9 +304,6 @@ float4 main(PSInput input) : SV_Target0
     
     float3 finalColor = diffuse + specular;
     finalColor = saturate(finalColor);
-    
-    
-    
     
     
     float FogStart = 150.0f;
@@ -320,7 +321,6 @@ float4 main(PSInput input) : SV_Target0
         float fogFactor = exp(-fogDepth * fogDepth * FogThickness);
         finalColor = lerp(fogColor, finalColor, fogFactor);
     }
-
     
     float4 output = float4(finalColor, 1.0);
     return output;

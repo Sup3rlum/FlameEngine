@@ -11,7 +11,7 @@ template<>
 EXPORT(struct, TContentSerializer<Level>)
 {
 private:
-	FRIVertexDeclaration* vertexDeclaration;
+	FRIInputLayout* vertexDeclaration;
 	FRIContext* renderContext;
 	Scene* scene;
 

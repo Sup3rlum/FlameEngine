@@ -20,6 +20,8 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 cbuffer TransformationBuffer : register(b1)
@@ -78,9 +80,7 @@ PSInput main(VSInput input)
     PSInput output;
     output.TexCoord = input.TexCoord;
 	
-    float3x3 normalMatrix = mul((float3x3) View, (float3x3) WorldInverseTranspose);
-    output.Normal = mul(normalMatrix, normalize(input.Normal));
-    
+    float3x3 normalMatrix = mul((float3x3) View, (float3x3) WorldInverseTranspose);  
     float3 pos = input.Position;
     
     WaveDesc wave1 = GerstnerWave(float4(1, 1, 0.1, 10), pos);
@@ -93,7 +93,9 @@ PSInput main(VSInput input)
     pos += wave4.Displacement;
     pos -= 0.2f;
     
-    output.Normal = normalize(wave1.Normal + wave2.Normal + wave3.Normal + wave4.Normal);
+    float3 waveNormal = normalize(wave1.Normal + wave2.Normal + wave3.Normal + wave4.Normal);
+    //output.Normal = mul(normalMatrix, waveNormal);
+    output.Normal = mul(normalMatrix, input.Normal);
     
     float4 worldPos = mul(World, float4(pos, 1.0f));
     float4 viewPos = mul(View, worldPos);

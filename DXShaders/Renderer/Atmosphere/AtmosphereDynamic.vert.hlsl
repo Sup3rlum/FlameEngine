@@ -20,14 +20,14 @@ cbuffer CameraConstantBuffer : register(b0)
 {
     matrix View;
     matrix Projection;
+    matrix InverseView;
+    matrix InverseProjection;
 };
 
 
 
 cbuffer AtmosphereConstantBuffer : register(b9)
 {
-    matrix InverseProjection;
-    matrix InverseView;
     
     float4 LightDirection;
     

@@ -1,0 +1,21 @@
+# CMake generation dependency list for this directory.
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/ConfigureFileMT.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/GetCompilerAndPlatform.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/NvidiaBuildOptions.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/cmakemodules/SetOutputPaths.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/targa/targa-config-version.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/externals/targa/targa-config.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/SampleBase.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/SampleFramework.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/SamplePlatform.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/SampleRenderer.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/Samples.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/SamplesToolkit.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/CMakeLists.txt
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/SampleBase.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/SampleFramework.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/SamplePlatform.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/SampleRenderer.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/Samples.cmake
+E:/Dev/FlameEngine/FlameEngine/ThirdParty/PhysX-4.1/physx/samples/compiler/cmake/windows/SamplesToolkit.cmake

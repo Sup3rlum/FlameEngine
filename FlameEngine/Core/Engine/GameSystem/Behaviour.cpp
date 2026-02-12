@@ -19,3 +19,9 @@ const Scene& BehaviourScript::CurrentScene() const
 {
 	return *pScene;
 }
+
+
+GameApplication* BehaviourScript::Game()
+{
+	return pGame;
+}

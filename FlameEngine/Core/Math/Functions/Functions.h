@@ -1,14 +1,35 @@
 #pragma once
 
 #include "../MathFwdDef.h"
-
+#include <random>
 
 typedef TVector2<float> FVector2;
 typedef TVector3<float> FVector3;
 typedef TVector4<float> FVector4;
 
+
+EXPORT(class, FRandom)
+{
+public:
+	std::random_device m_randomDevice;
+	std::mt19937 m_engine{ m_randomDevice() };
+
+	FORCEINLINE int RandInt(int32 start, int32 end)
+	{
+		return rand() % (end - start) + start;
+	}
+
+	FORCEINLINE float RandFloat(float start, float end)
+	{
+		return std::uniform_real_distribution<float>{start, end}(m_engine);
+	}
+};
+
 EXPORT(struct, FMath)
 {
+
+
+
 	// Regular Trig
 	FORCEINLINE static float	Cos(float val);
 	FORCEINLINE static FVector2 Cos(FVector2 val);
@@ -71,7 +92,10 @@ EXPORT(struct, FMath)
 	FORCEINLINE static FVector2 Clamp(FVector2 val, FVector2 low, FVector2 high);
 	FORCEINLINE static FVector3 Clamp(FVector3 val, FVector3 low, FVector2 high);
 
-
+	FORCEINLINE static float Abs(float arg)
+	{
+		return fabsf(arg);
+	}
 
 	FORCEINLINE static float Max(float  arg)
 	{
@@ -80,6 +104,11 @@ EXPORT(struct, FMath)
 	FORCEINLINE static float Max(float  arg, float arg2)
 	{
 		return fmaxf(arg, arg2);
+	}
+
+	FORCEINLINE static float Min(float  arg, float arg2)
+	{
+		return fminf(arg, arg2);
 	}
 
 	template<typename TArg, typename... TArgs>

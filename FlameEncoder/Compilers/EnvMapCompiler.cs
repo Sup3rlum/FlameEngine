@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 using FlameEncoder.Data;
@@ -17,19 +16,12 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Windows.Media.Media3D;
+using System.Windows;
 
 namespace FlameEncoder.Compilers
 {
 
-    public class EnvMapCompiler : ITaskCompiler
-    {
-        public void StartTask(CompilerTask task)
-        {
-
-        }
-    }
-
-    /*
     public class EnvMapCompiler : ITaskCompiler
     {
         readonly byte[] Version = new byte[] { 1, 0, 0, 0 };
@@ -40,28 +32,56 @@ namespace FlameEncoder.Compilers
         {
         }
 
-        public void StartTask(BuildScriptTask task)
+        public void StartTask(CompilerTask task)
         {
             MemoryStream memory = new MemoryStream();
-            EncodeEnvMap((EnvMap)task.Source, memory);
-
+            EncodeEnvMap((EnvMap)task.TextureMaps, memory);
             var signedMemory = SignBinary(memory);
             OmitBinary(signedMemory, task.OutputFileName);
+
+
         }
+
+        public string[] FaceNames =
+        {
+            "+X",
+            "-X",
+            "+Y",
+            "-Y",
+            "+Z",
+            "-Z"
+        };
+
 
         private void EncodeEnvMap(EnvMap envmap, MemoryStream memory)
         {
 
+            // Specular Original 
+            for (int i = 0; i < 6; i++)
+            {
+                var map = envmap.Maps[$"Skymap {FaceNames[i]}"].Data[0];
+
+                var data = ImageToByteArray<RgbaVector>(map);
+                WriteMap(memory, map.Width, map.Height, data);
+
+            }
+
             // Specular
             for (int i = 0; i < 6; i++)
             {
-                WriteMap(memory, envmap.Faces[(EnvMapFaceName)i + 6]);
+                var map = envmap.Maps[$"Specular {FaceNames[i]}"].Data[0];
+
+                var data = ImageToByteArray<Rgba64>(map);
+                WriteMap(memory, map.Width, map.Height, data);
             }
 
             // Irradiance
             for (int i = 0; i < 6; i++)
             {
-                WriteMap(memory, envmap.Faces[(EnvMapFaceName)i]);
+                var map = envmap.Maps[$"Irradiance {FaceNames[i]}"].Data[0];
+
+                var data = ImageToByteArray<Rgba64>(map);
+                WriteMap(memory, map.Width, map.Height, data);
             }
         }
 
@@ -74,13 +94,13 @@ namespace FlameEncoder.Compilers
 
             MemoryStream signedMemory = new MemoryStream();
 
-            /* Header 
+            /* Header */
 
             signedMemory.Write(Signature);                                      // Signature    
             signedMemory.Write(Version);                                        // Version
             signedMemory.Write(checksum);                                       // Checksum
 
-            /* Data 
+            /* Data */
 
             //signedMemory.Write(BitConverter.GetBytes(data.Length));             // Uncompressed Size  
             //signedMemory.Write(BitConverter.GetBytes(compressedData.Length));   // Compressed Size  
@@ -96,12 +116,13 @@ namespace FlameEncoder.Compilers
             }
         }
 
-        public byte[] ImageToByteArray(Image<Rgba64> imageIn)
+        public byte[] ImageToByteArray<TPixel>(Image<RgbaVector> imageIn) where TPixel: unmanaged, IPixel<TPixel>
         {
-            Rgba64[] pixels = new Rgba64[imageIn.Width * imageIn.Height];
+            Image<TPixel> image = imageIn.CloneAs<TPixel>();
+            TPixel[] pixels = new TPixel[image.Width * image.Height];
+            image.CopyPixelDataTo(pixels);
 
-            imageIn.CopyPixelDataTo(pixels);
-            return MemoryMarshal.AsBytes<Rgba64>(pixels).ToArray();
+            return MemoryMarshal.AsBytes<TPixel>(pixels).ToArray();
         }
 
 
@@ -119,84 +140,28 @@ namespace FlameEncoder.Compilers
             return result;
         }
 
-        void WriteMap(MemoryStream memory, TextureMap map)
+        void WriteMap(MemoryStream memory, int width, int height, byte[] dataToWrite)
         {
 
-            int width = 256;
-            int height = 256;
+            //Image img = ImgFromBytes(dataToWrite, width, height);
+            byte[] PixelData = dataToWrite;// GetPNGBytes(img);
 
             memory.Write(BitConverter.GetBytes(width));   // Map Width
             memory.Write(BitConverter.GetBytes(height));  // Map Height
-            memory.Write(BitConverter.GetBytes(map.Data.Count));  // MipMap Levels
 
-            for (int mip = 0; mip < map.Data.Count; mip++)
-            {
-                int mipWidth = (int)(width / MathF.Pow(2, mip));
-                int mipHeight = (int)(height / MathF.Pow(2, mip));
-
-                var st = (Image<Rgba64>)ResizeImage(map.Data[mip], mipWidth, mipHeight);
-
-                byte[] PixelData = ImageToByteArray(st);
-
-                memory.Write(BitConverter.GetBytes((ulong)PixelData.Length));
-                memory.Write(PixelData);
-
-            }
-        }
-
-        public Image ResizeImage(Image image, int width, int height)
-        {
-            if (image.Width != width || image.Height != height)
-            {
-                image.Mutate(x => x.Resize(width, height));
-            }
-
-            return image;
-        }
-
-        /*public Image ImgFromBytes(byte[] bytes, int width, int height)
-        {
-            Bitmap newbmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-            var data = newbmp.LockBits(
-                new Rectangle(Point.Empty, newbmp.Size),
-                ImageLockMode.ReadWrite,
-                newbmp.PixelFormat);
-
-            Marshal.Copy(bytes, 0, data.Scan0, bytes.Length);
-
-            newbmp.UnlockBits(data);
-
-            return newbmp;
-        }
-        public byte[] GetPNGBytes(Image imageIn)
-        {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, ImageFormat.Png);
-                return ms.ToArray();
-            }
-        } 
-
-        public Vertex3 GetVertexCube(EnvMapFaceName face, float x, float y)
-        {
-            float normX = x / 16.0f - 1.0f;
-            float normY = y / 16.0f - 1.0f;
-
-
-            return face switch
-            {
-                EnvMapFaceName.PosX => new Vertex3(1, normY, normX),
-                EnvMapFaceName.PosY => new Vertex3(normX, 1, normY),
-                EnvMapFaceName.PosZ => new Vertex3(normX, normY, 1),
-                EnvMapFaceName.NegX => new Vertex3(-1, normY, normX),
-                EnvMapFaceName.NegY => new Vertex3(normX, -1, normY),
-                EnvMapFaceName.NegZ => new Vertex3(normX, normY, -1)
-            };
+            memory.Write(BitConverter.GetBytes((ulong)PixelData.Length));
+            memory.Write(PixelData);
         }
 
 
+        public static Image<RgbaVector> ResizeImage(Image<RgbaVector> image, int width, int height)
+        {
+            Image<RgbaVector> newImg = image.Clone(i => i.Resize(width, height));
+            return newImg;
+        }
 
+
+        /*
         public (EnvMapFaceName, float, float) GetFromSpherical(Vertex3 vert, float cbSize)
         {
             vert = Vertex3.Normalize(vert);
@@ -292,6 +257,6 @@ namespace FlameEncoder.Compilers
 
 
             return irradiance;
-        }
-    }*/
+        }*/
+    }
 }
